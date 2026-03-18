@@ -1,0 +1,417 @@
+# Mage – Frost
+
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-18 10:09 UTC
+
+Source: `apl/default/mage/frost.simc`
+
+---
+
+## Overview
+
+- **Action Lists:** 11
+- **Total Actions:** 147
+- **Lists:** `precombat`, `default`, `cds`, `ff_aoe`, `ff_cleave`, `ff_st`, `ff_st_boltspam`, `movement`, `ss_aoe`, `ss_cleave`, `ss_st`
+
+## Action List: `precombat`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `arcane_intellect` | — |
+| 2 | `snapshot_stats` | — |
+| 3 | `variable` | name=treacherous_transmitter_precombat_cast,value=12,if=equipped.treacherous_transmitter |
+| 4 | `use_item` | name=treacherous_transmitter |
+| 5 | `use_item` | name=ingenious_mana_battery,target=self |
+| 6 | `blizzard` | if=active_enemies>=3 |
+| 7 | `frostbolt` | if=active_enemies<=2 |
+
+## Action List: `default`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `counterspell` | — |
+| 2 | `call_action_list` | name=cds |
+| 3 | `run_action_list` | name=ff_aoe,if=talent.frostfire_bolt&active_enemies>=3 |
+| 4 | `run_action_list` | name=ss_aoe,if=active_enemies>=3 |
+| 5 | `run_action_list` | name=ff_cleave,if=talent.frostfire_bolt&active_enemies=2 |
+| 6 | `run_action_list` | name=ss_cleave,if=active_enemies=2 |
+| 7 | `run_action_list` | name=ff_st_boltspam,if=talent.frostfire_bolt&(talent.glacial_spike&talent.slick_ice&talent.cold_front&talent.deaths_chill&talent.deep_shatter) |
+| 8 | `run_action_list` | name=ff_st,if=talent.frostfire_bolt |
+| 9 | `run_action_list` | name=ss_st |
+
+## Action List: `cds`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | if=time=0&active_enemies<=2&talent.splinterstorm |
+| 2 | `icy_veins` | — |
+| 3 | `potion` | if=buff.icy_veins.remains>15\|fight_remains<35 |
+| 4 | `use_item` | name=treacherous_transmitter,if=fight_remains<32+20*equipped.spymasters_web\|prev_off_gcd.icy_veins\|(cooldown.icy_veins.remains<12\|cooldown.icy_veins.remains<22&cooldown.shifting_power.remains<10) |
+| 5 | `do_treacherous_transmitter_task` | if=fight_remains<18\|(buff.cryptic_instructions.remains<?buff.realigning_nexus_convergence_divergence.remains<?buff.errant_manaforge_emission.remains)<(action.shifting_power.execute_time+1*talent.ray_of_frost) |
+| 6 | `use_item` | name=spymasters_web,if=fight_remains<20\|buff.icy_veins.remains<19&(fight_remains<105\|buff.spymasters_report.stack>=32)&(buff.icy_veins.remains>15\|trinket.treacherous_transmitter.cooldown.remains>50) |
+| 7 | `use_item` | name=arazs_ritual_forge |
+| 8 | `use_item` | name=signet_of_the_priory |
+| 9 | `use_item` | name=sunblood_amethyst,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 10 | `use_item` | name=lily_of_the_eternal_weave,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 11 | `use_item` | name=funhouse_lens,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 12 | `use_item` | name=mereldars_toll,if=buff.icy_veins.remains>10\|fight_remains<15 |
+| 13 | `use_item` | name=house_of_cards,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 14 | `use_item` | name=flarendos_pilot_light |
+| 15 | `use_item` | name=soulletting_ruby |
+| 16 | `use_item` | name=quickwick_candlestick,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 17 | `use_item` | name=imperfect_ascendancy_serum,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 18 | `use_item` | name=burst_of_knowledge,if=buff.icy_veins.remains>10\|fight_remains<20 |
+| 19 | `use_item` | name=ratfang_toxin,if=time>10 |
+| 20 | `use_item` | name=neural_synapse_enhancer,if=active_enemies<=2\|prev_gcd.1.comet_storm\|fight_remains<20 |
+| 21 | `use_items` | — |
+| 22 | `flurry` | if=time=0&active_enemies<=2 |
+| 23 | `frozen_orb` | if=time=0&active_enemies>=3 |
+| 24 | `blood_fury` | — |
+| 25 | `berserking` | if=buff.icy_veins.remains>10\|fight_remains<15 |
+| 26 | `fireblood` | — |
+| 27 | `ancestral_call` | — |
+| 28 | `invoke_external_buff` | name=power_infusion,if=buff.power_infusion.down |
+| 29 | `invoke_external_buff` | name=blessing_of_summer,if=buff.blessing_of_summer.down |
+
+## Action List: `ff_aoe`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `cone_of_cold` | if=talent.coldest_snap&prev_gcd.1.comet_storm |
+| 2 | `freeze` | if=freezable&time-action.cone_of_cold.last_used>8&(prev_gcd.1.glacial_spike&remaining_winters_chill=0&debuff.winters_chill.down\|prev_gcd.1.comet_storm) |
+| 3 | `ice_nova` | if=!prev_off_gcd.freeze&freezable&time-action.cone_of_cold.last_used>8&(prev_gcd.1.glacial_spike&remaining_winters_chill=0&debuff.winters_chill.down\|prev_gcd.1.comet_storm) |
+| 4 | `flurry` | if=cooldown_react&!prev_off_gcd.freeze&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike |
+| 5 | `frozen_orb` | — |
+| 6 | `blizzard` | if=talent.ice_caller\|talent.freezing_rain |
+| 7 | `frostfire_bolt` | if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<9\|buff.deaths_chill.stack=9&!action.frostfire_bolt.in_flight) |
+| 8 | `ice_lance` | if=talent.deaths_chill&buff.excess_fire.stack=2&cooldown.comet_storm.ready |
+| 9 | `comet_storm` | if=cooldown.cone_of_cold.remains>12\|cooldown.cone_of_cold.ready |
+| 10 | `ray_of_frost` | if=talent.splintering_ray&remaining_winters_chill=2 |
+| 11 | `glacial_spike` | if=buff.icicles.react=5 |
+| 12 | `flurry` | if=cooldown_react&buff.excess_frost.up |
+| 13 | `shifting_power` | if=(!equipped.arazs_ritual_forge\|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8\|!talent.comet_storm)&cooldown.blizzard.remains>6*gcd.max |
+| 14 | `frostfire_bolt` | if=buff.frostfire_empowerment.react&!buff.excess_fire.up |
+| 15 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 16 | `ice_lance` | if=remaining_winters_chill |
+| 17 | `frostfire_bolt` | — |
+| 18 | `call_action_list` | name=movement |
+
+## Action List: `ff_cleave`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | target_if=debuff.winters_chill.down,if=cooldown_react&(prev_gcd.1.glacial_spike\|prev_gcd.1.frostfire_bolt\|prev_gcd.1.comet_storm) |
+| 2 | `comet_storm` | — |
+| 3 | `glacial_spike` | if=buff.icicles.react=5 |
+| 4 | `frozen_orb` | — |
+| 5 | `blizzard` | if=buff.icy_veins.down&buff.freezing_rain.up |
+| 6 | `shifting_power` | if=(!equipped.arazs_ritual_forge\|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8\|!talent.comet_storm) |
+| 7 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 8 | `ice_lance` | target_if=max:debuff.winters_chill.stack,if=!talent.deaths_chill&remaining_winters_chill=2 |
+| 9 | `frostfire_bolt` | target_if=min:debuff.winters_chill.stack |
+| 10 | `call_action_list` | name=movement |
+
+## Action List: `ff_st`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike |
+| 2 | `flurry` | if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&(buff.icicles.react>=3\|!talent.glacial_spike) |
+| 3 | `comet_storm` | if=remaining_winters_chill |
+| 4 | `ray_of_frost` | if=remaining_winters_chill=2 |
+| 5 | `glacial_spike` | if=buff.icicles.react=5 |
+| 6 | `frozen_orb` | — |
+| 7 | `shifting_power` | if=(!equipped.arazs_ritual_forge\|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8\|!talent.comet_storm) |
+| 8 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 9 | `ice_lance` | if=remaining_winters_chill |
+| 10 | `frostfire_bolt` | — |
+| 11 | `call_action_list` | name=movement |
+
+## Action List: `ff_st_boltspam`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike |
+| 2 | `flurry` | if=cooldown_react&prev_gcd.1.frostfire_bolt&buff.icicles.react>=3 |
+| 3 | `comet_storm` | if=remaining_winters_chill |
+| 4 | `glacial_spike` | if=buff.icicles.react=5 |
+| 5 | `shifting_power` | if=buff.icy_veins.down&cooldown.comet_storm.remains>8&cooldown.icy_veins.remains>8 |
+| 6 | `ice_lance` | if=remaining_winters_chill=2 |
+| 7 | `ice_lance` | if=buff.fingers_of_frost.react&buff.icicles.react=0 |
+| 8 | `frostfire_bolt` | — |
+| 9 | `call_action_list` | name=movement |
+
+## Action List: `movement`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `ice_floes` | if=buff.ice_floes.down |
+| 2 | `any_blink` | if=movement.distance>5 |
+| 3 | `flurry` | — |
+| 4 | `frozen_orb` | — |
+| 5 | `comet_storm` | if=talent.splinterstorm |
+| 6 | `ice_nova` | — |
+| 7 | `ice_lance` | — |
+
+## Action List: `ss_aoe`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `cone_of_cold` | if=talent.coldest_snap&(prev_gcd.1.frozen_orb\|cooldown.frozen_orb.remains>30) |
+| 2 | `ice_nova` | if=(freezable\|talent.unerring_proficiency)&active_enemies>=5&time-action.cone_of_cold.last_used<8&time-action.cone_of_cold.last_used>7 |
+| 3 | `freeze` | if=freezable&(prev_gcd.1.glacial_spike\|!talent.glacial_spike&time-action.cone_of_cold.last_used>8) |
+| 4 | `flurry` | if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike |
+| 5 | `flurry` | if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.frostbolt |
+| 6 | `flurry` | if=cooldown_react&buff.cold_front_ready.react |
+| 7 | `frozen_orb` | if=cooldown_react |
+| 8 | `blizzard` | if=talent.ice_caller\|talent.freezing_rain |
+| 9 | `comet_storm` | if=talent.glacial_assault\|buff.icy_veins.down |
+| 10 | `ray_of_frost` | if=talent.splintering_ray&buff.icy_veins.down&remaining_winters_chill |
+| 11 | `shifting_power` | if=talent.shifting_shards |
+| 12 | `ice_lance` | if=buff.fingers_of_frost.react=2&talent.glacial_spike |
+| 13 | `glacial_spike` | if=buff.icicles.react=5&(action.flurry.cooldown_react\|remaining_winters_chill) |
+| 14 | `frostbolt` | if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<6\|buff.deaths_chill.stack=6&!action.frostbolt.in_flight) |
+| 15 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 16 | `ice_lance` | if=remaining_winters_chill |
+| 17 | `shifting_power` | if=buff.icy_veins.down&cooldown.icy_veins.remains>8 |
+| 18 | `frostbolt` | — |
+| 19 | `call_action_list` | name=movement |
+
+## Action List: `ss_cleave`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | target_if=min:debuff.winters_chill.stack,if=cooldown_react&prev_gcd.1.glacial_spike |
+| 2 | `flurry` | if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&prev_gcd.1.frostbolt |
+| 3 | `flurry` | if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&talent.shifting_shards&buff.cold_front_ready.react |
+| 4 | `ice_lance` | if=buff.fingers_of_frost.react=2&talent.glacial_spike |
+| 5 | `frozen_orb` | if=cooldown_react |
+| 6 | `comet_storm` | if=buff.icy_veins.down&remaining_winters_chill&talent.shifting_shards |
+| 7 | `shifting_power` | if=!equipped.arazs_ritual_forge&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8\|talent.shifting_shards |
+| 8 | `glacial_spike` | if=buff.icicles.react=5&(action.flurry.cooldown_react\|remaining_winters_chill) |
+| 9 | `blizzard` | if=buff.freezing_rain.up&talent.ice_caller |
+| 10 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 11 | `frostbolt` | if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<8\|buff.deaths_chill.stack=8&!action.frostbolt.in_flight) |
+| 12 | `ice_lance` | target_if=max:debuff.winters_chill.stack,if=remaining_winters_chill |
+| 13 | `shifting_power` | if=equipped.arazs_ritual_forge&buff.icy_veins.down&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8 |
+| 14 | `frostbolt` | — |
+| 15 | `call_action_list` | name=movement |
+
+## Action List: `ss_st`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `flurry` | if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&prev_gcd.1.glacial_spike |
+| 2 | `flurry` | if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&(buff.icicles.react<5\|!talent.glacial_spike)&prev_gcd.1.frostbolt |
+| 3 | `frozen_orb` | if=cooldown_react |
+| 4 | `comet_storm` | if=buff.icy_veins.down&remaining_winters_chill&talent.shifting_shards |
+| 5 | `ray_of_frost` | if=buff.icy_veins.down&remaining_winters_chill=1 |
+| 6 | `shifting_power` | if=!equipped.arazs_ritual_forge&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8\|talent.shifting_shards |
+| 7 | `glacial_spike` | if=buff.icicles.react=5&(action.flurry.cooldown_react\|remaining_winters_chill) |
+| 8 | `blizzard` | if=buff.icy_veins.down&buff.freezing_rain.up&talent.ice_caller |
+| 9 | `ice_lance` | if=buff.fingers_of_frost.react |
+| 10 | `ice_lance` | if=remaining_winters_chill |
+| 11 | `shifting_power` | if=equipped.arazs_ritual_forge&buff.icy_veins.down&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8 |
+| 12 | `frostbolt` | — |
+| 13 | `call_action_list` | name=movement |
+
+## Raw APL
+
+```
+# This default action priority list is automatically created based on your character.
+# It is a attempt to provide you with a action list that is both simple and practicable,
+# while resulting in a meaningful and good simulation. It may not result in the absolutely highest possible dps.
+# Feel free to edit, adapt and improve it to your own needs.
+# SimulationCraft is always looking for updates and improvements to the default action lists.
+
+# Executed before combat begins. Accepts non-harmful actions only.
+actions.precombat=arcane_intellect
+actions.precombat+=/snapshot_stats
+actions.precombat+=/variable,name=treacherous_transmitter_precombat_cast,value=12,if=equipped.treacherous_transmitter
+actions.precombat+=/use_item,name=treacherous_transmitter
+actions.precombat+=/use_item,name=ingenious_mana_battery,target=self
+actions.precombat+=/blizzard,if=active_enemies>=3
+actions.precombat+=/frostbolt,if=active_enemies<=2
+
+# Executed every time the actor is available.
+actions=counterspell
+actions+=/call_action_list,name=cds
+actions+=/run_action_list,name=ff_aoe,if=talent.frostfire_bolt&active_enemies>=3
+actions+=/run_action_list,name=ss_aoe,if=active_enemies>=3
+actions+=/run_action_list,name=ff_cleave,if=talent.frostfire_bolt&active_enemies=2
+actions+=/run_action_list,name=ss_cleave,if=active_enemies=2
+actions+=/run_action_list,name=ff_st_boltspam,if=talent.frostfire_bolt&(talent.glacial_spike&talent.slick_ice&talent.cold_front&talent.deaths_chill&talent.deep_shatter)
+actions+=/run_action_list,name=ff_st,if=talent.frostfire_bolt
+actions+=/run_action_list,name=ss_st
+
+# Spellslinger uses Icy Veins after the initial Flurry in the ST/Cleave opener to guarantee being in combat for Augury Abounds.
+actions.cds=flurry,if=time=0&active_enemies<=2&talent.splinterstorm
+actions.cds+=/icy_veins
+# Potion
+actions.cds+=/potion,if=buff.icy_veins.remains>15|fight_remains<35
+# Trinkets
+actions.cds+=/use_item,name=treacherous_transmitter,if=fight_remains<32+20*equipped.spymasters_web|prev_off_gcd.icy_veins|(cooldown.icy_veins.remains<12|cooldown.icy_veins.remains<22&cooldown.shifting_power.remains<10)
+actions.cds+=/do_treacherous_transmitter_task,if=fight_remains<18|(buff.cryptic_instructions.remains<?buff.realigning_nexus_convergence_divergence.remains<?buff.errant_manaforge_emission.remains)<(action.shifting_power.execute_time+1*talent.ray_of_frost)
+actions.cds+=/use_item,name=spymasters_web,if=fight_remains<20|buff.icy_veins.remains<19&(fight_remains<105|buff.spymasters_report.stack>=32)&(buff.icy_veins.remains>15|trinket.treacherous_transmitter.cooldown.remains>50)
+actions.cds+=/use_item,name=arazs_ritual_forge
+actions.cds+=/use_item,name=signet_of_the_priory
+actions.cds+=/use_item,name=sunblood_amethyst,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=lily_of_the_eternal_weave,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=funhouse_lens,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=mereldars_toll,if=buff.icy_veins.remains>10|fight_remains<15
+actions.cds+=/use_item,name=house_of_cards,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=flarendos_pilot_light
+actions.cds+=/use_item,name=soulletting_ruby
+actions.cds+=/use_item,name=quickwick_candlestick,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=imperfect_ascendancy_serum,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=burst_of_knowledge,if=buff.icy_veins.remains>10|fight_remains<20
+actions.cds+=/use_item,name=ratfang_toxin,if=time>10
+actions.cds+=/use_item,name=neural_synapse_enhancer,if=active_enemies<=2|prev_gcd.1.comet_storm|fight_remains<20
+actions.cds+=/use_items
+# Opener for AoE and Frostfire ST/Cleave
+actions.cds+=/flurry,if=time=0&active_enemies<=2
+actions.cds+=/frozen_orb,if=time=0&active_enemies>=3
+# Racials
+actions.cds+=/blood_fury
+actions.cds+=/berserking,if=buff.icy_veins.remains>10|fight_remains<15
+actions.cds+=/fireblood
+actions.cds+=/ancestral_call
+# Externals
+actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.power_infusion.down
+actions.cds+=/invoke_external_buff,name=blessing_of_summer,if=buff.blessing_of_summer.down
+
+actions.ff_aoe=cone_of_cold,if=talent.coldest_snap&prev_gcd.1.comet_storm
+# Against freezable targets prioritize Pet Freeze and Ice Nova to shatter Glacial Spike and Comet Storm.
+actions.ff_aoe+=/freeze,if=freezable&time-action.cone_of_cold.last_used>8&(prev_gcd.1.glacial_spike&remaining_winters_chill=0&debuff.winters_chill.down|prev_gcd.1.comet_storm)
+actions.ff_aoe+=/ice_nova,if=!prev_off_gcd.freeze&freezable&time-action.cone_of_cold.last_used>8&(prev_gcd.1.glacial_spike&remaining_winters_chill=0&debuff.winters_chill.down|prev_gcd.1.comet_storm)
+actions.ff_aoe+=/flurry,if=cooldown_react&!prev_off_gcd.freeze&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike
+actions.ff_aoe+=/frozen_orb
+actions.ff_aoe+=/blizzard,if=talent.ice_caller|talent.freezing_rain
+# During Icy Veins stack Death's Chill to 12 while keeping Blizzard and Frozen Orb on cooldown.
+actions.ff_aoe+=/frostfire_bolt,if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<9|buff.deaths_chill.stack=9&!action.frostfire_bolt.in_flight)
+# Don't munch Excess Fire before pressing the 2nd Comet Storm in the Cone of Cold sequence. Only relevant for Deaths Chill builds.
+actions.ff_aoe+=/ice_lance,if=talent.deaths_chill&buff.excess_fire.stack=2&cooldown.comet_storm.ready
+# Hold Comet Storm for up to 12 seconds for Cone of Cold.
+actions.ff_aoe+=/comet_storm,if=cooldown.cone_of_cold.remains>12|cooldown.cone_of_cold.ready
+actions.ff_aoe+=/ray_of_frost,if=talent.splintering_ray&remaining_winters_chill=2
+actions.ff_aoe+=/glacial_spike,if=buff.icicles.react=5
+# Cast Flurry to spend Excess Frost.
+actions.ff_aoe+=/flurry,if=cooldown_react&buff.excess_frost.up
+# With Araz's Ritual Forge equipped only cast Shifting Power outside of Icy Veins to create more overlap with subsequent Icy Veins.
+actions.ff_aoe+=/shifting_power,if=(!equipped.arazs_ritual_forge|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8|!talent.comet_storm)&cooldown.blizzard.remains>6*gcd.max
+actions.ff_aoe+=/frostfire_bolt,if=buff.frostfire_empowerment.react&!buff.excess_fire.up
+actions.ff_aoe+=/ice_lance,if=buff.fingers_of_frost.react
+actions.ff_aoe+=/ice_lance,if=remaining_winters_chill
+actions.ff_aoe+=/frostfire_bolt
+actions.ff_aoe+=/call_action_list,name=movement
+
+# If one of your targets doesnt have Winter's Chill up, target-swap and queue a Flurry after casting Glacial Spike, Frostfire Bolt or Comet Storm.
+actions.ff_cleave=flurry,target_if=debuff.winters_chill.down,if=cooldown_react&(prev_gcd.1.glacial_spike|prev_gcd.1.frostfire_bolt|prev_gcd.1.comet_storm)
+actions.ff_cleave+=/comet_storm
+actions.ff_cleave+=/glacial_spike,if=buff.icicles.react=5
+actions.ff_cleave+=/frozen_orb
+actions.ff_cleave+=/blizzard,if=buff.icy_veins.down&buff.freezing_rain.up
+# With Araz's Ritual Forge equipped only cast Shifting Power outside of Icy Veins to create more overlap with subsequent Icy Veins.
+actions.ff_cleave+=/shifting_power,if=(!equipped.arazs_ritual_forge|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8|!talent.comet_storm)
+actions.ff_cleave+=/ice_lance,if=buff.fingers_of_frost.react
+# Without Death's Chill talented, also cast Ice Lance into any target with 2 stacks of Winter's Chill.
+actions.ff_cleave+=/ice_lance,target_if=max:debuff.winters_chill.stack,if=!talent.deaths_chill&remaining_winters_chill=2
+# Always cast Frostfire Bolt at the target with the lowest number of Winter's Chill stacks.
+actions.ff_cleave+=/frostfire_bolt,target_if=min:debuff.winters_chill.stack
+actions.ff_cleave+=/call_action_list,name=movement
+
+actions.ff_st=flurry,if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike
+# Cast Flurry with 3+ Icicles to guarantee shattering the Glacial Spike + Pyroblast into Winter's Chill. This also means queueing Flurry when casting Frostfire Bolt with 2+ Icicles and overcapping freely.
+actions.ff_st+=/flurry,if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&(buff.icicles.react>=3|!talent.glacial_spike)
+actions.ff_st+=/comet_storm,if=remaining_winters_chill
+actions.ff_st+=/ray_of_frost,if=remaining_winters_chill=2
+actions.ff_st+=/glacial_spike,if=buff.icicles.react=5
+actions.ff_st+=/frozen_orb
+# With Araz's Ritual Forge equipped only cast Shifting Power outside of Icy Veins to create more overlap with subsequent Icy Veins.
+actions.ff_st+=/shifting_power,if=(!equipped.arazs_ritual_forge|buff.icy_veins.down)&cooldown.icy_veins.remains>8&(cooldown.comet_storm.remains>8|!talent.comet_storm)
+actions.ff_st+=/ice_lance,if=buff.fingers_of_frost.react
+actions.ff_st+=/ice_lance,if=remaining_winters_chill
+actions.ff_st+=/frostfire_bolt
+actions.ff_st+=/call_action_list,name=movement
+
+# The Boltspam roation is used whenever all of Death's Chill, Cold Front, Slick Ice and at least one point of Deep Shatter is talented.
+actions.ff_st_boltspam=flurry,if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike
+# Queue Flurry whenever casting Frostfire Bolt with 2+ Icicles.
+actions.ff_st_boltspam+=/flurry,if=cooldown_react&prev_gcd.1.frostfire_bolt&buff.icicles.react>=3
+actions.ff_st_boltspam+=/comet_storm,if=remaining_winters_chill
+actions.ff_st_boltspam+=/glacial_spike,if=buff.icicles.react=5
+actions.ff_st_boltspam+=/shifting_power,if=buff.icy_veins.down&cooldown.comet_storm.remains>8&cooldown.icy_veins.remains>8
+actions.ff_st_boltspam+=/ice_lance,if=remaining_winters_chill=2
+actions.ff_st_boltspam+=/ice_lance,if=buff.fingers_of_frost.react&buff.icicles.react=0
+actions.ff_st_boltspam+=/frostfire_bolt
+actions.ff_st_boltspam+=/call_action_list,name=movement
+
+actions.movement=ice_floes,if=buff.ice_floes.down
+actions.movement+=/any_blink,if=movement.distance>5
+actions.movement+=/flurry
+actions.movement+=/frozen_orb
+actions.movement+=/comet_storm,if=talent.splinterstorm
+actions.movement+=/ice_nova
+actions.movement+=/ice_lance
+
+actions.ss_aoe=cone_of_cold,if=talent.coldest_snap&(prev_gcd.1.frozen_orb|cooldown.frozen_orb.remains>30)
+# Cast Ice Nova against 5+ freezable targets to consume the Winter's Chill debuff applied by Cone of Cold in the very last moment of its duration.
+actions.ss_aoe+=/ice_nova,if=(freezable|talent.unerring_proficiency)&active_enemies>=5&time-action.cone_of_cold.last_used<8&time-action.cone_of_cold.last_used>7
+# Cast Pet Freeze whenever you cast Glacial Spike against freezable targets to shatter the second Glacial Spike.
+actions.ss_aoe+=/freeze,if=freezable&(prev_gcd.1.glacial_spike|!talent.glacial_spike&time-action.cone_of_cold.last_used>8)
+actions.ss_aoe+=/flurry,if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.glacial_spike
+actions.ss_aoe+=/flurry,if=cooldown_react&remaining_winters_chill=0&debuff.winters_chill.down&prev_gcd.1.frostbolt
+# Cast Flurry regardless of Winter's Chill to spend the Cold Front buff.
+actions.ss_aoe+=/flurry,if=cooldown_react&buff.cold_front_ready.react
+actions.ss_aoe+=/frozen_orb,if=cooldown_react
+actions.ss_aoe+=/blizzard,if=talent.ice_caller|talent.freezing_rain
+actions.ss_aoe+=/comet_storm,if=talent.glacial_assault|buff.icy_veins.down
+actions.ss_aoe+=/ray_of_frost,if=talent.splintering_ray&buff.icy_veins.down&remaining_winters_chill
+actions.ss_aoe+=/shifting_power,if=talent.shifting_shards
+# Not munching Fingers of Frost is more important than munching Icicles.
+actions.ss_aoe+=/ice_lance,if=buff.fingers_of_frost.react=2&talent.glacial_spike
+# Cast Glacial Spike if you can shatter it into Winter's Chill or with a followup Flurry.
+actions.ss_aoe+=/glacial_spike,if=buff.icicles.react=5&(action.flurry.cooldown_react|remaining_winters_chill)
+# During Icy Veins stack Deaths Chill to 9 before using regular Ice Lances.
+actions.ss_aoe+=/frostbolt,if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<6|buff.deaths_chill.stack=6&!action.frostbolt.in_flight)
+actions.ss_aoe+=/ice_lance,if=buff.fingers_of_frost.react
+actions.ss_aoe+=/ice_lance,if=remaining_winters_chill
+actions.ss_aoe+=/shifting_power,if=buff.icy_veins.down&cooldown.icy_veins.remains>8
+actions.ss_aoe+=/frostbolt
+actions.ss_aoe+=/call_action_list,name=movement
+
+# Flurry the off-target after Glacial Spike to make it shatter on both targets.
+actions.ss_cleave=flurry,target_if=min:debuff.winters_chill.stack,if=cooldown_react&prev_gcd.1.glacial_spike
+actions.ss_cleave+=/flurry,if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&prev_gcd.1.frostbolt
+# With Shifting Shards talented cast Flurry with or without precast to spend the Cold Front buff.
+actions.ss_cleave+=/flurry,if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&talent.shifting_shards&buff.cold_front_ready.react
+# Not munching Fingers of Frost is more important than munching Icicles.
+actions.ss_cleave+=/ice_lance,if=buff.fingers_of_frost.react=2&talent.glacial_spike
+actions.ss_cleave+=/frozen_orb,if=cooldown_react
+actions.ss_cleave+=/comet_storm,if=buff.icy_veins.down&remaining_winters_chill&talent.shifting_shards
+actions.ss_cleave+=/shifting_power,if=!equipped.arazs_ritual_forge&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8|talent.shifting_shards
+# Cast Glacial Spike if you can shatter it into Winter's Chill or with a followup Flurry.
+actions.ss_cleave+=/glacial_spike,if=buff.icicles.react=5&(action.flurry.cooldown_react|remaining_winters_chill)
+actions.ss_cleave+=/blizzard,if=buff.freezing_rain.up&talent.ice_caller
+actions.ss_cleave+=/ice_lance,if=buff.fingers_of_frost.react
+# In Icy Veins only ever cast Ice Lance with Fingers of Frost until you have at least 10 Deaths Chill stacks.
+actions.ss_cleave+=/frostbolt,if=talent.deaths_chill&buff.icy_veins.up&(buff.deaths_chill.stack<8|buff.deaths_chill.stack=8&!action.frostbolt.in_flight)
+actions.ss_cleave+=/ice_lance,target_if=max:debuff.winters_chill.stack,if=remaining_winters_chill
+actions.ss_cleave+=/shifting_power,if=equipped.arazs_ritual_forge&buff.icy_veins.down&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8
+actions.ss_cleave+=/frostbolt
+actions.ss_cleave+=/call_action_list,name=movement
+
+actions.ss_st=flurry,if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&prev_gcd.1.glacial_spike
+actions.ss_st+=/flurry,if=cooldown_react&debuff.winters_chill.down&remaining_winters_chill=0&(buff.icicles.react<5|!talent.glacial_spike)&prev_gcd.1.frostbolt
+actions.ss_st+=/frozen_orb,if=cooldown_react
+actions.ss_st+=/comet_storm,if=buff.icy_veins.down&remaining_winters_chill&talent.shifting_shards
+actions.ss_st+=/ray_of_frost,if=buff.icy_veins.down&remaining_winters_chill=1
+actions.ss_st+=/shifting_power,if=!equipped.arazs_ritual_forge&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8|talent.shifting_shards
+# Cast Glacial Spike if you can shatter it into Winter's Chill or with a followup Flurry.
+actions.ss_st+=/glacial_spike,if=buff.icicles.react=5&(action.flurry.cooldown_react|remaining_winters_chill)
+actions.ss_st+=/blizzard,if=buff.icy_veins.down&buff.freezing_rain.up&talent.ice_caller
+actions.ss_st+=/ice_lance,if=buff.fingers_of_frost.react
+actions.ss_st+=/ice_lance,if=remaining_winters_chill
+actions.ss_st+=/shifting_power,if=equipped.arazs_ritual_forge&buff.icy_veins.down&cooldown.flurry.charges<2&cooldown.icy_veins.remains>8
+actions.ss_st+=/frostbolt
+actions.ss_st+=/call_action_list,name=movement
+```

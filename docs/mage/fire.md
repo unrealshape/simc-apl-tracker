@@ -1,0 +1,287 @@
+# Mage – Fire
+
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-18 10:09 UTC
+
+Source: `apl/default/mage/fire.simc`
+
+---
+
+## Overview
+
+- **Action Lists:** 7
+- **Total Actions:** 110
+- **Lists:** `precombat`, `default`, `cds`, `ff_combustion`, `ff_filler`, `sf_combustion`, `sf_filler`
+
+## Action List: `precombat`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `arcane_intellect` | — |
+| 2 | `variable` | name=cast_remains_time,value=0.2 |
+| 3 | `variable` | name=pooling_time,value=15*gcd.max |
+| 4 | `variable` | name=ff_combustion_flamestrike,if=talent.frostfire_bolt,value=100 |
+| 5 | `variable` | name=ff_filler_flamestrike,if=talent.frostfire_bolt,value=100 |
+| 6 | `variable` | name=sf_combustion_flamestrike,if=talent.spellfire_spheres,value=100-(50*talent.mark_of_the_firelord)-(44*talent.quickflame) |
+| 7 | `variable` | name=sf_filler_flamestrike,if=talent.spellfire_spheres,value=100-(50*talent.mark_of_the_firelord)-(42*talent.quickflame) |
+| 8 | `variable` | name=treacherous_transmitter_precombat_cast,value=12,if=equipped.treacherous_transmitter |
+| 9 | `use_item` | name=treacherous_transmitter |
+| 10 | `use_item` | name=ingenious_mana_battery,target=self |
+| 11 | `snapshot_stats` | — |
+| 12 | `mirror_image` | — |
+| 13 | `frostfire_bolt` | if=talent.frostfire_bolt |
+| 14 | `combustion` | if=!talent.firestarter |
+| 15 | `pyroblast` | — |
+
+## Action List: `default`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `call_action_list` | name=cds,if=!(buff.hot_streak.up&prev_gcd.1.scorch) |
+| 2 | `run_action_list` | name=ff_combustion,if=talent.frostfire_bolt&!buff.hyperthermia.react&(cooldown.combustion.remains<=variable.combustion_precast_time\|buff.combustion.up) |
+| 3 | `run_action_list` | name=sf_combustion,if=!buff.hyperthermia.react&!(buff.hyperthermia.up&buff.lesser_time_warp.up)&(cooldown.combustion.remains<=variable.combustion_precast_time\|buff.combustion.up) |
+| 4 | `run_action_list` | name=ff_filler,if=talent.frostfire_bolt |
+| 5 | `run_action_list` | name=sf_filler |
+
+## Action List: `cds`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `variable` | name=combustion_precast_time,value=talent.frostfire_bolt*(action.fireball.cast_time*(!improved_scorch.active\|(action.scorch.cast_time<gcd.max))+action.scorch.cast_time*((action.scorch.cast_time>=gcd.max)&improved_scorch.active))+talent.spellfire_spheres*(action.fireball.cast_time*((action.scorch.cast_time<gcd.max)&buff.hot_streak.react\|!talent.scorch)+action.scorch.cast_time*((action.scorch.cast_time>=gcd.max)\|!buff.hot_streak.react))-variable.cast_remains_time |
+| 2 | `potion` | if=time=0\|buff.combustion.remains>6\|fight_remains<35 |
+| 3 | `use_item` | name=arazs_ritual_forge,if=buff.combustion.remains>6\|fight_remains<20 |
+| 4 | `use_item` | name=neural_synapse_enhancer,if=buff.combustion.remains>6\|fight_remains<20 |
+| 5 | `use_item` | effect_name=gladiators_badge,if=buff.combustion.remains>6\|fight_remains<20 |
+| 6 | `use_item` | name=signet_of_the_priory,if=buff.combustion.remains>6\|fight_remains<20 |
+| 7 | `use_item` | name=sunblood_amethyst,if=buff.combustion.remains>6\|fight_remains<20 |
+| 8 | `use_item` | name=lily_of_the_eternal_weave,if=buff.combustion.remains>6\|fight_remains<20 |
+| 9 | `use_item` | name=funhouse_lens,if=buff.combustion.remains>6\|fight_remains<20 |
+| 10 | `use_item` | name=mereldars_toll,if=buff.combustion.remains>6\|fight_remains<15 |
+| 11 | `use_item` | name=flarendos_pilot_light,if=buff.combustion.remains>6\|fight_remains<20 |
+| 12 | `use_item` | name=house_of_cards,if=buff.combustion.remains>6\|fight_remains<20 |
+| 13 | `use_item` | name=soulletting_ruby,if=buff.combustion.remains>6\|fight_remains<20 |
+| 14 | `use_item` | name=quickwick_candlestick,if=buff.combustion.remains>6\|fight_remains<20 |
+| 15 | `use_item` | name=hyperthread_wristwraps,if=hyperthread_wristwraps.fire_blast>=2&buff.combustion.remains&action.fire_blast.charges=0 |
+| 16 | `use_items` | — |
+| 17 | `ancestral_call` | if=buff.combustion.remains>6\|fight_remains<20 |
+| 18 | `berserking` | if=buff.combustion.remains>6\|fight_remains<20 |
+| 19 | `blood_fury` | if=buff.combustion.remains>6\|fight_remains<20 |
+| 20 | `fireblood` | if=buff.combustion.remains>6\|fight_remains<10 |
+| 21 | `invoke_external_buff` | name=power_infusion,if=buff.power_infusion.down&(buff.combustion.remains>6\|fight_remains<25) |
+| 22 | `invoke_external_buff` | name=blessing_of_summer,if=buff.blessing_of_summer.down |
+
+## Action List: `ff_combustion`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `combustion` | use_off_gcd=1,use_while_casting=1,if=buff.combustion.down&action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)\|action.meteor.in_flight&(action.meteor.in_flight_remains<variable.cast_remains_time)\|action.pyroblast.executing&(action.pyroblast.execute_remains<variable.cast_remains_time)\|action.scorch.executing&(action.scorch.execute_remains<variable.cast_remains_time) |
+| 2 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!action.scorch.executing&!action.fireball.executing&!action.pyroblast.executing&!buff.hot_streak.react&gcd.remains&gcd.remains<gcd.max&(hot_streak_spells_in_flight+buff.heating_up.react)<2&!buff.fury_of_the_sun_king.up |
+| 3 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5 |
+| 4 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5 |
+| 5 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!buff.heating_up.react&!buff.hot_streak.react&action.scorch.executing&action.scorch.execute_remains<0.5 |
+| 6 | `flamestrike` | if=buff.fury_of_the_sun_king.up&active_enemies>=variable.ff_combustion_flamestrike |
+| 7 | `pyroblast` | if=buff.fury_of_the_sun_king.up |
+| 8 | `meteor` | if=buff.combustion.down\|buff.combustion.remains>2 |
+| 9 | `scorch` | if=buff.combustion.down&!prev_gcd.1.scorch&cast_time>=gcd.max&(buff.heat_shimmer.react&talent.improved_scorch\|improved_scorch.active) |
+| 10 | `fireball` | if=buff.combustion.down |
+| 11 | `flamestrike` | if=buff.hot_streak.react&active_enemies>=variable.ff_combustion_flamestrike |
+| 12 | `flamestrike` | if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.ff_combustion_flamestrike |
+| 13 | `pyroblast` | if=buff.hot_streak.react |
+| 14 | `pyroblast` | if=prev_gcd.1.scorch&buff.heating_up.react |
+| 15 | `phoenix_flames` | if=buff.excess_frost.up&(!action.pyroblast.in_flight\|!buff.heating_up.react) |
+| 16 | `fireball` | — |
+
+## Action List: `ff_filler`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5&((cooldown.combustion.remains>variable.pooling_time)\|talent.sun_kings_blessing) |
+| 2 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5 |
+| 3 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&!buff.heating_up.react&action.scorch.executing&action.scorch.execute_remains<0.5&((cooldown.combustion.remains>variable.pooling_time)\|talent.sun_kings_blessing) |
+| 4 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&action.shifting_power.executing&((cooldown.combustion.remains>variable.pooling_time)\|talent.sun_kings_blessing) |
+| 5 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&buff.hyperthermia.react&gcd.remains<gcd.max&((cooldown.combustion.remains>variable.pooling_time)\|talent.sun_kings_blessing) |
+| 6 | `meteor` | if=((cooldown.combustion.remains>variable.pooling_time)\|talent.sun_kings_blessing) |
+| 7 | `scorch` | if=(improved_scorch.active\|buff.heat_shimmer.react&talent.improved_scorch)&debuff.improved_scorch.remains<3*gcd.max&!prev_gcd.1.scorch |
+| 8 | `flamestrike` | if=buff.fury_of_the_sun_king.up&active_enemies>=variable.ff_filler_flamestrike |
+| 9 | `flamestrike` | if=buff.hyperthermia.react&active_enemies>=variable.ff_filler_flamestrike |
+| 10 | `flamestrike` | if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.ff_filler_flamestrike |
+| 11 | `flamestrike` | if=buff.hot_streak.react&active_enemies>=variable.ff_filler_flamestrike |
+| 12 | `pyroblast` | if=buff.fury_of_the_sun_king.up |
+| 13 | `pyroblast` | if=buff.hyperthermia.react |
+| 14 | `pyroblast` | if=prev_gcd.1.scorch&buff.heating_up.react |
+| 15 | `pyroblast` | if=buff.hot_streak.react |
+| 16 | `shifting_power` | if=cooldown.combustion.remains>10 |
+| 17 | `fireball` | if=talent.sun_kings_blessing&buff.frostfire_empowerment.react |
+| 18 | `phoenix_flames` | if=(buff.excess_frost.up\|talent.sun_kings_blessing)&!(time-action.frostfire_bolt.last_used<0.5) |
+| 19 | `scorch` | if=talent.sun_kings_blessing&(scorch_execute.active\|buff.heat_shimmer.react) |
+| 20 | `fireball` | — |
+
+## Action List: `sf_combustion`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `combustion` | use_off_gcd=1,use_while_casting=1,if=action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)\|action.scorch.executing&(action.scorch.execute_remains<variable.cast_remains_time) |
+| 2 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!action.scorch.executing&!action.fireball.executing&!action.pyroblast.executing&!buff.hot_streak.react&gcd.remains&gcd.remains<gcd.max&(!talent.glorious_incandescence\|buff.glorious_incandescence.up\|charges_fractional>1.7\|buff.combustion.remains<(gcd.max*charges))&(hot_streak_spells_in_flight+buff.heating_up.react)<2 |
+| 3 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5 |
+| 4 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5 |
+| 5 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!buff.heating_up.react&!buff.hot_streak.react&action.scorch.executing&action.scorch.execute_remains<0.5 |
+| 6 | `scorch` | if=buff.combustion.down&(cast_time>=gcd.max\|!buff.hot_streak.react) |
+| 7 | `fireball` | if=buff.combustion.down |
+| 8 | `flamestrike` | if=buff.hot_streak.react&active_enemies>=variable.sf_combustion_flamestrike |
+| 9 | `flamestrike` | if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.sf_combustion_flamestrike |
+| 10 | `pyroblast` | if=buff.hot_streak.react |
+| 11 | `pyroblast` | if=prev_gcd.1.scorch&buff.heating_up.react |
+| 12 | `scorch` | if=(improved_scorch.active\|buff.heat_shimmer.react)&debuff.improved_scorch.remains<4*gcd.max |
+| 13 | `phoenix_flames` | — |
+| 14 | `scorch` | — |
+| 15 | `fireball` | — |
+
+## Action List: `sf_filler`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5 |
+| 2 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&!buff.heating_up.react&action.scorch.executing&action.scorch.execute_remains<0.5&cooldown.combustion.remains>variable.pooling_time |
+| 3 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&action.shifting_power.executing&cooldown.combustion.remains>variable.pooling_time |
+| 4 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&(buff.hyperthermia.react\|buff.hyperthermia.up&buff.lesser_time_warp.up)&gcd.remains<gcd.max&(!talent.glorious_incandescence\|buff.glorious_incandescence.up\|charges_fractional>1.7\|buff.hyperthermia.remains<(gcd.max*charges))&cooldown.combustion.remains>variable.pooling_time |
+| 5 | `fire_blast` | use_off_gcd=1,use_while_casting=1,if=cooldown_react&active_enemies>=2&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&buff.glorious_incandescence.up&cooldown.combustion.remains>variable.pooling_time |
+| 6 | `flamestrike` | if=(buff.hyperthermia.react\|buff.hyperthermia.up&buff.lesser_time_warp.up)&active_enemies>=variable.sf_filler_flamestrike |
+| 7 | `flamestrike` | if=buff.hot_streak.react&active_enemies>=variable.sf_filler_flamestrike |
+| 8 | `flamestrike` | if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.sf_filler_flamestrike |
+| 9 | `pyroblast` | if=buff.hyperthermia.react\|buff.hyperthermia.up&buff.lesser_time_warp.up |
+| 10 | `pyroblast` | if=buff.hot_streak.react |
+| 11 | `pyroblast` | if=prev_gcd.1.scorch&buff.heating_up.react |
+| 12 | `shifting_power` | — |
+| 13 | `scorch` | if=buff.heat_shimmer.react |
+| 14 | `meteor` | if=active_enemies>=2 |
+| 15 | `phoenix_flames` | if=buff.heating_up.react\|action.fire_blast.cooldown_react\|action.phoenix_flames.charges_fractional>1.5\|buff.born_of_flame.react |
+| 16 | `scorch` | if=scorch_execute.active |
+| 17 | `fireball` | — |
+
+## Raw APL
+
+```
+# This default action priority list is automatically created based on your character.
+# It is a attempt to provide you with a action list that is both simple and practicable,
+# while resulting in a meaningful and good simulation. It may not result in the absolutely highest possible dps.
+# Feel free to edit, adapt and improve it to your own needs.
+# SimulationCraft is always looking for updates and improvements to the default action lists.
+
+# Executed before combat begins. Accepts non-harmful actions only.
+actions.precombat=arcane_intellect
+actions.precombat+=/variable,name=cast_remains_time,value=0.2
+actions.precombat+=/variable,name=pooling_time,value=15*gcd.max
+actions.precombat+=/variable,name=ff_combustion_flamestrike,if=talent.frostfire_bolt,value=100
+actions.precombat+=/variable,name=ff_filler_flamestrike,if=talent.frostfire_bolt,value=100
+actions.precombat+=/variable,name=sf_combustion_flamestrike,if=talent.spellfire_spheres,value=100-(50*talent.mark_of_the_firelord)-(44*talent.quickflame)
+actions.precombat+=/variable,name=sf_filler_flamestrike,if=talent.spellfire_spheres,value=100-(50*talent.mark_of_the_firelord)-(42*talent.quickflame)
+actions.precombat+=/variable,name=treacherous_transmitter_precombat_cast,value=12,if=equipped.treacherous_transmitter
+actions.precombat+=/use_item,name=treacherous_transmitter
+actions.precombat+=/use_item,name=ingenious_mana_battery,target=self
+actions.precombat+=/snapshot_stats
+actions.precombat+=/mirror_image
+actions.precombat+=/frostfire_bolt,if=talent.frostfire_bolt
+actions.precombat+=/combustion,if=!talent.firestarter
+actions.precombat+=/pyroblast
+
+# Executed every time the actor is available.
+actions=call_action_list,name=cds,if=!(buff.hot_streak.up&prev_gcd.1.scorch)
+actions+=/run_action_list,name=ff_combustion,if=talent.frostfire_bolt&!buff.hyperthermia.react&(cooldown.combustion.remains<=variable.combustion_precast_time|buff.combustion.up)
+actions+=/run_action_list,name=sf_combustion,if=!buff.hyperthermia.react&!(buff.hyperthermia.up&buff.lesser_time_warp.up)&(cooldown.combustion.remains<=variable.combustion_precast_time|buff.combustion.up)
+actions+=/run_action_list,name=ff_filler,if=talent.frostfire_bolt
+actions+=/run_action_list,name=sf_filler
+
+actions.cds=variable,name=combustion_precast_time,value=talent.frostfire_bolt*(action.fireball.cast_time*(!improved_scorch.active|(action.scorch.cast_time<gcd.max))+action.scorch.cast_time*((action.scorch.cast_time>=gcd.max)&improved_scorch.active))+talent.spellfire_spheres*(action.fireball.cast_time*((action.scorch.cast_time<gcd.max)&buff.hot_streak.react|!talent.scorch)+action.scorch.cast_time*((action.scorch.cast_time>=gcd.max)|!buff.hot_streak.react))-variable.cast_remains_time
+actions.cds+=/potion,if=time=0|buff.combustion.remains>6|fight_remains<35
+actions.cds+=/use_item,name=arazs_ritual_forge,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=neural_synapse_enhancer,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,effect_name=gladiators_badge,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=signet_of_the_priory,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=sunblood_amethyst,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=lily_of_the_eternal_weave,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=funhouse_lens,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=mereldars_toll,if=buff.combustion.remains>6|fight_remains<15
+actions.cds+=/use_item,name=flarendos_pilot_light,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=house_of_cards,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=soulletting_ruby,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=quickwick_candlestick,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/use_item,name=hyperthread_wristwraps,if=hyperthread_wristwraps.fire_blast>=2&buff.combustion.remains&action.fire_blast.charges=0
+actions.cds+=/use_items
+actions.cds+=/ancestral_call,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/berserking,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/blood_fury,if=buff.combustion.remains>6|fight_remains<20
+actions.cds+=/fireblood,if=buff.combustion.remains>6|fight_remains<10
+actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.power_infusion.down&(buff.combustion.remains>6|fight_remains<25)
+actions.cds+=/invoke_external_buff,name=blessing_of_summer,if=buff.blessing_of_summer.down
+
+actions.ff_combustion=combustion,use_off_gcd=1,use_while_casting=1,if=buff.combustion.down&action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)|action.meteor.in_flight&(action.meteor.in_flight_remains<variable.cast_remains_time)|action.pyroblast.executing&(action.pyroblast.execute_remains<variable.cast_remains_time)|action.scorch.executing&(action.scorch.execute_remains<variable.cast_remains_time)
+actions.ff_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!action.scorch.executing&!action.fireball.executing&!action.pyroblast.executing&!buff.hot_streak.react&gcd.remains&gcd.remains<gcd.max&(hot_streak_spells_in_flight+buff.heating_up.react)<2&!buff.fury_of_the_sun_king.up
+actions.ff_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5
+actions.ff_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5
+actions.ff_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!buff.heating_up.react&!buff.hot_streak.react&action.scorch.executing&action.scorch.execute_remains<0.5
+actions.ff_combustion+=/flamestrike,if=buff.fury_of_the_sun_king.up&active_enemies>=variable.ff_combustion_flamestrike
+actions.ff_combustion+=/pyroblast,if=buff.fury_of_the_sun_king.up
+actions.ff_combustion+=/meteor,if=buff.combustion.down|buff.combustion.remains>2
+actions.ff_combustion+=/scorch,if=buff.combustion.down&!prev_gcd.1.scorch&cast_time>=gcd.max&(buff.heat_shimmer.react&talent.improved_scorch|improved_scorch.active)
+actions.ff_combustion+=/fireball,if=buff.combustion.down
+actions.ff_combustion+=/flamestrike,if=buff.hot_streak.react&active_enemies>=variable.ff_combustion_flamestrike
+actions.ff_combustion+=/flamestrike,if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.ff_combustion_flamestrike
+actions.ff_combustion+=/pyroblast,if=buff.hot_streak.react
+actions.ff_combustion+=/pyroblast,if=prev_gcd.1.scorch&buff.heating_up.react
+actions.ff_combustion+=/phoenix_flames,if=buff.excess_frost.up&(!action.pyroblast.in_flight|!buff.heating_up.react)
+actions.ff_combustion+=/fireball
+
+actions.ff_filler=fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5&((cooldown.combustion.remains>variable.pooling_time)|talent.sun_kings_blessing)
+actions.ff_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5
+actions.ff_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&!buff.heating_up.react&action.scorch.executing&action.scorch.execute_remains<0.5&((cooldown.combustion.remains>variable.pooling_time)|talent.sun_kings_blessing)
+actions.ff_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&action.shifting_power.executing&((cooldown.combustion.remains>variable.pooling_time)|talent.sun_kings_blessing)
+actions.ff_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&buff.hyperthermia.react&gcd.remains<gcd.max&((cooldown.combustion.remains>variable.pooling_time)|talent.sun_kings_blessing)
+actions.ff_filler+=/meteor,if=((cooldown.combustion.remains>variable.pooling_time)|talent.sun_kings_blessing)
+actions.ff_filler+=/scorch,if=(improved_scorch.active|buff.heat_shimmer.react&talent.improved_scorch)&debuff.improved_scorch.remains<3*gcd.max&!prev_gcd.1.scorch
+actions.ff_filler+=/flamestrike,if=buff.fury_of_the_sun_king.up&active_enemies>=variable.ff_filler_flamestrike
+actions.ff_filler+=/flamestrike,if=buff.hyperthermia.react&active_enemies>=variable.ff_filler_flamestrike
+actions.ff_filler+=/flamestrike,if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.ff_filler_flamestrike
+actions.ff_filler+=/flamestrike,if=buff.hot_streak.react&active_enemies>=variable.ff_filler_flamestrike
+actions.ff_filler+=/pyroblast,if=buff.fury_of_the_sun_king.up
+actions.ff_filler+=/pyroblast,if=buff.hyperthermia.react
+actions.ff_filler+=/pyroblast,if=prev_gcd.1.scorch&buff.heating_up.react
+actions.ff_filler+=/pyroblast,if=buff.hot_streak.react
+actions.ff_filler+=/shifting_power,if=cooldown.combustion.remains>10
+actions.ff_filler+=/fireball,if=talent.sun_kings_blessing&buff.frostfire_empowerment.react
+actions.ff_filler+=/phoenix_flames,if=(buff.excess_frost.up|talent.sun_kings_blessing)&!(time-action.frostfire_bolt.last_used<0.5)
+actions.ff_filler+=/scorch,if=talent.sun_kings_blessing&(scorch_execute.active|buff.heat_shimmer.react)
+actions.ff_filler+=/fireball
+
+actions.sf_combustion=combustion,use_off_gcd=1,use_while_casting=1,if=action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)|action.scorch.executing&(action.scorch.execute_remains<variable.cast_remains_time)
+actions.sf_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!action.scorch.executing&!action.fireball.executing&!action.pyroblast.executing&!buff.hot_streak.react&gcd.remains&gcd.remains<gcd.max&(!talent.glorious_incandescence|buff.glorious_incandescence.up|charges_fractional>1.7|buff.combustion.remains<(gcd.max*charges))&(hot_streak_spells_in_flight+buff.heating_up.react)<2
+actions.sf_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.pyroblast.executing&action.pyroblast.execute_remains<0.5
+actions.sf_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5
+actions.sf_combustion+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.combustion.up&!buff.heating_up.react&!buff.hot_streak.react&action.scorch.executing&action.scorch.execute_remains<0.5
+actions.sf_combustion+=/scorch,if=buff.combustion.down&(cast_time>=gcd.max|!buff.hot_streak.react)
+actions.sf_combustion+=/fireball,if=buff.combustion.down
+actions.sf_combustion+=/flamestrike,if=buff.hot_streak.react&active_enemies>=variable.sf_combustion_flamestrike
+actions.sf_combustion+=/flamestrike,if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.sf_combustion_flamestrike
+actions.sf_combustion+=/pyroblast,if=buff.hot_streak.react
+actions.sf_combustion+=/pyroblast,if=prev_gcd.1.scorch&buff.heating_up.react
+actions.sf_combustion+=/scorch,if=(improved_scorch.active|buff.heat_shimmer.react)&debuff.improved_scorch.remains<4*gcd.max
+actions.sf_combustion+=/phoenix_flames
+actions.sf_combustion+=/scorch
+actions.sf_combustion+=/fireball
+
+actions.sf_filler=fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&buff.heating_up.react&action.fireball.executing&action.fireball.execute_remains<0.5
+actions.sf_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&!buff.heating_up.react&action.scorch.executing&action.scorch.execute_remains<0.5&cooldown.combustion.remains>variable.pooling_time
+actions.sf_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&action.shifting_power.executing&cooldown.combustion.remains>variable.pooling_time
+actions.sf_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&(buff.hyperthermia.react|buff.hyperthermia.up&buff.lesser_time_warp.up)&gcd.remains<gcd.max&(!talent.glorious_incandescence|buff.glorious_incandescence.up|charges_fractional>1.7|buff.hyperthermia.remains<(gcd.max*charges))&cooldown.combustion.remains>variable.pooling_time
+actions.sf_filler+=/fire_blast,use_off_gcd=1,use_while_casting=1,if=cooldown_react&active_enemies>=2&!buff.hot_streak.react&(hot_streak_spells_in_flight+buff.heating_up.react<2)&buff.glorious_incandescence.up&cooldown.combustion.remains>variable.pooling_time
+actions.sf_filler+=/flamestrike,if=(buff.hyperthermia.react|buff.hyperthermia.up&buff.lesser_time_warp.up)&active_enemies>=variable.sf_filler_flamestrike
+actions.sf_filler+=/flamestrike,if=buff.hot_streak.react&active_enemies>=variable.sf_filler_flamestrike
+actions.sf_filler+=/flamestrike,if=prev_gcd.1.scorch&buff.heating_up.react&active_enemies>=variable.sf_filler_flamestrike
+actions.sf_filler+=/pyroblast,if=buff.hyperthermia.react|buff.hyperthermia.up&buff.lesser_time_warp.up
+actions.sf_filler+=/pyroblast,if=buff.hot_streak.react
+actions.sf_filler+=/pyroblast,if=prev_gcd.1.scorch&buff.heating_up.react
+actions.sf_filler+=/shifting_power
+actions.sf_filler+=/scorch,if=buff.heat_shimmer.react
+actions.sf_filler+=/meteor,if=active_enemies>=2
+actions.sf_filler+=/phoenix_flames,if=buff.heating_up.react|action.fire_blast.cooldown_react|action.phoenix_flames.charges_fractional>1.5|buff.born_of_flame.react
+actions.sf_filler+=/scorch,if=scorch_execute.active
+actions.sf_filler+=/fireball
+```

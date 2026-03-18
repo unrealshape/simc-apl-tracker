@@ -1,0 +1,443 @@
+# APL Changelog – 2026-03-18
+
+Generated: 2026-03-18 10:09 UTC
+
+## Rogue
+
+### Outlaw
+File: `apl/assisted_combat/rogue/outlaw.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/apply_poison`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=ambush,if=stealthed.basic&target.distance<=40`
+  + `actions.assisted_combat+=/roll_the_bones,if=buff.broadside.down&buff.ruthless_precision.down&buff.grand_melee.down&buff.true_bearing.down&buff.buried_treasure.down&buff.skull_and_crossbones.down`
+  + `actions.assisted_combat+=/blade_flurry,if=active_enemies>=2&buff.blade_flurry.down`
+  + `actions.assisted_combat+=/cold_blood,if=effective_combo_points>=5&cooldown.dispatch.ready`
+  + `actions.assisted_combat+=/killing_spree,if=effective_combo_points>=5&active_enemies>=1`
+  + `actions.assisted_combat+=/between_the_eyes,if=buff.subterfuge.up&effective_combo_points>=5&talent.crackshot`
+  + `actions.assisted_combat+=/between_the_eyes,if=stealthed.basic&effective_combo_points>=5&talent.crackshot`
+  + `actions.assisted_combat+=/between_the_eyes,if=buff.ruthless_precision.up&effective_combo_points>=5`
+  + `actions.assisted_combat+=/between_the_eyes,if=buff.between_the_eyes.down&effective_combo_points>=5`
+  + `actions.assisted_combat+=/ghostly_strike,if=buff.cold_blood.down`
+  + `actions.assisted_combat+=/blade_rush`
+  + `actions.assisted_combat+=/dispatch,if=effective_combo_points>=5`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=5`
+  + `actions.assisted_combat+=/ambush,if=talent.hidden_opportunity`
+  + `actions.assisted_combat+=/pistol_shot,if=buff.opportunity.up`
+  + `actions.assisted_combat+=/sinister_strike`
+  + `actions.assisted_combat+=/pistol_shot,if=energy>=99&target.distance>15`
+  + `actions.assisted_combat+=/sinister_strike`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/adrenaline_rush,if=!buff.adrenaline_rush.up`
+  + `actions.cooldowns+=/vanish,if=!stealthed.all`
+  + `actions.cooldowns+=/keep_it_rolling,if=rtb_buffs>=4`
+
+### Subtlety
+File: `apl/assisted_combat/rogue/subtlety.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/apply_poison`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=goremaws_bite,if=effective_combo_points<=2&buff.cold_blood.down`
+  + `actions.assisted_combat+=/flagellation,if=effective_combo_points>=5&buff.cold_blood.down`
+  + `actions.assisted_combat+=/symbols_of_death,if=cooldown.shadow_dance.ready&buff.symbols_of_death.down&active_enemies>=1`
+  + `actions.assisted_combat+=/symbols_of_death,if=buff.shadow_dance.up&buff.symbols_of_death.down&active_enemies>=1`
+  + `actions.assisted_combat+=/shadow_dance,if=active_enemies>=1&cooldown.backstab.ready`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=5&buff.darkest_night.up&!talent.deeper_stratagem&!talent.secret_stratagem`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=5&buff.darkest_night.up&!talent.deeper_stratagem&!talent.secret_stratagem`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=6&buff.darkest_night.up&talent.deeper_stratagem&!talent.secret_stratagem`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=6&buff.darkest_night.up&talent.deeper_stratagem&!talent.secret_stratagem`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=6&buff.darkest_night.up&!talent.deeper_stratagem&talent.secret_stratagem`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=6&buff.darkest_night.up&!talent.deeper_stratagem&talent.secret_stratagem`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=7&buff.darkest_night.up&talent.deeper_stratagem&talent.secret_stratagem`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=7&buff.darkest_night.up&talent.deeper_stratagem&talent.secret_stratagem`
+  + `actions.assisted_combat+=/shuriken_storm,if=active_enemies>=3&talent.deeper_stratagem&talent.secret_stratagem&effective_combo_points<=5`
+  + `actions.assisted_combat+=/shuriken_storm,if=active_enemies>=1&buff.clear_the_witnesses.up&talent.deeper_stratagem&talent.secret_stratagem&effective_combo_points<=5`
+  + `actions.assisted_combat+=/shadowstrike,if=talent.deeper_stratagem&talent.secret_stratagem&effective_combo_points<=5`
+  + `actions.assisted_combat+=/backstab,if=buff.shadow_dance.down&talent.deeper_stratagem&talent.secret_stratagem&effective_combo_points<=5`
+  + `actions.assisted_combat+=/gloomblade,if=buff.shadow_dance.down&talent.deeper_stratagem&talent.secret_stratagem&effective_combo_points<=5`
+  + `actions.assisted_combat+=/symbols_of_death,if=buff.symbols_of_death.down&active_enemies>=1&charges>=2&!cooldown.shadow_dance.ready`
+  + `actions.assisted_combat+=/rupture,if=effective_combo_points>=5&buff.shadow_dance.down&!dot.rupture.ticking&buff.darkest_night.down`
+  + `actions.assisted_combat+=/cold_blood,if=talent.secret_technique&cooldown.secret_technique.ready&buff.shadow_dance.up&effective_combo_points>=5&active_enemies>=1`
+  + `actions.assisted_combat+=/cold_blood,if=active_enemies>=3&cooldown.black_powder.ready&buff.shadow_dance.up&effective_combo_points>=5&active_enemies>=1`
+  + `actions.assisted_combat+=/cold_blood,if=cooldown.eviscerate.ready&buff.shadow_dance.up&effective_combo_points>=5`
+  + `actions.assisted_combat+=/secret_technique,if=buff.shadow_dance.up&effective_combo_points>=5&buff.darkest_night.down`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=5&action.coup_de_grace.ready`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=5&action.coup_de_grace.ready`
+  + `actions.assisted_combat+=/black_powder,if=active_enemies>=3&effective_combo_points>=5&buff.darkest_night.down`
+  + `actions.assisted_combat+=/eviscerate,if=effective_combo_points>=5&buff.darkest_night.down`
+  + `actions.assisted_combat+=/coup_de_grace,if=effective_combo_points>=5&buff.darkest_night.down`
+  + `actions.assisted_combat+=/shuriken_tornado,if=active_enemies>=3`
+  + `actions.assisted_combat+=/shuriken_storm,if=active_enemies>=3`
+  + `actions.assisted_combat+=/shuriken_storm,if=active_enemies>=1&buff.clear_the_witnesses.up`
+  + `actions.assisted_combat+=/shadowstrike`
+  + `actions.assisted_combat+=/backstab,if=buff.shadow_dance.down`
+  + `actions.assisted_combat+=/gloomblade,if=buff.shadow_dance.down`
+  + `actions.assisted_combat+=/shuriken_toss,if=buff.stealth.down&buff.vanish.down&target.distance>15&buff.stealth.down`
+  + `actions.assisted_combat+=/backstab`
+  + `actions.assisted_combat+=/gloomblade`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/shadow_blades,if=buff.shadow_dance.up`
+
+
+## Shaman
+
+### Elemental
+File: `apl/assisted_combat/shaman/elemental.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=flametongue_weapon,if=talent.improved_flametongue_weapon&buff.flametongue_weapon.down`
+  + `actions.assisted_combat+=/thunderstrike_ward,if=buff.thunderstrike_ward.down`
+  + `actions.assisted_combat+=/chain_lightning,if=active_enemies>3&buff.stormkeeper.up&buff.stormkeeper.remains<=3`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.stormkeeper.up&buff.stormkeeper.remains<=3`
+  + `actions.assisted_combat+=/stormkeeper,if=buff.stormkeeper.down`
+  + `actions.assisted_combat+=/fire_elemental`
+  + `actions.assisted_combat+=/storm_elemental`
+  + `actions.assisted_combat+=/liquid_magma_totem`
+  + `actions.assisted_combat+=/flame_shock,if=!dot.flame_shock.ticking&active_enemies<=2`
+  + `actions.assisted_combat+=/lava_burst,if=talent.master_of_the_elements&buff.master_of_the_elements.down&dot.flame_shock.ticking&active_enemies<=2`
+  + `actions.assisted_combat+=/primordial_wave,if=dot.flame_shock.ticking`
+  + `actions.assisted_combat+=/earth_shock,if=buff.echoes_of_great_sundering.down&talent.echoes_of_great_sundering`
+  + `actions.assisted_combat+=/elemental_blast,if=buff.echoes_of_great_sundering.down&talent.echoes_of_great_sundering`
+  + `actions.assisted_combat+=/earthquake,if=buff.echoes_of_great_sundering.up`
+  + `actions.assisted_combat+=/earthquake,if=buff.echoes_of_great_sundering.up`
+  + `actions.assisted_combat+=/earthquake,if=active_enemies>3&!talent.echoes_of_great_sundering`
+  + `actions.assisted_combat+=/earthquake,if=active_enemies>3&!talent.echoes_of_great_sundering`
+  + `actions.assisted_combat+=/ancestral_swiftness,if=action.elemental_blast.cost_affordable&cooldown.elemental_blast.ready`
+  + `actions.assisted_combat+=/elemental_blast`
+  + `actions.assisted_combat+=/earth_shock`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.tempest.up`
+  + `actions.assisted_combat+=/chain_lightning,if=buff.stormkeeper.up&active_enemies>3`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.stormkeeper.up`
+  + `actions.assisted_combat+=/frost_shock,if=buff.icefury.up&buff.ascendance.down`
+  + `actions.assisted_combat+=/ice_strike,if=buff.icefury.up&buff.ascendance.down`
+  + `actions.assisted_combat+=/frost_shock,if=buff.icefury_dmg.up`
+  + `actions.assisted_combat+=/ice_strike,if=buff.icefury_dmg.up`
+  + `actions.assisted_combat+=/ancestral_swiftness,if=active_enemies>3&cooldown.chain_lightning.ready`
+  + `actions.assisted_combat+=/chain_lightning,if=active_enemies>3,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/ancestral_swiftness,if=cooldown.lava_burst.ready`
+  + `actions.assisted_combat+=/lava_burst,if=charges>=2,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/lava_burst,if=buff.master_of_the_elements.down&talent.master_of_the_elements`
+  + `actions.assisted_combat+=/lava_burst,if=!talent.master_of_the_elements`
+  + `actions.assisted_combat+=/lightning_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/lava_burst`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+
+### Enhancement
+File: `apl/assisted_combat/shaman/enhancement.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=windfury_weapon,if=buff.windfury_weapon.down`
+  + `actions.assisted_combat+=/flametongue_weapon,if=buff.flametongue_weapon.down`
+  + `actions.assisted_combat+=/surging_totem,if=buff.surging_totem.down`
+  + `actions.assisted_combat+=/feral_spirit,if=!talent.flowing_spirits`
+  + `actions.assisted_combat+=/stormstrike,if=buff.ascendance.up&talent.thorims_invocation`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.tempest.up&buff.maelstrom_weapon.stack>=5&!talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.tempest.up&buff.maelstrom_weapon.stack>=10&talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/flame_shock,if=!dot.flame_shock.ticking`
+  + `actions.assisted_combat+=/lava_lash,if=active_enemies>3&active_dot.flame_shock<=2`
+  + `actions.assisted_combat+=/primordial_wave,if=buff.primordial_storm.up&buff.maelstrom_weapon.stack>=5&!talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/primordial_wave,if=buff.primordial_storm.up&buff.maelstrom_weapon.stack>=10&talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/primordial_wave,if=buff.primordial_storm.down`
+  + `actions.assisted_combat+=/doom_winds,if=target.distance<=8`
+  + `actions.assisted_combat+=/chain_lightning,if=buff.maelstrom_weapon.stack>=5&active_enemies>3&!talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/chain_lightning,if=buff.maelstrom_weapon.stack>=10&active_enemies>3&talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/elemental_blast,if=buff.maelstrom_weapon.stack>=5&!talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/elemental_blast,if=buff.maelstrom_weapon.stack>=10&talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.maelstrom_weapon.stack>=5&!talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/lightning_bolt,if=buff.maelstrom_weapon.stack>=10&talent.overflowing_maelstrom`
+  + `actions.assisted_combat+=/sundering,if=target.distance<=5`
+  + `actions.assisted_combat+=/fire_nova,if=dot.flame_shock.ticking`
+  + `actions.assisted_combat+=/crash_lightning,if=active_enemies>3&target.distance<=8`
+  + `actions.assisted_combat+=/ice_strike`
+  + `actions.assisted_combat+=/frost_shock,if=action.ice_strike.ready`
+  + `actions.assisted_combat+=/ice_strike,if=action.ice_strike.ready`
+  + `actions.assisted_combat+=/frost_shock,if=buff.hailstorm.up`
+  + `actions.assisted_combat+=/ice_strike,if=buff.hailstorm.up`
+  + `actions.assisted_combat+=/lava_lash,if=talent.lively_totems`
+  + `actions.assisted_combat+=/flame_shock,if=buff.voltaic_blaze.up`
+  + `actions.assisted_combat+=/stormstrike`
+  + `actions.assisted_combat+=/lava_lash`
+  + `actions.assisted_combat+=/flame_shock`
+  + `actions.assisted_combat+=/frost_shock`
+  + `actions.assisted_combat+=/ice_strike`
+  + `actions.assisted_combat+=/stormstrike`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+
+
+## Warlock
+
+### Affliction
+File: `apl/assisted_combat/warlock/affliction.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/summon_pet`
+  + `actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled`
+  + `actions.precombat+=/haunt`
+  + `actions.precombat+=/unstable_affliction`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=grimoire_of_sacrifice,if=pet.any.active&buff.grimoire_of_sacrifice.down`
+  + `actions.assisted_combat+=/vile_taint`
+  + `actions.assisted_combat+=/agony,if=dot.agony.remains<=4`
+  + `actions.assisted_combat+=/seed_of_corruption,if=active_enemies>3&!dot.corruption.ticking&!talent.wither`
+  + `actions.assisted_combat+=/seed_of_corruption,if=active_enemies>3&!dot.wither.ticking&talent.wither`
+  + `actions.assisted_combat+=/wither,if=!dot.corruption.ticking&!talent.wither`
+  + `actions.assisted_combat+=/corruption,if=!dot.corruption.ticking&!talent.wither`
+  + `actions.assisted_combat+=/wither,if=!dot.wither.ticking&talent.wither`
+  + `actions.assisted_combat+=/corruption,if=!dot.wither.ticking&talent.wither`
+  + `actions.assisted_combat+=/agony,if=!dot.agony.ticking`
+  + `actions.assisted_combat+=/unstable_affliction,if=1&!dot.unstable_affliction.ticking`
+  + `actions.assisted_combat+=/unstable_affliction,if=0&!dot.unstable_affliction.ticking`
+  + `actions.assisted_combat+=/malefic_rapture,if=soul_shard>=5`
+  + `actions.assisted_combat+=/phantom_singularity`
+  + `actions.assisted_combat+=/soul_rot`
+  + `actions.assisted_combat+=/haunt`
+  + `actions.assisted_combat+=/malevolence`
+  + `actions.assisted_combat+=/oblivion,if=active_enemies<=2`
+  + `actions.assisted_combat+=/malefic_rapture,if=buff.tormented_crescendo.up`
+  + `actions.assisted_combat+=/malefic_rapture,if=soul_shard>=2,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/malefic_rapture`
+  + `actions.assisted_combat+=/infernal_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/shadow_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/infernal_bolt`
+  + `actions.assisted_combat+=/shadow_bolt`
+  + `actions.cooldowns=potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/use_items`
+  + `actions.cooldowns+=/summon_darkglare,if=dot.soul_rot.ticking|!talent.soul_rot`
+
+### Demonology
+File: `apl/assisted_combat/warlock/demonology.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/summon_pet`
+  + `actions.precombat+=/power_siphon`
+  + `actions.precombat+=/demonbolt,if=!buff.power_siphon.up`
+  + `actions.precombat+=/shadow_bolt`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=summon_felguard,if=!pet.any.active`
+  + `actions.assisted_combat+=/summon_felguard,if=buff.unknown_spell_1245326.up`
+  + `actions.assisted_combat+=/summon_vilefiend`
+  + `actions.assisted_combat+=/call_dreadstalkers`
+  + `actions.assisted_combat+=/bilescourge_bombers`
+  + `actions.assisted_combat+=/grimoire_felguard`
+  + `actions.assisted_combat+=/ruination,if=soul_shard>=3`
+  + `actions.assisted_combat+=/hand_of_guldan,if=soul_shard>=3`
+  + `actions.assisted_combat+=/demonic_strength`
+  + `actions.assisted_combat+=/infernal_bolt,if=buff.infernal_bolt.up`
+  + `actions.assisted_combat+=/shadow_bolt,if=buff.infernal_bolt.up`
+  + `actions.assisted_combat+=/demonbolt,if=buff.demonic_core.up`
+  + `actions.assisted_combat+=/power_siphon`
+  + `actions.assisted_combat+=/infernal_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/shadow_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/call_dreadstalkers`
+  + `actions.cooldowns=potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/use_items`
+  + `actions.cooldowns+=/summon_demonic_tyrant,if=buff.dreadstalkers.up`
+
+### Destruction
+File: `apl/assisted_combat/warlock/destruction.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/summon_pet`
+  + `actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled`
+  + `actions.precombat+=/soul_fire`
+  + `actions.precombat+=/incinerate`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions.assisted_combat=grimoire_of_sacrifice,if=pet.any.active&buff.grimoire_of_sacrifice.down`
+  + `actions.assisted_combat+=/cataclysm`
+  + `actions.assisted_combat+=/wither,if=!dot.immolate.ticking&!talent.wither`
+  + `actions.assisted_combat+=/wither,if=!dot.wither.ticking&talent.wither`
+  + `actions.assisted_combat+=/infernal_bolt,if=buff.infernal_bolt.up&buff.infernal_bolt.remains<=5`
+  + `actions.assisted_combat+=/incinerate,if=buff.infernal_bolt.up&buff.infernal_bolt.remains<=5`
+  + `actions.assisted_combat+=/malevolence`
+  + `actions.assisted_combat+=/channel_demonfire,if=target.distance<=40`
+  + `actions.assisted_combat+=/rain_of_fire,if=active_enemies>3`
+  + `actions.assisted_combat+=/rain_of_fire,if=active_enemies>3`
+  + `actions.assisted_combat+=/soul_fire,if=buff.decimation.up&soul_shard<=4`
+  + `actions.assisted_combat+=/shadowburn,if=active_enemies<=2`
+  + `actions.assisted_combat+=/conflagrate,if=buff.backdraft.down&soul_shard>=1.5&active_enemies<=2`
+  + `actions.assisted_combat+=/ruination,if=active_enemies<=2&soul_shard>=4,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/chaos_bolt,if=active_enemies<=2&soul_shard>=4,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/ruination,if=active_enemies<=2&soul_shard>=2&buff.ritual_of_ruin.up,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/chaos_bolt,if=active_enemies<=2&soul_shard>=2&buff.ritual_of_ruin.up,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/ruination,if=active_enemies<=2`
+  + `actions.assisted_combat+=/chaos_bolt,if=active_enemies<=2`
+  + `actions.assisted_combat+=/dimensional_rift`
+  + `actions.assisted_combat+=/infernal_bolt,if=buff.backdraft.stack>=2`
+  + `actions.assisted_combat+=/incinerate,if=buff.backdraft.stack>=2`
+  + `actions.assisted_combat+=/conflagrate,if=charges>=2`
+  + `actions.assisted_combat+=/infernal_bolt,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/incinerate,cooldown_allow_casting_success=1`
+  + `actions.assisted_combat+=/infernal_bolt`
+  + `actions.assisted_combat+=/incinerate`
+  + `actions.cooldowns=potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/use_items`
+  + `actions.cooldowns+=/summon_infernal`
+
+
+## Warrior
+
+### Arms
+File: `apl/assisted_combat/warrior/arms.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/battle_stance,toggle=on`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions+=/auto_attack`
+  + `actions+=/charge,if=time<=0.5|movement.distance>5`
+  + `actions.assisted_combat=whirlwind,if=active_enemies>3&buff.merciless_bonegrinder.up&buff.sweeping_strikes.up`
+  + `actions.assisted_combat+=/thunder_clap,if=!dot.rend.ticking&active_enemies>3&talent.rend`
+  + `actions.assisted_combat+=/rend,if=!dot.rend.ticking`
+  + `actions.assisted_combat+=/sweeping_strikes,if=active_enemies>2`
+  + `actions.assisted_combat+=/thunderous_roar,if=target.distance<=10&dot.rend.ticking`
+  + `actions.assisted_combat+=/ravager`
+  + `actions.assisted_combat+=/colossus_smash,if=target.distance<=6`
+  + `actions.assisted_combat+=/champions_spear,if=target.distance<=25`
+  + `actions.assisted_combat+=/whirlwind,if=target.distance<=6&talent.cleave&active_enemies>3`
+  + `actions.assisted_combat+=/demolish`
+  + `actions.assisted_combat+=/bladestorm,if=target.distance<=10`
+  + `actions.assisted_combat+=/overpower,if=buff.overpower.down`
+  + `actions.assisted_combat+=/overpower,if=buff.overpower.stack<=1`
+  + `actions.assisted_combat+=/mortal_strike`
+  + `actions.assisted_combat+=/skullsplitter`
+  + `actions.assisted_combat+=/execute`
+  + `actions.assisted_combat+=/whirlwind,if=active_enemies>3`
+  + `actions.assisted_combat+=/slam,if=rage>=50`
+  + `actions.assisted_combat+=/heroic_throw,if=target.distance>15`
+  + `actions.assisted_combat+=/mortal_strike`
+  + `actions.assisted_combat+=/slam`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/avatar`
+
+### Fury
+File: `apl/assisted_combat/warrior/fury.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/berserker_stance,toggle=on`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions+=/auto_attack`
+  + `actions+=/charge,if=time<=0.5|movement.distance>5`
+  + `actions.assisted_combat=rampage,if=buff.enrage.down`
+  + `actions.assisted_combat+=/thunder_clap,if=buff.thunder_blast.up&target.distance<=6&buff.enrage.up`
+  + `actions.assisted_combat+=/thunderous_roar,if=target.distance<=6&buff.enrage.up`
+  + `actions.assisted_combat+=/ravager`
+  + `actions.assisted_combat+=/odyns_fury,if=target.distance<=12`
+  + `actions.assisted_combat+=/thunder_clap,if=target.distance<=6&talent.crashing_thunder&talent.improved_whirlwind&buff.meat_cleaver.down`
+  + `actions.assisted_combat+=/whirlwind,if=target.distance<=10&!talent.crashing_thunder&talent.improved_whirlwind&buff.meat_cleaver.down&active_enemies>3`
+  + `actions.assisted_combat+=/champions_spear,if=target.distance<=25`
+  + `actions.assisted_combat+=/bladestorm,if=target.distance<=10&buff.enrage.up`
+  + `actions.assisted_combat+=/rampage`
+  + `actions.assisted_combat+=/onslaught`
+  + `actions.assisted_combat+=/execute`
+  + `actions.assisted_combat+=/thunder_clap,if=target.distance<=6&talent.crashing_thunder&active_enemies>3`
+  + `actions.assisted_combat+=/raging_blow`
+  + `actions.assisted_combat+=/bloodthirst`
+  + `actions.assisted_combat+=/thunder_clap,if=target.distance<=6&talent.crashing_thunder`
+  + `actions.assisted_combat+=/slam`
+  + `actions.assisted_combat+=/heroic_throw,if=target.distance>15`
+  + `actions.assisted_combat+=/bloodthirst`
+  + `actions.assisted_combat+=/slam`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/recklessness`
+  + `actions.cooldowns+=/avatar`
+
+### Protection
+File: `apl/assisted_combat/warrior/protection.simc`
+
+Changes:
+  + `actions.precombat=snapshot_stats`
+  + `actions.precombat+=/battle_stance,toggle=on`
+  + `actions=call_action_list,name=cooldowns`
+  + `actions+=/call_action_list,name=assisted_combat`
+  + `actions+=/auto_attack`
+  + `actions+=/charge,if=time<=0.5|movement.distance>5`
+  + `actions.assisted_combat=ravager`
+  + `actions.assisted_combat+=/champions_spear,if=target.distance<=25`
+  + `actions.assisted_combat+=/demolish`
+  + `actions.assisted_combat+=/thunderous_roar,if=target.distance<=12`
+  + `actions.assisted_combat+=/thunder_blast,if=buff.thunder_blast.up&target.distance<=8`
+  + `actions.assisted_combat+=/shield_slam`
+  + `actions.assisted_combat+=/thunder_clap,if=target.distance<=8`
+  + `actions.assisted_combat+=/revenge,if=target.distance<=6&active_enemies>3`
+  + `actions.assisted_combat+=/execute`
+  + `actions.assisted_combat+=/revenge,if=target.distance<=6`
+  + `actions.assisted_combat+=/devastate,if=!talent.devastator`
+  + `actions.assisted_combat+=/heroic_throw,if=target.distance>15`
+  + `actions.assisted_combat+=/shield_slam`
+  + `actions.cooldowns=use_items`
+  + `actions.cooldowns+=/potion`
+  + `actions.cooldowns+=/blood_fury`
+  + `actions.cooldowns+=/berserking`
+  + `actions.cooldowns+=/fireblood`
+  + `actions.cooldowns+=/ancestral_call`
+  + `actions.cooldowns+=/demoralizing_shout,if=talent.booming_voice.enabled`
+  + `actions.cooldowns+=/shield_charge`
+  + `actions.cooldowns+=/avatar`
+  + `actions.cooldowns+=/shield_block,if=buff.shield_block.remains<=10`
+  + `actions.cooldowns+=/last_stand`
+  + `actions.cooldowns+=/shield_wall`
+  + `actions.cooldowns+=/ignore_pain,if=rage>=65`
+
