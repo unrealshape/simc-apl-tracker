@@ -1,6 +1,6 @@
 # Warrior – Arms
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-18 10:22 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-24 07:44 UTC
 
 Source: `apl/default/warrior/arms.simc`
 
@@ -8,25 +8,28 @@ Source: `apl/default/warrior/arms.simc`
 
 ## Overview
 
-- **Action Lists:** 12
-- **Total Actions:** 204
-- **Lists:** `precombat`, `default`, `colossus_aoe`, `colossus_execute`, `colossus_st`, `colossus_sweep`, `slayer_aoe`, `slayer_execute`, `slayer_st`, `slayer_sweep`, `trinkets`, `variables`
+- **Action Lists:** 10
+- **Total Actions:** 157
+- **Lists:** `precombat`, `default`, `colossus_aoe`, `colossus_execute`, `colossus_st`, `slayer_aoe`, `slayer_execute`, `slayer_st`, `trinkets`, `variables`
 
 ## Action List: `precombat`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `snapshot_stats` | — |
-| 2 | `variable` | name=trinket_1_exclude,value=trinket.1.is.treacherous_transmitter |
-| 3 | `variable` | name=trinket_2_exclude,value=trinket.2.is.treacherous_transmitter |
-| 4 | `variable` | name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=trinket.1.has_use_buff&(trinket.1.cooldown.duration%%cooldown.avatar.duration=0) |
-| 5 | `variable` | name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=trinket.2.has_use_buff&(trinket.2.cooldown.duration%%cooldown.avatar.duration=0) |
-| 6 | `variable` | name=trinket_1_buffs,value=trinket.1.has_use_buff\|(trinket.1.has_stat.any_dps&!variable.trinket_1_exclude) |
-| 7 | `variable` | name=trinket_2_buffs,value=trinket.2.has_use_buff\|(trinket.2.has_stat.any_dps&!variable.trinket_2_exclude) |
-| 8 | `variable` | name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs\|variable.trinket_2_buffs&((trinket.2.cooldown.duration%trinket.2.proc.any_dps.duration)*(1.5+trinket.2.has_buff.strength)*(variable.trinket_2_sync))>((trinket.1.cooldown.duration%trinket.1.proc.any_dps.duration)*(1.5+trinket.1.has_buff.strength)*(variable.trinket_1_sync)) |
-| 9 | `variable` | name=trinket_1_manual,value=trinket.1.is.algethar_puzzle_box |
-| 10 | `variable` | name=trinket_2_manual,value=trinket.2.is.algethar_puzzle_box |
-| 11 | `battle_stance` | toggle=on |
+| 2 | `variable` | name=trinket_1_exclude,value=trinket.1.is.algethar_puzzle_box |
+| 3 | `variable` | name=trinket_2_exclude,value=trinket.2.is.algethar_puzzle_box |
+| 4 | `variable` | name=trinket_1_buffs,value=trinket.1.has_use_buff |
+| 5 | `variable` | name=trinket_2_buffs,value=trinket.2.has_use_buff |
+| 6 | `variable` | name=trinket_1_duration,op=setif,value=0,value_else=trinket.1.proc.any_dps.duration,condition=0 |
+| 7 | `variable` | name=trinket_2_duration,op=setif,value=0,value_else=trinket.2.proc.any_dps.duration,condition=0 |
+| 8 | `variable` | name=trinket_1_high_value,op=setif,value=2,value_else=1,condition=trinket.1.is.treacherous_transmitter |
+| 9 | `variable` | name=trinket_2_high_value,op=setif,value=2,value_else=1,condition=trinket.2.is.treacherous_transmitter |
+| 10 | `variable` | name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_1_buffs&talent.avatar&trinket.1.cooldown.duration%%cooldown.avatar.duration=0 |
+| 11 | `variable` | name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_2_buffs&talent.avatar&trinket.2.cooldown.duration%%cooldown.avatar.duration=0 |
+| 12 | `variable` | name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs&(trinket.2.has_cooldown\|!trinket.1.has_cooldown)\|variable.trinket_2_buffs&((trinket.2.cooldown.duration%variable.trinket_2_duration)*(1.5+trinket.2.has_buff.strength)*(variable.trinket_2_sync)*(variable.trinket_2_high_value)*(1+((trinket.2.ilvl-trinket.1.ilvl)%100)))>((trinket.1.cooldown.duration%variable.trinket_1_duration)*(1.5+trinket.1.has_buff.strength)*(variable.trinket_1_sync)*(variable.trinket_1_high_value)*(1+((trinket.1.ilvl-trinket.2.ilvl)%100))) |
+| 13 | `variable` | name=damage_trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl |
+| 14 | `battle_stance` | toggle=on |
 
 ## Action List: `default`
 
@@ -41,232 +44,172 @@ Source: `apl/default/warrior/arms.simc`
 | 7 | `arcane_torrent` | if=cooldown.mortal_strike.remains>1.5&rage<50 |
 | 8 | `lights_judgment` | if=debuff.colossus_smash.down&cooldown.mortal_strike.remains |
 | 9 | `bag_of_tricks` | if=debuff.colossus_smash.down&cooldown.mortal_strike.remains |
-| 10 | `berserking` | if=target.time_to_die>180&buff.avatar.up\|target.time_to_die<180&variable.execute_phase&buff.avatar.up\|target.time_to_die<20 |
+| 10 | `berserking` | if=target.time_to_die>180&debuff.colossus_smash.up\|target.time_to_die<180&variable.execute_phase&debuff.colossus_smash.up\|target.time_to_die<20 |
 | 11 | `blood_fury` | if=debuff.colossus_smash.up |
 | 12 | `fireblood` | if=debuff.colossus_smash.up |
 | 13 | `ancestral_call` | if=debuff.colossus_smash.up |
 | 14 | `invoke_external_buff` | name=power_infusion,if=debuff.colossus_smash.up&fight_remains>=135\|variable.execute_phase&buff.avatar.up\|fight_remains<=25 |
 | 15 | `run_action_list` | name=colossus_aoe,if=talent.demolish&active_enemies>2 |
 | 16 | `run_action_list` | name=colossus_execute,target_if=min:target.health.pct,if=talent.demolish&variable.execute_phase |
-| 17 | `run_action_list` | name=colossus_sweep,if=talent.demolish&active_enemies=2&!variable.execute_phase |
-| 18 | `run_action_list` | name=colossus_st,if=talent.demolish |
-| 19 | `run_action_list` | name=slayer_aoe,if=talent.slayers_dominance&active_enemies>2 |
-| 20 | `run_action_list` | name=slayer_execute,target_if=min:target.health.pct,if=talent.slayers_dominance&variable.execute_phase |
-| 21 | `run_action_list` | name=slayer_sweep,if=talent.slayers_dominance&active_enemies=2&!variable.execute_phase |
-| 22 | `run_action_list` | name=slayer_st,if=talent.slayers_dominance |
+| 17 | `run_action_list` | name=colossus_st,if=talent.demolish |
+| 18 | `run_action_list` | name=slayer_aoe,if=talent.slayers_dominance&active_enemies>2 |
+| 19 | `run_action_list` | name=slayer_execute,target_if=min:target.health.pct,if=talent.slayers_dominance&variable.execute_phase |
+| 20 | `run_action_list` | name=slayer_st,if=talent.slayers_dominance |
 
 ## Action List: `colossus_aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `cleave` | if=!dot.deep_wounds.remains |
-| 2 | `thunder_clap` | if=!dot.rend.remains |
-| 3 | `thunderous_roar` | — |
-| 4 | `sweeping_strikes` | — |
-| 5 | `warbreaker` | if=cooldown.avatar.remains>14 |
-| 6 | `colossus_smash` | if=cooldown.avatar.remains>14 |
+| 1 | `thunder_clap` | if=!dot.rend_dot.remains |
+| 2 | `rend` | if=!dot.rend_dot.remains |
+| 3 | `sweeping_strikes` | if=cooldown.colossus_smash.remains>10&buff.sweeping_strikes.down\|!talent.broad_strokes |
+| 4 | `ravager` | if=cooldown.colossus_smash.remains<3 |
+| 5 | `avatar` | — |
+| 6 | `colossus_smash` | — |
 | 7 | `champions_spear` | — |
-| 8 | `ravager` | — |
-| 9 | `avatar` | — |
-| 10 | `demolish` | if=buff.colossal_might.stack=10&(debuff.colossus_smash.remains>=2\|cooldown.colossus_smash.remains>=10\|cooldown.warbreaker.remains>=10) |
-| 11 | `cleave` | — |
-| 12 | `bladestorm` | if=talent.unhinged\|talent.merciless_bonegrinder |
-| 13 | `mortal_strike` | — |
-| 14 | `skullsplitter` | — |
-| 15 | `thunder_clap` | if=dot.rend.remains<5 |
-| 16 | `overpower` | — |
-| 17 | `thunder_clap` | — |
-| 18 | `execute` | — |
-| 19 | `bladestorm` | — |
-| 20 | `wrecking_throw` | — |
-| 21 | `whirlwind` | — |
+| 8 | `demolish` | if=buff.colossal_might.stack=10 |
+| 9 | `cleave` | — |
+| 10 | `demolish` | if=debuff.colossus_smash.remains>=2 |
+| 11 | `whirlwind` | if=talent.fervor_of_battle&buff.collateral_damage.stack=3 |
+| 12 | `mortal_strike` | — |
+| 13 | `rend` | if=dot.rend_dot.remains<4 |
+| 14 | `overpower` | — |
+| 15 | `execute` | if=buff.sudden_death.remains |
+| 16 | `heroic_strike` | — |
+| 17 | `rend` | — |
+| 18 | `slam` | — |
+| 19 | `execute` | — |
+| 20 | `bladestorm` | — |
+| 21 | `wrecking_throw` | — |
+| 22 | `whirlwind` | — |
 
 ## Action List: `colossus_execute`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `sweeping_strikes` | if=active_enemies=2 |
-| 2 | `rend` | if=dot.rend.remains<=gcd&!talent.bloodletting |
-| 3 | `thunderous_roar` | — |
-| 4 | `champions_spear` | — |
-| 5 | `ravager` | if=cooldown.colossus_smash.remains<=gcd&(cooldown.avatar.remains>14\|cooldown.avatar.remains<2) |
-| 6 | `avatar` | — |
-| 7 | `colossus_smash` | — |
-| 8 | `warbreaker` | if=cooldown.avatar.remains>14 |
-| 9 | `execute` | if=buff.juggernaut.remains<=gcd&talent.juggernaut |
-| 10 | `skullsplitter` | — |
-| 11 | `demolish` | if=debuff.colossus_smash.up&buff.colossal_might.stack=10 |
-| 12 | `mortal_strike` | if=debuff.executioners_precision.stack=2\|!talent.executioners_precision\|talent.battlelord |
-| 13 | `overpower` | if=rage<90 |
-| 14 | `execute` | if=rage>=40&talent.executioners_precision |
-| 15 | `overpower` | — |
-| 16 | `bladestorm` | — |
-| 17 | `wrecking_throw` | — |
-| 18 | `execute` | — |
+| 1 | `sweeping_strikes` | if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down\|!talent.broad_strokes) |
+| 2 | `rend` | if=dot.rend_dot.remains<=gcd&!talent.bloodletting |
+| 3 | `champions_spear` | — |
+| 4 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
+| 5 | `avatar` | — |
+| 6 | `colossus_smash` | — |
+| 7 | `heroic_strike` | — |
+| 8 | `demolish` | if=buff.colossal_might.stack=10&debuff.colossus_smash.up |
+| 9 | `mortal_strike` | if=buff.executioners_precision.stack=2\|!talent.executioners_precision\|talent.battlelord |
+| 10 | `cleave` | if=buff.ravager.remains |
+| 11 | `overpower` | — |
+| 12 | `execute` | if=talent.deep_wounds&talent.critical_thinking |
+| 13 | `cleave` | if=talent.mass_execution |
+| 14 | `execute` | if=talent.deep_wounds |
+| 15 | `slam` | if=!talent.critical_thinking |
+| 16 | `execute` | — |
+| 17 | `bladestorm` | — |
+| 18 | `wrecking_throw` | — |
 
 ## Action List: `colossus_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `rend` | if=dot.rend.remains<=gcd |
-| 2 | `thunderous_roar` | — |
-| 3 | `ravager` | if=cooldown.colossus_smash.remains<=gcd&(cooldown.avatar.remains>14\|cooldown.avatar.remains<2) |
-| 4 | `avatar` | if=raid_event.adds.in>15 |
-| 5 | `colossus_smash` | if=cooldown.avatar.remains>14 |
-| 6 | `warbreaker` | if=cooldown.avatar.remains>14 |
-| 7 | `champions_spear` | — |
-| 8 | `demolish` | if=debuff.colossus_smash.up&buff.colossal_might.up |
-| 9 | `mortal_strike` | — |
-| 10 | `skullsplitter` | — |
-| 11 | `overpower` | — |
-| 12 | `execute` | — |
-| 13 | `wrecking_throw` | — |
-| 14 | `rend` | if=dot.rend.remains<=gcd*5 |
-| 15 | `slam` | — |
-
-## Action List: `colossus_sweep`
-
-| # | Action | Conditions |
-|---|--------|------------|
-| 1 | `thunder_clap` | if=!dot.rend.remains&!buff.sweeping_strikes.up |
-| 2 | `rend` | if=dot.rend.remains<=gcd&buff.sweeping_strikes.up |
-| 3 | `thunderous_roar` | — |
-| 4 | `sweeping_strikes` | — |
-| 5 | `champions_spear` | — |
-| 6 | `ravager` | if=cooldown.colossus_smash.ready |
-| 7 | `avatar` | — |
-| 8 | `colossus_smash` | — |
-| 9 | `warbreaker` | — |
+| 1 | `rend` | if=dot.rend_dot.remains<=gcd\|cooldown.colossus_smash.remains<2&dot.rend_dot.remains<=10 |
+| 2 | `sweeping_strikes` | if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down\|!talent.broad_strokes) |
+| 3 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
+| 4 | `avatar` | — |
+| 5 | `colossus_smash` | — |
+| 6 | `cleave` | if=buff.ravager.remains&buff.collateral_damage.stack=3 |
+| 7 | `heroic_strike` | — |
+| 8 | `champions_spear` | — |
+| 9 | `demolish` | if=debuff.colossus_smash.up&buff.colossal_might.stack>0\|talent.master_of_warfare.rank=4 |
 | 10 | `mortal_strike` | — |
-| 11 | `demolish` | if=debuff.colossus_smash.up |
+| 11 | `cleave` | if=buff.ravager.remains\|buff.collateral_damage.stack=3 |
 | 12 | `overpower` | — |
-| 13 | `execute` | — |
-| 14 | `whirlwind` | if=talent.fervor_of_battle |
-| 15 | `cleave` | if=talent.fervor_of_battle |
-| 16 | `thunder_clap` | if=dot.rend.remains<=8&buff.sweeping_strikes.down |
-| 17 | `wrecking_throw` | if=!buff.sweeping_strikes.up |
-| 18 | `rend` | if=dot.rend.remains<=5 |
+| 13 | `whirlwind` | if=active_enemies=2&buff.collateral_damage.stack=3 |
+| 14 | `cleave` | if=talent.mass_execution&target.health.pct<35 |
+| 15 | `execute` | — |
+| 16 | `wrecking_throw` | if=active_enemies=1 |
+| 17 | `rend` | if=dot.rend_dot.remains<=gcd*5 |
+| 18 | `cleave` | if=!talent.martial_prowess |
 | 19 | `slam` | — |
 
 ## Action List: `slayer_aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `thunder_clap` | if=!dot.rend.remains&talent.rend |
-| 2 | `sweeping_strikes` | — |
-| 3 | `thunderous_roar` | — |
-| 4 | `avatar` | — |
-| 5 | `champions_spear` | — |
-| 6 | `ravager` | if=cooldown.colossus_smash.remains<=gcd\|cooldown.warbreaker.remains<=gcd |
-| 7 | `warbreaker` | — |
-| 8 | `colossus_smash` | — |
-| 9 | `cleave` | — |
-| 10 | `execute` | if=buff.juggernaut.remains<3&talent.juggernaut\|debuff.marked_for_execution.stack=3 |
-| 11 | `bladestorm` | — |
-| 12 | `skullsplitter` | if=buff.sweeping_strikes.up |
-| 13 | `overpower` | if=buff.opportunist.up&talent.dreadnaught |
-| 14 | `mortal_strike` | if=debuff.executioners_precision.stack=2 |
-| 15 | `execute` | if=buff.sudden_death.up |
-| 16 | `thunder_clap` | if=dot.rend.remains<8&talent.rend |
-| 17 | `overpower` | if=talent.dreadnaught |
-| 18 | `whirlwind` | if=talent.fervor_of_battle |
-| 19 | `mortal_strike` | — |
-| 20 | `overpower` | — |
-| 21 | `execute` | — |
-| 22 | `thunder_clap` | if=dot.rend.remains |
-| 23 | `wrecking_throw` | — |
-| 24 | `whirlwind` | — |
-| 25 | `skullsplitter` | — |
-| 26 | `slam` | — |
-| 27 | `storm_bolt` | if=buff.bladestorm.up |
+| 1 | `rend` | if=!dot.rend_dot.remains&talent.rend |
+| 2 | `sweeping_strikes` | if=!buff.sweeping_strikes.up&cooldown.colossus_smash.remains>10\|!talent.broad_strokes |
+| 3 | `avatar` | — |
+| 4 | `champions_spear` | — |
+| 5 | `ravager` | if=debuff.colossus_smash.up |
+| 6 | `colossus_smash` | — |
+| 7 | `cleave` | — |
+| 8 | `whirlwind` | if=talent.fervor_of_battle&buff.collateral_damage.stack=3 |
+| 9 | `execute` | if=buff.sudden_death.up |
+| 10 | `bladestorm` | if=debuff.colossus_smash.up |
+| 11 | `mortal_strike` | — |
+| 12 | `thunder_clap` | if=dot.rend_dot.remains<8&talent.rend |
+| 13 | `overpower` | if=talent.dreadnaught |
+| 14 | `whirlwind` | if=talent.fervor_of_battle |
+| 15 | `overpower` | — |
+| 16 | `mortal_strike` | — |
+| 17 | `rend` | if=dot.rend_dot.remains |
+| 18 | `execute` | — |
+| 19 | `wrecking_throw` | — |
+| 20 | `whirlwind` | — |
+| 21 | `slam` | — |
+| 22 | `storm_bolt` | if=buff.bladestorm.up |
 
 ## Action List: `slayer_execute`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `sweeping_strikes` | if=active_enemies=2 |
-| 2 | `rend` | if=dot.rend.remains<=gcd&!talent.bloodletting |
-| 3 | `thunderous_roar` | — |
-| 4 | `avatar` | if=cooldown.colossus_smash.remains<=5\|debuff.colossus_smash.up |
-| 5 | `champions_spear` | if=debuff.colossus_smash.up\|buff.avatar.up |
-| 6 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
-| 7 | `warbreaker` | — |
-| 8 | `colossus_smash` | — |
-| 9 | `execute` | if=buff.juggernaut.remains<=gcd*2&talent.juggernaut |
-| 10 | `bladestorm` | if=(debuff.executioners_precision.stack=2&(debuff.colossus_smash.remains>4\|cooldown.colossus_smash.remains>15))\|!talent.executioners_precision |
-| 11 | `skullsplitter` | if=rage<=40 |
-| 12 | `overpower` | if=buff.overpower.stack<2&buff.opportunist.up&talent.opportunist&(talent.bladestorm\|talent.ravager&rage<80) |
-| 13 | `mortal_strike` | if=dot.rend.remains<2\|debuff.executioners_precision.stack=2&!buff.ravager.up |
-| 14 | `overpower` | if=rage<=40&buff.overpower.stack<2&talent.fierce_followthrough |
-| 15 | `execute` | if=rage>=40 |
-| 16 | `overpower` | — |
-| 17 | `execute` | — |
-| 18 | `wrecking_throw` | — |
-| 19 | `storm_bolt` | if=buff.bladestorm.up |
+| 1 | `sweeping_strikes` | if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down\|!talent.broad_strokes) |
+| 2 | `rend` | if=dot.rend_dot.remains<2&!talent.bloodletting |
+| 3 | `avatar` | — |
+| 4 | `colossus_smash` | — |
+| 5 | `heroic_strike` | — |
+| 6 | `bladestorm` | if=debuff.colossus_smash.up |
+| 7 | `mortal_strike` | if=buff.executioners_precision.stack=2\|debuff.colossus_smash.up |
+| 8 | `overpower` | if=buff.opportunist.up&talent.opportunist |
+| 9 | `overpower` | if=talent.fierce_followthrough&!buff.battlelord.up&rage<90 |
+| 10 | `execute` | if=rage>40\|buff.sudden_death.up |
+| 11 | `overpower` | — |
+| 12 | `execute` | if=talent.improved_execute |
+| 13 | `cleave` | if=talent.mass_execution |
+| 14 | `slam` | if=!talent.critical_thinking |
+| 15 | `execute` | — |
+| 16 | `wrecking_throw` | — |
+| 17 | `storm_bolt` | if=buff.bladestorm.up |
 
 ## Action List: `slayer_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `rend` | if=dot.rend.remains<=gcd |
-| 2 | `thunderous_roar` | — |
-| 3 | `avatar` | if=cooldown.colossus_smash.remains<=5\|debuff.colossus_smash.up |
-| 4 | `champions_spear` | if=debuff.colossus_smash.up\|buff.avatar.up |
-| 5 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
-| 6 | `colossus_smash` | if=cooldown.avatar.remains>10&(variable.trinket_1_buffs\|variable.trinket_2_buffs)\|(!variable.trinket_1_buffs&!variable.trinket_2_buffs) |
-| 7 | `warbreaker` | if=cooldown.avatar.remains>10&(variable.trinket_1_buffs\|variable.trinket_2_buffs)\|(!variable.trinket_1_buffs&!variable.trinket_2_buffs) |
-| 8 | `mortal_strike` | if=debuff.executioners_precision.stack=2 |
-| 9 | `execute` | if=buff.juggernaut.remains<=gcd*4&talent.juggernaut\|buff.sudden_death.stack=2\|buff.sudden_death.remains<=gcd*3\|debuff.marked_for_execution.stack=3 |
-| 10 | `overpower` | if=buff.opportunist.up |
-| 11 | `bladestorm` | if=(cooldown.colossus_smash.remains>=gcd*4\|cooldown.warbreaker.remains>=gcd*4)\|debuff.colossus_smash.remains>=gcd*4 |
-| 12 | `mortal_strike` | — |
-| 13 | `skullsplitter` | — |
-| 14 | `overpower` | — |
-| 15 | `rend` | if=dot.rend.remains<=8 |
-| 16 | `wrecking_throw` | — |
-| 17 | `execute` | if=!talent.juggernaut |
-| 18 | `slam` | — |
-| 19 | `storm_bolt` | if=buff.bladestorm.up |
-
-## Action List: `slayer_sweep`
-
-| # | Action | Conditions |
-|---|--------|------------|
-| 1 | `thunder_clap` | if=!dot.rend.remains&!buff.sweeping_strikes.up |
-| 2 | `thunderous_roar` | — |
-| 3 | `sweeping_strikes` | — |
-| 4 | `rend` | if=dot.rend.remains<=gcd |
-| 5 | `champions_spear` | — |
-| 6 | `avatar` | — |
-| 7 | `colossus_smash` | if=buff.sweeping_strikes.up |
-| 8 | `warbreaker` | — |
-| 9 | `skullsplitter` | if=buff.sweeping_strikes.up |
-| 10 | `execute` | if=buff.juggernaut.remains<=gcd*2\|debuff.marked_for_execution.stack>3\|buff.sudden_death.stack=2\|buff.sudden_death.remains<=gcd*3 |
-| 11 | `bladestorm` | if=(cooldown.colossus_smash.remains>=gcd*4\|cooldown.warbreaker.remains>=gcd*4)\|debuff.colossus_smash.remains>=gcd*4 |
-| 12 | `overpower` | if=buff.opportunist.up |
-| 13 | `mortal_strike` | — |
-| 14 | `overpower` | — |
-| 15 | `thunder_clap` | if=dot.rend.remains<=8&buff.sweeping_strikes.down |
-| 16 | `rend` | if=dot.rend.remains<=5 |
-| 17 | `cleave` | if=talent.fervor_of_battle&!buff.overpower.up |
-| 18 | `whirlwind` | if=talent.fervor_of_battle |
-| 19 | `execute` | if=!talent.juggernaut |
-| 20 | `wrecking_throw` | if=!buff.sweeping_strikes.up |
-| 21 | `slam` | — |
-| 22 | `storm_bolt` | if=buff.bladestorm.up |
+| 1 | `sweeping_strikes` | if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down\|!talent.broad_strokes) |
+| 2 | `avatar` | — |
+| 3 | `champions_spear` | if=debuff.colossus_smash.up\|buff.avatar.up |
+| 4 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
+| 5 | `colossus_smash` | — |
+| 6 | `bladestorm` | if=debuff.colossus_smash.up |
+| 7 | `mortal_strike` | — |
+| 8 | `execute` | if=buff.sudden_death.up |
+| 9 | `heroic_strike` | — |
+| 10 | `cleave` | if=active_enemies=2&buff.collateral_damage.stack=3 |
+| 11 | `overpower` | — |
+| 12 | `cleave` | if=talent.mass_execution&target.health.pct<35 |
+| 13 | `whirlwind` | if=active_enemies=2&buff.collateral_damage.stack=3 |
+| 14 | `rend` | if=dot.rend_dot.remains<=5 |
+| 15 | `wrecking_throw` | if=active_enemies=1 |
+| 16 | `slam` | — |
+| 17 | `storm_bolt` | if=buff.bladestorm.up |
 
 ## Action List: `trinkets`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `do_treacherous_transmitter_task` | — |
-| 2 | `use_item` | name=cursed_stone_idol,if=cooldown.avatar.remains<2 |
-| 3 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&!variable.trinket_1_manual&(!buff.avatar.up&trinket.1.cast_time>0\|!trinket.1.cast_time>0)&buff.avatar.up&(variable.trinket_2_exclude\|!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|variable.trinket_priority=1)\|trinket.1.proc.any_dps.duration>=fight_remains |
-| 4 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&!variable.trinket_2_manual&(!buff.avatar.up&trinket.2.cast_time>0\|!trinket.2.cast_time>0)&buff.avatar.up&(variable.trinket_1_exclude\|!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|variable.trinket_priority=2)\|trinket.2.proc.any_dps.duration>=fight_remains |
-| 5 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(trinket.1.cast_time>0&!buff.avatar.up\|!trinket.1.cast_time>0)&!variable.trinket_1_manual&(!variable.trinket_1_buffs&(trinket.2.cooldown.remains\|!variable.trinket_2_buffs)\|(trinket.1.cast_time>0&!buff.avatar.up\|!trinket.1.cast_time>0)\|cooldown.avatar.remains_expected>20) |
-| 6 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&(trinket.2.cast_time>0&!buff.avatar.up\|!trinket.2.cast_time>0)&!variable.trinket_2_manual&(!variable.trinket_2_buffs&(trinket.1.cooldown.remains\|!variable.trinket_1_buffs)\|(trinket.2.cast_time>0&!buff.avatar.up\|!trinket.2.cast_time>0)\|cooldown.avatar.remains_expected>20) |
-| 7 | `use_item` | slot=main_hand,if=!equipped.fyralath_the_dreamrender&!equipped.bestinslots&(!variable.trinket_1_buffs\|trinket.1.cooldown.remains)&(!variable.trinket_2_buffs\|trinket.2.cooldown.remains) |
-| 8 | `use_item` | name=bestinslots,if=cooldown.avatar.remains>20\|(buff.avatar.up&(!trinket.1.has_cooldown&!trinket.2.has_cooldown)) |
+| 1 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown)&(buff.avatar.up) |
+| 2 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown)&(buff.avatar.up) |
+| 3 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown) |
+| 4 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown) |
+| 5 | `use_item` | name=algethar_puzzle_box,if=cooldown.avatar.remains<2\|cooldown.colossus_smash.remains<2 |
 
 ## Action List: `variables`
 
@@ -288,16 +231,18 @@ Source: `apl/default/warrior/arms.simc`
 # Executed before combat begins. Accepts non-harmful actions only.
 # Snapshot raid buffed stats before combat begins and pre-potting is done.
 actions.precombat=snapshot_stats
-actions.precombat+=/variable,name=trinket_1_exclude,value=trinket.1.is.treacherous_transmitter
-actions.precombat+=/variable,name=trinket_2_exclude,value=trinket.2.is.treacherous_transmitter
-# Evaluates a trinkets cooldown, divided by avatar. If it's value has no remainder return 1, else return 0.5.
-actions.precombat+=/variable,name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=trinket.1.has_use_buff&(trinket.1.cooldown.duration%%cooldown.avatar.duration=0)
-actions.precombat+=/variable,name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=trinket.2.has_use_buff&(trinket.2.cooldown.duration%%cooldown.avatar.duration=0)
-actions.precombat+=/variable,name=trinket_1_buffs,value=trinket.1.has_use_buff|(trinket.1.has_stat.any_dps&!variable.trinket_1_exclude)
-actions.precombat+=/variable,name=trinket_2_buffs,value=trinket.2.has_use_buff|(trinket.2.has_stat.any_dps&!variable.trinket_2_exclude)
-actions.precombat+=/variable,name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs|variable.trinket_2_buffs&((trinket.2.cooldown.duration%trinket.2.proc.any_dps.duration)*(1.5+trinket.2.has_buff.strength)*(variable.trinket_2_sync))>((trinket.1.cooldown.duration%trinket.1.proc.any_dps.duration)*(1.5+trinket.1.has_buff.strength)*(variable.trinket_1_sync))
-actions.precombat+=/variable,name=trinket_1_manual,value=trinket.1.is.algethar_puzzle_box
-actions.precombat+=/variable,name=trinket_2_manual,value=trinket.2.is.algethar_puzzle_box
+actions.precombat+=/variable,name=trinket_1_exclude,value=trinket.1.is.algethar_puzzle_box
+actions.precombat+=/variable,name=trinket_2_exclude,value=trinket.2.is.algethar_puzzle_box
+actions.precombat+=/variable,name=trinket_1_buffs,value=trinket.1.has_use_buff
+actions.precombat+=/variable,name=trinket_2_buffs,value=trinket.2.has_use_buff
+actions.precombat+=/variable,name=trinket_1_duration,op=setif,value=0,value_else=trinket.1.proc.any_dps.duration,condition=0
+actions.precombat+=/variable,name=trinket_2_duration,op=setif,value=0,value_else=trinket.2.proc.any_dps.duration,condition=0
+actions.precombat+=/variable,name=trinket_1_high_value,op=setif,value=2,value_else=1,condition=trinket.1.is.treacherous_transmitter
+actions.precombat+=/variable,name=trinket_2_high_value,op=setif,value=2,value_else=1,condition=trinket.2.is.treacherous_transmitter
+actions.precombat+=/variable,name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_1_buffs&talent.avatar&trinket.1.cooldown.duration%%cooldown.avatar.duration=0
+actions.precombat+=/variable,name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_2_buffs&talent.avatar&trinket.2.cooldown.duration%%cooldown.avatar.duration=0
+actions.precombat+=/variable,name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs&(trinket.2.has_cooldown|!trinket.1.has_cooldown)|variable.trinket_2_buffs&((trinket.2.cooldown.duration%variable.trinket_2_duration)*(1.5+trinket.2.has_buff.strength)*(variable.trinket_2_sync)*(variable.trinket_2_high_value)*(1+((trinket.2.ilvl-trinket.1.ilvl)%100)))>((trinket.1.cooldown.duration%variable.trinket_1_duration)*(1.5+trinket.1.has_buff.strength)*(variable.trinket_1_sync)*(variable.trinket_1_high_value)*(1+((trinket.1.ilvl-trinket.2.ilvl)%100)))
+actions.precombat+=/variable,name=damage_trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl
 actions.precombat+=/battle_stance,toggle=on
 
 # Executed every time the actor is available.
@@ -310,199 +255,145 @@ actions+=/call_action_list,name=trinkets
 actions+=/arcane_torrent,if=cooldown.mortal_strike.remains>1.5&rage<50
 actions+=/lights_judgment,if=debuff.colossus_smash.down&cooldown.mortal_strike.remains
 actions+=/bag_of_tricks,if=debuff.colossus_smash.down&cooldown.mortal_strike.remains
-actions+=/berserking,if=target.time_to_die>180&buff.avatar.up|target.time_to_die<180&variable.execute_phase&buff.avatar.up|target.time_to_die<20
+actions+=/berserking,if=target.time_to_die>180&debuff.colossus_smash.up|target.time_to_die<180&variable.execute_phase&debuff.colossus_smash.up|target.time_to_die<20
 actions+=/blood_fury,if=debuff.colossus_smash.up
 actions+=/fireblood,if=debuff.colossus_smash.up
 actions+=/ancestral_call,if=debuff.colossus_smash.up
 actions+=/invoke_external_buff,name=power_infusion,if=debuff.colossus_smash.up&fight_remains>=135|variable.execute_phase&buff.avatar.up|fight_remains<=25
 actions+=/run_action_list,name=colossus_aoe,if=talent.demolish&active_enemies>2
 actions+=/run_action_list,name=colossus_execute,target_if=min:target.health.pct,if=talent.demolish&variable.execute_phase
-actions+=/run_action_list,name=colossus_sweep,if=talent.demolish&active_enemies=2&!variable.execute_phase
 actions+=/run_action_list,name=colossus_st,if=talent.demolish
 actions+=/run_action_list,name=slayer_aoe,if=talent.slayers_dominance&active_enemies>2
 actions+=/run_action_list,name=slayer_execute,target_if=min:target.health.pct,if=talent.slayers_dominance&variable.execute_phase
-actions+=/run_action_list,name=slayer_sweep,if=talent.slayers_dominance&active_enemies=2&!variable.execute_phase
 actions+=/run_action_list,name=slayer_st,if=talent.slayers_dominance
 
-actions.colossus_aoe=cleave,if=!dot.deep_wounds.remains
-actions.colossus_aoe+=/thunder_clap,if=!dot.rend.remains
-actions.colossus_aoe+=/thunderous_roar
-actions.colossus_aoe+=/sweeping_strikes
-actions.colossus_aoe+=/warbreaker,if=cooldown.avatar.remains>14
-actions.colossus_aoe+=/colossus_smash,if=cooldown.avatar.remains>14
-actions.colossus_aoe+=/champions_spear
-actions.colossus_aoe+=/ravager
+actions.colossus_aoe=thunder_clap,if=!dot.rend_dot.remains
+actions.colossus_aoe+=/rend,if=!dot.rend_dot.remains
+actions.colossus_aoe+=/sweeping_strikes,if=cooldown.colossus_smash.remains>10&buff.sweeping_strikes.down|!talent.broad_strokes
+actions.colossus_aoe+=/ravager,if=cooldown.colossus_smash.remains<3
 actions.colossus_aoe+=/avatar
-actions.colossus_aoe+=/demolish,if=buff.colossal_might.stack=10&(debuff.colossus_smash.remains>=2|cooldown.colossus_smash.remains>=10|cooldown.warbreaker.remains>=10)
+actions.colossus_aoe+=/colossus_smash
+actions.colossus_aoe+=/champions_spear
+actions.colossus_aoe+=/demolish,if=buff.colossal_might.stack=10
 actions.colossus_aoe+=/cleave
-actions.colossus_aoe+=/bladestorm,if=talent.unhinged|talent.merciless_bonegrinder
+actions.colossus_aoe+=/demolish,if=debuff.colossus_smash.remains>=2
+actions.colossus_aoe+=/whirlwind,if=talent.fervor_of_battle&buff.collateral_damage.stack=3
 actions.colossus_aoe+=/mortal_strike
-actions.colossus_aoe+=/skullsplitter
-actions.colossus_aoe+=/thunder_clap,if=dot.rend.remains<5
+actions.colossus_aoe+=/rend,if=dot.rend_dot.remains<4
 actions.colossus_aoe+=/overpower
-actions.colossus_aoe+=/thunder_clap
+actions.colossus_aoe+=/execute,if=buff.sudden_death.remains
+actions.colossus_aoe+=/heroic_strike
+actions.colossus_aoe+=/rend
+actions.colossus_aoe+=/slam
 actions.colossus_aoe+=/execute
 actions.colossus_aoe+=/bladestorm
 actions.colossus_aoe+=/wrecking_throw
 actions.colossus_aoe+=/whirlwind
 
-actions.colossus_execute=sweeping_strikes,if=active_enemies=2
-actions.colossus_execute+=/rend,if=dot.rend.remains<=gcd&!talent.bloodletting
-actions.colossus_execute+=/thunderous_roar
+actions.colossus_execute=sweeping_strikes,if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down|!talent.broad_strokes)
+actions.colossus_execute+=/rend,if=dot.rend_dot.remains<=gcd&!talent.bloodletting
 actions.colossus_execute+=/champions_spear
-actions.colossus_execute+=/ravager,if=cooldown.colossus_smash.remains<=gcd&(cooldown.avatar.remains>14|cooldown.avatar.remains<2)
+actions.colossus_execute+=/ravager,if=cooldown.colossus_smash.remains<=gcd
 actions.colossus_execute+=/avatar
 actions.colossus_execute+=/colossus_smash
-actions.colossus_execute+=/warbreaker,if=cooldown.avatar.remains>14
-actions.colossus_execute+=/execute,if=buff.juggernaut.remains<=gcd&talent.juggernaut
-actions.colossus_execute+=/skullsplitter
-actions.colossus_execute+=/demolish,if=debuff.colossus_smash.up&buff.colossal_might.stack=10
-actions.colossus_execute+=/mortal_strike,if=debuff.executioners_precision.stack=2|!talent.executioners_precision|talent.battlelord
-actions.colossus_execute+=/overpower,if=rage<90
-actions.colossus_execute+=/execute,if=rage>=40&talent.executioners_precision
+actions.colossus_execute+=/heroic_strike
+actions.colossus_execute+=/demolish,if=buff.colossal_might.stack=10&debuff.colossus_smash.up
+actions.colossus_execute+=/mortal_strike,if=buff.executioners_precision.stack=2|!talent.executioners_precision|talent.battlelord
+actions.colossus_execute+=/cleave,if=buff.ravager.remains
 actions.colossus_execute+=/overpower
+actions.colossus_execute+=/execute,if=talent.deep_wounds&talent.critical_thinking
+actions.colossus_execute+=/cleave,if=talent.mass_execution
+actions.colossus_execute+=/execute,if=talent.deep_wounds
+actions.colossus_execute+=/slam,if=!talent.critical_thinking
+actions.colossus_execute+=/execute
 actions.colossus_execute+=/bladestorm
 actions.colossus_execute+=/wrecking_throw
-actions.colossus_execute+=/execute
 
-actions.colossus_st=rend,if=dot.rend.remains<=gcd
-actions.colossus_st+=/thunderous_roar
-actions.colossus_st+=/ravager,if=cooldown.colossus_smash.remains<=gcd&(cooldown.avatar.remains>14|cooldown.avatar.remains<2)
-actions.colossus_st+=/avatar,if=raid_event.adds.in>15
-actions.colossus_st+=/colossus_smash,if=cooldown.avatar.remains>14
-actions.colossus_st+=/warbreaker,if=cooldown.avatar.remains>14
+actions.colossus_st=rend,if=dot.rend_dot.remains<=gcd|cooldown.colossus_smash.remains<2&dot.rend_dot.remains<=10
+actions.colossus_st+=/sweeping_strikes,if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down|!talent.broad_strokes)
+actions.colossus_st+=/ravager,if=cooldown.colossus_smash.remains<=gcd
+actions.colossus_st+=/avatar
+actions.colossus_st+=/colossus_smash
+actions.colossus_st+=/cleave,if=buff.ravager.remains&buff.collateral_damage.stack=3
+actions.colossus_st+=/heroic_strike
 actions.colossus_st+=/champions_spear
-actions.colossus_st+=/demolish,if=debuff.colossus_smash.up&buff.colossal_might.up
+actions.colossus_st+=/demolish,if=debuff.colossus_smash.up&buff.colossal_might.stack>0|talent.master_of_warfare.rank=4
 actions.colossus_st+=/mortal_strike
-actions.colossus_st+=/skullsplitter
+actions.colossus_st+=/cleave,if=buff.ravager.remains|buff.collateral_damage.stack=3
 actions.colossus_st+=/overpower
+actions.colossus_st+=/whirlwind,if=active_enemies=2&buff.collateral_damage.stack=3
+actions.colossus_st+=/cleave,if=talent.mass_execution&target.health.pct<35
 actions.colossus_st+=/execute
-actions.colossus_st+=/wrecking_throw
-actions.colossus_st+=/rend,if=dot.rend.remains<=gcd*5
+actions.colossus_st+=/wrecking_throw,if=active_enemies=1
+actions.colossus_st+=/rend,if=dot.rend_dot.remains<=gcd*5
+actions.colossus_st+=/cleave,if=!talent.martial_prowess
 actions.colossus_st+=/slam
 
-actions.colossus_sweep=thunder_clap,if=!dot.rend.remains&!buff.sweeping_strikes.up
-actions.colossus_sweep+=/rend,if=dot.rend.remains<=gcd&buff.sweeping_strikes.up
-actions.colossus_sweep+=/thunderous_roar
-actions.colossus_sweep+=/sweeping_strikes
-actions.colossus_sweep+=/champions_spear
-actions.colossus_sweep+=/ravager,if=cooldown.colossus_smash.ready
-actions.colossus_sweep+=/avatar
-actions.colossus_sweep+=/colossus_smash
-actions.colossus_sweep+=/warbreaker
-actions.colossus_sweep+=/mortal_strike
-actions.colossus_sweep+=/demolish,if=debuff.colossus_smash.up
-actions.colossus_sweep+=/overpower
-actions.colossus_sweep+=/execute
-actions.colossus_sweep+=/whirlwind,if=talent.fervor_of_battle
-actions.colossus_sweep+=/cleave,if=talent.fervor_of_battle
-actions.colossus_sweep+=/thunder_clap,if=dot.rend.remains<=8&buff.sweeping_strikes.down
-actions.colossus_sweep+=/wrecking_throw,if=!buff.sweeping_strikes.up
-actions.colossus_sweep+=/rend,if=dot.rend.remains<=5
-actions.colossus_sweep+=/slam
-
-actions.slayer_aoe=thunder_clap,if=!dot.rend.remains&talent.rend
-actions.slayer_aoe+=/sweeping_strikes
-actions.slayer_aoe+=/thunderous_roar
+actions.slayer_aoe=rend,if=!dot.rend_dot.remains&talent.rend
+actions.slayer_aoe+=/sweeping_strikes,if=!buff.sweeping_strikes.up&cooldown.colossus_smash.remains>10|!talent.broad_strokes
 actions.slayer_aoe+=/avatar
 actions.slayer_aoe+=/champions_spear
-actions.slayer_aoe+=/ravager,if=cooldown.colossus_smash.remains<=gcd|cooldown.warbreaker.remains<=gcd
-actions.slayer_aoe+=/warbreaker
+actions.slayer_aoe+=/ravager,if=debuff.colossus_smash.up
 actions.slayer_aoe+=/colossus_smash
 actions.slayer_aoe+=/cleave
-actions.slayer_aoe+=/execute,if=buff.juggernaut.remains<3&talent.juggernaut|debuff.marked_for_execution.stack=3
-actions.slayer_aoe+=/bladestorm
-actions.slayer_aoe+=/skullsplitter,if=buff.sweeping_strikes.up
-actions.slayer_aoe+=/overpower,if=buff.opportunist.up&talent.dreadnaught
-actions.slayer_aoe+=/mortal_strike,if=debuff.executioners_precision.stack=2
+actions.slayer_aoe+=/whirlwind,if=talent.fervor_of_battle&buff.collateral_damage.stack=3
 actions.slayer_aoe+=/execute,if=buff.sudden_death.up
-actions.slayer_aoe+=/thunder_clap,if=dot.rend.remains<8&talent.rend
+actions.slayer_aoe+=/bladestorm,if=debuff.colossus_smash.up
+actions.slayer_aoe+=/mortal_strike
+actions.slayer_aoe+=/thunder_clap,if=dot.rend_dot.remains<8&talent.rend
 actions.slayer_aoe+=/overpower,if=talent.dreadnaught
 actions.slayer_aoe+=/whirlwind,if=talent.fervor_of_battle
-actions.slayer_aoe+=/mortal_strike
 actions.slayer_aoe+=/overpower
+actions.slayer_aoe+=/mortal_strike
+actions.slayer_aoe+=/rend,if=dot.rend_dot.remains
 actions.slayer_aoe+=/execute
-actions.slayer_aoe+=/thunder_clap,if=dot.rend.remains
 actions.slayer_aoe+=/wrecking_throw
 actions.slayer_aoe+=/whirlwind
-actions.slayer_aoe+=/skullsplitter
 actions.slayer_aoe+=/slam
 actions.slayer_aoe+=/storm_bolt,if=buff.bladestorm.up
 
-actions.slayer_execute=sweeping_strikes,if=active_enemies=2
-actions.slayer_execute+=/rend,if=dot.rend.remains<=gcd&!talent.bloodletting
-actions.slayer_execute+=/thunderous_roar
-actions.slayer_execute+=/avatar,if=cooldown.colossus_smash.remains<=5|debuff.colossus_smash.up
-actions.slayer_execute+=/champions_spear,if=debuff.colossus_smash.up|buff.avatar.up
-actions.slayer_execute+=/ravager,if=cooldown.colossus_smash.remains<=gcd
-actions.slayer_execute+=/warbreaker
+actions.slayer_execute=sweeping_strikes,if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down|!talent.broad_strokes)
+actions.slayer_execute+=/rend,if=dot.rend_dot.remains<2&!talent.bloodletting
+actions.slayer_execute+=/avatar
 actions.slayer_execute+=/colossus_smash
-actions.slayer_execute+=/execute,if=buff.juggernaut.remains<=gcd*2&talent.juggernaut
-actions.slayer_execute+=/bladestorm,if=(debuff.executioners_precision.stack=2&(debuff.colossus_smash.remains>4|cooldown.colossus_smash.remains>15))|!talent.executioners_precision
-actions.slayer_execute+=/skullsplitter,if=rage<=40
-actions.slayer_execute+=/overpower,if=buff.overpower.stack<2&buff.opportunist.up&talent.opportunist&(talent.bladestorm|talent.ravager&rage<80)
-actions.slayer_execute+=/mortal_strike,if=dot.rend.remains<2|debuff.executioners_precision.stack=2&!buff.ravager.up
-actions.slayer_execute+=/overpower,if=rage<=40&buff.overpower.stack<2&talent.fierce_followthrough
-actions.slayer_execute+=/execute,if=rage>=40
+actions.slayer_execute+=/heroic_strike
+actions.slayer_execute+=/bladestorm,if=debuff.colossus_smash.up
+actions.slayer_execute+=/mortal_strike,if=buff.executioners_precision.stack=2|debuff.colossus_smash.up
+actions.slayer_execute+=/overpower,if=buff.opportunist.up&talent.opportunist
+actions.slayer_execute+=/overpower,if=talent.fierce_followthrough&!buff.battlelord.up&rage<90
+actions.slayer_execute+=/execute,if=rage>40|buff.sudden_death.up
 actions.slayer_execute+=/overpower
+actions.slayer_execute+=/execute,if=talent.improved_execute
+actions.slayer_execute+=/cleave,if=talent.mass_execution
+actions.slayer_execute+=/slam,if=!talent.critical_thinking
 actions.slayer_execute+=/execute
 actions.slayer_execute+=/wrecking_throw
 actions.slayer_execute+=/storm_bolt,if=buff.bladestorm.up
 
-actions.slayer_st=rend,if=dot.rend.remains<=gcd
-actions.slayer_st+=/thunderous_roar
-actions.slayer_st+=/avatar,if=cooldown.colossus_smash.remains<=5|debuff.colossus_smash.up
+actions.slayer_st=sweeping_strikes,if=active_enemies=2&(cooldown.colossus_smash.remains&buff.sweeping_strikes.down|!talent.broad_strokes)
+actions.slayer_st+=/avatar
 actions.slayer_st+=/champions_spear,if=debuff.colossus_smash.up|buff.avatar.up
 actions.slayer_st+=/ravager,if=cooldown.colossus_smash.remains<=gcd
-actions.slayer_st+=/colossus_smash,if=cooldown.avatar.remains>10&(variable.trinket_1_buffs|variable.trinket_2_buffs)|(!variable.trinket_1_buffs&!variable.trinket_2_buffs)
-actions.slayer_st+=/warbreaker,if=cooldown.avatar.remains>10&(variable.trinket_1_buffs|variable.trinket_2_buffs)|(!variable.trinket_1_buffs&!variable.trinket_2_buffs)
-actions.slayer_st+=/mortal_strike,if=debuff.executioners_precision.stack=2
-actions.slayer_st+=/execute,if=buff.juggernaut.remains<=gcd*4&talent.juggernaut|buff.sudden_death.stack=2|buff.sudden_death.remains<=gcd*3|debuff.marked_for_execution.stack=3
-actions.slayer_st+=/overpower,if=buff.opportunist.up
-actions.slayer_st+=/bladestorm,if=(cooldown.colossus_smash.remains>=gcd*4|cooldown.warbreaker.remains>=gcd*4)|debuff.colossus_smash.remains>=gcd*4
+actions.slayer_st+=/colossus_smash
+actions.slayer_st+=/bladestorm,if=debuff.colossus_smash.up
 actions.slayer_st+=/mortal_strike
-actions.slayer_st+=/skullsplitter
+actions.slayer_st+=/execute,if=buff.sudden_death.up
+actions.slayer_st+=/heroic_strike
+actions.slayer_st+=/cleave,if=active_enemies=2&buff.collateral_damage.stack=3
 actions.slayer_st+=/overpower
-actions.slayer_st+=/rend,if=dot.rend.remains<=8
-actions.slayer_st+=/wrecking_throw
-actions.slayer_st+=/execute,if=!talent.juggernaut
+actions.slayer_st+=/cleave,if=talent.mass_execution&target.health.pct<35
+actions.slayer_st+=/whirlwind,if=active_enemies=2&buff.collateral_damage.stack=3
+actions.slayer_st+=/rend,if=dot.rend_dot.remains<=5
+actions.slayer_st+=/wrecking_throw,if=active_enemies=1
 actions.slayer_st+=/slam
 actions.slayer_st+=/storm_bolt,if=buff.bladestorm.up
 
-actions.slayer_sweep=thunder_clap,if=!dot.rend.remains&!buff.sweeping_strikes.up
-actions.slayer_sweep+=/thunderous_roar
-actions.slayer_sweep+=/sweeping_strikes
-actions.slayer_sweep+=/rend,if=dot.rend.remains<=gcd
-actions.slayer_sweep+=/champions_spear
-actions.slayer_sweep+=/avatar
-actions.slayer_sweep+=/colossus_smash,if=buff.sweeping_strikes.up
-actions.slayer_sweep+=/warbreaker
-actions.slayer_sweep+=/skullsplitter,if=buff.sweeping_strikes.up
-actions.slayer_sweep+=/execute,if=buff.juggernaut.remains<=gcd*2|debuff.marked_for_execution.stack>3|buff.sudden_death.stack=2|buff.sudden_death.remains<=gcd*3
-actions.slayer_sweep+=/bladestorm,if=(cooldown.colossus_smash.remains>=gcd*4|cooldown.warbreaker.remains>=gcd*4)|debuff.colossus_smash.remains>=gcd*4
-actions.slayer_sweep+=/overpower,if=buff.opportunist.up
-actions.slayer_sweep+=/mortal_strike
-actions.slayer_sweep+=/overpower
-actions.slayer_sweep+=/thunder_clap,if=dot.rend.remains<=8&buff.sweeping_strikes.down
-actions.slayer_sweep+=/rend,if=dot.rend.remains<=5
-actions.slayer_sweep+=/cleave,if=talent.fervor_of_battle&!buff.overpower.up
-actions.slayer_sweep+=/whirlwind,if=talent.fervor_of_battle
-actions.slayer_sweep+=/execute,if=!talent.juggernaut
-actions.slayer_sweep+=/wrecking_throw,if=!buff.sweeping_strikes.up
-actions.slayer_sweep+=/slam
-actions.slayer_sweep+=/storm_bolt,if=buff.bladestorm.up
-
 # Trinkets
-actions.trinkets=do_treacherous_transmitter_task
-actions.trinkets+=/use_item,name=cursed_stone_idol,if=cooldown.avatar.remains<2
-# Trinkets The trinket with the highest estimated value, will be used first and paired with Avatar.
-actions.trinkets+=/use_item,slot=trinket1,if=variable.trinket_1_buffs&!variable.trinket_1_manual&(!buff.avatar.up&trinket.1.cast_time>0|!trinket.1.cast_time>0)&buff.avatar.up&(variable.trinket_2_exclude|!trinket.2.has_cooldown|trinket.2.cooldown.remains|variable.trinket_priority=1)|trinket.1.proc.any_dps.duration>=fight_remains
-actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&!variable.trinket_2_manual&(!buff.avatar.up&trinket.2.cast_time>0|!trinket.2.cast_time>0)&buff.avatar.up&(variable.trinket_1_exclude|!trinket.1.has_cooldown|trinket.1.cooldown.remains|variable.trinket_priority=2)|trinket.2.proc.any_dps.duration>=fight_remains
-# If only one on use trinket provides a buff, use the other on cooldown. Or if neither trinket provides a buff, use both on cooldown.
-actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(trinket.1.cast_time>0&!buff.avatar.up|!trinket.1.cast_time>0)&!variable.trinket_1_manual&(!variable.trinket_1_buffs&(trinket.2.cooldown.remains|!variable.trinket_2_buffs)|(trinket.1.cast_time>0&!buff.avatar.up|!trinket.1.cast_time>0)|cooldown.avatar.remains_expected>20)
-actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(trinket.2.cast_time>0&!buff.avatar.up|!trinket.2.cast_time>0)&!variable.trinket_2_manual&(!variable.trinket_2_buffs&(trinket.1.cooldown.remains|!variable.trinket_1_buffs)|(trinket.2.cast_time>0&!buff.avatar.up|!trinket.2.cast_time>0)|cooldown.avatar.remains_expected>20)
-actions.trinkets+=/use_item,slot=main_hand,if=!equipped.fyralath_the_dreamrender&!equipped.bestinslots&(!variable.trinket_1_buffs|trinket.1.cooldown.remains)&(!variable.trinket_2_buffs|trinket.2.cooldown.remains)
-actions.trinkets+=/use_item,name=bestinslots,if=cooldown.avatar.remains>20|(buff.avatar.up&(!trinket.1.has_cooldown&!trinket.2.has_cooldown))
+actions.trinkets=use_item,slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)&(buff.avatar.up)
+actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)&(buff.avatar.up)
+actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)
+actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)
+actions.trinkets+=/use_item,name=algethar_puzzle_box,if=cooldown.avatar.remains<2|cooldown.colossus_smash.remains<2
 
 # Variables
 actions.variables=variable,name=st_planning,value=active_enemies=1&(raid_event.adds.in>15|!raid_event.adds.exists)

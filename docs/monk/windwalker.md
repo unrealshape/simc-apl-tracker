@@ -1,6 +1,6 @@
 # Monk – Windwalker
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-18 10:22 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-24 07:44 UTC
 
 Source: `apl/default/monk/windwalker.simc`
 
@@ -9,16 +9,15 @@ Source: `apl/default/monk/windwalker.simc`
 ## Overview
 
 - **Action Lists:** 10
-- **Total Actions:** 223
-- **Lists:** `precombat`, `default`, `cooldowns`, `default_aoe`, `default_cleave`, `default_st`, `fallback`, `normal_opener`, `special_trinkets`, `trinkets`
+- **Total Actions:** 131
+- **Lists:** `precombat`, `default`, `big_coc`, `default_st`, `fallback`, `multitarget`, `opener`, `racials`, `trinket`, `zenith`
 
 ## Action List: `precombat`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `snapshot_stats` | — |
-| 2 | `use_item` | name=imperfect_ascendancy_serum |
-| 3 | `variable` | name=invoke_xuen_count,op=set,value=0 |
+| 2 | `use_item` | name=algethar_puzzle_box,if=!talent.flurry_strikes&(trinket.1.is.algethar_puzzle_box\|trinket.2.is.algethar_puzzle_box) |
 
 ## Action List: `default`
 
@@ -29,261 +28,170 @@ Source: `apl/default/monk/windwalker.simc`
 | 3 | `chi_torpedo` | if=movement.distance>5 |
 | 4 | `flying_serpent_kick` | if=movement.distance>5 |
 | 5 | `spear_hand_strike` | if=target.debuff.casting.react |
-| 6 | `potion` | if=buff.invoke_xuen_the_white_tiger.up&buff.storm_earth_and_fire.up |
-| 7 | `potion` | if=!talent.invoke_xuen_the_white_tiger&buff.storm_earth_and_fire.up |
-| 8 | `potion` | if=fight_remains<=30 |
-| 9 | `variable` | name=has_external_pi,value=cooldown.invoke_power_infusion_0.duration>0 |
-| 10 | `variable` | name=special_case_trinket,value=talent.flurry_strikes&(trinket.1.cooldown.duration=120&trinket.1.has_use_buff\|trinket.2.cooldown.duration=120&trinket.2.has_use_buff)&equipped.unyielding_netherprism&!talent.xuens_bond |
-| 11 | `variable` | name=small_hotjs_active,value=buff.heart_of_the_jade_serpent_cdr.up\|buff.heart_of_the_jade_serpent_tww3_tier.up |
-| 12 | `variable` | name=invoke_xuen_count,op=add,value=1,if=prev.invoke_xuen_the_white_tiger |
-| 13 | `variable` | name=sef_condition,value=target.time_to_die>6&(cooldown.rising_sun_kick.remains\|active_enemies>2\|!talent.ordered_elements)&(prev.invoke_xuen_the_white_tiger\|(talent.celestial_conduit\|!talent.last_emperors_capacitor)&buff.bloodlust.up&(cooldown.strike_of_the_windlord.remains<5\|!talent.strike_of_the_windlord)&talent.sequenced_strikes\|buff.invokers_delight.remains>15\|(cooldown.strike_of_the_windlord.remains<5\|!talent.strike_of_the_windlord)&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.fists_of_fury.remains<5&(!talent.last_emperors_capacitor\|talent.celestial_conduit)\|talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17&cooldown.invoke_xuen_the_white_tiger.remains>cooldown.storm_earth_and_fire.full_recharge_time)\|fight_remains<30&cooldown.invoke_xuen_the_white_tiger.remains>10&(cooldown.rising_sun_kick.remains\|active_enemies>1)\|buff.invokers_delight.remains>15&(cooldown.rising_sun_kick.remains\|active_enemies>2\|!talent.ordered_elements)\|fight_style.patchwerk&buff.bloodlust.up&(cooldown.rising_sun_kick.remains\|active_enemies>2\|!talent.ordered_elements)&talent.celestial_conduit&time>10 |
-| 14 | `variable` | name=xuen_dungeonslice_condition,value=active_enemies=1&(time<10\|talent.xuens_bond&talent.celestial_conduit&target.time_to_die>14)\|active_enemies>1&cooldown.storm_earth_and_fire.ready&target.time_to_die>14&(active_enemies>2\|debuff.acclamation.up\|!talent.ordered_elements&time<5)&((chi>2&!talent.ordered_elements\|talent.ordered_elements\|!talent.ordered_elements&energy<50)\|talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl)\|fight_remains<30\|active_enemies>3&target.time_to_die>5\|fight_style.dungeonslice&time>50&target.time_to_die>1&talent.xuens_bond |
-| 15 | `variable` | name=xuen_condition,value=(fight_style.DungeonSlice&active_enemies=1&(time<10\|talent.xuens_bond&talent.celestial_conduit)\|!fight_style.dungeonslice\|active_enemies>1)&cooldown.storm_earth_and_fire.ready&(target.time_to_die>14&!fight_style.dungeonroute\|target.time_to_die>22)&(active_enemies>2\|debuff.acclamation.up\|!talent.ordered_elements&time<5)&(chi>2&talent.ordered_elements\|chi>5\|chi>3&energy<50\|energy<50&active_enemies=1\|prev.tiger_palm&!talent.ordered_elements&time<5)\|fight_remains<30\|fight_style.dungeonroute&talent.celestial_conduit&target.time_to_die>14 |
-| 16 | `variable` | name=xuen_dungeonroute_condition,value=cooldown.storm_earth_and_fire.ready&(active_enemies>1&cooldown.storm_earth_and_fire.ready&target.time_to_die>22&(active_enemies>2\|debuff.acclamation.up\|!talent.ordered_elements&time<5)&((chi>2&!talent.ordered_elements\|talent.ordered_elements\|!talent.ordered_elements&energy<50)\|talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl)\|fight_remains<30\|active_enemies>3&target.time_to_die>15\|time>50&(target.time_to_die>10&talent.xuens_bond\|target.time_to_die>20))\|buff.storm_earth_and_fire.remains>5 |
-| 17 | `variable` | name=sef_dungeonroute_condition,value=time<50&target.time_to_die>10&(buff.bloodlust.up\|active_enemies>2\|cooldown.strike_of_the_windlord.remains<2\|talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17)\|target.time_to_die>10&(cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains\|cooldown.invoke_xuen_the_white_tiger.remains<30&(cooldown.storm_earth_and_fire.full_recharge_time<30\|cooldown.storm_earth_and_fire.full_recharge_time<40&talent.flurry_strikes))&(talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl\|talent.flurry_strikes\|chi>3\|energy<50)&(active_enemies>2\|!talent.ordered_elements\|cooldown.rising_sun_kick.remains)&!talent.flurry_strikes\|target.time_to_die>10&talent.flurry_strikes&(active_enemies>2\|!talent.ordered_elements\|cooldown.rising_sun_kick.remains)&(talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.invoke_xuen_the_white_tiger.remains>15\|!talent.last_emperors_capacitor&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.invoke_xuen_the_white_tiger.remains>15) |
-| 18 | `call_action_list` | name=trinkets,if=!variable.special_case_trinket |
-| 19 | `call_action_list` | name=special_trinkets,if=variable.special_case_trinket |
-| 20 | `call_action_list` | name=normal_opener,if=time<4&active_enemies<3 |
-| 21 | `call_action_list` | name=cooldowns,if=talent.storm_earth_and_fire |
-| 22 | `call_action_list` | name=default_aoe,if=active_enemies>=5 |
-| 23 | `call_action_list` | name=default_cleave,if=active_enemies>2&active_enemies<5 |
-| 24 | `call_action_list` | name=default_st,if=active_enemies<3 |
-| 25 | `call_action_list` | name=fallback |
-| 26 | `arcane_torrent` | if=chi<chi.max&energy<55 |
-| 27 | `bag_of_tricks` | if=buff.storm_earth_and_fire.down |
-| 28 | `lights_judgment` | if=buff.storm_earth_and_fire.down |
-| 29 | `haymaker` | if=buff.storm_earth_and_fire.down |
-| 30 | `rocket_barrage` | if=buff.storm_earth_and_fire.down |
-| 31 | `arcane_pulse` | if=buff.storm_earth_and_fire.down |
+| 6 | `potion` | if=buff.invoke_xuen_the_white_tiger.remains>15\|fight_remains<=30 |
+| 7 | `potion` | if=talent.flurry_strikes&chi>2&(time<5\|cooldown.zenith.up&time<5\|time>300&((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)\|!trinket.1.has_use_buff&!trinket.2.has_use_buff)&talent.flurry_strikes\|time>300&buff.zenith.up) |
+| 8 | `variable` | name=has_external_pi,value=cooldown.invoke_power_infusion_0.duration>0 |
+| 9 | `call_action_list` | name=opener,if=time<2 |
+| 10 | `call_action_list` | name=trinket |
+| 11 | `invoke_external_buff` | name=power_infusion,if=buff.zenith.up&(buff.invoke_xuen_the_white_tiger.up\|talent.flurry_strikes) |
+| 12 | `call_action_list` | name=big_coc,if=talent.celestial_conduit |
+| 13 | `call_action_list` | name=zenith |
+| 14 | `call_action_list` | name=racials |
+| 15 | `call_action_list` | name=default_st,if=active_enemies=1 |
+| 16 | `call_action_list` | name=multitarget,if=active_enemies>1 |
+| 17 | `call_action_list` | name=fallback |
+| 18 | `arcane_torrent` | if=chi<chi.max&energy<55 |
+| 19 | `thorn_bloom` | — |
+| 20 | `haymaker` | — |
+| 21 | `bag_of_tricks` | — |
+| 22 | `arcane_pulse` | — |
+| 23 | `rocket_barrage` | — |
+| 24 | `lights_judgment` | — |
 
-## Action List: `cooldowns`
+## Action List: `big_coc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `invoke_external_buff` | name=power_infusion,if=buff.invoke_xuen_the_white_tiger.up&(!buff.bloodlust.up\|buff.bloodlust.up&cooldown.strike_of_the_windlord.remains\|!talent.strike_of_the_windlord) |
-| 2 | `storm_earth_and_fire` | target_if=max:target.time_to_die,if=fight_style.dungeonroute&buff.invokers_delight.remains>15&(active_enemies>2\|!talent.ordered_elements\|cooldown.rising_sun_kick.remains) |
-| 3 | `tiger_palm` | if=(target.time_to_die>14&!fight_style.dungeonroute\|target.time_to_die>22)&!cooldown.invoke_xuen_the_white_tiger.remains&(chi<5&!talent.ordered_elements\|chi<3)&(combo_strike\|!talent.hit_combo) |
-| 4 | `invoke_xuen_the_white_tiger` | target_if=max:target.time_to_die,if=!fight_style.dungeonroute&(target.time_to_die>12\|!talent.xuens_bond&target.time_to_die>8)&set_bonus.tww3_2pc&talent.celestial_conduit&cooldown.strike_of_the_windlord.remains<3&(chi>2&talent.ordered_elements\|chi>5\|chi>3&energy<50\|energy<50&active_enemies=1\|prev.tiger_palm&!talent.ordered_elements&time<5)\|fight_remains<20 |
-| 5 | `invoke_xuen_the_white_tiger` | target_if=max:target.time_to_die,if=(!set_bonus.tww3_2pc\|!talent.celestial_conduit\|!fight_style.patchwerk)&(variable.xuen_condition&!fight_style.dungeonslice&!fight_style.dungeonroute\|variable.xuen_dungeonslice_condition&fight_style.Dungeonslice\|variable.xuen_dungeonroute_condition&fight_style.dungeonroute) |
-| 6 | `storm_earth_and_fire` | target_if=max:target.time_to_die,if=talent.flurry_strikes&cooldown.invoke_xuen_the_white_tiger.remains&buff.bloodlust.up&cooldown.rising_sun_kick.remains\|variable.sef_condition&!fight_style.dungeonroute\|variable.sef_dungeonroute_condition&fight_style.dungeonroute\|fight_style.patchwerk&active_enemies=1&talent.flurry_strikes&fight_remains<60&cooldown.invoke_xuen_the_white_tiger.remains>fight_remains&cooldown.rising_sun_kick.remains&buff.the_emperors_capacitor.stack>15 |
-| 7 | `touch_of_karma` | target_if=max:target.time_to_die |
-| 8 | `ancestral_call` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready\|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)\|buff.storm_earth_and_fire.remains>10)\|fight_remains<20 |
-| 9 | `blood_fury` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready\|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)\|buff.storm_earth_and_fire.remains>10)\|fight_remains<20 |
-| 10 | `fireblood` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready\|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)\|buff.storm_earth_and_fire.remains>10)\|fight_remains<20 |
-| 11 | `berserking` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready\|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)\|buff.storm_earth_and_fire.remains>10)\|fight_remains<20 |
-
-## Action List: `default_aoe`
-
-| # | Action | Conditions |
-|---|--------|------------|
-| 1 | `tiger_palm` | target_if=max:target.time_to_die,if=(energy>55&talent.inner_peace\|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up)&!buff.ordered_elements.up\|(talent.energy_burst&!buff.bok_proc.up)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3\|(prev.strike_of_the_windlord\|cooldown.strike_of_the_windlord.remains)&cooldown.celestial_conduit.remains<2&buff.ordered_elements.up&chi<5&combo_strike |
-| 2 | `touch_of_death` | target_if=min:target.time_to_die,if=!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up\|fight_remains<10 |
-| 3 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack<2 |
-| 4 | `strike_of_the_windlord` | target_if=max:target.time_to_die,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>10&set_bonus.tww3_2pc&!talent.flurry_strikes |
-| 5 | `slicing_winds` | if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active&!talent.flurry_strikes |
-| 6 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc |
-| 7 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack=2&combo_strike |
-| 8 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.chi_energy.stack>29&cooldown.fists_of_fury.remains<5 |
-| 9 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&cooldown.fists_of_fury.remains&(!talent.xuens_battlegear\|chi<6)&set_bonus.tww3_4pc |
-| 10 | `slicing_winds` | if=variable.small_hotjs_active\|buff.heart_of_the_jade_serpent_cdr_celestial.up |
-| 11 | `celestial_conduit` | if=buff.storm_earth_and_fire.up&cooldown.strike_of_the_windlord.remains&(!variable.small_hotjs_active\|debuff.gale_force.remains<5)&(talent.xuens_bond\|!talent.xuens_bond&buff.invokers_delight.up)\|fight_remains<15\|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8 |
-| 12 | `fists_of_fury` | target_if=max:target.time_to_die,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up\|variable.small_hotjs_active |
-| 13 | `rising_sun_kick` | target_if=max:target.time_to_die,if=cooldown.whirling_dragon_punch.remains<2&cooldown.fists_of_fury.remains>1&buff.dance_of_chiji.stack<2\|!buff.storm_earth_and_fire.up&buff.pressure_point.up |
-| 14 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc |
-| 15 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=!talent.revolving_whirl\|talent.revolving_whirl&buff.dance_of_chiji.stack<2&active_enemies>2 |
-| 16 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.bok_proc.up&chi<2&talent.energy_burst&energy<55 |
-| 17 | `strike_of_the_windlord` | target_if=max:target.time_to_die,if=(time>5\|buff.invokers_delight.up&buff.storm_earth_and_fire.up)&(cooldown.invoke_xuen_the_white_tiger.remains>15\|talent.flurry_strikes) |
-| 18 | `slicing_winds` | — |
-| 19 | `blackout_kick` | target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=8&talent.shadowboxing_treads |
-| 20 | `crackling_jade_lightning` | target_if=max:target.time_to_die,if=buff.the_emperors_capacitor.stack>19&combo_strike&talent.power_of_the_thunder_king&cooldown.invoke_xuen_the_white_tiger.remains>10 |
-| 21 | `fists_of_fury` | target_if=max:target.time_to_die,if=(talent.flurry_strikes\|talent.xuens_battlegear&(cooldown.invoke_xuen_the_white_tiger.remains>5&fight_style.patchwerk\|cooldown.invoke_xuen_the_white_tiger.remains>9)\|cooldown.invoke_xuen_the_white_tiger.remains>10) |
-| 22 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.wisdom_of_the_wall_flurry.up&chi<6 |
-| 23 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&chi>5 |
-| 24 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up&buff.chi_energy.stack>29&cooldown.fists_of_fury.remains<5 |
-| 25 | `rising_sun_kick` | if=buff.pressure_point.up&cooldown.fists_of_fury.remains>2 |
-| 26 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&active_enemies>5&set_bonus.tww3_4pc |
-| 27 | `blackout_kick` | target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2 |
-| 28 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up |
-| 29 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.ordered_elements.up&talent.crane_vortex&active_enemies>2 |
-| 30 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.ordered_elements.up |
-| 31 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&chi.deficit>=2&(!buff.ordered_elements.up\|energy.time_to_max<=gcd.max*3) |
-| 32 | `jadefire_stomp` | target_if=max:target.time_to_die,if=talent.Singularly_Focused_Jade\|talent.jadefire_harmony |
-| 33 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&!buff.ordered_elements.up&talent.crane_vortex&active_enemies>2&chi>4 |
-| 34 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&(buff.teachings_of_the_monastery.stack>3\|buff.ordered_elements.up)&(talent.shadowboxing_treads\|buff.bok_proc.up) |
-| 35 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&!cooldown.fists_of_fury.remains&chi<3 |
-| 36 | `blackout_kick` | target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.up |
-| 37 | `spinning_crane_kick` | if=combo_strike&(chi>3\|energy>55) |
-| 38 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&(buff.ordered_elements.up\|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains |
-| 39 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&(chi>2\|energy>60\|buff.bok_proc.up) |
-| 40 | `jadefire_stomp` | target_if=max:debuff.acclamation.stack |
-| 41 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.ordered_elements.up&chi.deficit>=1 |
-| 42 | `chi_burst` | if=!buff.ordered_elements.up |
-| 43 | `chi_burst` | — |
-| 44 | `spinning_crane_kick` | if=combo_strike&buff.ordered_elements.up&talent.hit_combo |
-| 45 | `blackout_kick` | target_if=max:target.time_to_die,if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains |
-| 46 | `tiger_palm` | target_if=max:target.time_to_die,if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains |
-
-## Action List: `default_cleave`
-
-| # | Action | Conditions |
-|---|--------|------------|
-| 1 | `rising_sun_kick` | target_if=max:target.time_to_die,if=buff.storm_earth_and_fire.remains>13&combo_strike&talent.glory_of_the_dawn |
-| 2 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike&!cooldown.whirling_dragon_punch.remains&(cooldown.fists_of_fury.remains>1&!talent.xuens_battlegear\|cooldown.fists_of_fury.remains>4)&!buff.invokers_delight.up&!talent.flurry_strikes&buff.dance_of_chiji.stack<2&!talent.glory_of_the_dawn |
-| 3 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2&prev.rising_sun_kick |
-| 4 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc |
-| 5 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&!talent.xuens_battlegear&set_bonus.tww3_4pc |
-| 6 | `strike_of_the_windlord` | target_if=max:target.time_to_die,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>10&set_bonus.tww3_2pc&!talent.flurry_strikes |
-| 7 | `slicing_winds` | if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active&!talent.flurry_strikes |
-| 8 | `spinning_crane_kick` | if=buff.dance_of_chiji.stack=2&combo_strike |
-| 9 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2 |
-| 10 | `rising_sun_kick` | target_if=max:target.time_to_die,if=buff.pressure_point.up&active_enemies<4&cooldown.fists_of_fury.remains>4 |
-| 11 | `rising_sun_kick` | target_if=max:target.time_to_die,if=cooldown.whirling_dragon_punch.remains<2&cooldown.fists_of_fury.remains<3&buff.dance_of_chiji.stack<2&cooldown.fists_of_fury.remains |
-| 12 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2&active_enemies>3 |
-| 13 | `celestial_conduit` | target_if=max:target.time_to_die,if=buff.storm_earth_and_fire.up&debuff.gale_force.remains<5&cooldown.strike_of_the_windlord.remains&(!buff.heart_of_the_jade_serpent_cdr.up\|debuff.gale_force.remains<5)&(talent.xuens_bond\|!talent.xuens_bond&buff.invokers_delight.up)\|fight_remains<15\|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8\|fight_remains<10 |
-| 14 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&(energy>55&talent.inner_peace\|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up\|!talent.energy_burst)&!buff.ordered_elements.up\|(talent.energy_burst&!buff.bok_proc.up\|!talent.energy_burst)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3\|(prev.strike_of_the_windlord\|cooldown.strike_of_the_windlord.remains)&cooldown.celestial_conduit.remains<2&buff.ordered_elements.up&chi<5&combo_strike\|(!variable.small_hotjs_active\|!buff.heart_of_the_jade_serpent_cdr_celestial.up)&combo_strike&chi.deficit>=2&!buff.ordered_elements.up |
-| 15 | `touch_of_death` | target_if=max:target.time_to_die,if=!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up\|fight_remains<10 |
-| 16 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2 |
-| 17 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack<2 |
-| 18 | `slicing_winds` | if=variable.small_hotjs_active\|buff.heart_of_the_jade_serpent_cdr_celestial.up |
-| 19 | `blackout_kick` | if=combo_strike&talent.courageous_impulse&talent.shadowboxing_treads&buff.bok_proc.stack=2&cooldown.fists_of_fury.remains&active_enemies=3 |
-| 20 | `rising_sun_kick` | target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.down&prev.tiger_palm&time<5&talent.ordered_elements&(talent.glory_of_the_dawn\|active_enemies<3)\|variable.small_hotjs_active&buff.pressure_point.up&cooldown.fists_of_fury.remains&(talent.glory_of_the_dawn\|active_enemies<3) |
-| 21 | `fists_of_fury` | target_if=max:target.time_to_die,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up\|variable.small_hotjs_active |
-| 22 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=buff.heart_of_the_jade_serpent_cdr_celestial.up |
-| 23 | `strike_of_the_windlord` | target_if=max:target.time_to_die,if=talent.gale_force&buff.invokers_delight.up&(buff.bloodlust.up\|!buff.heart_of_the_jade_serpent_cdr_celestial.up) |
-| 24 | `fists_of_fury` | target_if=max:target.time_to_die,if=buff.power_infusion.up&buff.bloodlust.up |
-| 25 | `rising_sun_kick` | target_if=max:target.time_to_die,if=buff.power_infusion.up&buff.bloodlust.up&active_enemies<3 |
-| 26 | `blackout_kick` | target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=8&(active_enemies<3\|talent.shadowboxing_treads) |
-| 27 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&!talent.xuens_battlegear&set_bonus.tww3_4pc |
-| 28 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=!talent.revolving_whirl\|talent.revolving_whirl&buff.dance_of_chiji.stack<2&active_enemies>2\|active_enemies<3 |
-| 29 | `strike_of_the_windlord` | target_if=max:target.time_to_die,if=time>5&(cooldown.invoke_xuen_the_white_tiger.remains>15\|talent.flurry_strikes)&(cooldown.fists_of_fury.remains<2\|cooldown.celestial_conduit.remains<10) |
-| 30 | `slicing_winds` | — |
-| 31 | `crackling_jade_lightning` | target_if=max:target.time_to_die,if=buff.the_emperors_capacitor.stack>19&combo_strike&talent.power_of_the_thunder_king&cooldown.invoke_xuen_the_white_tiger.remains>10 |
-| 32 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2 |
-| 33 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5&buff.wisdom_of_the_wall_flurry.up&active_enemies<4 |
-| 34 | `fists_of_fury` | target_if=max:target.time_to_die,if=(talent.flurry_strikes\|talent.xuens_battlegear\|!talent.xuens_battlegear&(cooldown.strike_of_the_windlord.remains>1\|variable.small_hotjs_active\|buff.heart_of_the_jade_serpent_cdr_celestial.up))&(talent.flurry_strikes\|talent.xuens_battlegear&(cooldown.invoke_xuen_the_white_tiger.remains>5&fight_style.patchwerk\|cooldown.invoke_xuen_the_white_tiger.remains>9)\|cooldown.invoke_xuen_the_white_tiger.remains>10) |
-| 35 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5&buff.wisdom_of_the_wall_flurry.up |
-| 36 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up&buff.chi_energy.stack>29 |
-| 37 | `rising_sun_kick` | target_if=max:target.time_to_die,if=chi>4&(active_enemies<3\|talent.glory_of_the_dawn)\|chi>2&energy>50&(active_enemies<3\|talent.glory_of_the_dawn)\|cooldown.fists_of_fury.remains>2&(active_enemies<3\|talent.glory_of_the_dawn) |
-| 38 | `blackout_kick` | target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2 |
-| 39 | `blackout_kick` | target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=4&!talent.knowledge_of_the_broken_temple&talent.shadowboxing_treads&active_enemies<3 |
-| 40 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up |
-| 41 | `blackout_kick` | target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.up |
-| 42 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5 |
-| 43 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&chi.deficit>=2&(!buff.ordered_elements.up\|energy.time_to_max<=gcd.max*3) |
-| 44 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&buff.teachings_of_the_monastery.stack>3&cooldown.rising_sun_kick.remains |
-| 45 | `jadefire_stomp` | if=talent.Singularly_Focused_Jade\|talent.jadefire_harmony |
-| 46 | `blackout_kick` | if=combo_strike&cooldown.fists_of_fury.remains&(buff.teachings_of_the_monastery.stack>3\|buff.ordered_elements.up)&(talent.shadowboxing_treads\|buff.bok_proc.up\|buff.ordered_elements.up) |
-| 47 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&!buff.ordered_elements.up&talent.crane_vortex&active_enemies>2&chi>4 |
-| 48 | `chi_burst` | if=!buff.ordered_elements.up |
-| 49 | `blackout_kick` | if=combo_strike&(buff.ordered_elements.up\|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains |
-| 50 | `blackout_kick` | if=combo_strike&cooldown.fists_of_fury.remains&(chi>2\|energy>60\|buff.bok_proc.up) |
-| 51 | `jadefire_stomp` | target_if=max:debuff.acclamation.stack |
-| 52 | `tiger_palm` | if=combo_strike&buff.ordered_elements.up&chi.deficit>=1 |
-| 53 | `chi_burst` | — |
-| 54 | `spinning_crane_kick` | if=combo_strike&buff.ordered_elements.up&talent.hit_combo |
-| 55 | `blackout_kick` | if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains |
-| 56 | `blackout_kick` | if=combo_strike&!cooldown.fists_of_fury.remains&prev.tiger_palm |
-| 57 | `tiger_palm` | if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains |
+| 1 | `invoke_xuen_the_white_tiger` | target_if=max:target.time_to_die,if=(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&((cooldown.zenith.up\|buff.zenith.remains>13)&!buff.heart_of_the_jade_serpent.up)&(!fight_style.dungeonslice\|active_enemies>1\|time<60) |
+| 2 | `invoke_xuen_the_white_tiger` | target_if=max:target.time_to_die,if=(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(!fight_style.dungeonslice\|active_enemies>1\|time<60) |
+| 3 | `invoke_xuen_the_white_tiger` | target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4\|fight_remains<=25 |
+| 4 | `celestial_conduit` | target_if=max:target.time_to_die,if=buff.zenith.remains<12&buff.zenith.up&(!buff.bloodlust.up\|buff.power_infusion.up)\|fight_remains<4 |
+| 5 | `whirling_dragon_punch` | if=buff.power_infusion.up&(!buff.heart_of_the_jade_serpent_unity_within.up\|buff.heart_of_the_jade_serpent_unity_within.remains<2) |
+| 6 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&talent.celestial_conduit&buff.zenith.remains>11&chi<=2&cooldown.rising_sun_kick.remains&!buff.rushing_wind_kick.up&talent.obsidian_spiral&buff.combo_breaker.up |
+| 7 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&talent.celestial_conduit&buff.zenith.remains>11&chi<=2&cooldown.rising_sun_kick.remains&!buff.rushing_wind_kick.up&(!talent.obsidian_spiral\|!buff.combo_breaker.up\|prev.blackout_kick) |
+| 8 | `celestial_conduit` | target_if=max:target.time_to_die,if=buff.zenith.up&(cooldown.rising_sun_kick.remains\|active_enemies>2)&cooldown.fists_of_fury.remains&(cooldown.strike_of_the_windlord.remains\|talent.whirling_dragon_punch)&(cooldown.whirling_dragon_punch.remains\|talent.strike_of_the_windlord)&!buff.rushing_wind_kick.up&!buff.combo_breaker.up&chi>1&(!buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent.remains<4) |
+| 9 | `celestial_conduit` | target_if=max:target.time_to_die,if=buff.zenith.up&!buff.heart_of_the_jade_serpent.up&!buff.heart_of_the_jade_serpent_yulons_avatar.up&chi>1&(cooldown.rising_sun_kick.remains\|active_enemies>2)&(cooldown.strike_of_the_windlord.remains\|(cooldown.whirling_dragon_punch.remains\|cooldown.fists_of_fury.remains)) |
+| 10 | `celestial_conduit` | target_if=max:target.time_to_die,if=buff.zenith.up&buff.heart_of_the_jade_serpent.remains<2&prev.rising_sun_kick&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains&buff.heart_of_the_jade_serpent.up&chi>1 |
 
 ## Action List: `default_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.pressure_point.up&variable.small_hotjs_active |
-| 2 | `slicing_winds` | if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active |
-| 3 | `tiger_palm` | if=combo_strike&!cooldown.celestial_conduit.remains&buff.pressure_point.up&chi<5&time<10 |
-| 4 | `fists_of_fury` | target_if=max:debuff.acclamation.stack,if=active_enemies>1&(combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up\|variable.small_hotjs_active) |
-| 5 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike&(buff.pressure_point.up&!variable.small_hotjs_active&buff.heart_of_the_jade_serpent_cdr_celestial.up\|buff.invokers_delight.up\|buff.bloodlust.up\|buff.pressure_point.up&cooldown.fists_of_fury.remains\|talent.flurry_strikes) |
-| 6 | `tiger_palm` | if=chi<5&combo_strike&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&energy.time_to_max<=gcd.max*3 |
-| 7 | `tiger_palm` | if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&set_bonus.tww3_4pc |
-| 8 | `tiger_palm` | if=combo_strike&buff.storm_earth_and_fire.remains&talent.flurry_strikes&set_bonus.tww3_4pc&!buff.bloodlust.up |
-| 9 | `whirling_dragon_punch` | target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&!buff.dance_of_chiji.stack=2&!set_bonus.tww3_2pc\|active_enemies>1&buff.dance_of_chiji.stack<2&cooldown.celestial_conduit.remains |
-| 10 | `celestial_conduit` | if=buff.storm_earth_and_fire.up&(!buff.heart_of_the_jade_serpent_cdr.up\|debuff.gale_force.remains<5)&cooldown.strike_of_the_windlord.remains&(talent.xuens_bond\|!talent.xuens_bond&buff.invokers_delight.up)\|fight_remains<15\|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8\|fight_remains<10 |
-| 11 | `tiger_palm` | if=chi<5&combo_strike&variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&energy.time_to_max<=gcd.max*3&!buff.invokers_delight.up&!buff.bloodlust.up&!buff.storm_earth_and_fire.up |
-| 12 | `tiger_palm` | if=chi<2&combo_strike&cooldown.strike_of_the_windlord.remains<5&talent.celestial_conduit |
-| 13 | `tiger_palm` | if=chi<2&combo_strike&talent.celestial_conduit |
-| 14 | `fists_of_fury` | target_if=max:debuff.acclamation.stack,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up\|variable.small_hotjs_active |
-| 15 | `spinning_crane_kick` | if=buff.dance_of_chiji.stack=2&combo_strike&(!set_bonus.tww3_2pc\|!buff.bloodlust.up)&!talent.flurry_strikes |
-| 16 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=(energy>55&talent.inner_peace\|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up\|!talent.energy_burst)&!buff.ordered_elements.up\|(talent.energy_burst&!buff.bok_proc.up\|!talent.energy_burst)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3\|(prev.strike_of_the_windlord\|!buff.heart_of_the_jade_serpent_cdr_celestial.up)&combo_strike&chi.deficit>=2&!buff.ordered_elements.up |
-| 17 | `touch_of_death` | target_if=min:target.time_to_die |
-| 18 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike&(buff.invoke_xuen_the_white_tiger.down&prev.tiger_palm&time<5\|buff.storm_earth_and_fire.up&talent.ordered_elements) |
-| 19 | `strike_of_the_windlord` | target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&talent.celestial_conduit&!buff.invokers_delight.up&!buff.heart_of_the_jade_serpent_cdr_celestial.up&cooldown.fists_of_fury.remains<5&cooldown.invoke_xuen_the_white_tiger.remains>15&(cooldown.slicing_winds.remains<23\|!set_bonus.tww3_2pc)\|fight_remains<12 |
-| 20 | `strike_of_the_windlord` | target_if=max:debuff.acclamation.stack,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>13\|fight_remains<cooldown.invoke_xuen_the_white_tiger.remains |
-| 21 | `strike_of_the_windlord` | target_if=max:debuff.acclamation.stack,if=time>5&talent.flurry_strikes |
-| 22 | `strike_of_the_windlord` | target_if=max:debuff.acclamation.stack,if=time>15&set_bonus.tww3_2pc&cooldown.invoke_xuen_the_white_tiger.remains>15&(cooldown.slicing_winds.remains<23\|!set_bonus.tww3_2pc) |
-| 23 | `spinning_crane_kick` | if=buff.dance_of_chiji.stack=2&combo_strike&!talent.flurry_strikes |
-| 24 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>3&buff.ordered_elements.up&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2&!set_bonus.tww3_2pc |
-| 25 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>4&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2&!set_bonus.tww3_2pc |
-| 26 | `whirling_dragon_punch` | target_if=max:debuff.acclamation.stack,if=set_bonus.tww3_2pc |
-| 27 | `whirling_dragon_punch` | target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&!buff.dance_of_chiji.stack=2\|buff.ordered_elements.up\|talent.knowledge_of_the_broken_temple |
-| 28 | `crackling_jade_lightning` | target_if=max:debuff.acclamation.stack,if=buff.the_emperors_capacitor.stack>19&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&combo_strike&(!fight_style.dungeonslice\|target.time_to_die>20)&cooldown.invoke_xuen_the_white_tiger.remains>15\|buff.the_emperors_capacitor.stack>20&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&combo_strike&(!fight_style.dungeonslice\|target.time_to_die>20)&cooldown.invoke_xuen_the_white_tiger.remains<20&cooldown.invoke_xuen_the_white_tiger.remains>2\|buff.the_emperors_capacitor.stack>10&fight_remains<5\|buff.storm_earth_and_fire.remains<2&buff.the_emperors_capacitor.stack>15&buff.storm_earth_and_fire.up |
-| 29 | `slicing_winds` | if=target.time_to_die>10&!set_bonus.tww3_4pc\|talent.flurry_strikes |
-| 30 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike&(chi>4\|chi>2&energy>50\|cooldown.fists_of_fury.remains>2) |
-| 31 | `fists_of_fury` | target_if=max:debuff.acclamation.stack,if=(talent.xuens_battlegear\|!talent.xuens_battlegear&(cooldown.strike_of_the_windlord.remains>1\|variable.small_hotjs_active\|buff.heart_of_the_jade_serpent_cdr_celestial.up))&(talent.xuens_battlegear&cooldown.invoke_xuen_the_white_tiger.remains>5\|cooldown.invoke_xuen_the_white_tiger.remains>10)&(!buff.invokers_delight.up\|buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains>4&cooldown.celestial_conduit.remains)\|fight_remains<5\|talent.flurry_strikes |
-| 32 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.wisdom_of_the_wall_flurry.up |
-| 33 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&chi<5&set_bonus.tww3_2pc |
-| 34 | `spinning_crane_kick` | if=buff.dance_of_chiji.stack=2&combo_strike |
-| 35 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=combo_strike&talent.energy_burst&buff.bok_proc.up&chi<5&(variable.small_hotjs_active\|buff.heart_of_the_jade_serpent_cdr_celestial.up) |
-| 36 | `spinning_crane_kick` | if=combo_strike&buff.bloodlust.up&variable.small_hotjs_active&buff.dance_of_chiji.up |
-| 37 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&chi.deficit>=2&energy.time_to_max<=gcd.max*3 |
-| 38 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>7&talent.memory_of_the_monastery&!buff.memory_of_the_monastery.up&cooldown.fists_of_fury.remains |
-| 39 | `spinning_crane_kick` | if=(buff.dance_of_chiji.stack=2\|buff.dance_of_chiji.remains<2&buff.dance_of_chiji.up)&combo_strike&!buff.ordered_elements.up |
-| 40 | `whirling_dragon_punch` | target_if=max:debuff.acclamation.stack |
-| 41 | `spinning_crane_kick` | if=buff.dance_of_chiji.stack=2&combo_strike |
-| 42 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2 |
-| 43 | `spinning_crane_kick` | if=buff.dance_of_chiji.up&set_bonus.tww3_2pc&combo_strike |
-| 44 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=combo_strike&buff.ordered_elements.up&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2 |
-| 45 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes |
-| 46 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.up&(buff.ordered_elements.up\|energy.time_to_max>=gcd.max*3&talent.sequenced_strikes&talent.energy_burst\|!talent.sequenced_strikes\|!talent.energy_burst\|buff.dance_of_chiji.remains<=gcd.max*3) |
-| 47 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes |
-| 48 | `jadefire_stomp` | if=talent.Singularly_Focused_Jade\|talent.jadefire_harmony |
-| 49 | `chi_burst` | if=!buff.ordered_elements.up |
-| 50 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=combo_strike&(buff.ordered_elements.up\|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains |
-| 51 | `blackout_kick` | target_if=max:debuff.acclamation.stack,if=combo_strike&cooldown.fists_of_fury.remains&(chi>2\|energy>60\|buff.bok_proc.up) |
-| 52 | `jadefire_stomp` | — |
-| 53 | `tiger_palm` | target_if=max:debuff.acclamation.stack,if=combo_strike&buff.ordered_elements.up&chi.deficit>=1 |
-| 54 | `chi_burst` | — |
-| 55 | `spinning_crane_kick` | if=combo_strike&buff.ordered_elements.up&talent.hit_combo |
-| 56 | `blackout_kick` | if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains |
-| 57 | `tiger_palm` | if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains |
+| 1 | `whirling_dragon_punch` | if=!buff.heart_of_the_jade_serpent_unity_within.up&buff.whirling_dragon_punch.remains<1&(buff.zenith.up\|cooldown.invoke_xuen_the_white_tiger.remains>5\|talent.flurry_strikes\|!fight_style.patchwerk) |
+| 2 | `whirling_dragon_punch` | if=buff.power_infusion.up&(!buff.heart_of_the_jade_serpent_unity_within.up\|buff.heart_of_the_jade_serpent_unity_within.remains<2) |
+| 3 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.remains<1&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.up&talent.celestial_conduit |
+| 4 | `fists_of_fury` | if=buff.heart_of_the_jade_serpent.remains<1&buff.heart_of_the_jade_serpent.up\|buff.flurry_charge.stack=30&!buff.zenith.up |
+| 5 | `whirling_dragon_punch` | if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up\|cooldown.invoke_xuen_the_white_tiger.remains>5\|!fight_style.patchwerk)\|talent.flurry_strikes |
+| 6 | `tiger_palm` | if=chi<4&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&(!buff.bloodlust.up\|chi<2)&buff.combo_breaker.stack<2 |
+| 7 | `strike_of_the_windlord` | if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up\|cooldown.invoke_xuen_the_white_tiger.remains>5\|!fight_style.patchwerk)\|talent.flurry_strikes |
+| 8 | `fists_of_fury` | if=combo_strike&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up\|buff.heart_of_the_jade_serpent_unity_within.up)&buff.bloodlust.up\|buff.bloodlust.up&talent.flurry_strikes\|!buff.zenith.up&(talent.flurry_strikes\|cooldown.invoke_xuen_the_white_tiger.remains>3\|!fight_style.patchwerk)\|buff.zenith.up&(talent.flurry_strikes\|!buff.bloodlust.up)&(fight_style.patchwerk\|target.time_to_die>5) |
+| 9 | `rushing_wind_kick` | — |
+| 10 | `rising_sun_kick` | if=combo_strike&buff.bloodlust.up\|combo_strike&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up\|buff.heart_of_the_jade_serpent_unity_within.up) |
+| 11 | `fists_of_fury` | if=buff.bloodlust.up\|combo_strike&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up\|buff.heart_of_the_jade_serpent_unity_within.up) |
+| 12 | `tiger_palm` | if=buff.zenith.up&chi<2&talent.celestial_conduit&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up)&!cooldown.fists_of_fury.remains&combo_strike |
+| 13 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.remains<4&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.up |
+| 14 | `rising_sun_kick` | if=buff.zenith.up&talent.flurry_strikes&!cooldown.fists_of_fury.remains |
+| 15 | `rising_sun_kick` | if=combo_strike |
+| 16 | `fists_of_fury` | if=talent.flurry_strikes\|!buff.zenith.up&(talent.flurry_strikes\|cooldown.invoke_xuen_the_white_tiger.remains>3\|!fight_style.patchwerk)\|buff.bloodlust.up&talent.jadefire_stomp&cooldown.celestial_conduit.remains |
+| 17 | `rising_sun_kick` | if=buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up |
+| 18 | `touch_of_death` | if=!buff.zenith.up\|fight_remains<5\|((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)\|!trinket.1.has_use_buff&!trinket.2.has_use_buff) |
+| 19 | `strike_of_the_windlord` | if=buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up\|cooldown.invoke_xuen_the_white_tiger.remains>5\|!fight_style.patchwerk)\|talent.flurry_strikes |
+| 20 | `rising_sun_kick` | if=combo_strike&(buff.flurry_charge.stack<30\|chi>3\|buff.zenith.up\|buff.bloodlust.up\|energy>50&chi>2)\|combo_strike&buff.heart_of_the_jade_serpent.up |
+| 21 | `tiger_palm` | if=combo_strike&buff.zenith.up&(chi<1\|chi<2&!buff.combo_breaker.up)&talent.celestial_conduit |
+| 22 | `blackout_kick` | if=combo_strike&buff.zenith.up&chi>1&(talent.obsidian_spiral\|cooldown.fists_of_fury.remains\|buff.combo_breaker.up)&(chi<6\|buff.combo_breaker.up)\|combo_strike&buff.bloodlust.up&buff.combo_breaker.up |
+| 23 | `spinning_crane_kick` | if=combo_strike&!buff.bloodlust.up&buff.zenith.up&talent.flurry_strikes&chi>3 |
+| 24 | `slicing_winds` | — |
+| 25 | `spinning_crane_kick` | if=talent.flurry_strikes&buff.zenith.up&chi>5&combo_strike\|combo_strike&buff.bloodlust.up&buff.dance_of_chiji.up&buff.combo_breaker.stack<2 |
+| 26 | `blackout_kick` | if=combo_strike&buff.combo_breaker.up&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up) |
+| 27 | `blackout_kick` | if=combo_strike&buff.combo_breaker.stack=2 |
+| 28 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.stack=2 |
+| 29 | `blackout_kick` | if=combo_strike&buff.combo_breaker.up |
+| 30 | `tiger_palm` | if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up |
+| 31 | `tiger_palm` | if=combo_strike&((energy>55&talent.inner_peace\|energy>60&!talent.inner_peace)&chi.max-chi>=2&(talent.energy_burst&!buff.combo_breaker.up\|!talent.energy_burst)&!buff.zenith.up\|(talent.energy_burst&!buff.combo_breaker.up\|!talent.energy_burst)&!buff.zenith.up&!cooldown.fists_of_fury.remains&chi<3) |
 
 ## Action List: `fallback`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `spinning_crane_kick` | if=chi>5&combo_strike |
-| 2 | `blackout_kick` | if=combo_strike&chi>3 |
-| 3 | `tiger_palm` | if=combo_strike&chi>5 |
+| 1 | `blackout_kick` | if=combo_strike |
+| 2 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.up&active_enemies=1 |
+| 3 | `tiger_palm` | if=combo_strike |
+| 4 | `spinning_crane_kick` | if=chi>5&combo_strike |
 
-## Action List: `normal_opener`
-
-| # | Action | Conditions |
-|---|--------|------------|
-| 1 | `tiger_palm` | if=chi<6&combo_strike |
-| 2 | `rising_sun_kick` | — |
-
-## Action List: `special_trinkets`
+## Action List: `multitarget`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | slot=trinket1,if=trinket.1.cooldown.duration=120&buff.invoke_xuen_the_white_tiger.up\|fight_remains<30 |
-| 2 | `use_item` | slot=trinket2,if=trinket.2.cooldown.duration=120&buff.invoke_xuen_the_white_tiger.up\|fight_remains<30 |
-| 3 | `use_item` | name=unyielding_netherprism,if=cooldown.invoke_xuen_the_white_tiger.remains&buff.storm_earth_and_fire.remains>10&buff.latent_energy.stack>2 |
-| 4 | `use_item` | slot=main_hand |
+| 1 | `fists_of_fury` | target_if=max:target.time_to_die,if=buff.heart_of_the_jade_serpent.remains<1&buff.heart_of_the_jade_serpent.up |
+| 2 | `whirling_dragon_punch` | if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2 |
+| 3 | `whirling_dragon_punch` | target_if=max:target.time_to_die,if=!buff.heart_of_the_jade_serpent_unity_within.up&buff.whirling_dragon_punch.remains<1 |
+| 4 | `tiger_palm` | target_if=max:target.time_to_die,if=buff.zenith.up&chi<2&talent.celestial_conduit&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up)&!cooldown.fists_of_fury.remains&combo_strike |
+| 5 | `tiger_palm` | target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&!buff.bloodlust.up&buff.combo_breaker.stack<2 |
+| 6 | `strike_of_the_windlord` | if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2 |
+| 7 | `fists_of_fury` | target_if=max:target.time_to_die,if=buff.flurry_charge.stack=30&!buff.zenith.up\|buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up\|talent.flurry_strikes |
+| 8 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.up&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.remains<3 |
+| 9 | `rushing_wind_kick` | target_if=max:target.time_to_die |
+| 10 | `rising_sun_kick` | target_if=max:target.time_to_die,if=(active_enemies<5\|cooldown.fists_of_fury.remains\|buff.zenith.up)&(buff.rushing_wind_kick.up\|buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up\|buff.heart_of_the_jade_serpent_yulons_avatar.up) |
+| 11 | `touch_of_death` | target_if=min:target.time_to_die,if=!buff.zenith.up\|fight_remains<5\|((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)\|!trinket.1.has_use_buff&!trinket.2.has_use_buff) |
+| 12 | `strike_of_the_windlord` | if=buff.zenith.up\|cooldown.zenith.remains>5&buff.heart_of_the_jade_serpent_unity_within.remains<2 |
+| 13 | `whirling_dragon_punch` | if=buff.zenith.up\|cooldown.zenith.remains>5&buff.heart_of_the_jade_serpent_unity_within.remains<2 |
+| 14 | `fists_of_fury` | target_if=max:target.time_to_die,if=talent.flurry_strikes\|!buff.zenith.up\|buff.bloodlust.up&talent.jadefire_stomp&cooldown.celestial_conduit.remains |
+| 15 | `rising_sun_kick` | target_if=max:target.time_to_die,if=(active_enemies<5\|cooldown.fists_of_fury.remains>4\|buff.zenith.up)&(combo_strike&(buff.flurry_charge.stack<30\|chi>3\|buff.zenith.up\|buff.bloodlust.up\|energy>50&chi>2)\|combo_strike&buff.heart_of_the_jade_serpent.up) |
+| 16 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.zenith.up&chi>1&(talent.obsidian_spiral\|cooldown.fists_of_fury.remains\|buff.combo_breaker.up)&chi<6 |
+| 17 | `spinning_crane_kick` | if=combo_strike&buff.dance_of_chiji.up&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.remains<4 |
+| 18 | `slicing_winds` | — |
+| 19 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=talent.flurry_strikes&buff.zenith.up&chi>3&combo_strike |
+| 20 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.up&(buff.heart_of_the_jade_serpent.up\|buff.heart_of_the_jade_serpent_unity_within.up) |
+| 21 | `tiger_palm` | target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&!buff.bloodlust.up |
+| 22 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.stack=2 |
+| 23 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2 |
+| 24 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.up |
+| 25 | `tiger_palm` | target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up |
+| 26 | `tiger_palm` | target_if=max:target.time_to_die,if=combo_strike&((energy>55&talent.inner_peace\|energy>60&!talent.inner_peace)&chi.max-chi>=2&(talent.energy_burst&!buff.combo_breaker.up\|!talent.energy_burst)&!buff.zenith.up\|(talent.energy_burst&!buff.combo_breaker.up\|!talent.energy_burst)&!buff.zenith.up&!cooldown.fists_of_fury.remains&chi<3) |
+| 27 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&(buff.dance_of_chiji.up\|active_enemies>4&(chi>2\|energy>55))&talent.crane_vortex&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains |
+| 28 | `blackout_kick` | target_if=max:target.time_to_die,if=combo_strike&talent.shadowboxing_treads |
+| 29 | `spinning_crane_kick` | target_if=max:target.time_to_die,if=combo_strike&(chi>3\|energy>55)&(!talent.shadowboxing_treads&active_enemies>2\|active_enemies>5)&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains |
+| 30 | `rising_sun_kick` | target_if=max:target.time_to_die,if=combo_strike |
 
-## Action List: `trinkets`
+## Action List: `opener`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up&variable.invoke_xuen_count%%2\|fight_remains<20 |
-| 2 | `use_item` | slot=trinket2,if=trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up\|fight_remains<20 |
-| 3 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up\|fight_remains<20 |
-| 4 | `use_item` | slot=trinket2,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.invoke_xuen_the_white_tiger.remains>30\|fight_remains<20 |
-| 5 | `use_item` | slot=trinket1,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&cooldown.invoke_xuen_the_white_tiger.remains>30\|fight_remains<20 |
-| 6 | `use_item` | slot=trinket2,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up\|fight_remains<20 |
-| 7 | `use_item` | slot=trinket1,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff |
-| 8 | `use_item` | slot=trinket2,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff |
-| 9 | `use_item` | slot=main_hand |
+| 1 | `tiger_palm` | if=combo_strike&chi<4 |
+| 2 | `use_item` | name=algethar_puzzle_box,if=target.time_to_die>25&(cooldown.invoke_xuen_the_white_tiger.remains<2\|talent.flurry_strikes&cooldown.zenith.up)\|fight_remains<25 |
+
+## Action List: `racials`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `berserking` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14\|fight_remains<20 |
+| 2 | `ancestral_call` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14\|fight_remains<20 |
+| 3 | `blood_fury` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14\|fight_remains<20 |
+| 4 | `fireblood` | if=buff.invoke_xuen_the_white_tiger.remains>15\|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14\|fight_remains<20 |
+
+## Action List: `trinket`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `use_item` | slot=main_hand |
+| 2 | `use_item` | name=algethar_puzzle_box,if=!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25)&(cooldown.potion.remains>30\|fight_remains<45\|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2\|talent.flurry_strikes&cooldown.zenith.up)\|fight_remains<25\|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25) |
+| 3 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
+| 4 | `use_item` | slot=trinket2,if=trinket.2.has_use_buff&!trinket.1.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
+| 5 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
+| 6 | `use_item` | slot=trinket2,if=trinket.1.has_use_buff&trinket.2.has_use_buff&(cooldown.invoke_xuen_the_white_tiger.remains>30&(buff.zenith.up\|(cooldown.strike_of_the_windlord.remains<2&talent.strike_of_the_windlord\|cooldown.whirling_dragon_punch.remains<2&talent.whirling_dragon_punch))\|talent.flurry_strikes&buff.zenith.remains>10) |
+| 7 | `use_item` | slot=trinket1,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&trinket.2.cooldown.remains>30 |
+| 8 | `use_item` | slot=trinket2,if=!trinket.2.has_use_buff&trinket.1.has_use_buff&trinket.1.cooldown.remains>30 |
+| 9 | `use_item` | slot=trinket1,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff |
+| 10 | `use_item` | slot=trinket2,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff |
+
+## Action List: `zenith`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `zenith` | target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.up&(!buff.zenith.up\|talent.flurry_strikes) |
+| 2 | `zenith` | target_if=max:target.time_to_die,if=buff.bloodlust.remains>10&(active_enemies>2\|cooldown.rising_sun_kick.remains)&!buff.zenith.up |
+| 3 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(buff.bloodlust.up&cooldown.celestial_conduit.remains&(cooldown.rising_sun_kick.remains\|active_enemies>2)&!buff.zenith.up&talent.celestial_conduit) |
+| 4 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up\|cooldown.potion.remains>295\|cooldown.zenith.full_recharge_time<5)&((cooldown.rising_sun_kick.remains\|active_enemies>2)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains<102\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains<102)\|time<5\|!trinket.1.has_use_buff&!trinket.2.has_use_buff)) |
+| 5 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10\|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice |
+| 6 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains\|active_enemies>2)) |
+| 7 | `zenith` | target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains\|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes |
+| 8 | `zenith` | target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes\|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk |
+| 9 | `zenith` | target_if=max:target.time_to_die,if=talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains\|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute\|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk |
+| 10 | `zenith` | target_if=max:target.time_to_die,if=talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25 |
+| 11 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(cooldown.zenith.full_recharge_time<20&talent.flurry_strikes&(cooldown.rising_sun_kick.remains\|active_enemies>2)\|cooldown.zenith.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains)&!fight_style.patchwerk&(cooldown.rising_sun_kick.remains\|active_enemies>2) |
+| 12 | `zenith` | target_if=max:target.time_to_die,if=fight_remains<=25&(cooldown.rising_sun_kick.remains\|active_enemies>2) |
+| 13 | `zenith` | target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready\|cooldown.zenith.full_recharge_time<5) |
+| 14 | `zenith` | target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready\|cooldown.zenith.full_recharge_time<5) |
 
 ## Raw APL
 
@@ -295,259 +203,162 @@ Source: `apl/default/monk/windwalker.simc`
 # SimulationCraft is always looking for updates and improvements to the default action lists.
 
 # Executed before combat begins. Accepts non-harmful actions only.
-# Snapshot raid buffed stats before combat begins and pre-potting is done.
+# Snapshot raid buffed stats before combat begins.
 actions.precombat=snapshot_stats
-actions.precombat+=/use_item,name=imperfect_ascendancy_serum
-actions.precombat+=/variable,name=invoke_xuen_count,op=set,value=0
+actions.precombat+=/use_item,name=algethar_puzzle_box,if=!talent.flurry_strikes&(trinket.1.is.algethar_puzzle_box|trinket.2.is.algethar_puzzle_box)
 
 # Executed every time the actor is available.
+# Default List
 actions=auto_attack,target_if=max:target.time_to_die
 # Move to target
 actions+=/roll,if=movement.distance>5
 actions+=/chi_torpedo,if=movement.distance>5
 actions+=/flying_serpent_kick,if=movement.distance>5
 actions+=/spear_hand_strike,if=target.debuff.casting.react
-# Potion
-actions+=/potion,if=buff.invoke_xuen_the_white_tiger.up&buff.storm_earth_and_fire.up
-actions+=/potion,if=!talent.invoke_xuen_the_white_tiger&buff.storm_earth_and_fire.up
-actions+=/potion,if=fight_remains<=30
+actions+=/potion,if=buff.invoke_xuen_the_white_tiger.remains>15|fight_remains<=30
+actions+=/potion,if=talent.flurry_strikes&chi>2&(time<5|cooldown.zenith.up&time<5|time>300&((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)|!trinket.1.has_use_buff&!trinket.2.has_use_buff)&talent.flurry_strikes|time>300&buff.zenith.up)
 # Enable PI if available
 actions+=/variable,name=has_external_pi,value=cooldown.invoke_power_infusion_0.duration>0
-actions+=/variable,name=special_case_trinket,value=talent.flurry_strikes&(trinket.1.cooldown.duration=120&trinket.1.has_use_buff|trinket.2.cooldown.duration=120&trinket.2.has_use_buff)&equipped.unyielding_netherprism&!talent.xuens_bond
-actions+=/variable,name=small_hotjs_active,value=buff.heart_of_the_jade_serpent_cdr.up|buff.heart_of_the_jade_serpent_tww3_tier.up
-actions+=/variable,name=invoke_xuen_count,op=add,value=1,if=prev.invoke_xuen_the_white_tiger
-# Define Variables for CD Management
-actions+=/variable,name=sef_condition,value=target.time_to_die>6&(cooldown.rising_sun_kick.remains|active_enemies>2|!talent.ordered_elements)&(prev.invoke_xuen_the_white_tiger|(talent.celestial_conduit|!talent.last_emperors_capacitor)&buff.bloodlust.up&(cooldown.strike_of_the_windlord.remains<5|!talent.strike_of_the_windlord)&talent.sequenced_strikes|buff.invokers_delight.remains>15|(cooldown.strike_of_the_windlord.remains<5|!talent.strike_of_the_windlord)&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.fists_of_fury.remains<5&(!talent.last_emperors_capacitor|talent.celestial_conduit)|talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17&cooldown.invoke_xuen_the_white_tiger.remains>cooldown.storm_earth_and_fire.full_recharge_time)|fight_remains<30&cooldown.invoke_xuen_the_white_tiger.remains>10&(cooldown.rising_sun_kick.remains|active_enemies>1)|buff.invokers_delight.remains>15&(cooldown.rising_sun_kick.remains|active_enemies>2|!talent.ordered_elements)|fight_style.patchwerk&buff.bloodlust.up&(cooldown.rising_sun_kick.remains|active_enemies>2|!talent.ordered_elements)&talent.celestial_conduit&time>10
-actions+=/variable,name=xuen_dungeonslice_condition,value=active_enemies=1&(time<10|talent.xuens_bond&talent.celestial_conduit&target.time_to_die>14)|active_enemies>1&cooldown.storm_earth_and_fire.ready&target.time_to_die>14&(active_enemies>2|debuff.acclamation.up|!talent.ordered_elements&time<5)&((chi>2&!talent.ordered_elements|talent.ordered_elements|!talent.ordered_elements&energy<50)|talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl)|fight_remains<30|active_enemies>3&target.time_to_die>5|fight_style.dungeonslice&time>50&target.time_to_die>1&talent.xuens_bond
-actions+=/variable,name=xuen_condition,value=(fight_style.DungeonSlice&active_enemies=1&(time<10|talent.xuens_bond&talent.celestial_conduit)|!fight_style.dungeonslice|active_enemies>1)&cooldown.storm_earth_and_fire.ready&(target.time_to_die>14&!fight_style.dungeonroute|target.time_to_die>22)&(active_enemies>2|debuff.acclamation.up|!talent.ordered_elements&time<5)&(chi>2&talent.ordered_elements|chi>5|chi>3&energy<50|energy<50&active_enemies=1|prev.tiger_palm&!talent.ordered_elements&time<5)|fight_remains<30|fight_style.dungeonroute&talent.celestial_conduit&target.time_to_die>14
-actions+=/variable,name=xuen_dungeonroute_condition,value=cooldown.storm_earth_and_fire.ready&(active_enemies>1&cooldown.storm_earth_and_fire.ready&target.time_to_die>22&(active_enemies>2|debuff.acclamation.up|!talent.ordered_elements&time<5)&((chi>2&!talent.ordered_elements|talent.ordered_elements|!talent.ordered_elements&energy<50)|talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl)|fight_remains<30|active_enemies>3&target.time_to_die>15|time>50&(target.time_to_die>10&talent.xuens_bond|target.time_to_die>20))|buff.storm_earth_and_fire.remains>5
-actions+=/variable,name=sef_dungeonroute_condition,value=time<50&target.time_to_die>10&(buff.bloodlust.up|active_enemies>2|cooldown.strike_of_the_windlord.remains<2|talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17)|target.time_to_die>10&(cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains|cooldown.invoke_xuen_the_white_tiger.remains<30&(cooldown.storm_earth_and_fire.full_recharge_time<30|cooldown.storm_earth_and_fire.full_recharge_time<40&talent.flurry_strikes))&(talent.sequenced_strikes&talent.energy_burst&talent.revolving_whirl|talent.flurry_strikes|chi>3|energy<50)&(active_enemies>2|!talent.ordered_elements|cooldown.rising_sun_kick.remains)&!talent.flurry_strikes|target.time_to_die>10&talent.flurry_strikes&(active_enemies>2|!talent.ordered_elements|cooldown.rising_sun_kick.remains)&(talent.last_emperors_capacitor&buff.the_emperors_capacitor.stack>17&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.invoke_xuen_the_white_tiger.remains>15|!talent.last_emperors_capacitor&cooldown.storm_earth_and_fire.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains&cooldown.invoke_xuen_the_white_tiger.remains>15)
-# Use Trinkets
-actions+=/call_action_list,name=trinkets,if=!variable.special_case_trinket
-actions+=/call_action_list,name=special_trinkets,if=variable.special_case_trinket
-# Opener
-actions+=/call_action_list,name=normal_opener,if=time<4&active_enemies<3
-# Use Cooldowns
-actions+=/call_action_list,name=cooldowns,if=talent.storm_earth_and_fire
-# Default Priority
-actions+=/call_action_list,name=default_aoe,if=active_enemies>=5
-actions+=/call_action_list,name=default_cleave,if=active_enemies>2&active_enemies<5
-actions+=/call_action_list,name=default_st,if=active_enemies<3
+actions+=/call_action_list,name=opener,if=time<2
+actions+=/call_action_list,name=trinket
+actions+=/invoke_external_buff,name=power_infusion,if=buff.zenith.up&(buff.invoke_xuen_the_white_tiger.up|talent.flurry_strikes)
+actions+=/call_action_list,name=big_coc,if=talent.celestial_conduit
+actions+=/call_action_list,name=zenith
+actions+=/call_action_list,name=racials
+actions+=/call_action_list,name=default_st,if=active_enemies=1
+actions+=/call_action_list,name=multitarget,if=active_enemies>1
 actions+=/call_action_list,name=fallback
 actions+=/arcane_torrent,if=chi<chi.max&energy<55
-actions+=/bag_of_tricks,if=buff.storm_earth_and_fire.down
-actions+=/lights_judgment,if=buff.storm_earth_and_fire.down
-actions+=/haymaker,if=buff.storm_earth_and_fire.down
-actions+=/rocket_barrage,if=buff.storm_earth_and_fire.down
-actions+=/arcane_pulse,if=buff.storm_earth_and_fire.down
+actions+=/thorn_bloom
+actions+=/haymaker
+actions+=/bag_of_tricks
+actions+=/arcane_pulse
+actions+=/rocket_barrage
+actions+=/lights_judgment
 
-# Use <a href='https://www.wowhead.com/spell=10060/power-infusion'>Power Infusion</a> while <a href='https://www.wowhead.com/spell=123904/invoke-xuen-the-white-tiger'>Invoke Xuen, the White Tiger</a> is active.
-actions.cooldowns=invoke_external_buff,name=power_infusion,if=buff.invoke_xuen_the_white_tiger.up&(!buff.bloodlust.up|buff.bloodlust.up&cooldown.strike_of_the_windlord.remains|!talent.strike_of_the_windlord)
-actions.cooldowns+=/storm_earth_and_fire,target_if=max:target.time_to_die,if=fight_style.dungeonroute&buff.invokers_delight.remains>15&(active_enemies>2|!talent.ordered_elements|cooldown.rising_sun_kick.remains)
-actions.cooldowns+=/tiger_palm,if=(target.time_to_die>14&!fight_style.dungeonroute|target.time_to_die>22)&!cooldown.invoke_xuen_the_white_tiger.remains&(chi<5&!talent.ordered_elements|chi<3)&(combo_strike|!talent.hit_combo)
-actions.cooldowns+=/invoke_xuen_the_white_tiger,target_if=max:target.time_to_die,if=!fight_style.dungeonroute&(target.time_to_die>12|!talent.xuens_bond&target.time_to_die>8)&set_bonus.tww3_2pc&talent.celestial_conduit&cooldown.strike_of_the_windlord.remains<3&(chi>2&talent.ordered_elements|chi>5|chi>3&energy<50|energy<50&active_enemies=1|prev.tiger_palm&!talent.ordered_elements&time<5)|fight_remains<20
-actions.cooldowns+=/invoke_xuen_the_white_tiger,target_if=max:target.time_to_die,if=(!set_bonus.tww3_2pc|!talent.celestial_conduit|!fight_style.patchwerk)&(variable.xuen_condition&!fight_style.dungeonslice&!fight_style.dungeonroute|variable.xuen_dungeonslice_condition&fight_style.Dungeonslice|variable.xuen_dungeonroute_condition&fight_style.dungeonroute)
-actions.cooldowns+=/storm_earth_and_fire,target_if=max:target.time_to_die,if=talent.flurry_strikes&cooldown.invoke_xuen_the_white_tiger.remains&buff.bloodlust.up&cooldown.rising_sun_kick.remains|variable.sef_condition&!fight_style.dungeonroute|variable.sef_dungeonroute_condition&fight_style.dungeonroute|fight_style.patchwerk&active_enemies=1&talent.flurry_strikes&fight_remains<60&cooldown.invoke_xuen_the_white_tiger.remains>fight_remains&cooldown.rising_sun_kick.remains&buff.the_emperors_capacitor.stack>15
-actions.cooldowns+=/touch_of_karma,target_if=max:target.time_to_die
-actions.cooldowns+=/ancestral_call,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)|buff.storm_earth_and_fire.remains>10)|fight_remains<20
-actions.cooldowns+=/blood_fury,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)|buff.storm_earth_and_fire.remains>10)|fight_remains<20
-actions.cooldowns+=/fireblood,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)|buff.storm_earth_and_fire.remains>10)|fight_remains<20
-actions.cooldowns+=/berserking,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&(!talent.storm_earth_and_fire&(cooldown.strike_of_the_windlord.ready|!talent.strike_of_the_windlord&cooldown.fists_of_fury.ready)|buff.storm_earth_and_fire.remains>10)|fight_remains<20
+# Celestial of the Conduit Burst Windows
+actions.big_coc=invoke_xuen_the_white_tiger,target_if=max:target.time_to_die,if=(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&((cooldown.zenith.up|buff.zenith.remains>13)&!buff.heart_of_the_jade_serpent.up)&(!fight_style.dungeonslice|active_enemies>1|time<60)
+actions.big_coc+=/invoke_xuen_the_white_tiger,target_if=max:target.time_to_die,if=(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(!fight_style.dungeonslice|active_enemies>1|time<60)
+actions.big_coc+=/invoke_xuen_the_white_tiger,target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4|fight_remains<=25
+actions.big_coc+=/celestial_conduit,target_if=max:target.time_to_die,if=buff.zenith.remains<12&buff.zenith.up&(!buff.bloodlust.up|buff.power_infusion.up)|fight_remains<4
+actions.big_coc+=/whirling_dragon_punch,if=buff.power_infusion.up&(!buff.heart_of_the_jade_serpent_unity_within.up|buff.heart_of_the_jade_serpent_unity_within.remains<2)
+actions.big_coc+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&talent.celestial_conduit&buff.zenith.remains>11&chi<=2&cooldown.rising_sun_kick.remains&!buff.rushing_wind_kick.up&talent.obsidian_spiral&buff.combo_breaker.up
+actions.big_coc+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&talent.celestial_conduit&buff.zenith.remains>11&chi<=2&cooldown.rising_sun_kick.remains&!buff.rushing_wind_kick.up&(!talent.obsidian_spiral|!buff.combo_breaker.up|prev.blackout_kick)
+actions.big_coc+=/celestial_conduit,target_if=max:target.time_to_die,if=buff.zenith.up&(cooldown.rising_sun_kick.remains|active_enemies>2)&cooldown.fists_of_fury.remains&(cooldown.strike_of_the_windlord.remains|talent.whirling_dragon_punch)&(cooldown.whirling_dragon_punch.remains|talent.strike_of_the_windlord)&!buff.rushing_wind_kick.up&!buff.combo_breaker.up&chi>1&(!buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent.remains<4)
+actions.big_coc+=/celestial_conduit,target_if=max:target.time_to_die,if=buff.zenith.up&!buff.heart_of_the_jade_serpent.up&!buff.heart_of_the_jade_serpent_yulons_avatar.up&chi>1&(cooldown.rising_sun_kick.remains|active_enemies>2)&(cooldown.strike_of_the_windlord.remains|(cooldown.whirling_dragon_punch.remains|cooldown.fists_of_fury.remains))
+actions.big_coc+=/celestial_conduit,target_if=max:target.time_to_die,if=buff.zenith.up&buff.heart_of_the_jade_serpent.remains<2&prev.rising_sun_kick&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains&buff.heart_of_the_jade_serpent.up&chi>1
 
-# >=5 Targets
-actions.default_aoe=tiger_palm,target_if=max:target.time_to_die,if=(energy>55&talent.inner_peace|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up)&!buff.ordered_elements.up|(talent.energy_burst&!buff.bok_proc.up)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3|(prev.strike_of_the_windlord|cooldown.strike_of_the_windlord.remains)&cooldown.celestial_conduit.remains<2&buff.ordered_elements.up&chi<5&combo_strike
-actions.default_aoe+=/touch_of_death,target_if=min:target.time_to_die,if=!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up|fight_remains<10
-actions.default_aoe+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack<2
-actions.default_aoe+=/strike_of_the_windlord,target_if=max:target.time_to_die,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>10&set_bonus.tww3_2pc&!talent.flurry_strikes
-actions.default_aoe+=/slicing_winds,if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active&!talent.flurry_strikes
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack=2&combo_strike
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.chi_energy.stack>29&cooldown.fists_of_fury.remains<5
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&cooldown.fists_of_fury.remains&(!talent.xuens_battlegear|chi<6)&set_bonus.tww3_4pc
-actions.default_aoe+=/slicing_winds,if=variable.small_hotjs_active|buff.heart_of_the_jade_serpent_cdr_celestial.up
-actions.default_aoe+=/celestial_conduit,if=buff.storm_earth_and_fire.up&cooldown.strike_of_the_windlord.remains&(!variable.small_hotjs_active|debuff.gale_force.remains<5)&(talent.xuens_bond|!talent.xuens_bond&buff.invokers_delight.up)|fight_remains<15|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8
-actions.default_aoe+=/fists_of_fury,target_if=max:target.time_to_die,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up|variable.small_hotjs_active
-actions.default_aoe+=/rising_sun_kick,target_if=max:target.time_to_die,if=cooldown.whirling_dragon_punch.remains<2&cooldown.fists_of_fury.remains>1&buff.dance_of_chiji.stack<2|!buff.storm_earth_and_fire.up&buff.pressure_point.up
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc
-actions.default_aoe+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=!talent.revolving_whirl|talent.revolving_whirl&buff.dance_of_chiji.stack<2&active_enemies>2
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&buff.bok_proc.up&chi<2&talent.energy_burst&energy<55
-actions.default_aoe+=/strike_of_the_windlord,target_if=max:target.time_to_die,if=(time>5|buff.invokers_delight.up&buff.storm_earth_and_fire.up)&(cooldown.invoke_xuen_the_white_tiger.remains>15|talent.flurry_strikes)
-actions.default_aoe+=/slicing_winds
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=8&talent.shadowboxing_treads
-actions.default_aoe+=/crackling_jade_lightning,target_if=max:target.time_to_die,if=buff.the_emperors_capacitor.stack>19&combo_strike&talent.power_of_the_thunder_king&cooldown.invoke_xuen_the_white_tiger.remains>10
-actions.default_aoe+=/fists_of_fury,target_if=max:target.time_to_die,if=(talent.flurry_strikes|talent.xuens_battlegear&(cooldown.invoke_xuen_the_white_tiger.remains>5&fight_style.patchwerk|cooldown.invoke_xuen_the_white_tiger.remains>9)|cooldown.invoke_xuen_the_white_tiger.remains>10)
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.wisdom_of_the_wall_flurry.up&chi<6
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&chi>5
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up&buff.chi_energy.stack>29&cooldown.fists_of_fury.remains<5
-actions.default_aoe+=/rising_sun_kick,if=buff.pressure_point.up&cooldown.fists_of_fury.remains>2
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&active_enemies>5&set_bonus.tww3_4pc
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.ordered_elements.up&talent.crane_vortex&active_enemies>2
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.ordered_elements.up
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&chi.deficit>=2&(!buff.ordered_elements.up|energy.time_to_max<=gcd.max*3)
-actions.default_aoe+=/jadefire_stomp,target_if=max:target.time_to_die,if=talent.Singularly_Focused_Jade|talent.jadefire_harmony
-actions.default_aoe+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&!buff.ordered_elements.up&talent.crane_vortex&active_enemies>2&chi>4
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&(buff.teachings_of_the_monastery.stack>3|buff.ordered_elements.up)&(talent.shadowboxing_treads|buff.bok_proc.up)
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&!cooldown.fists_of_fury.remains&chi<3
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.up
-actions.default_aoe+=/spinning_crane_kick,if=combo_strike&(chi>3|energy>55)
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&(buff.ordered_elements.up|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&(chi>2|energy>60|buff.bok_proc.up)
-actions.default_aoe+=/jadefire_stomp,target_if=max:debuff.acclamation.stack
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.ordered_elements.up&chi.deficit>=1
-actions.default_aoe+=/chi_burst,if=!buff.ordered_elements.up
-actions.default_aoe+=/chi_burst
-actions.default_aoe+=/spinning_crane_kick,if=combo_strike&buff.ordered_elements.up&talent.hit_combo
-actions.default_aoe+=/blackout_kick,target_if=max:target.time_to_die,if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains
-actions.default_aoe+=/tiger_palm,target_if=max:target.time_to_die,if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains
-
-# 2-4 targets
-actions.default_cleave=rising_sun_kick,target_if=max:target.time_to_die,if=buff.storm_earth_and_fire.remains>13&combo_strike&talent.glory_of_the_dawn
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike&!cooldown.whirling_dragon_punch.remains&(cooldown.fists_of_fury.remains>1&!talent.xuens_battlegear|cooldown.fists_of_fury.remains>4)&!buff.invokers_delight.up&!talent.flurry_strikes&buff.dance_of_chiji.stack<2&!talent.glory_of_the_dawn
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2&prev.rising_sun_kick
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&energy.time_to_max<=gcd.max*3&set_bonus.tww3_4pc
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&!talent.xuens_battlegear&set_bonus.tww3_4pc
-actions.default_cleave+=/strike_of_the_windlord,target_if=max:target.time_to_die,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>10&set_bonus.tww3_2pc&!talent.flurry_strikes
-actions.default_cleave+=/slicing_winds,if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active&!talent.flurry_strikes
-actions.default_cleave+=/spinning_crane_kick,if=buff.dance_of_chiji.stack=2&combo_strike
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=buff.pressure_point.up&active_enemies<4&cooldown.fists_of_fury.remains>4
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=cooldown.whirling_dragon_punch.remains<2&cooldown.fists_of_fury.remains<3&buff.dance_of_chiji.stack<2&cooldown.fists_of_fury.remains
-actions.default_cleave+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2&active_enemies>3
-actions.default_cleave+=/celestial_conduit,target_if=max:target.time_to_die,if=buff.storm_earth_and_fire.up&debuff.gale_force.remains<5&cooldown.strike_of_the_windlord.remains&(!buff.heart_of_the_jade_serpent_cdr.up|debuff.gale_force.remains<5)&(talent.xuens_bond|!talent.xuens_bond&buff.invokers_delight.up)|fight_remains<15|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8|fight_remains<10
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&(energy>55&talent.inner_peace|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up|!talent.energy_burst)&!buff.ordered_elements.up|(talent.energy_burst&!buff.bok_proc.up|!talent.energy_burst)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3|(prev.strike_of_the_windlord|cooldown.strike_of_the_windlord.remains)&cooldown.celestial_conduit.remains<2&buff.ordered_elements.up&chi<5&combo_strike|(!variable.small_hotjs_active|!buff.heart_of_the_jade_serpent_cdr_celestial.up)&combo_strike&chi.deficit>=2&!buff.ordered_elements.up
-actions.default_cleave+=/touch_of_death,target_if=max:target.time_to_die,if=!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up|fight_remains<10
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=variable.small_hotjs_active&buff.dance_of_chiji.stack<2
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=buff.dance_of_chiji.stack<2
-actions.default_cleave+=/slicing_winds,if=variable.small_hotjs_active|buff.heart_of_the_jade_serpent_cdr_celestial.up
-actions.default_cleave+=/blackout_kick,if=combo_strike&talent.courageous_impulse&talent.shadowboxing_treads&buff.bok_proc.stack=2&cooldown.fists_of_fury.remains&active_enemies=3
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.down&prev.tiger_palm&time<5&talent.ordered_elements&(talent.glory_of_the_dawn|active_enemies<3)|variable.small_hotjs_active&buff.pressure_point.up&cooldown.fists_of_fury.remains&(talent.glory_of_the_dawn|active_enemies<3)
-actions.default_cleave+=/fists_of_fury,target_if=max:target.time_to_die,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up|variable.small_hotjs_active
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=buff.heart_of_the_jade_serpent_cdr_celestial.up
-actions.default_cleave+=/strike_of_the_windlord,target_if=max:target.time_to_die,if=talent.gale_force&buff.invokers_delight.up&(buff.bloodlust.up|!buff.heart_of_the_jade_serpent_cdr_celestial.up)
-actions.default_cleave+=/fists_of_fury,target_if=max:target.time_to_die,if=buff.power_infusion.up&buff.bloodlust.up
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=buff.power_infusion.up&buff.bloodlust.up&active_enemies<3
-actions.default_cleave+=/blackout_kick,target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=8&(active_enemies<3|talent.shadowboxing_treads)
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&!talent.xuens_battlegear&set_bonus.tww3_4pc
-actions.default_cleave+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=!talent.revolving_whirl|talent.revolving_whirl&buff.dance_of_chiji.stack<2&active_enemies>2|active_enemies<3
-actions.default_cleave+=/strike_of_the_windlord,target_if=max:target.time_to_die,if=time>5&(cooldown.invoke_xuen_the_white_tiger.remains>15|talent.flurry_strikes)&(cooldown.fists_of_fury.remains<2|cooldown.celestial_conduit.remains<10)
-actions.default_cleave+=/slicing_winds
-actions.default_cleave+=/crackling_jade_lightning,target_if=max:target.time_to_die,if=buff.the_emperors_capacitor.stack>19&combo_strike&talent.power_of_the_thunder_king&cooldown.invoke_xuen_the_white_tiger.remains>10
-actions.default_cleave+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5&buff.wisdom_of_the_wall_flurry.up&active_enemies<4
-actions.default_cleave+=/fists_of_fury,target_if=max:target.time_to_die,if=(talent.flurry_strikes|talent.xuens_battlegear|!talent.xuens_battlegear&(cooldown.strike_of_the_windlord.remains>1|variable.small_hotjs_active|buff.heart_of_the_jade_serpent_cdr_celestial.up))&(talent.flurry_strikes|talent.xuens_battlegear&(cooldown.invoke_xuen_the_white_tiger.remains>5&fight_style.patchwerk|cooldown.invoke_xuen_the_white_tiger.remains>9)|cooldown.invoke_xuen_the_white_tiger.remains>10)
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5&buff.wisdom_of_the_wall_flurry.up
-actions.default_cleave+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up&buff.chi_energy.stack>29
-actions.default_cleave+=/rising_sun_kick,target_if=max:target.time_to_die,if=chi>4&(active_enemies<3|talent.glory_of_the_dawn)|chi>2&energy>50&(active_enemies<3|talent.glory_of_the_dawn)|cooldown.fists_of_fury.remains>2&(active_enemies<3|talent.glory_of_the_dawn)
-actions.default_cleave+=/blackout_kick,target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2
-actions.default_cleave+=/blackout_kick,target_if=max:target.time_to_die,if=buff.teachings_of_the_monastery.stack=4&!talent.knowledge_of_the_broken_temple&talent.shadowboxing_treads&active_enemies<3
-actions.default_cleave+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.up
-actions.default_cleave+=/blackout_kick,target_if=max:target.time_to_die,if=talent.shadowboxing_treads&talent.courageous_impulse&combo_strike&buff.bok_proc.up
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&active_enemies<5
-actions.default_cleave+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&chi.deficit>=2&(!buff.ordered_elements.up|energy.time_to_max<=gcd.max*3)
-actions.default_cleave+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&cooldown.fists_of_fury.remains&buff.teachings_of_the_monastery.stack>3&cooldown.rising_sun_kick.remains
-actions.default_cleave+=/jadefire_stomp,if=talent.Singularly_Focused_Jade|talent.jadefire_harmony
-actions.default_cleave+=/blackout_kick,if=combo_strike&cooldown.fists_of_fury.remains&(buff.teachings_of_the_monastery.stack>3|buff.ordered_elements.up)&(talent.shadowboxing_treads|buff.bok_proc.up|buff.ordered_elements.up)
-actions.default_cleave+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&!buff.ordered_elements.up&talent.crane_vortex&active_enemies>2&chi>4
-actions.default_cleave+=/chi_burst,if=!buff.ordered_elements.up
-actions.default_cleave+=/blackout_kick,if=combo_strike&(buff.ordered_elements.up|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains
-actions.default_cleave+=/blackout_kick,if=combo_strike&cooldown.fists_of_fury.remains&(chi>2|energy>60|buff.bok_proc.up)
-actions.default_cleave+=/jadefire_stomp,target_if=max:debuff.acclamation.stack
-actions.default_cleave+=/tiger_palm,if=combo_strike&buff.ordered_elements.up&chi.deficit>=1
-actions.default_cleave+=/chi_burst
-actions.default_cleave+=/spinning_crane_kick,if=combo_strike&buff.ordered_elements.up&talent.hit_combo
-actions.default_cleave+=/blackout_kick,if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains
-actions.default_cleave+=/blackout_kick,if=combo_strike&!cooldown.fists_of_fury.remains&prev.tiger_palm
-actions.default_cleave+=/tiger_palm,if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains
-
-# 1 target
-actions.default_st=rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike&buff.pressure_point.up&variable.small_hotjs_active
-actions.default_st+=/slicing_winds,if=set_bonus.tww3_2pc&talent.celestial_conduit&variable.small_hotjs_active
-actions.default_st+=/tiger_palm,if=combo_strike&!cooldown.celestial_conduit.remains&buff.pressure_point.up&chi<5&time<10
-actions.default_st+=/fists_of_fury,target_if=max:debuff.acclamation.stack,if=active_enemies>1&(combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up|variable.small_hotjs_active)
-actions.default_st+=/rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike&(buff.pressure_point.up&!variable.small_hotjs_active&buff.heart_of_the_jade_serpent_cdr_celestial.up|buff.invokers_delight.up|buff.bloodlust.up|buff.pressure_point.up&cooldown.fists_of_fury.remains|talent.flurry_strikes)
-actions.default_st+=/tiger_palm,if=chi<5&combo_strike&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&energy.time_to_max<=gcd.max*3
-actions.default_st+=/tiger_palm,if=combo_strike&buff.storm_earth_and_fire.remains>2&talent.flurry_strikes&set_bonus.tww3_4pc
-actions.default_st+=/tiger_palm,if=combo_strike&buff.storm_earth_and_fire.remains&talent.flurry_strikes&set_bonus.tww3_4pc&!buff.bloodlust.up
-actions.default_st+=/whirling_dragon_punch,target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&!buff.dance_of_chiji.stack=2&!set_bonus.tww3_2pc|active_enemies>1&buff.dance_of_chiji.stack<2&cooldown.celestial_conduit.remains
-actions.default_st+=/celestial_conduit,if=buff.storm_earth_and_fire.up&(!buff.heart_of_the_jade_serpent_cdr.up|debuff.gale_force.remains<5)&cooldown.strike_of_the_windlord.remains&(talent.xuens_bond|!talent.xuens_bond&buff.invokers_delight.up)|fight_remains<15|fight_style.dungeonroute&buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains&buff.storm_earth_and_fire.remains<8|fight_remains<10
-actions.default_st+=/tiger_palm,if=chi<5&combo_strike&variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&energy.time_to_max<=gcd.max*3&!buff.invokers_delight.up&!buff.bloodlust.up&!buff.storm_earth_and_fire.up
-actions.default_st+=/tiger_palm,if=chi<2&combo_strike&cooldown.strike_of_the_windlord.remains<5&talent.celestial_conduit
-actions.default_st+=/tiger_palm,if=chi<2&combo_strike&talent.celestial_conduit
-actions.default_st+=/fists_of_fury,target_if=max:debuff.acclamation.stack,if=combo_strike&buff.heart_of_the_jade_serpent_cdr_celestial.up|variable.small_hotjs_active
-actions.default_st+=/spinning_crane_kick,if=buff.dance_of_chiji.stack=2&combo_strike&(!set_bonus.tww3_2pc|!buff.bloodlust.up)&!talent.flurry_strikes
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=(energy>55&talent.inner_peace|energy>60&!talent.inner_peace)&combo_strike&chi.max-chi>=2&buff.teachings_of_the_monastery.stack<buff.teachings_of_the_monastery.max_stack&(talent.energy_burst&!buff.bok_proc.up|!talent.energy_burst)&!buff.ordered_elements.up|(talent.energy_burst&!buff.bok_proc.up|!talent.energy_burst)&!buff.ordered_elements.up&!cooldown.fists_of_fury.remains&chi<3|(prev.strike_of_the_windlord|!buff.heart_of_the_jade_serpent_cdr_celestial.up)&combo_strike&chi.deficit>=2&!buff.ordered_elements.up
-actions.default_st+=/touch_of_death,target_if=min:target.time_to_die
-actions.default_st+=/rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike&(buff.invoke_xuen_the_white_tiger.down&prev.tiger_palm&time<5|buff.storm_earth_and_fire.up&talent.ordered_elements)
-actions.default_st+=/strike_of_the_windlord,target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&talent.celestial_conduit&!buff.invokers_delight.up&!buff.heart_of_the_jade_serpent_cdr_celestial.up&cooldown.fists_of_fury.remains<5&cooldown.invoke_xuen_the_white_tiger.remains>15&(cooldown.slicing_winds.remains<23|!set_bonus.tww3_2pc)|fight_remains<12
-actions.default_st+=/strike_of_the_windlord,target_if=max:debuff.acclamation.stack,if=talent.gale_force&cooldown.invoke_xuen_the_white_tiger.remains>13|fight_remains<cooldown.invoke_xuen_the_white_tiger.remains
-actions.default_st+=/strike_of_the_windlord,target_if=max:debuff.acclamation.stack,if=time>5&talent.flurry_strikes
-actions.default_st+=/strike_of_the_windlord,target_if=max:debuff.acclamation.stack,if=time>15&set_bonus.tww3_2pc&cooldown.invoke_xuen_the_white_tiger.remains>15&(cooldown.slicing_winds.remains<23|!set_bonus.tww3_2pc)
-actions.default_st+=/spinning_crane_kick,if=buff.dance_of_chiji.stack=2&combo_strike&!talent.flurry_strikes
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>3&buff.ordered_elements.up&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2&!set_bonus.tww3_2pc
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>4&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2&!set_bonus.tww3_2pc
-actions.default_st+=/whirling_dragon_punch,target_if=max:debuff.acclamation.stack,if=set_bonus.tww3_2pc
-actions.default_st+=/whirling_dragon_punch,target_if=max:debuff.acclamation.stack,if=!buff.heart_of_the_jade_serpent_cdr_celestial.up&!buff.dance_of_chiji.stack=2|buff.ordered_elements.up|talent.knowledge_of_the_broken_temple
-actions.default_st+=/crackling_jade_lightning,target_if=max:debuff.acclamation.stack,if=buff.the_emperors_capacitor.stack>19&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&combo_strike&(!fight_style.dungeonslice|target.time_to_die>20)&cooldown.invoke_xuen_the_white_tiger.remains>15|buff.the_emperors_capacitor.stack>20&!variable.small_hotjs_active&!buff.heart_of_the_jade_serpent_cdr_celestial.up&combo_strike&(!fight_style.dungeonslice|target.time_to_die>20)&cooldown.invoke_xuen_the_white_tiger.remains<20&cooldown.invoke_xuen_the_white_tiger.remains>2|buff.the_emperors_capacitor.stack>10&fight_remains<5|buff.storm_earth_and_fire.remains<2&buff.the_emperors_capacitor.stack>15&buff.storm_earth_and_fire.up
-actions.default_st+=/slicing_winds,if=target.time_to_die>10&!set_bonus.tww3_4pc|talent.flurry_strikes
-actions.default_st+=/rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike&(chi>4|chi>2&energy>50|cooldown.fists_of_fury.remains>2)
-actions.default_st+=/fists_of_fury,target_if=max:debuff.acclamation.stack,if=(talent.xuens_battlegear|!talent.xuens_battlegear&(cooldown.strike_of_the_windlord.remains>1|variable.small_hotjs_active|buff.heart_of_the_jade_serpent_cdr_celestial.up))&(talent.xuens_battlegear&cooldown.invoke_xuen_the_white_tiger.remains>5|cooldown.invoke_xuen_the_white_tiger.remains>10)&(!buff.invokers_delight.up|buff.invokers_delight.up&cooldown.strike_of_the_windlord.remains>4&cooldown.celestial_conduit.remains)|fight_remains<5|talent.flurry_strikes
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes&buff.wisdom_of_the_wall_flurry.up
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&chi<5&set_bonus.tww3_2pc
-actions.default_st+=/spinning_crane_kick,if=buff.dance_of_chiji.stack=2&combo_strike
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=combo_strike&talent.energy_burst&buff.bok_proc.up&chi<5&(variable.small_hotjs_active|buff.heart_of_the_jade_serpent_cdr_celestial.up)
-actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.bloodlust.up&variable.small_hotjs_active&buff.dance_of_chiji.up
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&chi.deficit>=2&energy.time_to_max<=gcd.max*3
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=buff.teachings_of_the_monastery.stack>7&talent.memory_of_the_monastery&!buff.memory_of_the_monastery.up&cooldown.fists_of_fury.remains
-actions.default_st+=/spinning_crane_kick,if=(buff.dance_of_chiji.stack=2|buff.dance_of_chiji.remains<2&buff.dance_of_chiji.up)&combo_strike&!buff.ordered_elements.up
-actions.default_st+=/whirling_dragon_punch,target_if=max:debuff.acclamation.stack
-actions.default_st+=/spinning_crane_kick,if=buff.dance_of_chiji.stack=2&combo_strike
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=talent.courageous_impulse&combo_strike&buff.bok_proc.stack=2
-actions.default_st+=/spinning_crane_kick,if=buff.dance_of_chiji.up&set_bonus.tww3_2pc&combo_strike
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=combo_strike&buff.ordered_elements.up&cooldown.rising_sun_kick.remains>1&cooldown.fists_of_fury.remains>2
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes
-actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.up&(buff.ordered_elements.up|energy.time_to_max>=gcd.max*3&talent.sequenced_strikes&talent.energy_burst|!talent.sequenced_strikes|!talent.energy_burst|buff.dance_of_chiji.remains<=gcd.max*3)
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&energy.time_to_max<=gcd.max*3&talent.flurry_strikes
-actions.default_st+=/jadefire_stomp,if=talent.Singularly_Focused_Jade|talent.jadefire_harmony
-actions.default_st+=/chi_burst,if=!buff.ordered_elements.up
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=combo_strike&(buff.ordered_elements.up|buff.bok_proc.up&chi.deficit>=1&talent.energy_burst)&cooldown.fists_of_fury.remains
-actions.default_st+=/blackout_kick,target_if=max:debuff.acclamation.stack,if=combo_strike&cooldown.fists_of_fury.remains&(chi>2|energy>60|buff.bok_proc.up)
-actions.default_st+=/jadefire_stomp
-actions.default_st+=/tiger_palm,target_if=max:debuff.acclamation.stack,if=combo_strike&buff.ordered_elements.up&chi.deficit>=1
-actions.default_st+=/chi_burst
-actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.ordered_elements.up&talent.hit_combo
-actions.default_st+=/blackout_kick,if=buff.ordered_elements.up&!talent.hit_combo&cooldown.fists_of_fury.remains
-actions.default_st+=/tiger_palm,if=prev.tiger_palm&chi<3&!cooldown.fists_of_fury.remains
+# Single Target
+actions.default_st=whirling_dragon_punch,if=!buff.heart_of_the_jade_serpent_unity_within.up&buff.whirling_dragon_punch.remains<1&(buff.zenith.up|cooldown.invoke_xuen_the_white_tiger.remains>5|talent.flurry_strikes|!fight_style.patchwerk)
+actions.default_st+=/whirling_dragon_punch,if=buff.power_infusion.up&(!buff.heart_of_the_jade_serpent_unity_within.up|buff.heart_of_the_jade_serpent_unity_within.remains<2)
+actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.remains<1&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.up&talent.celestial_conduit
+actions.default_st+=/fists_of_fury,if=buff.heart_of_the_jade_serpent.remains<1&buff.heart_of_the_jade_serpent.up|buff.flurry_charge.stack=30&!buff.zenith.up
+actions.default_st+=/whirling_dragon_punch,if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up|cooldown.invoke_xuen_the_white_tiger.remains>5|!fight_style.patchwerk)|talent.flurry_strikes
+actions.default_st+=/tiger_palm,if=chi<4&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&(!buff.bloodlust.up|chi<2)&buff.combo_breaker.stack<2
+actions.default_st+=/strike_of_the_windlord,if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up|cooldown.invoke_xuen_the_white_tiger.remains>5|!fight_style.patchwerk)|talent.flurry_strikes
+actions.default_st+=/fists_of_fury,if=combo_strike&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_yulons_avatar.up|buff.heart_of_the_jade_serpent_unity_within.up)&buff.bloodlust.up|buff.bloodlust.up&talent.flurry_strikes|!buff.zenith.up&(talent.flurry_strikes|cooldown.invoke_xuen_the_white_tiger.remains>3|!fight_style.patchwerk)|buff.zenith.up&(talent.flurry_strikes|!buff.bloodlust.up)&(fight_style.patchwerk|target.time_to_die>5)
+actions.default_st+=/rushing_wind_kick
+actions.default_st+=/rising_sun_kick,if=combo_strike&buff.bloodlust.up|combo_strike&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_yulons_avatar.up|buff.heart_of_the_jade_serpent_unity_within.up)
+actions.default_st+=/fists_of_fury,if=buff.bloodlust.up|combo_strike&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_yulons_avatar.up|buff.heart_of_the_jade_serpent_unity_within.up)
+actions.default_st+=/tiger_palm,if=buff.zenith.up&chi<2&talent.celestial_conduit&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up)&!cooldown.fists_of_fury.remains&combo_strike
+actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.remains<4&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.up
+actions.default_st+=/rising_sun_kick,if=buff.zenith.up&talent.flurry_strikes&!cooldown.fists_of_fury.remains
+actions.default_st+=/rising_sun_kick,if=combo_strike
+actions.default_st+=/fists_of_fury,if=talent.flurry_strikes|!buff.zenith.up&(talent.flurry_strikes|cooldown.invoke_xuen_the_white_tiger.remains>3|!fight_style.patchwerk)|buff.bloodlust.up&talent.jadefire_stomp&cooldown.celestial_conduit.remains
+actions.default_st+=/rising_sun_kick,if=buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up|buff.heart_of_the_jade_serpent_yulons_avatar.up
+actions.default_st+=/touch_of_death,if=!buff.zenith.up|fight_remains<5|((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)|!trinket.1.has_use_buff&!trinket.2.has_use_buff)
+actions.default_st+=/strike_of_the_windlord,if=buff.heart_of_the_jade_serpent_unity_within.remains<2&(buff.zenith.up|cooldown.invoke_xuen_the_white_tiger.remains>5|!fight_style.patchwerk)|talent.flurry_strikes
+actions.default_st+=/rising_sun_kick,if=combo_strike&(buff.flurry_charge.stack<30|chi>3|buff.zenith.up|buff.bloodlust.up|energy>50&chi>2)|combo_strike&buff.heart_of_the_jade_serpent.up
+actions.default_st+=/tiger_palm,if=combo_strike&buff.zenith.up&(chi<1|chi<2&!buff.combo_breaker.up)&talent.celestial_conduit
+actions.default_st+=/blackout_kick,if=combo_strike&buff.zenith.up&chi>1&(talent.obsidian_spiral|cooldown.fists_of_fury.remains|buff.combo_breaker.up)&(chi<6|buff.combo_breaker.up)|combo_strike&buff.bloodlust.up&buff.combo_breaker.up
+actions.default_st+=/spinning_crane_kick,if=combo_strike&!buff.bloodlust.up&buff.zenith.up&talent.flurry_strikes&chi>3
+actions.default_st+=/slicing_winds
+actions.default_st+=/spinning_crane_kick,if=talent.flurry_strikes&buff.zenith.up&chi>5&combo_strike|combo_strike&buff.bloodlust.up&buff.dance_of_chiji.up&buff.combo_breaker.stack<2
+actions.default_st+=/blackout_kick,if=combo_strike&buff.combo_breaker.up&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up)
+actions.default_st+=/blackout_kick,if=combo_strike&buff.combo_breaker.stack=2
+actions.default_st+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.stack=2
+actions.default_st+=/blackout_kick,if=combo_strike&buff.combo_breaker.up
+actions.default_st+=/tiger_palm,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up
+actions.default_st+=/tiger_palm,if=combo_strike&((energy>55&talent.inner_peace|energy>60&!talent.inner_peace)&chi.max-chi>=2&(talent.energy_burst&!buff.combo_breaker.up|!talent.energy_burst)&!buff.zenith.up|(talent.energy_burst&!buff.combo_breaker.up|!talent.energy_burst)&!buff.zenith.up&!cooldown.fists_of_fury.remains&chi<3)
 
 # Fallback
-actions.fallback=spinning_crane_kick,if=chi>5&combo_strike
-actions.fallback+=/blackout_kick,if=combo_strike&chi>3
-actions.fallback+=/tiger_palm,if=combo_strike&chi>5
+actions.fallback=blackout_kick,if=combo_strike
+actions.fallback+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.up&active_enemies=1
+actions.fallback+=/tiger_palm,if=combo_strike
+actions.fallback+=/spinning_crane_kick,if=chi>5&combo_strike
 
-# normal opener
-actions.normal_opener=tiger_palm,if=chi<6&combo_strike
-actions.normal_opener+=/rising_sun_kick
+# Multi Target
+actions.multitarget=fists_of_fury,target_if=max:target.time_to_die,if=buff.heart_of_the_jade_serpent.remains<1&buff.heart_of_the_jade_serpent.up
+actions.multitarget+=/whirling_dragon_punch,if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2
+actions.multitarget+=/whirling_dragon_punch,target_if=max:target.time_to_die,if=!buff.heart_of_the_jade_serpent_unity_within.up&buff.whirling_dragon_punch.remains<1
+actions.multitarget+=/tiger_palm,target_if=max:target.time_to_die,if=buff.zenith.up&chi<2&talent.celestial_conduit&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up)&!cooldown.fists_of_fury.remains&combo_strike
+actions.multitarget+=/tiger_palm,target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&!buff.bloodlust.up&buff.combo_breaker.stack<2
+actions.multitarget+=/strike_of_the_windlord,if=talent.celestial_conduit&buff.heart_of_the_jade_serpent_unity_within.remains<2
+actions.multitarget+=/fists_of_fury,target_if=max:target.time_to_die,if=buff.flurry_charge.stack=30&!buff.zenith.up|buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up|buff.heart_of_the_jade_serpent_yulons_avatar.up|talent.flurry_strikes
+actions.multitarget+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.up&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.remains<3
+actions.multitarget+=/rushing_wind_kick,target_if=max:target.time_to_die
+actions.multitarget+=/rising_sun_kick,target_if=max:target.time_to_die,if=(active_enemies<5|cooldown.fists_of_fury.remains|buff.zenith.up)&(buff.rushing_wind_kick.up|buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up|buff.heart_of_the_jade_serpent_yulons_avatar.up)
+actions.multitarget+=/touch_of_death,target_if=min:target.time_to_die,if=!buff.zenith.up|fight_remains<5|((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)|!trinket.1.has_use_buff&!trinket.2.has_use_buff)
+actions.multitarget+=/strike_of_the_windlord,if=buff.zenith.up|cooldown.zenith.remains>5&buff.heart_of_the_jade_serpent_unity_within.remains<2
+actions.multitarget+=/whirling_dragon_punch,if=buff.zenith.up|cooldown.zenith.remains>5&buff.heart_of_the_jade_serpent_unity_within.remains<2
+actions.multitarget+=/fists_of_fury,target_if=max:target.time_to_die,if=talent.flurry_strikes|!buff.zenith.up|buff.bloodlust.up&talent.jadefire_stomp&cooldown.celestial_conduit.remains
+actions.multitarget+=/rising_sun_kick,target_if=max:target.time_to_die,if=(active_enemies<5|cooldown.fists_of_fury.remains>4|buff.zenith.up)&(combo_strike&(buff.flurry_charge.stack<30|chi>3|buff.zenith.up|buff.bloodlust.up|energy>50&chi>2)|combo_strike&buff.heart_of_the_jade_serpent.up)
+actions.multitarget+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&buff.zenith.up&chi>1&(talent.obsidian_spiral|cooldown.fists_of_fury.remains|buff.combo_breaker.up)&chi<6
+actions.multitarget+=/spinning_crane_kick,if=combo_strike&buff.dance_of_chiji.up&buff.combo_breaker.stack<2&talent.sequenced_strikes&buff.dance_of_chiji.remains<4
+actions.multitarget+=/slicing_winds
+actions.multitarget+=/spinning_crane_kick,target_if=max:target.time_to_die,if=talent.flurry_strikes&buff.zenith.up&chi>3&combo_strike
+actions.multitarget+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.up&(buff.heart_of_the_jade_serpent.up|buff.heart_of_the_jade_serpent_unity_within.up)
+actions.multitarget+=/tiger_palm,target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up&!buff.bloodlust.up
+actions.multitarget+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.stack=2
+actions.multitarget+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&buff.dance_of_chiji.stack=2
+actions.multitarget+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&buff.combo_breaker.up
+actions.multitarget+=/tiger_palm,target_if=max:target.time_to_die,if=chi<5&combo_strike&energy.time_to_max<=gcd.max*3&!buff.zenith.up
+actions.multitarget+=/tiger_palm,target_if=max:target.time_to_die,if=combo_strike&((energy>55&talent.inner_peace|energy>60&!talent.inner_peace)&chi.max-chi>=2&(talent.energy_burst&!buff.combo_breaker.up|!talent.energy_burst)&!buff.zenith.up|(talent.energy_burst&!buff.combo_breaker.up|!talent.energy_burst)&!buff.zenith.up&!cooldown.fists_of_fury.remains&chi<3)
+actions.multitarget+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&(buff.dance_of_chiji.up|active_enemies>4&(chi>2|energy>55))&talent.crane_vortex&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains
+actions.multitarget+=/blackout_kick,target_if=max:target.time_to_die,if=combo_strike&talent.shadowboxing_treads
+actions.multitarget+=/spinning_crane_kick,target_if=max:target.time_to_die,if=combo_strike&(chi>3|energy>55)&(!talent.shadowboxing_treads&active_enemies>2|active_enemies>5)&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains
+actions.multitarget+=/rising_sun_kick,target_if=max:target.time_to_die,if=combo_strike
 
-# Prism + 2 Min on use without XB talented
-actions.special_trinkets=use_item,slot=trinket1,if=trinket.1.cooldown.duration=120&buff.invoke_xuen_the_white_tiger.up|fight_remains<30
-actions.special_trinkets+=/use_item,slot=trinket2,if=trinket.2.cooldown.duration=120&buff.invoke_xuen_the_white_tiger.up|fight_remains<30
-actions.special_trinkets+=/use_item,name=unyielding_netherprism,if=cooldown.invoke_xuen_the_white_tiger.remains&buff.storm_earth_and_fire.remains>10&buff.latent_energy.stack>2
+# Opener
+actions.opener=tiger_palm,if=combo_strike&chi<4
+actions.opener+=/use_item,name=algethar_puzzle_box,if=target.time_to_die>25&(cooldown.invoke_xuen_the_white_tiger.remains<2|talent.flurry_strikes&cooldown.zenith.up)|fight_remains<25
+
+# Racials (Good)
+actions.racials=berserking,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14|fight_remains<20
+actions.racials+=/ancestral_call,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14|fight_remains<20
+actions.racials+=/blood_fury,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14|fight_remains<20
+actions.racials+=/fireblood,if=buff.invoke_xuen_the_white_tiger.remains>15|!talent.invoke_xuen_the_white_tiger&buff.zenith.remains>14|fight_remains<20
+
 # Use Weapon
-actions.special_trinkets+=/use_item,slot=main_hand
+actions.trinket=use_item,slot=main_hand
+# Use Algethar
+actions.trinket+=/use_item,name=algethar_puzzle_box,if=!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)&(cooldown.potion.remains>30|fight_remains<45|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2|talent.flurry_strikes&cooldown.zenith.up)|fight_remains<25|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)
+# Stat on use with passive or DMG on use
+actions.trinket+=/use_item,slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger|talent.flurry_strikes&buff.zenith.remains>14)
+actions.trinket+=/use_item,slot=trinket2,if=trinket.2.has_use_buff&!trinket.1.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger|talent.flurry_strikes&buff.zenith.remains>14)
+# Stat on use with Stat on use
+actions.trinket+=/use_item,slot=trinket1,if=trinket.1.has_use_buff&trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger|talent.flurry_strikes&buff.zenith.remains>14)
+actions.trinket+=/use_item,slot=trinket2,if=trinket.1.has_use_buff&trinket.2.has_use_buff&(cooldown.invoke_xuen_the_white_tiger.remains>30&(buff.zenith.up|(cooldown.strike_of_the_windlord.remains<2&talent.strike_of_the_windlord|cooldown.whirling_dragon_punch.remains<2&talent.whirling_dragon_punch))|talent.flurry_strikes&buff.zenith.remains>10)
+# DMG on use with stat on use
+actions.trinket+=/use_item,slot=trinket1,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&trinket.2.cooldown.remains>30
+actions.trinket+=/use_item,slot=trinket2,if=!trinket.2.has_use_buff&trinket.1.has_use_buff&trinket.1.cooldown.remains>30
+# DMG on use without stat on use
+actions.trinket+=/use_item,slot=trinket1,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff
+actions.trinket+=/use_item,slot=trinket2,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff
 
-# Double on Use Stats
-actions.trinkets=use_item,slot=trinket1,if=trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up&variable.invoke_xuen_count%%2|fight_remains<20
-actions.trinkets+=/use_item,slot=trinket2,if=trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up|fight_remains<20
-# Trinket 1 On use Stats
-actions.trinkets+=/use_item,slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up|fight_remains<20
-actions.trinkets+=/use_item,slot=trinket2,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.invoke_xuen_the_white_tiger.remains>30|fight_remains<20
-# Trinket 2 On use Stats
-actions.trinkets+=/use_item,slot=trinket1,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&cooldown.invoke_xuen_the_white_tiger.remains>30|fight_remains<20
-actions.trinkets+=/use_item,slot=trinket2,if=!trinket.1.has_use_buff&trinket.2.has_use_buff&buff.invoke_xuen_the_white_tiger.up|fight_remains<20
-# No Stat on Use
-actions.trinkets+=/use_item,slot=trinket1,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff
-actions.trinkets+=/use_item,slot=trinket2,if=!trinket.1.has_use_buff&!trinket.2.has_use_buff
-# Use Weapon
-actions.trinkets+=/use_item,slot=main_hand
+# Zenith Usage
+actions.zenith=zenith,target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.up&(!buff.zenith.up|talent.flurry_strikes)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=buff.bloodlust.remains>10&(active_enemies>2|cooldown.rising_sun_kick.remains)&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(buff.bloodlust.up&cooldown.celestial_conduit.remains&(cooldown.rising_sun_kick.remains|active_enemies>2)&!buff.zenith.up&talent.celestial_conduit)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up|cooldown.potion.remains>295|cooldown.zenith.full_recharge_time<5)&((cooldown.rising_sun_kick.remains|active_enemies>2)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains<102|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains<102)|time<5|!trinket.1.has_use_buff&!trinket.2.has_use_buff))
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains|active_enemies>2))
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(cooldown.zenith.full_recharge_time<20&talent.flurry_strikes&(cooldown.rising_sun_kick.remains|active_enemies>2)|cooldown.zenith.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains)&!fight_style.patchwerk&(cooldown.rising_sun_kick.remains|active_enemies>2)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_remains<=25&(cooldown.rising_sun_kick.remains|active_enemies>2)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready|cooldown.zenith.full_recharge_time<5)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready|cooldown.zenith.full_recharge_time<5)
 ```

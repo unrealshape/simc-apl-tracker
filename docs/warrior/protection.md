@@ -1,6 +1,6 @@
 # Warrior – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-18 10:22 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-24 07:44 UTC
 
 Source: `apl/default/warrior/protection.simc`
 
@@ -8,9 +8,9 @@ Source: `apl/default/warrior/protection.simc`
 
 ## Overview
 
-- **Action Lists:** 4
-- **Total Actions:** 53
-- **Lists:** `precombat`, `default`, `aoe`, `generic`
+- **Action Lists:** 6
+- **Total Actions:** 62
+- **Lists:** `precombat`, `default`, `aoe`, `colossus_st`, `thane_st`, `variables`
 
 ## Action List: `precombat`
 
@@ -18,72 +18,91 @@ Source: `apl/default/warrior/protection.simc`
 |---|--------|------------|
 | 1 | `snapshot_stats` | — |
 | 2 | `battle_stance` | toggle=on |
+| 3 | `use_item` | name=algethar_puzzle_box |
 
 ## Action List: `default`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `auto_attack` | — |
-| 2 | `charge` | if=time=0 |
-| 3 | `use_item` | name=tome_of_lights_devotion,if=buff.inner_resilience.up |
-| 4 | `use_items` | — |
-| 5 | `avatar` | if=buff.thunder_blast.down\|buff.thunder_blast.stack<=2 |
-| 6 | `shield_wall` | if=talent.immovable_object.enabled&buff.avatar.down |
-| 7 | `blood_fury` | — |
-| 8 | `berserking` | — |
-| 9 | `arcane_torrent` | — |
-| 10 | `lights_judgment` | — |
-| 11 | `fireblood` | — |
-| 12 | `ancestral_call` | — |
-| 13 | `bag_of_tricks` | — |
-| 14 | `potion` | if=buff.avatar.up\|buff.avatar.up&target.health.pct<=20 |
-| 15 | `ignore_pain` | if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready\|rage.deficit<=40&cooldown.shield_charge.ready\|rage.deficit<=20&cooldown.shield_charge.ready\|rage.deficit<=30&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled\|rage.deficit<=20&cooldown.avatar.ready\|rage.deficit<=45&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled&buff.last_stand.up&talent.unnerving_focus.enabled\|rage.deficit<=30&cooldown.avatar.ready&buff.last_stand.up&talent.unnerving_focus.enabled\|rage.deficit<=20\|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.impenetrable_wall.enabled\|rage.deficit<=55&cooldown.shield_slam.ready&buff.violent_outburst.up&buff.last_stand.up&talent.unnerving_focus.enabled&talent.heavy_repercussions.enabled&talent.impenetrable_wall.enabled\|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled\|rage.deficit<=18&cooldown.shield_slam.ready&talent.impenetrable_wall.enabled)\|(rage>=70\|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains>=4&set_bonus.tier31_2pc,use_off_gcd=1 |
-| 16 | `last_stand` | if=(target.health.pct>=90&talent.unnerving_focus.enabled\|target.health.pct<=20&talent.unnerving_focus.enabled)\|talent.bolster.enabled\|set_bonus.tier30_2pc\|set_bonus.tier30_4pc |
+| 2 | `call_action_list` | name=variables |
+| 3 | `charge` | if=time=0 |
+| 4 | `use_item` | name=tome_of_lights_devotion,if=buff.inner_resilience.up |
+| 5 | `use_items` | — |
+| 6 | `avatar` | if=buff.thunder_blast.down\|buff.thunder_blast.stack<=2 |
+| 7 | `shield_wall` | — |
+| 8 | `blood_fury` | — |
+| 9 | `berserking` | — |
+| 10 | `arcane_torrent` | — |
+| 11 | `lights_judgment` | — |
+| 12 | `fireblood` | — |
+| 13 | `ancestral_call` | — |
+| 14 | `bag_of_tricks` | — |
+| 15 | `potion` | if=buff.avatar.up\|buff.avatar.up&target.health.pct<=20 |
+| 16 | `ignore_pain` | if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready\|rage.deficit<=20&cooldown.shield_charge.ready\|rage.deficit<=20&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled\|rage.deficit<=15\|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.practiced_strikes.enabled\|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled\|rage.deficit<=18&cooldown.shield_slam.ready&talent.practiced_strikes.enabled)\|(rage>=70\|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains,use_off_gcd=1 |
 | 17 | `ravager` | — |
 | 18 | `demoralizing_shout` | if=talent.booming_voice.enabled |
-| 19 | `champions_spear` | — |
-| 20 | `thunder_blast` | if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2 |
-| 21 | `demolish` | if=buff.colossal_might.stack>=3 |
-| 22 | `thunderous_roar` | — |
+| 19 | `champions_leap` | — |
+| 20 | `champions_spear` | — |
+| 21 | `thunder_blast` | if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2 |
+| 22 | `demolish` | if=buff.colossal_might.stack>=3 |
 | 23 | `shield_charge` | — |
 | 24 | `shield_block` | if=buff.shield_block.remains<=10 |
 | 25 | `run_action_list` | name=aoe,if=spell_targets.thunder_clap>=3 |
-| 26 | `call_action_list` | name=generic |
+| 26 | `run_action_list` | name=colossus_st,if=talent.demolish |
+| 27 | `run_action_list` | name=thane_st,if=talent.lightning_strikes |
 
 ## Action List: `aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `thunder_blast` | if=dot.rend.remains<=1 |
-| 2 | `thunder_clap` | if=dot.rend.remains<=1 |
-| 3 | `thunder_blast` | if=buff.violent_outburst.up&spell_targets.thunderclap>=2&buff.avatar.up&talent.unstoppable_force.enabled |
+| 1 | `thunder_blast` | if=dot.rend_dot.remains<=1 |
+| 2 | `thunder_clap` | if=dot.rend_dot.remains<=1 |
+| 3 | `thunder_blast` | if=spell_targets.thunder_clap>=2&buff.avatar.up |
 | 4 | `execute` | if=spell_targets.execute>=2&(rage>=50\|buff.sudden_death.up)&talent.heavy_handed.enabled |
-| 5 | `thunder_clap` | if=buff.violent_outburst.up&spell_targets.thunderclap>=4&buff.avatar.up&talent.unstoppable_force.enabled&talent.crashing_thunder.enabled\|buff.violent_outburst.up&spell_targets.thunderclap>6&buff.avatar.up&talent.unstoppable_force.enabled |
-| 6 | `revenge` | if=rage>=70&talent.seismic_reverberation.enabled&spell_targets.revenge>=3 |
-| 7 | `shield_slam` | if=rage<=60\|buff.violent_outburst.up&spell_targets.thunderclap<=4&talent.crashing_thunder.enabled |
+| 5 | `thunder_clap` | if=spell_targets.thunder_clap>=4&buff.avatar.up&hero_tree.mountain_thane\|spell_targets.thunder_clap>6&buff.avatar.up |
+| 6 | `revenge` | if=rage>=70&spell_targets.revenge>=3 |
+| 7 | `shield_slam` | if=rage<=60\|buff.violent_outburst.up |
 | 8 | `thunder_blast` | — |
 | 9 | `thunder_clap` | — |
 | 10 | `revenge` | if=rage>=30\|rage>=40&talent.barbaric_training.enabled |
 
-## Action List: `generic`
+## Action List: `colossus_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `thunder_blast` | if=(buff.thunder_blast.stack=2&buff.burst_of_power.stack<=1&buff.avatar.up&talent.unstoppable_force.enabled) |
-| 2 | `shield_slam` | if=(buff.burst_of_power.stack=2&buff.thunder_blast.stack<=1\|buff.violent_outburst.up)\|rage<=70&talent.demolish.enabled |
-| 3 | `execute` | if=rage>=70\|(rage>=40&cooldown.shield_slam.remains&talent.demolish.enabled\|rage>=50&cooldown.shield_slam.remains)\|buff.sudden_death.up&talent.sudden_death.enabled |
-| 4 | `shield_slam` | — |
-| 5 | `thunder_blast` | if=dot.rend.remains<=2&buff.violent_outburst.down |
-| 6 | `thunder_blast` | — |
-| 7 | `thunder_clap` | if=dot.rend.remains<=2&buff.violent_outburst.down |
-| 8 | `thunder_blast` | if=(spell_targets.thunder_clap>1\|cooldown.shield_slam.remains&!buff.violent_outburst.up) |
-| 9 | `thunder_clap` | if=(spell_targets.thunder_clap>1\|cooldown.shield_slam.remains&!buff.violent_outburst.up) |
-| 10 | `revenge` | if=(rage>=80&target.health.pct>20\|buff.revenge.up&target.health.pct<=20&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&target.health.pct>20)\|(rage>=80&target.health.pct>35\|buff.revenge.up&target.health.pct<=35&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&target.health.pct>35)&talent.massacre.enabled |
-| 11 | `execute` | — |
-| 12 | `revenge` | — |
-| 13 | `thunder_blast` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains&buff.violent_outburst.up) |
-| 14 | `thunder_clap` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains&buff.violent_outburst.up) |
-| 15 | `devastate` | — |
+| 1 | `shield_slam` | — |
+| 2 | `thunder_clap` | — |
+| 3 | `revenge` | if=buff.ravager.up |
+| 4 | `execute` | if=buff.sudden_death.up&talent.deep_wounds\|talent.deep_wounds&rage>=40 |
+| 5 | `thunder_clap` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80 |
+| 6 | `revenge` | if=rage>=80&!variable.execute_phase\|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&!variable.execute_phase |
+| 7 | `wrecking_throw` | if=talent.javelineer.enabled |
+| 8 | `shattering_throw` | if=talent.javelineer.enabled |
+| 9 | `revenge` | — |
+| 10 | `devastate` | — |
+
+## Action List: `thane_st`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `thunder_blast` | — |
+| 2 | `thunder_clap` | if=buff.ravager.up |
+| 3 | `shield_slam` | — |
+| 4 | `thunder_clap` | — |
+| 5 | `thunder_blast` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains) |
+| 6 | `execute` | if=buff.sudden_death.up\|rage>=40 |
+| 7 | `wrecking_throw` | if=talent.javelineer.enabled |
+| 8 | `shattering_throw` | if=talent.javelineer.enabled |
+| 9 | `revenge` | if=rage>=80&!variable.execute_phase\|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&!variable.execute_phase |
+| 10 | `revenge` | — |
+| 11 | `devastate` | — |
+
+## Action List: `variables`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `variable` | name=execute_phase,value=(talent.massacre.enabled&target.health.pct<35)\|target.health.pct<20 |
 
 ## Raw APL
 
@@ -97,14 +116,16 @@ Source: `apl/default/warrior/protection.simc`
 # Executed before combat begins. Accepts non-harmful actions only.
 actions.precombat=snapshot_stats
 actions.precombat+=/battle_stance,toggle=on
+actions.precombat+=/use_item,name=algethar_puzzle_box
 
 # Executed every time the actor is available.
 actions=auto_attack
+actions+=/call_action_list,name=variables
 actions+=/charge,if=time=0
 actions+=/use_item,name=tome_of_lights_devotion,if=buff.inner_resilience.up
 actions+=/use_items
 actions+=/avatar,if=buff.thunder_blast.down|buff.thunder_blast.stack<=2
-actions+=/shield_wall,if=talent.immovable_object.enabled&buff.avatar.down
+actions+=/shield_wall
 actions+=/blood_fury
 actions+=/berserking
 actions+=/arcane_torrent
@@ -113,43 +134,52 @@ actions+=/fireblood
 actions+=/ancestral_call
 actions+=/bag_of_tricks
 actions+=/potion,if=buff.avatar.up|buff.avatar.up&target.health.pct<=20
-actions+=/ignore_pain,if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready|rage.deficit<=40&cooldown.shield_charge.ready|rage.deficit<=20&cooldown.shield_charge.ready|rage.deficit<=30&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled|rage.deficit<=20&cooldown.avatar.ready|rage.deficit<=45&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled&buff.last_stand.up&talent.unnerving_focus.enabled|rage.deficit<=30&cooldown.avatar.ready&buff.last_stand.up&talent.unnerving_focus.enabled|rage.deficit<=20|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.impenetrable_wall.enabled|rage.deficit<=55&cooldown.shield_slam.ready&buff.violent_outburst.up&buff.last_stand.up&talent.unnerving_focus.enabled&talent.heavy_repercussions.enabled&talent.impenetrable_wall.enabled|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled|rage.deficit<=18&cooldown.shield_slam.ready&talent.impenetrable_wall.enabled)|(rage>=70|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains>=4&set_bonus.tier31_2pc,use_off_gcd=1
-actions+=/last_stand,if=(target.health.pct>=90&talent.unnerving_focus.enabled|target.health.pct<=20&talent.unnerving_focus.enabled)|talent.bolster.enabled|set_bonus.tier30_2pc|set_bonus.tier30_4pc
+actions+=/ignore_pain,if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready|rage.deficit<=20&cooldown.shield_charge.ready|rage.deficit<=20&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled|rage.deficit<=15|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.practiced_strikes.enabled|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled|rage.deficit<=18&cooldown.shield_slam.ready&talent.practiced_strikes.enabled)|(rage>=70|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains,use_off_gcd=1
 actions+=/ravager
 actions+=/demoralizing_shout,if=talent.booming_voice.enabled
+actions+=/champions_leap
 actions+=/champions_spear
 actions+=/thunder_blast,if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2
 actions+=/demolish,if=buff.colossal_might.stack>=3
-actions+=/thunderous_roar
 actions+=/shield_charge
 actions+=/shield_block,if=buff.shield_block.remains<=10
 actions+=/run_action_list,name=aoe,if=spell_targets.thunder_clap>=3
-actions+=/call_action_list,name=generic
+actions+=/run_action_list,name=colossus_st,if=talent.demolish
+actions+=/run_action_list,name=thane_st,if=talent.lightning_strikes
 
-actions.aoe=thunder_blast,if=dot.rend.remains<=1
-actions.aoe+=/thunder_clap,if=dot.rend.remains<=1
-actions.aoe+=/thunder_blast,if=buff.violent_outburst.up&spell_targets.thunderclap>=2&buff.avatar.up&talent.unstoppable_force.enabled
+actions.aoe=thunder_blast,if=dot.rend_dot.remains<=1
+actions.aoe+=/thunder_clap,if=dot.rend_dot.remains<=1
+actions.aoe+=/thunder_blast,if=spell_targets.thunder_clap>=2&buff.avatar.up
 actions.aoe+=/execute,if=spell_targets.execute>=2&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled
-actions.aoe+=/thunder_clap,if=buff.violent_outburst.up&spell_targets.thunderclap>=4&buff.avatar.up&talent.unstoppable_force.enabled&talent.crashing_thunder.enabled|buff.violent_outburst.up&spell_targets.thunderclap>6&buff.avatar.up&talent.unstoppable_force.enabled
-actions.aoe+=/revenge,if=rage>=70&talent.seismic_reverberation.enabled&spell_targets.revenge>=3
-actions.aoe+=/shield_slam,if=rage<=60|buff.violent_outburst.up&spell_targets.thunderclap<=4&talent.crashing_thunder.enabled
+actions.aoe+=/thunder_clap,if=spell_targets.thunder_clap>=4&buff.avatar.up&hero_tree.mountain_thane|spell_targets.thunder_clap>6&buff.avatar.up
+actions.aoe+=/revenge,if=rage>=70&spell_targets.revenge>=3
+actions.aoe+=/shield_slam,if=rage<=60|buff.violent_outburst.up
 actions.aoe+=/thunder_blast
 actions.aoe+=/thunder_clap
 actions.aoe+=/revenge,if=rage>=30|rage>=40&talent.barbaric_training.enabled
 
-actions.generic=thunder_blast,if=(buff.thunder_blast.stack=2&buff.burst_of_power.stack<=1&buff.avatar.up&talent.unstoppable_force.enabled)
-actions.generic+=/shield_slam,if=(buff.burst_of_power.stack=2&buff.thunder_blast.stack<=1|buff.violent_outburst.up)|rage<=70&talent.demolish.enabled
-actions.generic+=/execute,if=rage>=70|(rage>=40&cooldown.shield_slam.remains&talent.demolish.enabled|rage>=50&cooldown.shield_slam.remains)|buff.sudden_death.up&talent.sudden_death.enabled
-actions.generic+=/shield_slam
-actions.generic+=/thunder_blast,if=dot.rend.remains<=2&buff.violent_outburst.down
-actions.generic+=/thunder_blast
-actions.generic+=/thunder_clap,if=dot.rend.remains<=2&buff.violent_outburst.down
-actions.generic+=/thunder_blast,if=(spell_targets.thunder_clap>1|cooldown.shield_slam.remains&!buff.violent_outburst.up)
-actions.generic+=/thunder_clap,if=(spell_targets.thunder_clap>1|cooldown.shield_slam.remains&!buff.violent_outburst.up)
-actions.generic+=/revenge,if=(rage>=80&target.health.pct>20|buff.revenge.up&target.health.pct<=20&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&target.health.pct>20)|(rage>=80&target.health.pct>35|buff.revenge.up&target.health.pct<=35&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&target.health.pct>35)&talent.massacre.enabled
-actions.generic+=/execute
-actions.generic+=/revenge
-actions.generic+=/thunder_blast,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains&buff.violent_outburst.up)
-actions.generic+=/thunder_clap,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains&buff.violent_outburst.up)
-actions.generic+=/devastate
+actions.colossus_st=shield_slam
+actions.colossus_st+=/thunder_clap
+actions.colossus_st+=/revenge,if=buff.ravager.up
+actions.colossus_st+=/execute,if=buff.sudden_death.up&talent.deep_wounds|talent.deep_wounds&rage>=40
+actions.colossus_st+=/thunder_clap,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80
+actions.colossus_st+=/revenge,if=rage>=80&!variable.execute_phase|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&!variable.execute_phase
+actions.colossus_st+=/wrecking_throw,if=talent.javelineer.enabled
+actions.colossus_st+=/shattering_throw,if=talent.javelineer.enabled
+actions.colossus_st+=/revenge
+actions.colossus_st+=/devastate
+
+actions.thane_st=thunder_blast
+actions.thane_st+=/thunder_clap,if=buff.ravager.up
+actions.thane_st+=/shield_slam
+actions.thane_st+=/thunder_clap
+actions.thane_st+=/thunder_blast,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)
+actions.thane_st+=/execute,if=buff.sudden_death.up|rage>=40
+actions.thane_st+=/wrecking_throw,if=talent.javelineer.enabled
+actions.thane_st+=/shattering_throw,if=talent.javelineer.enabled
+actions.thane_st+=/revenge,if=rage>=80&!variable.execute_phase|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&!variable.execute_phase
+actions.thane_st+=/revenge
+actions.thane_st+=/devastate
+
+actions.variables=variable,name=execute_phase,value=(talent.massacre.enabled&target.health.pct<35)|target.health.pct<20
 ```
