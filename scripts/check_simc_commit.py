@@ -9,7 +9,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
 SIMC_REPO = "simulationcraft/simc"
-BRANCH = "thewarwithin"
+BRANCH = "midnight"
 API_BASE = f"https://api.github.com/repos/{SIMC_REPO}"
 LAST_COMMIT_FILE = Path(__file__).resolve().parent.parent / "changelog" / ".last_simc_commit"
 
