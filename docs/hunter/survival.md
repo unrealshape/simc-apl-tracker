@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-24 07:44 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-25 04:59 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/survival.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 59
+- **Total Actions:** 63
 - **Lists:** `precombat`, `default`, `cds`, `plcleave`, `plst`, `sentcleave`, `sentst`
 
 ## Action List: `precombat`
@@ -18,6 +18,8 @@ Source: `apl/default/hunter/survival.simc`
 |---|--------|------------|
 | 1 | `summon_pet` | — |
 | 2 | `snapshot_stats` | — |
+| 3 | `use_item` | name=algethar_puzzle_box |
+| 4 | `wildfire_bomb` | — |
 
 ## Action List: `default`
 
@@ -65,15 +67,17 @@ Source: `apl/default/hunter/survival.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `kill_command` | if=buff.tip_of_the_spear.stack<2&(buff.howl_of_the_pack_leader_wyvern.remains\|buff.howl_of_the_pack_leader_boar.remains\|buff.howl_of_the_pack_leader_bear.remains) |
-| 2 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
-| 3 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
-| 4 | `flamefang_pitch` | — |
-| 5 | `boomstick` | if=buff.tip_of_the_spear.up |
-| 6 | `wildfire_bomb` | if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up |
-| 7 | `raptor_strike` | if=buff.tip_of_the_spear.up\|!buff.raptor_swipe.up |
-| 8 | `kill_command` | if=cooldown.takedown.remains |
-| 9 | `wildfire_bomb` | — |
-| 10 | `takedown` | — |
+| 2 | `wildfire_bomb` | if=fury_of_the_wyvern_extendable&buff.wyverns_cry.remains<gcd |
+| 3 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
+| 4 | `raptor_strike` | if=!buff.raptor_swipe.up&cooldown.takedown.remains<gcd |
+| 5 | `boomstick` | if=buff.tip_of_the_spear.up\|cooldown.takedown.remains<gcd&talent.twin_fangs |
+| 6 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
+| 7 | `flamefang_pitch` | — |
+| 8 | `wildfire_bomb` | if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up&!buff.takedown.remains |
+| 9 | `raptor_strike` | if=(buff.tip_of_the_spear.up\|!buff.raptor_swipe.up) |
+| 10 | `kill_command` | if=cooldown.takedown.remains |
+| 11 | `wildfire_bomb` | — |
+| 12 | `takedown` | — |
 
 ## Action List: `sentcleave`
 
@@ -118,6 +122,8 @@ Source: `apl/default/hunter/survival.simc`
 # Executed before combat begins. Accepts non-harmful actions only.
 actions.precombat=summon_pet
 actions.precombat+=/snapshot_stats
+actions.precombat+=/use_item,name=algethar_puzzle_box
+actions.precombat+=/wildfire_bomb
 
 # Executed every time the actor is available.
 actions=auto_attack
@@ -153,12 +159,14 @@ actions.plcleave+=/takedown
 
 # ST - PL
 actions.plst=kill_command,if=buff.tip_of_the_spear.stack<2&(buff.howl_of_the_pack_leader_wyvern.remains|buff.howl_of_the_pack_leader_boar.remains|buff.howl_of_the_pack_leader_bear.remains)
+actions.plst+=/wildfire_bomb,if=fury_of_the_wyvern_extendable&buff.wyverns_cry.remains<gcd
 actions.plst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
+actions.plst+=/raptor_strike,if=!buff.raptor_swipe.up&cooldown.takedown.remains<gcd
+actions.plst+=/boomstick,if=buff.tip_of_the_spear.up|cooldown.takedown.remains<gcd&talent.twin_fangs
 actions.plst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
 actions.plst+=/flamefang_pitch
-actions.plst+=/boomstick,if=buff.tip_of_the_spear.up
-actions.plst+=/wildfire_bomb,if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up
-actions.plst+=/raptor_strike,if=buff.tip_of_the_spear.up|!buff.raptor_swipe.up
+actions.plst+=/wildfire_bomb,if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up&!buff.takedown.remains
+actions.plst+=/raptor_strike,if=(buff.tip_of_the_spear.up|!buff.raptor_swipe.up)
 actions.plst+=/kill_command,if=cooldown.takedown.remains
 actions.plst+=/wildfire_bomb
 actions.plst+=/takedown

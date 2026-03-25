@@ -1,6 +1,6 @@
 # Hunter – Marksmanship
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-24 07:44 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-25 04:59 UTC
 
 Source: `apl/default/hunter/marksmanship.simc`
 
@@ -102,7 +102,7 @@ Source: `apl/default/hunter/marksmanship.simc`
 | 6 | `rapid_fire` | if=buff.bulletstorm.remains<action.aimed_shot.execute_time |
 | 7 | `trueshot` | if=!buff.double_tap.up&active_enemies>1&variable.trueshot_ready |
 | 8 | `volley` | if=!buff.double_tap.up&active_enemies>1 |
-| 9 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=cooldown.volley.remains>2\|buff.trueshot.up |
+| 9 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=cooldown.volley.remains>2\|buff.trueshot.up\|!talent.volley |
 | 10 | `moonlight_chakram` | — |
 | 11 | `rapid_fire` | — |
 | 12 | `steady_shot` | — |
@@ -189,7 +189,7 @@ actions.sentst+=/arcane_shot,target_if=max:debuff.sentinels_mark.down|action.aim
 actions.sentst+=/rapid_fire,if=buff.bulletstorm.remains<action.aimed_shot.execute_time
 actions.sentst+=/trueshot,if=!buff.double_tap.up&active_enemies>1&variable.trueshot_ready
 actions.sentst+=/volley,if=!buff.double_tap.up&active_enemies>1
-actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage,if=cooldown.volley.remains>2|buff.trueshot.up
+actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage,if=cooldown.volley.remains>2|buff.trueshot.up|!talent.volley
 actions.sentst+=/moonlight_chakram
 actions.sentst+=/rapid_fire
 actions.sentst+=/steady_shot
