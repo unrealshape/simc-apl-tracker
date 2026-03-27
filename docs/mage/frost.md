@@ -1,6 +1,6 @@
 # Mage – Frost
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-26 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-27 05:11 UTC
 
 Source: `apl/default/mage/frost.simc`
 
