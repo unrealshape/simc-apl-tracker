@@ -1,6 +1,6 @@
 # Priest – Shadow
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-27 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-28 04:58 UTC
 
 Source: `apl/default/priest/shadow.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/priest/shadow.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 58
+- **Total Actions:** 59
 - **Lists:** `precombat`, `default`, `aoe`, `aoe_variables`, `cds`, `heal_for_tof`, `main`, `trinkets`
 
 ## Action List: `precombat`
@@ -97,11 +97,12 @@ Source: `apl/default/priest/shadow.simc`
 | 15 | `call_action_list` | name=heal_for_tof,if=!buff.twist_of_fate.up&buff.twist_of_fate_can_trigger_on_ally_heal.up&talent.halo |
 | 16 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12 |
 | 17 | `shadow_word_death` | target_if=min:target.health.pct,if=(pet.mindbender.active\|pet.voidwraith.active\|pet.shadowfiend.active)&talent.inescapable_torment\|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj |
-| 18 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=3,interrupt_global=1 |
-| 19 | `tentacle_slam` | if=raid_event.adds.in>20 |
-| 20 | `shadow_word_death` | target_if=target.health.pct<20 |
-| 21 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
-| 22 | `shadow_word_pain` | target_if=min:remains |
+| 18 | `shadow_word_death` | target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker)) |
+| 19 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=3,interrupt_global=1 |
+| 20 | `tentacle_slam` | if=raid_event.adds.in>20 |
+| 21 | `shadow_word_death` | target_if=target.health.pct<20 |
+| 22 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
+| 23 | `shadow_word_pain` | target_if=min:remains |
 
 ## Action List: `trinkets`
 
@@ -196,6 +197,7 @@ actions.main+=/call_action_list,name=heal_for_tof,if=!buff.twist_of_fate.up&buff
 # Put out Vampiric Touch on enemies that will live at least 12s as a filler action.
 actions.main+=/vampiric_touch,target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12
 actions.main+=/shadow_word_death,target_if=min:target.health.pct,if=(pet.mindbender.active|pet.voidwraith.active|pet.shadowfiend.active)&talent.inescapable_torment|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj
+actions.main+=/shadow_word_death,target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker))
 actions.main+=/mind_flay,target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=3,interrupt_global=1
 # Use Tentacle Slam while moving as a low-priority action when adds will not spawn in 20 seconds.
 actions.main+=/tentacle_slam,if=raid_event.adds.in>20

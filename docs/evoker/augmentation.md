@@ -1,6 +1,6 @@
 # Evoker – Augmentation
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-27 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-28 04:58 UTC
 
 Source: `apl/default/evoker/augmentation.simc`
 

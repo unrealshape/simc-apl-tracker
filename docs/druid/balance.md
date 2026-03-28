@@ -1,6 +1,6 @@
 # Druid – Balance
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-27 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-28 04:58 UTC
 
 Source: `apl/default/druid/balance.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/druid/balance.simc`
 ## Overview
 
 - **Action Lists:** 5
-- **Total Actions:** 81
+- **Total Actions:** 82
 - **Lists:** `precombat`, `default`, `aoe`, `ec_st`, `kotg_st`
 
 ## Action List: `precombat`
@@ -35,20 +35,21 @@ Source: `apl/default/druid/balance.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_items` | if=buff.ca_inc.up&(buff.harmony_of_the_grove.up\|!talent.dream_surge)\|fight_remains<cooldown.ca_inc.remains |
-| 2 | `potion` | if=buff.harmony_of_the_grove.up&buff.ca_inc.up&!variable.ec\|buff.ca_inc.up&variable.ec\|variable.opener&prev_gcd.1.solar_eclipse\|fight_remains<=30 |
-| 3 | `berserking` | if=buff.ca_inc.up&(buff.harmony_of_the_grove.up\|!talent.dream_surge)\|fight_remains<cooldown.ca_inc.remains |
-| 4 | `invoke_external_buff` | name=power_infusion,if=buff.ca_inc.up |
-| 5 | `variable` | name=inc_charge,op=set,value=1,if=cooldown.ca_inc.charges_fractional<1 |
-| 6 | `variable` | name=opener,op=set,value=0,if=buff.ca_inc.up |
-| 7 | `variable` | name=eclipse_down,value=!buff.eclipse_lunar.up&!buff.eclipse_solar.up |
-| 8 | `variable` | name=cd_window,value=cooldown.force_of_nature.remains>15\|cooldown.ca_inc.remains<44 |
-| 9 | `variable` | name=cd_window_narrow,value=cooldown.force_of_nature.remains>30\|cooldown.ca_inc.remains>10&cooldown.ca_inc.remains<20 |
-| 10 | `variable` | name=no_weaver_procs,value=!buff.touch_the_cosmos.react&!buff.starweavers_warp.react |
-| 11 | `variable` | name=ca_soon,value=cooldown.ca_inc.remains<3\|cooldown.ca_inc.charges_fractional>1 |
-| 12 | `run_action_list` | name=ec_st,if=hero_tree.elunes_chosen&spell_targets=1 |
-| 13 | `run_action_list` | name=kotg_st,if=spell_targets=1 |
-| 14 | `run_action_list` | name=aoe,if=spell_targets>1 |
+| 1 | `use_items` | if=(!trinket.1.is.wraps_of_cosmic_madness\|!trinket.2.is.wraps_of_cosmic_madness)&(buff.ca_inc.up\|(trinket.1.cooldown.duration=60\|trinket.2.cooldown.duration=60)&(buff.harmony_of_the_grove.up\|variable.ec))\|fight_remains<cooldown.ca_inc.remains |
+| 2 | `use_item` | name=wraps_of_cosmic_madness,if=!buff.eclipse.up |
+| 3 | `potion` | if=buff.harmony_of_the_grove.up&buff.ca_inc.up&!variable.ec\|buff.ca_inc.up&variable.ec\|variable.opener&prev_gcd.1.solar_eclipse\|fight_remains<=30 |
+| 4 | `berserking` | if=buff.ca_inc.up&(buff.harmony_of_the_grove.up\|!talent.dream_surge)\|fight_remains<cooldown.ca_inc.remains |
+| 5 | `invoke_external_buff` | name=power_infusion,if=buff.ca_inc.up |
+| 6 | `variable` | name=inc_charge,op=set,value=1,if=cooldown.ca_inc.charges_fractional<1 |
+| 7 | `variable` | name=opener,op=set,value=0,if=buff.ca_inc.up |
+| 8 | `variable` | name=eclipse_down,value=!buff.eclipse_lunar.up&!buff.eclipse_solar.up |
+| 9 | `variable` | name=cd_window,value=cooldown.force_of_nature.remains>15\|cooldown.ca_inc.remains<44 |
+| 10 | `variable` | name=cd_window_narrow,value=cooldown.force_of_nature.remains>30\|cooldown.ca_inc.remains>10&cooldown.ca_inc.remains<20 |
+| 11 | `variable` | name=no_weaver_procs,value=!buff.touch_the_cosmos.react&!buff.starweavers_warp.react |
+| 12 | `variable` | name=ca_soon,value=cooldown.ca_inc.remains<3\|cooldown.ca_inc.charges_fractional>1 |
+| 13 | `run_action_list` | name=ec_st,if=hero_tree.elunes_chosen&spell_targets=1 |
+| 14 | `run_action_list` | name=kotg_st,if=spell_targets=1 |
+| 15 | `run_action_list` | name=aoe,if=spell_targets>1 |
 
 ## Action List: `aoe`
 
@@ -150,7 +151,8 @@ actions.precombat+=/starfire,if=hero_tree.elunes_chosen|enemies>1
 
 # Executed every time the actor is available.
 # Items, Racials & PI
-actions=use_items,if=buff.ca_inc.up&(buff.harmony_of_the_grove.up|!talent.dream_surge)|fight_remains<cooldown.ca_inc.remains
+actions=use_items,if=(!trinket.1.is.wraps_of_cosmic_madness|!trinket.2.is.wraps_of_cosmic_madness)&(buff.ca_inc.up|(trinket.1.cooldown.duration=60|trinket.2.cooldown.duration=60)&(buff.harmony_of_the_grove.up|variable.ec))|fight_remains<cooldown.ca_inc.remains
+actions+=/use_item,name=wraps_of_cosmic_madness,if=!buff.eclipse.up
 actions+=/potion,if=buff.harmony_of_the_grove.up&buff.ca_inc.up&!variable.ec|buff.ca_inc.up&variable.ec|variable.opener&prev_gcd.1.solar_eclipse|fight_remains<=30
 actions+=/berserking,if=buff.ca_inc.up&(buff.harmony_of_the_grove.up|!talent.dream_surge)|fight_remains<cooldown.ca_inc.remains
 actions+=/invoke_external_buff,name=power_infusion,if=buff.ca_inc.up
