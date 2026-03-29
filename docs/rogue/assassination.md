@@ -1,6 +1,6 @@
 # Rogue – Assassination
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-28 04:58 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-29 05:16 UTC
 
 Source: `apl/default/rogue/assassination.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/rogue/assassination.simc`
 ## Overview
 
 - **Action Lists:** 9
-- **Total Actions:** 44
+- **Total Actions:** 45
 - **Lists:** `precombat`, `default`, `cds`, `core_dot`, `generate`, `items`, `misc_cds`, `spend`, `vanish`
 
 ## Action List: `precombat`
@@ -41,7 +41,7 @@ Source: `apl/default/rogue/assassination.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `deathmark` | if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.up&(target.time_to_die>10\|fight_remains<20) |
+| 1 | `deathmark` | if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.remains>2&(target.time_to_die>10\|fight_remains<20) |
 | 2 | `call_action_list` | name=items |
 | 3 | `call_action_list` | name=misc_cds |
 | 4 | `kingsbane` | if=dot.garrote.ticking&dot.rupture.ticking&(dot.deathmark.ticking\|cooldown.deathmark.remains>52)&buff.envenom.up&(target.time_to_die>10\|fight_remains<20) |
@@ -52,10 +52,11 @@ Source: `apl/default/rogue/assassination.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `garrote` | if=(buff.improved_garrote.up\|stealthed.rogue)&(pmultiplier<=1\|remains<=14+6*talent.razor_wire+4*!variable.single_target) |
-| 2 | `garrote` | if=combo_points.deficit>=1&(pmultiplier<=1\|!variable.single_target)&refreshable&target.time_to_die-remains>12 |
-| 3 | `garrote` | cycle_targets=1,if=!talent.crimson_tempest&combo_points.deficit>=1&(pmultiplier<=1\|!variable.single_target)&refreshable&target.time_to_die-remains>12 |
-| 4 | `rupture` | if=combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up\|!dot.rupture.ticking) |
-| 5 | `rupture` | cycle_targets=1,if=!talent.crimson_tempest&combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up\|!dot.rupture.ticking) |
+| 2 | `garrote` | if=(buff.improved_garrote.up\|stealthed.rogue)&(dot.deathmark.ticking&cooldown.vanish.remains>115&dot.garrote.remains<22) |
+| 3 | `garrote` | if=combo_points.deficit>=1&(pmultiplier<=1\|!variable.single_target)&refreshable&target.time_to_die-remains>12 |
+| 4 | `garrote` | cycle_targets=1,if=!talent.crimson_tempest&combo_points.deficit>=1&(pmultiplier<=1\|!variable.single_target)&refreshable&target.time_to_die-remains>12 |
+| 5 | `rupture` | if=combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up\|!dot.rupture.ticking) |
+| 6 | `rupture` | cycle_targets=1,if=!talent.crimson_tempest&combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up\|!dot.rupture.ticking) |
 
 ## Action List: `generate`
 
@@ -98,7 +99,7 @@ Source: `apl/default/rogue/assassination.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `vanish` | if=variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(cooldown.deathmark.remains<5\|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30 |
+| 1 | `vanish` | if=variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(dot.deathmark.ticking\|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30 |
 | 2 | `vanish` | if=!variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(raid_event.adds.remains>=10\|!raid_event.adds.in<=30) |
 
 ## Raw APL
@@ -141,7 +142,7 @@ actions+=/call_action_list,name=generate,if=!buff.darkest_night.up&combo_points<
 actions+=/call_action_list,name=spend,if=!buff.darkest_night.up&combo_points>=5|buff.darkest_night.up&combo_points.deficit=0
 
 # Cooldown list Deathmark if bleeds are active, kingsbane is ready, and we have envenom
-actions.cds=deathmark,if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.up&(target.time_to_die>10|fight_remains<20)
+actions.cds=deathmark,if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.remains>2&(target.time_to_die>10|fight_remains<20)
 # Check for on-use trinket usage
 actions.cds+=/call_action_list,name=items
 # Check for Racial abilties, potions, and any other misc cooldowns
@@ -153,6 +154,8 @@ actions.cds+=/call_action_list,name=vanish,if=!stealthed.rogue
 
 # DoT list Garrote for improved garrote when applicable
 actions.core_dot=garrote,if=(buff.improved_garrote.up|stealthed.rogue)&(pmultiplier<=1|remains<=14+6*talent.razor_wire+4*!variable.single_target)
+# Hacky line for ImpGar Snapshotting while the bug exists
+actions.core_dot+=/garrote,if=(buff.improved_garrote.up|stealthed.rogue)&(dot.deathmark.ticking&cooldown.vanish.remains>115&dot.garrote.remains<22)
 # Normal Garrote Maintanence
 actions.core_dot+=/garrote,if=combo_points.deficit>=1&(pmultiplier<=1|!variable.single_target)&refreshable&target.time_to_die-remains>12
 # Cycle Garrote without Crimson Tempest
@@ -193,8 +196,8 @@ actions.spend=envenom,if=buff.implacable_tracker.stack<4
 # Envenom if we are going to overcap on energy
 actions.spend+=/envenom,if=energy.pct>70|fight_remains<15
 
-# Vanish list Single Target vanish check to line up improved garrote with Deathmark, making sure there are no adds soon
-actions.vanish=vanish,if=variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(cooldown.deathmark.remains<5|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30
+# Vanish list Single Target vanish check to line up improved garrote with Deathmark, making sure there are no adds soon. TODO Check after ImpGar fixes
+actions.vanish=vanish,if=variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(dot.deathmark.ticking|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30
 # AoE vanish check to spread improved garrote in multitarget
 actions.vanish+=/vanish,if=!variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(raid_event.adds.remains>=10|!raid_event.adds.in<=30)
 ```
