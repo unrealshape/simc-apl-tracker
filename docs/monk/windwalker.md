@@ -1,6 +1,6 @@
 # Monk – Windwalker
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-03-30 05:30 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-03-31 05:14 UTC
 
 Source: `apl/default/monk/windwalker.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/monk/windwalker.simc`
 ## Overview
 
 - **Action Lists:** 10
-- **Total Actions:** 131
+- **Total Actions:** 133
 - **Lists:** `precombat`, `default`, `big_coc`, `default_st`, `fallback`, `multitarget`, `opener`, `racials`, `trinket`, `zenith`
 
 ## Action List: `precombat`
@@ -24,29 +24,30 @@ Source: `apl/default/monk/windwalker.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `auto_attack` | target_if=max:target.time_to_die |
-| 2 | `roll` | if=movement.distance>5 |
-| 3 | `chi_torpedo` | if=movement.distance>5 |
-| 4 | `flying_serpent_kick` | if=movement.distance>5 |
-| 5 | `spear_hand_strike` | if=target.debuff.casting.react |
-| 6 | `potion` | if=buff.invoke_xuen_the_white_tiger.remains>15\|fight_remains<=30 |
-| 7 | `potion` | if=talent.flurry_strikes&chi>2&(time<5\|cooldown.zenith.up&time<5\|time>300&((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)\|!trinket.1.has_use_buff&!trinket.2.has_use_buff)&talent.flurry_strikes\|time>300&buff.zenith.up) |
-| 8 | `variable` | name=has_external_pi,value=cooldown.invoke_power_infusion_0.duration>0 |
-| 9 | `call_action_list` | name=opener,if=time<2 |
-| 10 | `call_action_list` | name=trinket |
-| 11 | `invoke_external_buff` | name=power_infusion,if=buff.zenith.up&(buff.invoke_xuen_the_white_tiger.up\|talent.flurry_strikes) |
-| 12 | `call_action_list` | name=big_coc,if=talent.celestial_conduit |
-| 13 | `call_action_list` | name=zenith |
-| 14 | `call_action_list` | name=racials |
-| 15 | `call_action_list` | name=default_st,if=active_enemies=1 |
-| 16 | `call_action_list` | name=multitarget,if=active_enemies>1 |
-| 17 | `call_action_list` | name=fallback |
-| 18 | `arcane_torrent` | if=chi<chi.max&energy<55 |
-| 19 | `thorn_bloom` | — |
-| 20 | `haymaker` | — |
-| 21 | `bag_of_tricks` | — |
-| 22 | `arcane_pulse` | — |
-| 23 | `rocket_barrage` | — |
-| 24 | `lights_judgment` | — |
+| 2 | `touch_of_karma` | target_if=max:target.time_to_die |
+| 3 | `roll` | if=movement.distance>5 |
+| 4 | `chi_torpedo` | if=movement.distance>5 |
+| 5 | `flying_serpent_kick` | if=movement.distance>5 |
+| 6 | `spear_hand_strike` | if=target.debuff.casting.react |
+| 7 | `potion` | if=buff.invoke_xuen_the_white_tiger.remains>15\|fight_remains<=30 |
+| 8 | `potion` | if=talent.flurry_strikes&chi>2&(time<5\|cooldown.zenith.up&time<5\|time>300&((trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)\|!trinket.1.has_use_buff&!trinket.2.has_use_buff)&talent.flurry_strikes\|time>300&buff.zenith.up) |
+| 9 | `variable` | name=has_external_pi,value=cooldown.invoke_power_infusion_0.duration>0 |
+| 10 | `call_action_list` | name=opener,if=time<2 |
+| 11 | `call_action_list` | name=trinket |
+| 12 | `invoke_external_buff` | name=power_infusion,if=buff.zenith.up&(buff.invoke_xuen_the_white_tiger.up\|talent.flurry_strikes) |
+| 13 | `call_action_list` | name=big_coc,if=talent.celestial_conduit |
+| 14 | `call_action_list` | name=zenith |
+| 15 | `call_action_list` | name=racials |
+| 16 | `call_action_list` | name=default_st,if=active_enemies=1 |
+| 17 | `call_action_list` | name=multitarget,if=active_enemies>1 |
+| 18 | `call_action_list` | name=fallback |
+| 19 | `arcane_torrent` | if=chi<chi.max&energy<55 |
+| 20 | `thorn_bloom` | — |
+| 21 | `haymaker` | — |
+| 22 | `bag_of_tricks` | — |
+| 23 | `arcane_pulse` | — |
+| 24 | `rocket_barrage` | — |
+| 25 | `lights_judgment` | — |
 
 ## Action List: `big_coc`
 
@@ -164,7 +165,7 @@ Source: `apl/default/monk/windwalker.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `use_item` | slot=main_hand |
-| 2 | `use_item` | name=algethar_puzzle_box,if=!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25)&(cooldown.potion.remains>30\|fight_remains<45\|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2\|talent.flurry_strikes&cooldown.zenith.up)\|fight_remains<25\|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25) |
+| 2 | `use_item` | name=algethar_puzzle_box,if=!buff.zenith.up&!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25)&(cooldown.potion.remains>30\|fight_remains<45\|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2\|talent.flurry_strikes&cooldown.zenith.up)\|fight_remains<25\|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute\|target.time_to_die>25)&!buff.zenith.up |
 | 3 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
 | 4 | `use_item` | slot=trinket2,if=trinket.2.has_use_buff&!trinket.1.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
 | 5 | `use_item` | slot=trinket1,if=trinket.1.has_use_buff&trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger\|talent.flurry_strikes&buff.zenith.remains>14) |
@@ -181,17 +182,18 @@ Source: `apl/default/monk/windwalker.simc`
 | 1 | `zenith` | target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.up&(!buff.zenith.up\|talent.flurry_strikes) |
 | 2 | `zenith` | target_if=max:target.time_to_die,if=buff.bloodlust.remains>10&(active_enemies>2\|cooldown.rising_sun_kick.remains)&!buff.zenith.up |
 | 3 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(buff.bloodlust.up&cooldown.celestial_conduit.remains&(cooldown.rising_sun_kick.remains\|active_enemies>2)&!buff.zenith.up&talent.celestial_conduit) |
-| 4 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up\|cooldown.potion.remains>295\|cooldown.zenith.full_recharge_time<5)&((cooldown.rising_sun_kick.remains\|active_enemies>2)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains<102\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains<102)\|time<5\|!trinket.1.has_use_buff&!trinket.2.has_use_buff)) |
-| 5 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10\|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice |
-| 6 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains\|active_enemies>2)) |
-| 7 | `zenith` | target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains\|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes |
-| 8 | `zenith` | target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes\|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk |
-| 9 | `zenith` | target_if=max:target.time_to_die,if=talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains\|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute\|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk |
-| 10 | `zenith` | target_if=max:target.time_to_die,if=talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25 |
-| 11 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(cooldown.zenith.full_recharge_time<20&talent.flurry_strikes&(cooldown.rising_sun_kick.remains\|active_enemies>2)\|cooldown.zenith.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains)&!fight_style.patchwerk&(cooldown.rising_sun_kick.remains\|active_enemies>2) |
-| 12 | `zenith` | target_if=max:target.time_to_die,if=fight_remains<=25&(cooldown.rising_sun_kick.remains\|active_enemies>2) |
-| 13 | `zenith` | target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready\|cooldown.zenith.full_recharge_time<5) |
-| 14 | `zenith` | target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready\|cooldown.zenith.full_recharge_time<5) |
+| 4 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up\|cooldown.potion.remains>295))&!buff.zenith.up |
+| 5 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10\|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice&!buff.zenith.up |
+| 6 | `zenith` | target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100\|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains\|active_enemies>2\|talent.drinking_horn_cover&chi<2))&!buff.zenith.up |
+| 7 | `zenith` | target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains\|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes&!buff.zenith.up |
+| 8 | `zenith` | target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes\|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk&!buff.zenith.up |
+| 9 | `zenith` | target_if=max:target.time_to_die,if=!buff.zenith.up&(talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains\|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute\|target.time_to_die>25&!fight_style.dungeonroute\|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk) |
+| 10 | `zenith` | target_if=max:target.time_to_die,if=!buff.zenith.up&talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25 |
+| 11 | `zenith` | target_if=max:target.time_to_die,if=fight_style.patchwerk&!buff.zenith.up&cooldown.fists_of_fury.remains<10&(cooldown.whirling_dragon.remains<10\|cooldown.strike_of_the_windlord.remains<10)&(cooldown.rising_sun_kick.remains\|chi<2&energy<50\|active_enemies>1)&cooldown.zenith.full_recharge_time<30&(!trinket.1.has_use_buff&!trinket.2.has_use_buff\|trinket.1.has_use_buff&trinket.1.cooldown.remains>30\|trinket.2.has_use_buff&trinket.2.cooldown.remains>30)&(fight_remains>120\|fight_remains<50&fight_remains>cooldown.zenith.full_recharge_time) |
+| 12 | `zenith` | target_if=max:target.time_to_die,if=fight_remains<=24&(cooldown.rising_sun_kick.remains\|active_enemies>2) |
+| 13 | `zenith` | target_if=max:target.time_to_die,if=fight_remains<45&cooldown.zenith.full_recharge_time<5&(cooldown.rising_sun_kick.remains\|active_enemies>1) |
+| 14 | `zenith` | target_if=max:target.time_to_die,if=!buff.zenith.up&(fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready\|cooldown.zenith.full_recharge_time<5)) |
+| 15 | `zenith` | target_if=max:target.time_to_die,if=!buff.zenith.up&(fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready\|cooldown.zenith.full_recharge_time<5)) |
 
 ## Raw APL
 
@@ -210,6 +212,7 @@ actions.precombat+=/use_item,name=algethar_puzzle_box,if=!talent.flurry_strikes&
 # Executed every time the actor is available.
 # Default List
 actions=auto_attack,target_if=max:target.time_to_die
+actions+=/touch_of_karma,target_if=max:target.time_to_die 
 # Move to target
 actions+=/roll,if=movement.distance>5
 actions+=/chi_torpedo,if=movement.distance>5
@@ -332,7 +335,7 @@ actions.racials+=/fireblood,if=buff.invoke_xuen_the_white_tiger.remains>15|!tale
 # Use Weapon
 actions.trinket=use_item,slot=main_hand
 # Use Algethar
-actions.trinket+=/use_item,name=algethar_puzzle_box,if=!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)&(cooldown.potion.remains>30|fight_remains<45|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2|talent.flurry_strikes&cooldown.zenith.up)|fight_remains<25|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)
+actions.trinket+=/use_item,name=algethar_puzzle_box,if=!buff.zenith.up&!talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)&(cooldown.potion.remains>30|fight_remains<45|fight_remains>80)&(cooldown.invoke_xuen_the_white_tiger.remains<2|talent.flurry_strikes&cooldown.zenith.up)|fight_remains<25|talent.flurry_strikes&(target.time_to_die>35&fight_style.dungeonroute|target.time_to_die>25)&!buff.zenith.up
 # Stat on use with passive or DMG on use
 actions.trinket+=/use_item,slot=trinket1,if=trinket.1.has_use_buff&!trinket.2.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger|talent.flurry_strikes&buff.zenith.remains>14)
 actions.trinket+=/use_item,slot=trinket2,if=trinket.2.has_use_buff&!trinket.1.has_use_buff&(pet.xuen_the_white_tiger.active&talent.invoke_xuen_the_white_tiger|talent.flurry_strikes&buff.zenith.remains>14)
@@ -350,15 +353,16 @@ actions.trinket+=/use_item,slot=trinket2,if=!trinket.1.has_use_buff&!trinket.2.h
 actions.zenith=zenith,target_if=max:target.time_to_die,if=buff.invoke_xuen_the_white_tiger.up&(!buff.zenith.up|talent.flurry_strikes)
 actions.zenith+=/zenith,target_if=max:target.time_to_die,if=buff.bloodlust.remains>10&(active_enemies>2|cooldown.rising_sun_kick.remains)&!buff.zenith.up
 actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(buff.bloodlust.up&cooldown.celestial_conduit.remains&(cooldown.rising_sun_kick.remains|active_enemies>2)&!buff.zenith.up&talent.celestial_conduit)
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up|cooldown.potion.remains>295|cooldown.zenith.full_recharge_time<5)&((cooldown.rising_sun_kick.remains|active_enemies>2)&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains<102|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains<102)|time<5|!trinket.1.has_use_buff&!trinket.2.has_use_buff))
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains|active_enemies>2))
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(cooldown.zenith.full_recharge_time<20&talent.flurry_strikes&(cooldown.rising_sun_kick.remains|active_enemies>2)|cooldown.zenith.full_recharge_time<cooldown.invoke_xuen_the_white_tiger.remains)&!fight_style.patchwerk&(cooldown.rising_sun_kick.remains|active_enemies>2)
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_remains<=25&(cooldown.rising_sun_kick.remains|active_enemies>2)
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready|cooldown.zenith.full_recharge_time<5)
-actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready|cooldown.zenith.full_recharge_time<5)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(talent.flurry_strikes&(buff.bloodlust.up|cooldown.potion.remains>295))&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&talent.flurry_strikes&!trinket.1.has_use_buff&!trinket.2.has_use_buff&cooldown.rising_sun_kick.remains&cooldown.fists_of_fury.remains<5&(cooldown.whirling_dragon_punch.remains<10|cooldown.strike_of_the_windlord.remains<10)&cooldown.zenith.full_recharge_time<40&!fight_style.dungeonslice&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute)&(!buff.bloodlust.up&(trinket.1.is.algethar_puzzle_box&trinket.1.cooldown.remains>100|trinket.2.is.algethar_puzzle_box&trinket.2.cooldown.remains>100)&(cooldown.rising_sun_kick.remains|active_enemies>2|talent.drinking_horn_cover&chi<2))&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=(cooldown.rising_sun_kick.remains|active_enemies>2)&fight_style.dungeonslice&time>130&time<150&active_enemies>1&talent.flurry_strikes&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.dungeonslice&target.time_to_die>15&active_enemies>4&(talent.flurry_strikes|talent.celestial_conduit&talent.restore_balance&cooldown.invoke_xuen_the_white_tiger.remains<cooldown.zenith.full_recharge_time)&!fight_style.patchwerk&!buff.zenith.up
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=!buff.zenith.up&(talent.celestial_conduit&fight_remains<cooldown.invoke_xuen_the_white_tiger.remains&(cooldown.rising_sun_kick.remains|active_enemies>2)&(target.time_to_die>30&fight_style.dungeonroute|target.time_to_die>25&!fight_style.dungeonroute|target.time_to_die>15&active_enemies>4)&!fight_style.patchwerk)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=!buff.zenith.up&talent.flurry_strikes&fight_style.dungeonroute&cooldown.zenith.full_recharge_time<30&target.time_to_die>25
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_style.patchwerk&!buff.zenith.up&cooldown.fists_of_fury.remains<10&(cooldown.whirling_dragon.remains<10|cooldown.strike_of_the_windlord.remains<10)&(cooldown.rising_sun_kick.remains|chi<2&energy<50|active_enemies>1)&cooldown.zenith.full_recharge_time<30&(!trinket.1.has_use_buff&!trinket.2.has_use_buff|trinket.1.has_use_buff&trinket.1.cooldown.remains>30|trinket.2.has_use_buff&trinket.2.cooldown.remains>30)&(fight_remains>120|fight_remains<50&fight_remains>cooldown.zenith.full_recharge_time)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_remains<=24&(cooldown.rising_sun_kick.remains|active_enemies>2)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=fight_remains<45&cooldown.zenith.full_recharge_time<5&(cooldown.rising_sun_kick.remains|active_enemies>1)
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=!buff.zenith.up&(fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.1.has_use_buff&(trinket.1.cooldown.ready|cooldown.zenith.full_recharge_time<5))
+actions.zenith+=/zenith,target_if=max:target.time_to_die,if=!buff.zenith.up&(fight_style.patchwerk&!trinket.1.is.algethar_puzzle_box&!trinket.2.is.algethar_puzzle_box&trinket.2.has_use_buff&(trinket.2.cooldown.ready|cooldown.zenith.full_recharge_time<5))
 ```

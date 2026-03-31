@@ -1,4 +1,6 @@
 [
+  "apl/default/demonhunter/devourer.simc",
   "apl/default/druid/balance.simc",
-  "apl/default/shaman/elemental.simc"
+  "apl/default/monk/windwalker.simc",
+  "apl/default/rogue/assassination.simc"
 ]
