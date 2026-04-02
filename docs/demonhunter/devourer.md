@@ -1,6 +1,6 @@
 # Demon Hunter – Devourer
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-01 05:28 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-02 05:07 UTC
 
 Source: `apl/default/demonhunter/devourer.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/demonhunter/devourer.simc`
 ## Overview
 
 - **Action Lists:** 6
-- **Total Actions:** 61
+- **Total Actions:** 65
 - **Lists:** `precombat`, `default`, `illicit_doping`, `math_for_wizards`, `melee_combo`, `reaps`
 
 ## Action List: `precombat`
@@ -19,25 +19,26 @@ Source: `apl/default/demonhunter/devourer.simc`
 | 1 | `snapshot_stats` | — |
 | 2 | `variable` | name=trinket_1_mastery,value=trinket.1.has_use_buff&trinket.1.has_buff.mastery |
 | 3 | `variable` | name=trinket_2_mastery,value=trinket.2.has_use_buff&trinket.2.has_buff.mastery |
-| 4 | `variable` | name=trinket_1_buffs,value=trinket.1.has_buff.intellect\|trinket.1.has_buff.mastery\|trinket.1.has_buff.versatility\|trinket.1.has_buff.haste\|trinket.1.has_buff.crit\|trinket.1.is.mirror_of_fractured_tomorrows\|trinket.1.is.signet_of_the_priory |
-| 5 | `variable` | name=trinket_2_buffs,value=trinket.2.has_buff.intellect\|trinket.2.has_buff.mastery\|trinket.2.has_buff.versatility\|trinket.2.has_buff.haste\|trinket.2.has_buff.crit\|trinket.2.is.mirror_of_fractured_tomorrows\|trinket.2.is.signet_of_the_priory |
-| 6 | `variable` | name=weapon_buffs,value=equipped.bestinslots |
-| 7 | `variable` | name=weapon_sync,op=setif,value=1,value_else=0.5,condition=equipped.bestinslots |
-| 8 | `variable` | name=weapon_stat_value,value=equipped.bestinslots*5142*15 |
-| 9 | `variable` | name=trinket_1_manual,value=trinket.1.is.belorrelos_the_suncaller\|trinket.1.is.nymues_unraveling_spindle\|trinket.1.is.spymasters_web |
-| 10 | `variable` | name=trinket_2_manual,value=trinket.2.is.belorrelos_the_suncaller\|trinket.2.is.nymues_unraveling_spindle\|trinket.2.is.spymasters_web |
+| 4 | `variable` | name=trinket_1_buffs,value=trinket.1.has_buff.intellect\|trinket.1.has_buff.mastery\|trinket.1.has_buff.versatility\|trinket.1.has_buff.haste\|trinket.1.has_buff.crit |
+| 5 | `variable` | name=trinket_2_buffs,value=trinket.2.has_buff.intellect\|trinket.2.has_buff.mastery\|trinket.2.has_buff.versatility\|trinket.2.has_buff.haste\|trinket.2.has_buff.crit |
+| 6 | `variable` | name=weapon_buffs,value=0 |
+| 7 | `variable` | name=weapon_sync,op=setif,value=1,value_else=0.5,condition=0 |
+| 8 | `variable` | name=weapon_stat_value,value=0 |
+| 9 | `variable` | name=trinket_1_manual,value=0 |
+| 10 | `variable` | name=trinket_2_manual,value=0 |
 | 11 | `variable` | name=trinket_1_ogcd_cast,value=0 |
 | 12 | `variable` | name=trinket_2_ogcd_cast,value=0 |
-| 13 | `variable` | name=trinket_1_exclude,value=trinket.1.is.ruby_whelp_shell\|trinket.1.is.whispering_incarnate_icon |
-| 14 | `variable` | name=trinket_2_exclude,value=trinket.2.is.ruby_whelp_shell\|trinket.2.is.whispering_incarnate_icon |
+| 13 | `variable` | name=trinket_1_exclude,value=0 |
+| 14 | `variable` | name=trinket_2_exclude,value=0 |
 | 15 | `variable` | name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs\|variable.trinket_2_buffs&((trinket.2.proc.any_dps.duration)*trinket.2.proc.any_dps.default_value)>((trinket.1.proc.any_dps.duration)*trinket.1.proc.any_dps.default_value) |
 | 16 | `variable` | name=trinket_priority,op=setif,if=variable.weapon_buffs,value=3,value_else=variable.trinket_priority,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs\|variable.weapon_stat_value>(((trinket.2.proc.any_dps.duration)*trinket.2.proc.any_dps.default_value)<?((trinket.1.proc.any_dps.duration)*trinket.1.proc.any_dps.default_value)) |
-| 17 | `variable` | name=trinket_priority,op=set,value=trinket.1.is.signet_of_the_priory+2*trinket.2.is.signet_of_the_priory,if=equipped.signet_of_the_priory&variable.trinket_priority=3 |
-| 18 | `variable` | name=damage_trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl |
-| 19 | `variable` | name=should_use_star,default=0,value=0,op=reset |
-| 20 | `variable` | name=melee_vs,op=set,value=!talent.voidfall&talent.the_hunt&!apex.1 |
-| 21 | `arcane_torrent` | — |
-| 22 | `consume` | — |
+| 17 | `variable` | name=damage_trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl |
+| 18 | `variable` | name=should_use_star,default=0,value=0,op=reset |
+| 19 | `variable` | name=melee_vs,op=set,value=!talent.voidfall&talent.the_hunt&!apex.1 |
+| 20 | `variable` | name=ray_after_reap,default=0,value=0,op=reset |
+| 21 | `variable` | name=wont_overcap_cstar,default=0,value=0,op=reset |
+| 22 | `arcane_torrent` | — |
+| 23 | `consume` | — |
 
 ## Action List: `default`
 
@@ -49,19 +50,20 @@ Source: `apl/default/demonhunter/devourer.simc`
 | 4 | `voidblade` | if=buff.void_metamorphosis_stack.at_max_stacks&talent.devourers_bite&talent.voidsurge |
 | 5 | `the_hunt` | if=buff.void_metamorphosis_stack.at_max_stacks&talent.devourers_bite&talent.voidsurge |
 | 6 | `metamorphosis` | if=buff.eradicate.up\|!talent.eradicate\|active_enemies=1\|talent.voidfall |
-| 7 | `call_action_list` | name=reaps,if=talent.moment_of_craving&action.reap.souls_consumed>=4&buff.metamorphosis.up&!talent.voidfall&cooldown.void_ray.remains<=gcd.max&((buff.collapsing_star_stacking.stack+action.reap.souls_consumed)<=buff.collapsing_star_stacking.max_stack\|!variable.should_use_star) |
-| 8 | `void_ray` | — |
+| 7 | `call_action_list` | name=reaps,if=talent.moment_of_craving&action.reap.souls_consumed>=4&buff.metamorphosis.up&!talent.voidfall&cooldown.void_ray.remains<=gcd.max&variable.wont_overcap_cstar |
+| 8 | `void_ray` | if=!buff.eradicate.up\|active_enemies=1 |
 | 9 | `pierce_the_veil` | if=buff.moment_of_craving.up&variable.should_use_star&buff.collapsing_star_stacking.stack>=30&talent.devourers_bite |
 | 10 | `collapsing_star` | if=variable.should_use_star |
-| 11 | `call_action_list` | name=reaps,if=buff.eradicate.up&active_enemies>1 |
+| 11 | `call_action_list` | name=reaps,if=buff.eradicate.up&active_enemies>1&action.reap.souls_consumed>=4+6*buff.moment_of_craving.up |
 | 12 | `call_action_list` | name=melee_combo |
-| 13 | `call_action_list` | name=reaps,if=buff.voidfall_spending.stack>=3&prev_gcd.1.void_ray\|buff.voidfall_spending.react>=3 |
-| 14 | `call_action_list` | name=reaps,if=buff.metamorphosis.up&variable.should_use_star&(buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&buff.collapsing_star_stacking.stack+action.reap.souls_consumed<=40) |
-| 15 | `call_action_list` | name=reaps,if=!buff.metamorphosis.up&(fury+4*action.reap.souls_consumed+10*talent.scythes_embrace)>=100 |
-| 16 | `call_action_list` | name=reaps,if=!talent.voidfall&(buff.metamorphosis.up\|buff.moment_of_craving.up\|!talent.moment_of_craving&action.reap.souls_consumed>=4) |
-| 17 | `soul_immolation` | if=active_dot.soul_immolation=0&!buff.metamorphosis.up |
-| 18 | `devour` | — |
-| 19 | `consume` | — |
+| 13 | `call_action_list` | name=reaps,if=!buff.metamorphosis.up&buff.moment_of_craving.up&talent.voidfall&(buff.voidfall_building.react<2\|variable.ray_after_reap) |
+| 14 | `call_action_list` | name=reaps,if=buff.voidfall_spending.stack>=3&prev_gcd.1.void_ray\|buff.voidfall_spending.react>=3 |
+| 15 | `call_action_list` | name=reaps,if=buff.metamorphosis.up&variable.should_use_star&(buff.collapsing_star_stacking.stack+action.reap.souls_consumed)>=30&variable.wont_overcap_cstar&void_metamorphosis_base_drain_ps>35 |
+| 16 | `call_action_list` | name=reaps,if=talent.voidsurge&active_enemies=1&!buff.metamorphosis.up&variable.ray_after_reap |
+| 17 | `call_action_list` | name=reaps,if=!talent.voidfall&(buff.metamorphosis.up&(active_enemies=1\|buff.eradicate.up\|!talent.eradicate)\|buff.moment_of_craving.up\|!talent.moment_of_craving&action.reap.souls_consumed>=4)&variable.wont_overcap_cstar |
+| 18 | `soul_immolation` | if=active_dot.soul_immolation=0&!buff.metamorphosis.up |
+| 19 | `devour` | — |
+| 20 | `consume` | — |
 
 ## Action List: `illicit_doping`
 
@@ -82,6 +84,8 @@ Source: `apl/default/demonhunter/devourer.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `variable` | name=should_use_star,op=set,value=(active_enemies>1\|apex.1\|buff.dark_matter.up\|talent.star_fragments)&!variable.melee_vs,if=talent.collapsing_star |
+| 2 | `variable` | name=wont_overcap_cstar,op=set,value=(buff.collapsing_star_stacking.stack+action.reap.souls_consumed)<=buff.collapsing_star_stacking.max_stack\|!variable.should_use_star |
+| 3 | `variable` | name=ray_after_reap,op=set,value=fury+4*action.reap.souls_consumed+10*talent.scythes_embrace>=100 |
 
 ## Action List: `melee_combo`
 
@@ -116,23 +120,24 @@ Source: `apl/default/demonhunter/devourer.simc`
 actions.precombat=snapshot_stats
 actions.precombat+=/variable,name=trinket_1_mastery,value=trinket.1.has_use_buff&trinket.1.has_buff.mastery
 actions.precombat+=/variable,name=trinket_2_mastery,value=trinket.2.has_use_buff&trinket.2.has_buff.mastery
-actions.precombat+=/variable,name=trinket_1_buffs,value=trinket.1.has_buff.intellect|trinket.1.has_buff.mastery|trinket.1.has_buff.versatility|trinket.1.has_buff.haste|trinket.1.has_buff.crit|trinket.1.is.mirror_of_fractured_tomorrows|trinket.1.is.signet_of_the_priory
-actions.precombat+=/variable,name=trinket_2_buffs,value=trinket.2.has_buff.intellect|trinket.2.has_buff.mastery|trinket.2.has_buff.versatility|trinket.2.has_buff.haste|trinket.2.has_buff.crit|trinket.2.is.mirror_of_fractured_tomorrows|trinket.2.is.signet_of_the_priory
-actions.precombat+=/variable,name=weapon_buffs,value=equipped.bestinslots
-actions.precombat+=/variable,name=weapon_sync,op=setif,value=1,value_else=0.5,condition=equipped.bestinslots
-actions.precombat+=/variable,name=weapon_stat_value,value=equipped.bestinslots*5142*15
-actions.precombat+=/variable,name=trinket_1_manual,value=trinket.1.is.belorrelos_the_suncaller|trinket.1.is.nymues_unraveling_spindle|trinket.1.is.spymasters_web
-actions.precombat+=/variable,name=trinket_2_manual,value=trinket.2.is.belorrelos_the_suncaller|trinket.2.is.nymues_unraveling_spindle|trinket.2.is.spymasters_web
+actions.precombat+=/variable,name=trinket_1_buffs,value=trinket.1.has_buff.intellect|trinket.1.has_buff.mastery|trinket.1.has_buff.versatility|trinket.1.has_buff.haste|trinket.1.has_buff.crit
+actions.precombat+=/variable,name=trinket_2_buffs,value=trinket.2.has_buff.intellect|trinket.2.has_buff.mastery|trinket.2.has_buff.versatility|trinket.2.has_buff.haste|trinket.2.has_buff.crit
+actions.precombat+=/variable,name=weapon_buffs,value=0
+actions.precombat+=/variable,name=weapon_sync,op=setif,value=1,value_else=0.5,condition=0
+actions.precombat+=/variable,name=weapon_stat_value,value=0
+actions.precombat+=/variable,name=trinket_1_manual,value=0
+actions.precombat+=/variable,name=trinket_2_manual,value=0
 actions.precombat+=/variable,name=trinket_1_ogcd_cast,value=0
 actions.precombat+=/variable,name=trinket_2_ogcd_cast,value=0
-actions.precombat+=/variable,name=trinket_1_exclude,value=trinket.1.is.ruby_whelp_shell|trinket.1.is.whispering_incarnate_icon
-actions.precombat+=/variable,name=trinket_2_exclude,value=trinket.2.is.ruby_whelp_shell|trinket.2.is.whispering_incarnate_icon
+actions.precombat+=/variable,name=trinket_1_exclude,value=0
+actions.precombat+=/variable,name=trinket_2_exclude,value=0
 actions.precombat+=/variable,name=trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&variable.trinket_2_buffs|variable.trinket_2_buffs&((trinket.2.proc.any_dps.duration)*trinket.2.proc.any_dps.default_value)>((trinket.1.proc.any_dps.duration)*trinket.1.proc.any_dps.default_value)
 actions.precombat+=/variable,name=trinket_priority,op=setif,if=variable.weapon_buffs,value=3,value_else=variable.trinket_priority,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs|variable.weapon_stat_value>(((trinket.2.proc.any_dps.duration)*trinket.2.proc.any_dps.default_value)<?((trinket.1.proc.any_dps.duration)*trinket.1.proc.any_dps.default_value))
-actions.precombat+=/variable,name=trinket_priority,op=set,value=trinket.1.is.signet_of_the_priory+2*trinket.2.is.signet_of_the_priory,if=equipped.signet_of_the_priory&variable.trinket_priority=3
 actions.precombat+=/variable,name=damage_trinket_priority,op=setif,value=2,value_else=1,condition=!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl
 actions.precombat+=/variable,name=should_use_star,default=0,value=0,op=reset
 actions.precombat+=/variable,name=melee_vs,op=set,value=!talent.voidfall&talent.the_hunt&!apex.1
+actions.precombat+=/variable,name=ray_after_reap,default=0,value=0,op=reset
+actions.precombat+=/variable,name=wont_overcap_cstar,default=0,value=0,op=reset
 actions.precombat+=/arcane_torrent
 actions.precombat+=/consume
 
@@ -144,21 +149,22 @@ actions+=/voidblade,if=buff.void_metamorphosis_stack.at_max_stacks&talent.devour
 actions+=/the_hunt,if=buff.void_metamorphosis_stack.at_max_stacks&talent.devourers_bite&talent.voidsurge
 actions+=/metamorphosis,if=buff.eradicate.up|!talent.eradicate|active_enemies=1|talent.voidfall
 # Do not overcap Moment of Craving
-actions+=/call_action_list,name=reaps,if=talent.moment_of_craving&action.reap.souls_consumed>=4&buff.metamorphosis.up&!talent.voidfall&cooldown.void_ray.remains<=gcd.max&((buff.collapsing_star_stacking.stack+action.reap.souls_consumed)<=buff.collapsing_star_stacking.max_stack|!variable.should_use_star)
-actions+=/void_ray
+actions+=/call_action_list,name=reaps,if=talent.moment_of_craving&action.reap.souls_consumed>=4&buff.metamorphosis.up&!talent.voidfall&cooldown.void_ray.remains<=gcd.max&variable.wont_overcap_cstar
+actions+=/void_ray,if=!buff.eradicate.up|active_enemies=1
 actions+=/pierce_the_veil,if=buff.moment_of_craving.up&variable.should_use_star&buff.collapsing_star_stacking.stack>=30&talent.devourers_bite
 actions+=/collapsing_star,if=variable.should_use_star
-# Eradichad
-actions+=/call_action_list,name=reaps,if=buff.eradicate.up&active_enemies>1
+# Maximum Eradicate damage
+actions+=/call_action_list,name=reaps,if=buff.eradicate.up&active_enemies>1&action.reap.souls_consumed>=4+6*buff.moment_of_craving.up
 actions+=/call_action_list,name=melee_combo
-# Annihilator wants to play the game too
+# Voidfall Accelerator
+actions+=/call_action_list,name=reaps,if=!buff.metamorphosis.up&buff.moment_of_craving.up&talent.voidfall&(buff.voidfall_building.react<2|variable.ray_after_reap)
+# Annihilator Reap
 actions+=/call_action_list,name=reaps,if=buff.voidfall_spending.stack>=3&prev_gcd.1.void_ray|buff.voidfall_spending.react>=3
-# Star Accelerator
-actions+=/call_action_list,name=reaps,if=buff.metamorphosis.up&variable.should_use_star&(buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&buff.collapsing_star_stacking.stack+action.reap.souls_consumed<=40)
-# Beam Accelerator
-actions+=/call_action_list,name=reaps,if=!buff.metamorphosis.up&(fury+4*action.reap.souls_consumed+10*talent.scythes_embrace)>=100
-# Just reap bro one time bro pls bro
-actions+=/call_action_list,name=reaps,if=!talent.voidfall&(buff.metamorphosis.up|buff.moment_of_craving.up|!talent.moment_of_craving&action.reap.souls_consumed>=4)
+# Star Accelerator later into Meta
+actions+=/call_action_list,name=reaps,if=buff.metamorphosis.up&variable.should_use_star&(buff.collapsing_star_stacking.stack+action.reap.souls_consumed)>=30&variable.wont_overcap_cstar&void_metamorphosis_base_drain_ps>35
+# Beam Accelerator in ST for Scarred
+actions+=/call_action_list,name=reaps,if=talent.voidsurge&active_enemies=1&!buff.metamorphosis.up&variable.ray_after_reap
+actions+=/call_action_list,name=reaps,if=!talent.voidfall&(buff.metamorphosis.up&(active_enemies=1|buff.eradicate.up|!talent.eradicate)|buff.moment_of_craving.up|!talent.moment_of_craving&action.reap.souls_consumed>=4)&variable.wont_overcap_cstar
 actions+=/soul_immolation,if=active_dot.soul_immolation=0&!buff.metamorphosis.up
 actions+=/devour
 actions+=/consume
@@ -174,6 +180,8 @@ actions.illicit_doping+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&!va
 actions.illicit_doping+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2|trinket.1.cooldown.remains|trinket.1.is.spymasters_web|trinket.1.cooldown.duration=0)&(!variable.trinket_2_ogcd_cast)
 
 actions.math_for_wizards=variable,name=should_use_star,op=set,value=(active_enemies>1|apex.1|buff.dark_matter.up|talent.star_fragments)&!variable.melee_vs,if=talent.collapsing_star
+actions.math_for_wizards+=/variable,name=wont_overcap_cstar,op=set,value=(buff.collapsing_star_stacking.stack+action.reap.souls_consumed)<=buff.collapsing_star_stacking.max_stack|!variable.should_use_star
+actions.math_for_wizards+=/variable,name=ray_after_reap,op=set,value=fury+4*action.reap.souls_consumed+10*talent.scythes_embrace>=100
 
 # Use Voidsteps on CD - Do not use Voidstep if you need to be stationary for Collapsing Star afterwards.
 actions.melee_combo=vengeful_retreat,if=buff.voidstep.up&(buff.collapsing_star_stacking.stack<30|cooldown.voidblade.up|cooldown.predators_wake.up|buff.collapsing_star_stacking.stack<=38)

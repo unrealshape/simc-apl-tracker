@@ -1,6 +1,6 @@
 # Monk – Windwalker
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-01 05:28 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-02 05:07 UTC
 
 Source: `apl/default/monk/windwalker.simc`
 
@@ -212,7 +212,7 @@ actions.precombat+=/use_item,name=algethar_puzzle_box,if=!talent.flurry_strikes&
 # Executed every time the actor is available.
 # Default List
 actions=auto_attack,target_if=max:target.time_to_die
-actions+=/touch_of_karma,target_if=max:target.time_to_die 
+actions+=/touch_of_karma,target_if=max:target.time_to_die
 # Move to target
 actions+=/roll,if=movement.distance>5
 actions+=/chi_torpedo,if=movement.distance>5

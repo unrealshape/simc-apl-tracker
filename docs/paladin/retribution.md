@@ -1,6 +1,6 @@
 # Paladin – Retribution
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-01 05:28 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-02 05:07 UTC
 
 Source: `apl/default/paladin/retribution.simc`
 
