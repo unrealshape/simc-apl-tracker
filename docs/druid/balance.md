@@ -1,6 +1,6 @@
 # Druid – Balance
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-02 05:07 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-03 05:09 UTC
 
 Source: `apl/default/druid/balance.simc`
 
@@ -97,8 +97,8 @@ Source: `apl/default/druid/balance.simc`
 | 11 | `half_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
 | 12 | `full_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
 | 13 | `wild_mushroom` | if=buff.eclipse_solar.up\|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains |
-| 14 | `starfire` | if=!variable.eclipse_down |
-| 15 | `wrath` | if=variable.eclipse_down |
+| 14 | `starfire` | if=action.starfire.execute_time<buff.eclipse.remains |
+| 15 | `wrath` | — |
 
 ## Action List: `kotg_st`
 
@@ -266,8 +266,8 @@ actions.ec_st+=/new_moon,if=astral_power.deficit>energize_amount&debuff.atmosphe
 actions.ec_st+=/half_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
 actions.ec_st+=/full_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
 actions.ec_st+=/wild_mushroom,if=buff.eclipse_solar.up|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains
-actions.ec_st+=/starfire,if=!variable.eclipse_down
-actions.ec_st+=/wrath,if=variable.eclipse_down
+actions.ec_st+=/starfire,if=action.starfire.execute_time<buff.eclipse.remains
+actions.ec_st+=/wrath
 
 actions.kotg_st=celestial_alignment,if=prev_gcd.1.force_of_nature&buff.ca_inc.down|fight_remains<20
 # Dots

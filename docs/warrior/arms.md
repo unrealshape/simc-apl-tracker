@@ -1,6 +1,6 @@
 # Warrior – Arms
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-02 05:07 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-03 05:09 UTC
 
 Source: `apl/default/warrior/arms.simc`
 
@@ -72,13 +72,13 @@ Source: `apl/default/warrior/arms.simc`
 | 10 | `demolish` | if=debuff.colossus_smash.remains>=2 |
 | 11 | `whirlwind` | if=talent.fervor_of_battle&buff.collateral_damage.stack=3 |
 | 12 | `mortal_strike` | — |
-| 13 | `rend` | if=dot.rend_dot.remains<4 |
-| 14 | `overpower` | — |
-| 15 | `execute` | if=buff.sudden_death.remains |
+| 13 | `execute` | if=buff.sudden_death.remains |
+| 14 | `rend` | if=dot.rend_dot.remains<4 |
+| 15 | `overpower` | — |
 | 16 | `heroic_strike` | — |
 | 17 | `rend` | — |
-| 18 | `slam` | — |
-| 19 | `execute` | — |
+| 18 | `execute` | — |
+| 19 | `slam` | — |
 | 20 | `bladestorm` | — |
 | 21 | `wrecking_throw` | — |
 | 22 | `whirlwind` | — |
@@ -96,15 +96,13 @@ Source: `apl/default/warrior/arms.simc`
 | 7 | `heroic_strike` | — |
 | 8 | `demolish` | if=buff.colossal_might.stack=10&debuff.colossus_smash.up |
 | 9 | `mortal_strike` | if=buff.executioners_precision.stack=2\|!talent.executioners_precision\|talent.battlelord |
-| 10 | `cleave` | if=buff.ravager.remains |
+| 10 | `execute` | if=talent.deep_wounds&rage>75\|buff.sudden_death.up |
 | 11 | `overpower` | — |
-| 12 | `execute` | if=talent.deep_wounds&talent.critical_thinking |
-| 13 | `cleave` | if=talent.mass_execution |
-| 14 | `execute` | if=talent.deep_wounds |
-| 15 | `slam` | if=!talent.critical_thinking |
-| 16 | `execute` | — |
-| 17 | `bladestorm` | — |
-| 18 | `wrecking_throw` | — |
+| 12 | `execute` | if=rage>75 |
+| 13 | `cleave` | if=buff.ravager.remains\|talent.mass_execution&active_enemies=2 |
+| 14 | `execute` | — |
+| 15 | `bladestorm` | — |
+| 16 | `wrecking_throw` | — |
 
 ## Action List: `colossus_st`
 
@@ -116,19 +114,21 @@ Source: `apl/default/warrior/arms.simc`
 | 4 | `avatar` | — |
 | 5 | `colossus_smash` | — |
 | 6 | `cleave` | if=buff.ravager.remains&buff.collateral_damage.stack=3 |
-| 7 | `heroic_strike` | — |
-| 8 | `champions_spear` | — |
-| 9 | `demolish` | if=debuff.colossus_smash.up&buff.colossal_might.stack>0\|talent.master_of_warfare.rank=4 |
+| 7 | `champions_spear` | — |
+| 8 | `demolish` | if=debuff.colossus_smash.up&buff.colossal_might.stack>0 |
+| 9 | `heroic_strike` | if=active_enemies=2 |
 | 10 | `mortal_strike` | — |
-| 11 | `cleave` | if=buff.ravager.remains\|buff.collateral_damage.stack=3 |
-| 12 | `overpower` | — |
-| 13 | `whirlwind` | if=active_enemies=2&buff.collateral_damage.stack=3 |
-| 14 | `cleave` | if=talent.mass_execution&target.health.pct<35 |
-| 15 | `execute` | — |
-| 16 | `wrecking_throw` | if=active_enemies=1 |
-| 17 | `rend` | if=dot.rend_dot.remains<=gcd*5 |
-| 18 | `cleave` | if=!talent.martial_prowess |
-| 19 | `slam` | — |
+| 11 | `heroic_strike` | — |
+| 12 | `overpower` | if=active_enemies=2 |
+| 13 | `cleave` | if=buff.ravager.remains\|buff.collateral_damage.stack=3 |
+| 14 | `overpower` | — |
+| 15 | `cleave` | if=talent.mass_execution&target.health.pct<35 |
+| 16 | `execute` | — |
+| 17 | `whirlwind` | if=active_enemies=2&buff.collateral_damage.stack=3 |
+| 18 | `wrecking_throw` | if=active_enemies=1 |
+| 19 | `rend` | if=dot.rend_dot.remains<=gcd*5 |
+| 20 | `cleave` | if=active_enemies=2 |
+| 21 | `slam` | — |
 
 ## Action List: `slayer_aoe`
 
@@ -279,13 +279,13 @@ actions.colossus_aoe+=/cleave
 actions.colossus_aoe+=/demolish,if=debuff.colossus_smash.remains>=2
 actions.colossus_aoe+=/whirlwind,if=talent.fervor_of_battle&buff.collateral_damage.stack=3
 actions.colossus_aoe+=/mortal_strike
+actions.colossus_aoe+=/execute,if=buff.sudden_death.remains
 actions.colossus_aoe+=/rend,if=dot.rend_dot.remains<4
 actions.colossus_aoe+=/overpower
-actions.colossus_aoe+=/execute,if=buff.sudden_death.remains
 actions.colossus_aoe+=/heroic_strike
 actions.colossus_aoe+=/rend
-actions.colossus_aoe+=/slam
 actions.colossus_aoe+=/execute
+actions.colossus_aoe+=/slam
 actions.colossus_aoe+=/bladestorm
 actions.colossus_aoe+=/wrecking_throw
 actions.colossus_aoe+=/whirlwind
@@ -299,12 +299,10 @@ actions.colossus_execute+=/colossus_smash
 actions.colossus_execute+=/heroic_strike
 actions.colossus_execute+=/demolish,if=buff.colossal_might.stack=10&debuff.colossus_smash.up
 actions.colossus_execute+=/mortal_strike,if=buff.executioners_precision.stack=2|!talent.executioners_precision|talent.battlelord
-actions.colossus_execute+=/cleave,if=buff.ravager.remains
+actions.colossus_execute+=/execute,if=talent.deep_wounds&rage>75|buff.sudden_death.up
 actions.colossus_execute+=/overpower
-actions.colossus_execute+=/execute,if=talent.deep_wounds&talent.critical_thinking
-actions.colossus_execute+=/cleave,if=talent.mass_execution
-actions.colossus_execute+=/execute,if=talent.deep_wounds
-actions.colossus_execute+=/slam,if=!talent.critical_thinking
+actions.colossus_execute+=/execute,if=rage>75
+actions.colossus_execute+=/cleave,if=buff.ravager.remains|talent.mass_execution&active_enemies=2
 actions.colossus_execute+=/execute
 actions.colossus_execute+=/bladestorm
 actions.colossus_execute+=/wrecking_throw
@@ -315,18 +313,20 @@ actions.colossus_st+=/ravager,if=cooldown.colossus_smash.remains<=gcd
 actions.colossus_st+=/avatar
 actions.colossus_st+=/colossus_smash
 actions.colossus_st+=/cleave,if=buff.ravager.remains&buff.collateral_damage.stack=3
-actions.colossus_st+=/heroic_strike
 actions.colossus_st+=/champions_spear
-actions.colossus_st+=/demolish,if=debuff.colossus_smash.up&buff.colossal_might.stack>0|talent.master_of_warfare.rank=4
+actions.colossus_st+=/demolish,if=debuff.colossus_smash.up&buff.colossal_might.stack>0
+actions.colossus_st+=/heroic_strike,if=active_enemies=2
 actions.colossus_st+=/mortal_strike
+actions.colossus_st+=/heroic_strike
+actions.colossus_st+=/overpower,if=active_enemies=2
 actions.colossus_st+=/cleave,if=buff.ravager.remains|buff.collateral_damage.stack=3
 actions.colossus_st+=/overpower
-actions.colossus_st+=/whirlwind,if=active_enemies=2&buff.collateral_damage.stack=3
 actions.colossus_st+=/cleave,if=talent.mass_execution&target.health.pct<35
 actions.colossus_st+=/execute
+actions.colossus_st+=/whirlwind,if=active_enemies=2&buff.collateral_damage.stack=3
 actions.colossus_st+=/wrecking_throw,if=active_enemies=1
 actions.colossus_st+=/rend,if=dot.rend_dot.remains<=gcd*5
-actions.colossus_st+=/cleave,if=!talent.martial_prowess
+actions.colossus_st+=/cleave,if=active_enemies=2
 actions.colossus_st+=/slam
 
 actions.slayer_aoe=rend,if=!dot.rend_dot.remains&talent.rend
