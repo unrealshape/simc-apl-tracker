@@ -1,6 +1,6 @@
 # Evoker – Augmentation
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-03 05:09 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-04 04:55 UTC
 
 Source: `apl/default/evoker/augmentation.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/evoker/augmentation.simc`
 ## Overview
 
 - **Action Lists:** 5
-- **Total Actions:** 60
+- **Total Actions:** 61
 - **Lists:** `precombat`, `default`, `fb`, `filler`, `items`
 
 ## Action List: `precombat`
@@ -38,9 +38,10 @@ Source: `apl/default/evoker/augmentation.simc`
 | 20 | `variable` | name=ebon_might_pandemic_threshold,op=reset,default=0.4 |
 | 21 | `variable` | name=enforce_timings,op=reset,default=0 |
 | 22 | `variable` | name=spam_on_use_trinket,op=reset,default=1 |
-| 23 | `use_item` | name=aberrant_spellforge |
-| 24 | `blistering_scales` | target_if=target.role.tank |
-| 25 | `living_flame` | — |
+| 23 | `variable` | name=crit_fish,op=reset,default=0 |
+| 24 | `use_item` | name=aberrant_spellforge |
+| 25 | `blistering_scales` | target_if=target.role.tank |
+| 26 | `living_flame` | — |
 
 ## Action List: `default`
 
@@ -50,7 +51,7 @@ Source: `apl/default/evoker/augmentation.simc`
 | 2 | `cancel_buff` | name=tip_the_scales,if=cooldown.upheaval.remains>0&(talent.energy_cycles\|talent.temporal_burst) |
 | 3 | `hover` | use_off_gcd=1,if=gcd.remains>=0.5&(!raid_event.movement.exists\|raid_event.movement.in<=6) |
 | 4 | `invoke_external_buff` | name=power_infusion,if=buff.duplicate.up |
-| 5 | `ebon_might` | if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0\|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05\|(buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*0.3) |
+| 5 | `ebon_might` | if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0\|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05\|variable.crit_fish<1)\|buff.ebon_might_self.value<=0.05&talent.doubletime&variable.crit_fish>=1 |
 | 6 | `prescience` | target_if=min:(debuff.prescience.remains-200*(target.role.attack\|target.role.spell\|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&time<=8 |
 | 7 | `potion` | if=variable.eons_remains<=0\|cooldown.breath_of_eons.remains>=90\|fight_remains<=30&!fight_style.dungeonroute |
 | 8 | `call_action_list` | name=items |
@@ -131,6 +132,7 @@ actions.precombat+=/variable,name=trinket_priority,op=setif,value=2,value_else=1
 actions.precombat+=/variable,name=ebon_might_pandemic_threshold,op=reset,default=0.4
 actions.precombat+=/variable,name=enforce_timings,op=reset,default=0
 actions.precombat+=/variable,name=spam_on_use_trinket,op=reset,default=1
+actions.precombat+=/variable,name=crit_fish,op=reset,default=0
 actions.precombat+=/use_item,name=aberrant_spellforge
 actions.precombat+=/blistering_scales,target_if=target.role.tank
 actions.precombat+=/living_flame
@@ -140,7 +142,7 @@ actions=variable,name=eons_remains,op=setif,value=cooldown.allied_virtual_cd_tim
 actions+=/cancel_buff,name=tip_the_scales,if=cooldown.upheaval.remains>0&(talent.energy_cycles|talent.temporal_burst)
 actions+=/hover,use_off_gcd=1,if=gcd.remains>=0.5&(!raid_event.movement.exists|raid_event.movement.in<=6)
 actions+=/invoke_external_buff,name=power_infusion,if=buff.duplicate.up
-actions+=/ebon_might,if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05|(buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*0.3)
+actions+=/ebon_might,if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05|variable.crit_fish<1)|buff.ebon_might_self.value<=0.05&talent.doubletime&variable.crit_fish>=1
 actions+=/prescience,target_if=min:(debuff.prescience.remains-200*(target.role.attack|target.role.spell|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&time<=8
 actions+=/potion,if=variable.eons_remains<=0|cooldown.breath_of_eons.remains>=90|fight_remains<=30&!fight_style.dungeonroute
 actions+=/call_action_list,name=items
