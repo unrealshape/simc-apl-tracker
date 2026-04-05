@@ -1,6 +1,6 @@
 # Mage – Arcane
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-04 04:55 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-05 05:18 UTC
 
 Source: `apl/default/mage/arcane.simc`
 
