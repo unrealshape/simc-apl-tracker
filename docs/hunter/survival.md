@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-05 05:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-06 05:30 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -19,7 +19,7 @@ Source: `apl/default/hunter/survival.simc`
 | 1 | `summon_pet` | — |
 | 2 | `snapshot_stats` | — |
 | 3 | `use_item` | name=algethar_puzzle_box |
-| 4 | `wildfire_bomb` | — |
+| 4 | `wildfire_bomb` | if=active_enemies=1 |
 
 ## Action List: `default`
 
@@ -123,7 +123,7 @@ Source: `apl/default/hunter/survival.simc`
 actions.precombat=summon_pet
 actions.precombat+=/snapshot_stats
 actions.precombat+=/use_item,name=algethar_puzzle_box
-actions.precombat+=/wildfire_bomb
+actions.precombat+=/wildfire_bomb,if=active_enemies=1
 
 # Executed every time the actor is available.
 actions=auto_attack

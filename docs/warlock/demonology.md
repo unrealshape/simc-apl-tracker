@@ -1,6 +1,6 @@
 # Warlock – Demonology
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-05 05:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-06 05:30 UTC
 
 Source: `apl/default/warlock/demonology.simc`
 
