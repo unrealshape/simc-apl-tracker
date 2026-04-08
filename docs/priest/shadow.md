@@ -1,6 +1,6 @@
 # Priest – Shadow
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-07 05:14 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-08 05:17 UTC
 
 Source: `apl/default/priest/shadow.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/priest/shadow.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 59
+- **Total Actions:** 58
 - **Lists:** `precombat`, `default`, `aoe`, `aoe_variables`, `cds`, `heal_for_tof`, `main`, `trinkets`
 
 ## Action List: `precombat`
@@ -87,22 +87,21 @@ Source: `apl/default/priest/shadow.simc`
 | 5 | `void_volley` | — |
 | 6 | `void_blast` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die) |
 | 7 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=dot.vampiric_touch.refreshable\|cooldown.tentacle_slam.full_recharge_time<=gcd.max*2 |
-| 8 | `shadow_word_madness` | target_if=max:dot.shadow_word_madness.remains,if=dot.shadow_word_madness.pmultiplier<1&dot.shadow_word_madness.ticking |
-| 9 | `void_torrent` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die),if=!variable.holding_tentacle_slam&variable.dots_up |
-| 10 | `shadow_word_pain` | target_if=max:(refreshable*100000+target.time_to_die+dot.vampiric_touch.ticking*10000),if=talent.invoked_nightmare&refreshable&target.time_to_die>12&dot.vampiric_touch.ticking |
-| 11 | `mind_blast` | target_if=max:dot.shadow_word_madness.remains,if=(!buff.mind_devourer.react\|!talent.mind_devourer) |
-| 12 | `mind_flay_insanity` | target_if=max:dot.shadow_word_madness.remains |
-| 13 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=(talent.void_apparitions\|talent.maddening_tentacles)&(raid_event.adds.in>30\|raid_event.adds.in>5&cooldown.tentacle_slam.full_recharge_time<=gcd.max*2) |
-| 14 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die)*(dot.vampiric_touch.ticking\|!variable.dots_up),if=refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|!variable.dots_up)&(variable.max_vts>0\|active_enemies=1)&(action.tentacle_slam.usable_in>=dot.vampiric_touch.remains\|variable.holding_tentacle_slam\|!action.tentacle_slam.enabled) |
-| 15 | `call_action_list` | name=heal_for_tof,if=!buff.twist_of_fate.up&buff.twist_of_fate_can_trigger_on_ally_heal.up&talent.halo |
-| 16 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12 |
-| 17 | `shadow_word_death` | target_if=min:target.health.pct,if=(pet.mindbender.active\|pet.voidwraith.active\|pet.shadowfiend.active)&talent.inescapable_torment\|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj |
-| 18 | `shadow_word_death` | target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker)) |
-| 19 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=3,interrupt_global=1 |
-| 20 | `tentacle_slam` | if=raid_event.adds.in>20 |
-| 21 | `shadow_word_death` | target_if=target.health.pct<20 |
-| 22 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
-| 23 | `shadow_word_pain` | target_if=min:remains |
+| 8 | `void_torrent` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die),if=!variable.holding_tentacle_slam&variable.dots_up |
+| 9 | `shadow_word_pain` | target_if=max:(refreshable*100000+target.time_to_die+dot.vampiric_touch.ticking*10000),if=talent.invoked_nightmare&refreshable&target.time_to_die>12&dot.vampiric_touch.ticking |
+| 10 | `mind_blast` | target_if=max:dot.shadow_word_madness.remains,if=(!buff.mind_devourer.react\|!talent.mind_devourer) |
+| 11 | `mind_flay_insanity` | target_if=max:dot.shadow_word_madness.remains |
+| 12 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=(talent.void_apparitions\|talent.maddening_tentacles)&(raid_event.adds.in>30\|raid_event.adds.in>5&cooldown.tentacle_slam.full_recharge_time<=gcd.max*2) |
+| 13 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die)*(dot.vampiric_touch.ticking\|!variable.dots_up),if=refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|!variable.dots_up)&(variable.max_vts>0\|active_enemies=1)&(action.tentacle_slam.usable_in>=dot.vampiric_touch.remains\|variable.holding_tentacle_slam\|!action.tentacle_slam.enabled) |
+| 14 | `call_action_list` | name=heal_for_tof,if=!buff.twist_of_fate.up&buff.twist_of_fate_can_trigger_on_ally_heal.up&talent.halo |
+| 15 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12 |
+| 16 | `shadow_word_death` | target_if=min:target.health.pct,if=(pet.mindbender.active\|pet.voidwraith.active\|pet.shadowfiend.active)&talent.inescapable_torment\|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj |
+| 17 | `shadow_word_death` | target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker)) |
+| 18 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=3,interrupt_global=1 |
+| 19 | `tentacle_slam` | if=raid_event.adds.in>20 |
+| 20 | `shadow_word_death` | target_if=target.health.pct<20 |
+| 21 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
+| 22 | `shadow_word_pain` | target_if=min:remains |
 
 ## Action List: `trinkets`
 
@@ -179,7 +178,6 @@ actions.main+=/void_volley
 actions.main+=/void_blast,target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die)
 # Use Tentacle Slam to prevent capping charges or to refresh Vampiric Touch
 actions.main+=/tentacle_slam,target_if=min:dot.vampiric_touch.remains,if=dot.vampiric_touch.refreshable|cooldown.tentacle_slam.full_recharge_time<=gcd.max*2
-actions.main+=/shadow_word_madness,target_if=max:dot.shadow_word_madness.remains,if=dot.shadow_word_madness.pmultiplier<1&dot.shadow_word_madness.ticking
 # Use Void Torrent if it will get near full Mastery Value
 actions.main+=/void_torrent,target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die),if=!variable.holding_tentacle_slam&variable.dots_up
 # Put out Shadow Word: Pain on enemies that will live at least 12s as a filler when talented into Invoked Nightmare.
