@@ -1,6 +1,6 @@
 # Priest – Shadow
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-09 05:14 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-10 05:30 UTC
 
 Source: `apl/default/priest/shadow.simc`
 
@@ -21,7 +21,7 @@ Source: `apl/default/priest/shadow.simc`
 | 3 | `variable` | name=trinket_1_buffs,value=(trinket.1.has_buff.intellect\|trinket.1.has_buff.mastery\|trinket.1.has_buff.versatility\|trinket.1.has_buff.haste\|trinket.1.has_buff.crit\|trinket.1.is.signet_of_the_priory)&(trinket.1.cooldown.duration>=20) |
 | 4 | `variable` | name=trinket_2_buffs,value=(trinket.2.has_buff.intellect\|trinket.2.has_buff.mastery\|trinket.2.has_buff.versatility\|trinket.2.has_buff.haste\|trinket.2.has_buff.crit\|trinket.2.is.signet_of_the_priory)&(trinket.2.cooldown.duration>=20) |
 | 5 | `variable` | name=dr_force_prio,default=0,op=reset |
-| 6 | `variable` | name=me_force_prio,default=1,op=reset |
+| 6 | `variable` | name=me_force_prio,default=0,op=reset |
 | 7 | `variable` | name=max_vts,default=12,op=reset |
 | 8 | `variable` | name=is_vt_possible,default=0,op=reset |
 | 9 | `arcane_torrent` | — |
@@ -125,7 +125,7 @@ actions.precombat+=/shadowform,if=!buff.shadowform.up
 actions.precombat+=/variable,name=trinket_1_buffs,value=(trinket.1.has_buff.intellect|trinket.1.has_buff.mastery|trinket.1.has_buff.versatility|trinket.1.has_buff.haste|trinket.1.has_buff.crit|trinket.1.is.signet_of_the_priory)&(trinket.1.cooldown.duration>=20)
 actions.precombat+=/variable,name=trinket_2_buffs,value=(trinket.2.has_buff.intellect|trinket.2.has_buff.mastery|trinket.2.has_buff.versatility|trinket.2.has_buff.haste|trinket.2.has_buff.crit|trinket.2.is.signet_of_the_priory)&(trinket.2.cooldown.duration>=20)
 actions.precombat+=/variable,name=dr_force_prio,default=0,op=reset
-actions.precombat+=/variable,name=me_force_prio,default=1,op=reset
+actions.precombat+=/variable,name=me_force_prio,default=0,op=reset
 actions.precombat+=/variable,name=max_vts,default=12,op=reset
 actions.precombat+=/variable,name=is_vt_possible,default=0,op=reset
 actions.precombat+=/arcane_torrent
