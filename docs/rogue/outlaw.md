@@ -1,6 +1,6 @@
 # Rogue – Outlaw
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-10 05:30 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-11 04:59 UTC
 
 Source: `apl/default/rogue/outlaw.simc`
 
@@ -45,7 +45,7 @@ Source: `apl/default/rogue/outlaw.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `ambush` | if=talent.hidden_opportunity&buff.audacity.up |
-| 2 | `blade_flurry` | if=talent.deft_maneuvers&spell_targets>=4 |
+| 2 | `blade_flurry` | if=talent.deft_maneuvers&spell_targets>=3 |
 | 3 | `coup_de_grace` | if=buff.disorienting_strikes.up |
 | 4 | `pistol_shot` | if=talent.audacity&talent.hidden_opportunity&buff.opportunity.up&!buff.audacity.up |
 | 5 | `pistol_shot` | if=talent.fan_the_hammer&buff.opportunity.up&(buff.opportunity.stack>=buff.opportunity.max_stack\|buff.opportunity.remains<2) |
@@ -123,8 +123,8 @@ actions+=/bag_of_tricks
 
 # Builders   High priority Ambush with Hidden Opportunity.
 actions.build=ambush,if=talent.hidden_opportunity&buff.audacity.up
-# With Deft Maneuvers, build CPs with Blade Flurry at 4+ targets.
-actions.build+=/blade_flurry,if=talent.deft_maneuvers&spell_targets>=4
+# With Deft Maneuvers, build CPs with Blade Flurry at 3+ targets.
+actions.build+=/blade_flurry,if=talent.deft_maneuvers&spell_targets>=3
 # Prioritize Coup de Grace if Unseen Blade is guaranteed after Killing Spree.
 actions.build+=/coup_de_grace,if=buff.disorienting_strikes.up
 # With Audacity + Hidden Opportunity, consume Opportunity to proc Audacity any time Ambush is not available.
