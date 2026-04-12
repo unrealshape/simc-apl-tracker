@@ -1,7 +1,4 @@
 [
   "apl/default/deathknight/unholy.simc",
-  "apl/default/demonhunter/vengeance.simc",
-  "apl/default/hunter/beast_mastery.simc",
-  "apl/default/monk/brewmaster.simc",
-  "apl/default/rogue/outlaw.simc"
+  "apl/default/mage/frost.simc"
 ]
