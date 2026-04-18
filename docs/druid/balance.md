@@ -1,6 +1,6 @@
 # Druid – Balance
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-17 05:32 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-18 05:11 UTC
 
 Source: `apl/default/druid/balance.simc`
 
