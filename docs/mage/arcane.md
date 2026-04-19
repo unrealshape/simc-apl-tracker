@@ -1,6 +1,6 @@
 # Mage – Arcane
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-18 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-19 05:33 UTC
 
 Source: `apl/default/mage/arcane.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/mage/arcane.simc`
 ## Overview
 
 - **Action Lists:** 6
-- **Total Actions:** 73
+- **Total Actions:** 74
 - **Lists:** `precombat`, `default`, `cooldowns`, `spellslinger`, `spellslinger_orbm`, `sunfury`
 
 ## Action List: `precombat`
@@ -18,22 +18,23 @@ Source: `apl/default/mage/arcane.simc`
 |---|--------|------------|
 | 1 | `arcane_intellect` | — |
 | 2 | `variable` | name=opener,op=set,value=1 |
-| 3 | `variable` | name=pulse_aoe_count,op=set,value=3+talent.orb_mastery |
+| 3 | `variable` | name=pulse_aoe_count,op=set,value=2+talent.orb_mastery |
 | 4 | `variable` | name=funnel,op=reset,default=0 |
 | 5 | `variable` | name=sf_touch_surge,op=reset,default=0 |
-| 6 | `variable` | name=time_for_pooling,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))\|((fight_remains%%95)>(20+(2*talent.arcane_pulse))) |
-| 7 | `variable` | name=did_not_pool,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))\|((fight_remains%%95)>(20+(2*talent.arcane_pulse))) |
-| 8 | `variable` | name=20ssteroid_trinket_equipped,op=set,value=equipped.signet_of_the_priory\|equipped.incorporeal_essencegorger\|equipped.sealed_chaos_urn |
-| 9 | `variable` | name=15ssteroid_trinket_equipped,op=set,value=equipped.lily_of_the_eternal_weave\|equipped.sunblood_amethyst\|equipped.astral_gladiators_badge_of_ferocity\|equipped.arazs_ritual_forge\|equipped.freightrunners_flask\|equipped.emberwing_feather\|equipped.vaelgors_final_stare\|equipped.galactic_gladiators_badge_of_ferocity |
-| 10 | `variable` | name=12ssteroid_trinket_equipped,op=set,value=equipped.nevermelting_ice_crystal\|equipped.ever_collapsing_void_fissure |
-| 11 | `variable` | name=steroid_trinket_equipped,op=set,value=equipped.lily_of_the_eternal_weave\|equipped.sunblood_amethyst\|equipped.astral_gladiators_badge_of_ferocity\|equipped.arazs_ritual_forge\|equipped.freightrunners_flask\|equipped.emberwing_feather\|equipped.vaelgors_final_stare\|equipped.galactic_gladiators_badge_of_ferocity\|equipped.nevermelting_ice_crystal\|equipped.ever_collapsing_void_fissure\|equipped.signet_of_the_priory\|equipped.incorporeal_essencegorger\|equipped.sealed_chaos_urn |
-| 12 | `variable` | name=nonsteroid_trinket_equipped,op=set,value=equipped.mereldars_toll\|equipped.perfidious_projector\|equipped.chaotic_nethergate\|equipped.wraps_of_cosmic_madness\|equipped.astalors_anguish_agitator |
-| 13 | `snapshot_stats` | — |
-| 14 | `mirror_image` | — |
-| 15 | `potion` | if=talent.spellfire_spheres&!variable.sf_touch_surge |
-| 16 | `arcane_surge` | if=(talent.spellfire_spheres&!variable.sf_touch_surge)\|(!variable.time_for_pooling&talent.splintering_sorcery) |
-| 17 | `arcane_pulse` | if=(talent.splintering_sorcery\|variable.sf_touch_surge)&talent.arcane_pulse&(active_enemies>=variable.pulse_aoe_count) |
-| 18 | `arcane_blast` | — |
+| 6 | `variable` | name=pooling,op=reset,default=1 |
+| 7 | `variable` | name=time_for_pooling,op=set,value=(((fight_remains%%95)<(7+(2*talent.arcane_pulse)))\|((fight_remains%%95)>(20+(2*talent.arcane_pulse))))&variable.pooling |
+| 8 | `variable` | name=did_not_pool,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))\|((fight_remains%%95)>(20+(2*talent.arcane_pulse)))&variable.pooling |
+| 9 | `variable` | name=20ssteroid_trinket_equipped,op=set,value=equipped.signet_of_the_priory\|equipped.incorporeal_essencegorger\|equipped.sealed_chaos_urn |
+| 10 | `variable` | name=15ssteroid_trinket_equipped,op=set,value=equipped.lily_of_the_eternal_weave\|equipped.sunblood_amethyst\|equipped.astral_gladiators_badge_of_ferocity\|equipped.arazs_ritual_forge\|equipped.freightrunners_flask\|equipped.emberwing_feather\|equipped.vaelgors_final_stare\|equipped.galactic_gladiators_badge_of_ferocity |
+| 11 | `variable` | name=12ssteroid_trinket_equipped,op=set,value=equipped.nevermelting_ice_crystal\|equipped.ever_collapsing_void_fissure |
+| 12 | `variable` | name=steroid_trinket_equipped,op=set,value=equipped.lily_of_the_eternal_weave\|equipped.sunblood_amethyst\|equipped.astral_gladiators_badge_of_ferocity\|equipped.arazs_ritual_forge\|equipped.freightrunners_flask\|equipped.emberwing_feather\|equipped.vaelgors_final_stare\|equipped.galactic_gladiators_badge_of_ferocity\|equipped.nevermelting_ice_crystal\|equipped.ever_collapsing_void_fissure\|equipped.signet_of_the_priory\|equipped.incorporeal_essencegorger\|equipped.sealed_chaos_urn |
+| 13 | `variable` | name=nonsteroid_trinket_equipped,op=set,value=equipped.mereldars_toll\|equipped.perfidious_projector\|equipped.chaotic_nethergate\|equipped.wraps_of_cosmic_madness\|equipped.astalors_anguish_agitator |
+| 14 | `snapshot_stats` | — |
+| 15 | `mirror_image` | — |
+| 16 | `potion` | if=talent.spellfire_spheres&!variable.sf_touch_surge |
+| 17 | `arcane_surge` | if=(talent.spellfire_spheres&!variable.sf_touch_surge)\|(!variable.time_for_pooling&talent.splintering_sorcery) |
+| 18 | `arcane_pulse` | if=(talent.splintering_sorcery\|variable.sf_touch_surge)&talent.arcane_pulse&(active_enemies>=variable.pulse_aoe_count) |
+| 19 | `arcane_blast` | — |
 
 ## Action List: `default`
 
@@ -69,7 +70,7 @@ Source: `apl/default/mage/arcane.simc`
 | 4 | `arcane_missiles` | if=talent.spellfire_spheres&!variable.sf_touch_surge&variable.opener,line_cd=30 |
 | 5 | `arcane_pulse` | if=(talent.splintering_sorcery\|variable.sf_touch_surge)&buff.arcane_salvo.react<20&(variable.opener\|(talent.orb_mastery&cooldown.arcane_surge.remains<(gcd.max*(mana.pct%(8+(8*(active_enemies>variable.pulse_aoe_count)))))))&(active_enemies>=variable.pulse_aoe_count) |
 | 6 | `arcane_blast` | if=(talent.splintering_sorcery\|variable.sf_touch_surge)&buff.arcane_salvo.react<20&((variable.opener&variable.time_for_pooling)\|(!variable.opener&talent.orb_mastery&cooldown.arcane_surge.remains<(gcd.max*(mana.pct%(8+(8*(active_enemies>=2))))))) |
-| 7 | `wait` | sec=0.05,if=(prev_gcd.1._arcane_surge&gcd.remains=0)\|(prev_off_gcd.touch_of_the_magi&gcd.remains=0)\|(prev_off_gcd.presence_of_mind&gcd.remains=0),line_cd=1 |
+| 7 | `wait` | sec=0.05,if=(prev_gcd.1.arcane_surge&gcd.remains=0)\|(prev_off_gcd.touch_of_the_magi&gcd.remains=0)\|(prev_off_gcd.presence_of_mind&gcd.remains=0),line_cd=1 |
 | 8 | `touch_of_the_magi` | use_off_gcd=1,if=((talent.splintering_sorcery\|variable.sf_touch_surge)&buff.arcane_surge.up)\|(talent.spellfire_spheres&!variable.sf_touch_surge&buff.arcane_surge.up&buff.arcane_surge.remains<(5+gcd.remains))\|(cooldown.touch_of_the_magi.ready&cooldown.arcane_surge.remains>30&buff.arcane_surge.down) |
 | 9 | `arcane_surge` | — |
 | 10 | `cancel_action` | if=action.evocation.channeling&mana.pct>=95 |
@@ -85,7 +86,7 @@ Source: `apl/default/mage/arcane.simc`
 | 4 | `arcane_missiles` | if=buff.clearcasting.react&((buff.arcane_salvo.stack<(10+(5*(buff.overpowered_missiles.react=0))))\|(buff.arcane_charge.stack<2&talent.high_voltage&active_enemies>=2)),chain=1 |
 | 5 | `presence_of_mind` | use_off_gcd=1,if=buff.arcane_charge.stack<2&(buff.clearcasting.react=0\|!talent.high_voltage&cooldown.arcane_orb.charges_fractional<0.95)&!prev_gcd.1.arcane_orb&!prev_gcd.1.arcane_missiles |
 | 6 | `arcane_blast` | if=buff.presence_of_mind.up |
-| 7 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|((buff.arcane_charge.stack<3)&mana.pct>50) |
+| 7 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|((buff.arcane_charge.stack<3)&mana.pct>30) |
 | 8 | `arcane_blast` | — |
 | 9 | `arcane_barrage` | if=!prev_gcd.1.arcane_surge\|prev_off_gcd.touch_of_the_magi&buff.arcane_salvo.react=20 |
 
@@ -99,7 +100,7 @@ Source: `apl/default/mage/arcane.simc`
 | 4 | `arcane_barrage` | if=buff.arcane_salvo.react<7&buff.arcane_surge.down&buff.touch_of_the_magi.down&buff.arcane_charge.stack=4&talent.resonance&talent.arcane_pulse |
 | 5 | `presence_of_mind` | use_off_gcd=1,if=buff.arcane_charge.stack<2&(buff.clearcasting.react=0\|!talent.high_voltage&cooldown.arcane_orb.charges_fractional<0.95)&!prev_gcd.1.arcane_orb&!prev_gcd.1.arcane_missiles |
 | 6 | `arcane_blast` | if=buff.presence_of_mind.up |
-| 7 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|(buff.arcane_charge.stack<3&mana.pct>30) |
+| 7 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|((buff.arcane_charge.stack<3)&mana.pct>30) |
 | 8 | `arcane_blast` | — |
 | 9 | `arcane_barrage` | if=(time>5&!prev_gcd.1.arcane_surge)\|(prev_off_gcd.touch_of_the_magi&buff.arcane_salvo.react=20) |
 
@@ -110,7 +111,7 @@ Source: `apl/default/mage/arcane.simc`
 | 1 | `arcane_barrage` | if=(buff.arcane_charge.stack=4&variable.sunfury_hold_for_cds&((((buff.clearcasting.react&talent.high_voltage)\|(cooldown.arcane_orb.charges_fractional>0.95&active_enemies>=3))&((buff.arcane_salvo.react>=6&buff.arcane_salvo.react<7)\|(buff.arcane_salvo.react>=12&buff.arcane_salvo.react<13)\|(buff.arcane_salvo.react>=18&buff.arcane_salvo.react<19)\|((buff.arcane_salvo.react<19)&!talent.resonance&active_enemies>=3)))\|buff.arcane_salvo.stack=25))\|prev_off_gcd.touch_of_the_magi\|(debuff.touch_of_the_magi.remains<gcd.max&debuff.touch_of_the_magi.up&buff.arcane_charge.stack=4)\|buff.arcane_soul.up |
 | 2 | `arcane_missiles` | if=buff.clearcasting.react&((((cooldown.touch_of_the_magi.remains>gcd.max*(8-(4*variable.sf_touch_surge))&buff.overpowered_missiles.react=0)\|buff.arcane_surge.up\|buff.arcane_charge.stack<3\|buff.clearcasting.react>1)&buff.arcane_salvo.react<(15-(5*(buff.overpowered_missiles.react&buff.arcane_surge.down))))\|(debuff.touch_of_the_magi.up&buff.arcane_surge.up)),chain=1 |
 | 3 | `arcane_orb` | if=buff.arcane_charge.stack<2 |
-| 4 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|((buff.arcane_charge.stack<3)&mana.pct>50) |
+| 4 | `arcane_pulse` | if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)\|((buff.arcane_charge.stack<3)&mana.pct>30) |
 | 5 | `arcane_explosion` | if=active_enemies>3&buff.arcane_charge.stack<2&!talent.impetus |
 | 6 | `arcane_blast` | — |
 | 7 | `arcane_barrage` | if=(variable.sf_touch_surge&(!prev_gcd.1.arcane_surge\|prev_off_gcd.touch_of_the_magi&buff.arcane_salvo.react=25))\|!variable.sf_touch_surge |
@@ -127,11 +128,12 @@ Source: `apl/default/mage/arcane.simc`
 # Executed before combat begins. Accepts non-harmful actions only.
 actions.precombat=arcane_intellect
 actions.precombat+=/variable,name=opener,op=set,value=1
-actions.precombat+=/variable,name=pulse_aoe_count,op=set,value=3+talent.orb_mastery
+actions.precombat+=/variable,name=pulse_aoe_count,op=set,value=2+talent.orb_mastery
 actions.precombat+=/variable,name=funnel,op=reset,default=0
 actions.precombat+=/variable,name=sf_touch_surge,op=reset,default=0
-actions.precombat+=/variable,name=time_for_pooling,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))|((fight_remains%%95)>(20+(2*talent.arcane_pulse)))
-actions.precombat+=/variable,name=did_not_pool,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))|((fight_remains%%95)>(20+(2*talent.arcane_pulse)))
+actions.precombat+=/variable,name=pooling,op=reset,default=1
+actions.precombat+=/variable,name=time_for_pooling,op=set,value=(((fight_remains%%95)<(7+(2*talent.arcane_pulse)))|((fight_remains%%95)>(20+(2*talent.arcane_pulse))))&variable.pooling
+actions.precombat+=/variable,name=did_not_pool,op=set,value=((fight_remains%%95)<(7+(2*talent.arcane_pulse)))|((fight_remains%%95)>(20+(2*talent.arcane_pulse)))&variable.pooling
 actions.precombat+=/variable,name=20ssteroid_trinket_equipped,op=set,value=equipped.signet_of_the_priory|equipped.incorporeal_essencegorger|equipped.sealed_chaos_urn
 actions.precombat+=/variable,name=15ssteroid_trinket_equipped,op=set,value=equipped.lily_of_the_eternal_weave|equipped.sunblood_amethyst|equipped.astral_gladiators_badge_of_ferocity|equipped.arazs_ritual_forge|equipped.freightrunners_flask|equipped.emberwing_feather|equipped.vaelgors_final_stare|equipped.galactic_gladiators_badge_of_ferocity
 actions.precombat+=/variable,name=12ssteroid_trinket_equipped,op=set,value=equipped.nevermelting_ice_crystal|equipped.ever_collapsing_void_fissure
@@ -178,7 +180,7 @@ actions.cooldowns+=/arcane_missiles,if=talent.spellfire_spheres&!variable.sf_tou
 # Spellslinger builds Salvo before going into cds the first time.
 actions.cooldowns+=/arcane_pulse,if=(talent.splintering_sorcery|variable.sf_touch_surge)&buff.arcane_salvo.react<20&(variable.opener|(talent.orb_mastery&cooldown.arcane_surge.remains<(gcd.max*(mana.pct%(8+(8*(active_enemies>variable.pulse_aoe_count)))))))&(active_enemies>=variable.pulse_aoe_count)
 actions.cooldowns+=/arcane_blast,if=(talent.splintering_sorcery|variable.sf_touch_surge)&buff.arcane_salvo.react<20&((variable.opener&variable.time_for_pooling)|(!variable.opener&talent.orb_mastery&cooldown.arcane_surge.remains<(gcd.max*(mana.pct%(8+(8*(active_enemies>=2)))))))
-actions.cooldowns+=/wait,sec=0.05,if=(prev_gcd.1._arcane_surge&gcd.remains=0)|(prev_off_gcd.touch_of_the_magi&gcd.remains=0)|(prev_off_gcd.presence_of_mind&gcd.remains=0),line_cd=1
+actions.cooldowns+=/wait,sec=0.05,if=(prev_gcd.1.arcane_surge&gcd.remains=0)|(prev_off_gcd.touch_of_the_magi&gcd.remains=0)|(prev_off_gcd.presence_of_mind&gcd.remains=0),line_cd=1
 # Spellslinger uses Touch after Surge, Sunfury holds touch for the end of Surge to capture Soul and the run-off of resources after Soul.
 actions.cooldowns+=/touch_of_the_magi,use_off_gcd=1,if=((talent.splintering_sorcery|variable.sf_touch_surge)&buff.arcane_surge.up)|(talent.spellfire_spheres&!variable.sf_touch_surge&buff.arcane_surge.up&buff.arcane_surge.remains<(5+gcd.remains))|(cooldown.touch_of_the_magi.ready&cooldown.arcane_surge.remains>30&buff.arcane_surge.down)
 actions.cooldowns+=/arcane_surge
@@ -195,7 +197,7 @@ actions.spellslinger+=/arcane_barrage,if=active_enemies>=2&buff.arcane_charge.st
 actions.spellslinger+=/arcane_missiles,if=buff.clearcasting.react&((buff.arcane_salvo.stack<(10+(5*(buff.overpowered_missiles.react=0))))|(buff.arcane_charge.stack<2&talent.high_voltage&active_enemies>=2)),chain=1
 actions.spellslinger+=/presence_of_mind,use_off_gcd=1,if=buff.arcane_charge.stack<2&(buff.clearcasting.react=0|!talent.high_voltage&cooldown.arcane_orb.charges_fractional<0.95)&!prev_gcd.1.arcane_orb&!prev_gcd.1.arcane_missiles
 actions.spellslinger+=/arcane_blast,if=buff.presence_of_mind.up
-actions.spellslinger+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|((buff.arcane_charge.stack<3)&mana.pct>50)
+actions.spellslinger+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|((buff.arcane_charge.stack<3)&mana.pct>30)
 actions.spellslinger+=/arcane_blast
 actions.spellslinger+=/arcane_barrage,if=!prev_gcd.1.arcane_surge|prev_off_gcd.touch_of_the_magi&buff.arcane_salvo.react=20
 
@@ -209,7 +211,7 @@ actions.spellslinger_orbm+=/arcane_missiles,if=(talent.high_voltage|talent.overp
 actions.spellslinger_orbm+=/arcane_barrage,if=buff.arcane_salvo.react<7&buff.arcane_surge.down&buff.touch_of_the_magi.down&buff.arcane_charge.stack=4&talent.resonance&talent.arcane_pulse
 actions.spellslinger_orbm+=/presence_of_mind,use_off_gcd=1,if=buff.arcane_charge.stack<2&(buff.clearcasting.react=0|!talent.high_voltage&cooldown.arcane_orb.charges_fractional<0.95)&!prev_gcd.1.arcane_orb&!prev_gcd.1.arcane_missiles
 actions.spellslinger_orbm+=/arcane_blast,if=buff.presence_of_mind.up
-actions.spellslinger_orbm+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|(buff.arcane_charge.stack<3&mana.pct>30)
+actions.spellslinger_orbm+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|((buff.arcane_charge.stack<3)&mana.pct>30)
 actions.spellslinger_orbm+=/arcane_blast
 actions.spellslinger_orbm+=/arcane_barrage,if=(time>5&!prev_gcd.1.arcane_surge)|(prev_off_gcd.touch_of_the_magi&buff.arcane_salvo.react=20)
 
@@ -218,7 +220,7 @@ actions.sunfury=arcane_barrage,if=(buff.arcane_charge.stack=4&variable.sunfury_h
 # Missile if you have less than 15 Salvo or 10 with OPM proc except when Surge is up; send Missiles if you have both Surge and Touch going.
 actions.sunfury+=/arcane_missiles,if=buff.clearcasting.react&((((cooldown.touch_of_the_magi.remains>gcd.max*(8-(4*variable.sf_touch_surge))&buff.overpowered_missiles.react=0)|buff.arcane_surge.up|buff.arcane_charge.stack<3|buff.clearcasting.react>1)&buff.arcane_salvo.react<(15-(5*(buff.overpowered_missiles.react&buff.arcane_surge.down))))|(debuff.touch_of_the_magi.up&buff.arcane_surge.up)),chain=1
 actions.sunfury+=/arcane_orb,if=buff.arcane_charge.stack<2
-actions.sunfury+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|((buff.arcane_charge.stack<3)&mana.pct>50)
+actions.sunfury+=/arcane_pulse,if=((active_enemies>=variable.pulse_aoe_count)&!variable.funnel)|((buff.arcane_charge.stack<3)&mana.pct>30)
 actions.sunfury+=/arcane_explosion,if=active_enemies>3&buff.arcane_charge.stack<2&!talent.impetus
 # Barrage can be used if you didn't have any of the charge generators above to get over 1 stacks. This is also not default behavior but is interestingly neutral. actions.sunfury+=/arcane_barrage,if=buff.arcane_charge.stack<2
 actions.sunfury+=/arcane_blast

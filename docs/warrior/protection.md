@@ -1,6 +1,6 @@
 # Warrior – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-18 05:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-19 05:33 UTC
 
 Source: `apl/default/warrior/protection.simc`
 
