@@ -1,6 +1,6 @@
 # Mage – Frost
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-21 05:31 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-22 05:30 UTC
 
 Source: `apl/default/mage/frost.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/mage/frost.simc`
 ## Overview
 
 - **Action Lists:** 9
-- **Total Actions:** 110
+- **Total Actions:** 104
 - **Lists:** `precombat`, `default`, `cds`, `ff_aoe`, `ff_st`, `movement`, `ss_aoe`, `ss_st`, `ss_tarswap`
 
 ## Action List: `precombat`
@@ -20,7 +20,7 @@ Source: `apl/default/mage/frost.simc`
 | 2 | `snapshot_stats` | — |
 | 3 | `variable` | name=target_swapping,op=reset,default=0 |
 | 4 | `summon_water_elemental` | — |
-| 5 | `blizzard` | if=talent.frostfire_bolt\|active_enemies>=4&(talent.freezing_rain\|talent.freezing_winds) |
+| 5 | `blizzard` | if=active_enemies>=(4-talent.frostfire_bolt)\|talent.freezing_rain\|talent.freezing_winds |
 | 6 | `glacial_spike` | — |
 | 7 | `frostbolt` | — |
 
@@ -51,22 +51,16 @@ Source: `apl/default/mage/frost.simc`
 | 10 | `berserking` | if=variable.ff_trinket_timing\|variable.ss_trinket_timing |
 | 11 | `fireblood` | if=variable.ff_trinket_timing\|variable.ss_trinket_timing |
 | 12 | `ancestral_call` | if=variable.ff_trinket_timing\|variable.ss_trinket_timing |
-| 13 | `flurry` | if=talent.frostfire_bolt,line_cd=9999 |
-| 14 | `glacial_spike` | if=talent.frostfire_bolt,line_cd=9999 |
-| 15 | `flurry` | if=talent.frostfire_bolt,line_cd=9999 |
-| 16 | `ray_of_frost` | if=talent.frostfire_bolt,line_cd=9999 |
-| 17 | `frozen_orb` | if=talent.frostfire_bolt,line_cd=9999 |
-| 18 | `ice_lance` | if=active_enemies<=3&talent.flash_freeze&talent.splinterstorm,line_cd=9999 |
-| 19 | `ray_of_frost` | if=active_enemies<=3&talent.splinterstorm&!variable.target_swapping,line_cd=9999 |
-| 20 | `ray_of_frost` | target_if=min:debuff.freezing.react,if=active_enemies<=3&talent.splinterstorm&variable.target_swapping,line_cd=9999 |
-| 21 | `flurry` | if=active_enemies>=4&talent.wintertide&talent.splinterstorm&!variable.target_swapping,line_cd=9999 |
-| 22 | `flurry` | target_if=min:debuff.freezing.react,if=active_enemies>=4&talent.wintertide&talent.splinterstorm&variable.target_swapping,line_cd=9999 |
-| 23 | `frozen_orb` | if=active_enemies>=4&talent.splinterstorm,line_cd=9999 |
-| 24 | `ray_of_frost` | if=active_enemies>=4&talent.splinterstorm&!variable.target_swapping,line_cd=9999 |
-| 25 | `ray_of_frost` | target_if=min:debuff.freezing.react,if=active_enemies>=4&talent.splinterstorm&variable.target_swapping,line_cd=9999 |
-| 26 | `ray_of_frost` | if=fight_remains<12&!variable.target_swapping |
-| 27 | `ray_of_frost` | target_if=min:debuff.freezing.react,if=fight_remains<12&variable.target_swapping |
-| 28 | `invoke_external_buff` | name=power_infusion,if=buff.power_infusion.down |
+| 13 | `flurry` | if=active_enemies>=3&talent.wintertide&talent.frostfire_bolt,line_cd=9999 |
+| 14 | `ray_of_frost` | if=talent.frostfire_bolt,line_cd=9999 |
+| 15 | `flurry` | if=active_enemies>=4&talent.wintertide&talent.splinterstorm&!variable.target_swapping,line_cd=9999 |
+| 16 | `flurry` | target_if=min:debuff.freezing.react,if=active_enemies>=4&talent.wintertide&talent.splinterstorm&variable.target_swapping,line_cd=9999 |
+| 17 | `frozen_orb` | if=active_enemies>=4&talent.splinterstorm,line_cd=9999 |
+| 18 | `ray_of_frost` | if=talent.splinterstorm&!variable.target_swapping,line_cd=9999 |
+| 19 | `ray_of_frost` | target_if=min:debuff.freezing.react,if=talent.splinterstorm&variable.target_swapping,line_cd=9999 |
+| 20 | `ray_of_frost` | if=fight_remains<12&(!variable.target_swapping\|talent.frostfire_bolt) |
+| 21 | `ray_of_frost` | target_if=min:debuff.freezing.react,if=fight_remains<12&variable.target_swapping |
+| 22 | `invoke_external_buff` | name=power_infusion,if=buff.power_infusion.down |
 
 ## Action List: `ff_aoe`
 
@@ -77,7 +71,7 @@ Source: `apl/default/mage/frost.simc`
 | 3 | `frozen_orb` | — |
 | 4 | `glacial_spike` | — |
 | 5 | `comet_storm` | — |
-| 6 | `blizzard` | if=active_enemies>=(5-talent.freezing_rain-talent.freezing_winds)&(cooldown.frozen_orb.remains>12*spell_haste\|!talent.freezing_rain) |
+| 6 | `blizzard` | if=active_enemies>=(5-talent.freezing_rain-talent.freezing_winds) |
 | 7 | `ice_lance` | if=buff.fingers_of_frost.react |
 | 8 | `ice_lance` | if=debuff.freezing.stack>=10 |
 | 9 | `flurry` | if=cooldown_react |
@@ -181,8 +175,8 @@ actions.precombat=arcane_intellect
 actions.precombat+=/snapshot_stats
 actions.precombat+=/variable,name=target_swapping,op=reset,default=0
 actions.precombat+=/summon_water_elemental
-# Frostfire can open with a precast Blizzard against all target counts. Spellslinger AoE starts at 4+, but Blizzard is only cast with any of the Blizzard talents.
-actions.precombat+=/blizzard,if=talent.frostfire_bolt|active_enemies>=4&(talent.freezing_rain|talent.freezing_winds)
+# Precast Blizzard against all targets if you have any of the Blizzard talents. In AoE (3+ for FF, 4+ for SS) Blizzard is always the precast.
+actions.precombat+=/blizzard,if=active_enemies>=(4-talent.frostfire_bolt)|talent.freezing_rain|talent.freezing_winds
 actions.precombat+=/glacial_spike
 actions.precombat+=/frostbolt
 
@@ -211,23 +205,16 @@ actions.cds+=/berserking,if=variable.ff_trinket_timing|variable.ss_trinket_timin
 actions.cds+=/fireblood,if=variable.ff_trinket_timing|variable.ss_trinket_timing
 actions.cds+=/ancestral_call,if=variable.ff_trinket_timing|variable.ss_trinket_timing
 # Opener Frostfire
-actions.cds+=/flurry,if=talent.frostfire_bolt,line_cd=9999
-actions.cds+=/glacial_spike,if=talent.frostfire_bolt,line_cd=9999
-actions.cds+=/flurry,if=talent.frostfire_bolt,line_cd=9999
+actions.cds+=/flurry,if=active_enemies>=3&talent.wintertide&talent.frostfire_bolt,line_cd=9999
 actions.cds+=/ray_of_frost,if=talent.frostfire_bolt,line_cd=9999
-actions.cds+=/frozen_orb,if=talent.frostfire_bolt,line_cd=9999
-# Opener Spellslinger ST
-actions.cds+=/ice_lance,if=active_enemies<=3&talent.flash_freeze&talent.splinterstorm,line_cd=9999
-actions.cds+=/ray_of_frost,if=active_enemies<=3&talent.splinterstorm&!variable.target_swapping,line_cd=9999
-actions.cds+=/ray_of_frost,target_if=min:debuff.freezing.react,if=active_enemies<=3&talent.splinterstorm&variable.target_swapping,line_cd=9999
-# Opener Spellslinger AoE
+# Opener Spellslinger
 actions.cds+=/flurry,if=active_enemies>=4&talent.wintertide&talent.splinterstorm&!variable.target_swapping,line_cd=9999
 actions.cds+=/flurry,target_if=min:debuff.freezing.react,if=active_enemies>=4&talent.wintertide&talent.splinterstorm&variable.target_swapping,line_cd=9999
 actions.cds+=/frozen_orb,if=active_enemies>=4&talent.splinterstorm,line_cd=9999
-actions.cds+=/ray_of_frost,if=active_enemies>=4&talent.splinterstorm&!variable.target_swapping,line_cd=9999
-actions.cds+=/ray_of_frost,target_if=min:debuff.freezing.react,if=active_enemies>=4&talent.splinterstorm&variable.target_swapping,line_cd=9999
+actions.cds+=/ray_of_frost,if=talent.splinterstorm&!variable.target_swapping,line_cd=9999
+actions.cds+=/ray_of_frost,target_if=min:debuff.freezing.react,if=talent.splinterstorm&variable.target_swapping,line_cd=9999
 # End-Of-Fight Actions
-actions.cds+=/ray_of_frost,if=fight_remains<12&!variable.target_swapping
+actions.cds+=/ray_of_frost,if=fight_remains<12&(!variable.target_swapping|talent.frostfire_bolt)
 actions.cds+=/ray_of_frost,target_if=min:debuff.freezing.react,if=fight_remains<12&variable.target_swapping
 # Externals
 actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.power_infusion.down
@@ -237,7 +224,7 @@ actions.ff_aoe+=/flurry,if=buff.brain_freeze.react&buff.thermal_void.down
 actions.ff_aoe+=/frozen_orb
 actions.ff_aoe+=/glacial_spike
 actions.ff_aoe+=/comet_storm
-actions.ff_aoe+=/blizzard,if=active_enemies>=(5-talent.freezing_rain-talent.freezing_winds)&(cooldown.frozen_orb.remains>12*spell_haste|!talent.freezing_rain)
+actions.ff_aoe+=/blizzard,if=active_enemies>=(5-talent.freezing_rain-talent.freezing_winds)
 actions.ff_aoe+=/ice_lance,if=buff.fingers_of_frost.react
 actions.ff_aoe+=/ice_lance,if=debuff.freezing.stack>=10
 actions.ff_aoe+=/flurry,if=cooldown_react

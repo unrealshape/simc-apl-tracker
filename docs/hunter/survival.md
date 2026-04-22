@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-21 05:31 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-22 05:30 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/survival.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 63
+- **Total Actions:** 61
 - **Lists:** `precombat`, `default`, `cds`, `plcleave`, `plst`, `sentcleave`, `sentst`
 
 ## Action List: `precombat`
@@ -38,7 +38,7 @@ Source: `apl/default/hunter/survival.simc`
 |---|--------|------------|
 | 1 | `blood_fury` | if=buff.takedown.up\|cooldown.takedown.ready |
 | 2 | `use_items` | if=buff.takedown.up\|cooldown.takedown.ready\|!talent.takedown |
-| 3 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up\|fight_remains<16 |
+| 3 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up |
 | 4 | `ancestral_call` | if=buff.takedown.up\|cooldown.takedown.ready |
 | 5 | `fireblood` | if=buff.takedown.up\|cooldown.takedown.ready |
 | 6 | `berserking` | if=buff.takedown.up\|cooldown.takedown.ready |
@@ -66,18 +66,16 @@ Source: `apl/default/hunter/survival.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `kill_command` | if=buff.tip_of_the_spear.stack<2&(buff.howl_of_the_pack_leader_wyvern.remains\|buff.howl_of_the_pack_leader_boar.remains\|buff.howl_of_the_pack_leader_bear.remains) |
-| 2 | `wildfire_bomb` | if=fury_of_the_wyvern_extendable&buff.wyverns_cry.remains<gcd |
-| 3 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
-| 4 | `raptor_strike` | if=!buff.raptor_swipe.up&cooldown.takedown.remains<gcd |
-| 5 | `boomstick` | if=buff.tip_of_the_spear.up\|cooldown.takedown.remains<gcd&talent.twin_fangs |
-| 6 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
-| 7 | `flamefang_pitch` | — |
-| 8 | `wildfire_bomb` | if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up&!buff.takedown.remains |
-| 9 | `raptor_strike` | if=(buff.tip_of_the_spear.up\|!buff.raptor_swipe.up) |
-| 10 | `kill_command` | if=cooldown.takedown.remains |
-| 11 | `wildfire_bomb` | — |
-| 12 | `takedown` | — |
+| 1 | `kill_command` | if=buff.tip_of_the_spear.stack<2&howl_summon.ready |
+| 2 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
+| 3 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
+| 4 | `flamefang_pitch` | — |
+| 5 | `wildfire_bomb` | if=buff.tip_of_the_spear.up |
+| 6 | `boomstick` | if=buff.tip_of_the_spear.up |
+| 7 | `raptor_strike` | if=(buff.tip_of_the_spear.up\|!buff.raptor_swipe.up) |
+| 8 | `kill_command` | if=cooldown.takedown.remains |
+| 9 | `wildfire_bomb` | — |
+| 10 | `takedown` | — |
 
 ## Action List: `sentcleave`
 
@@ -99,7 +97,7 @@ Source: `apl/default/hunter/survival.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `kill_command` | if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains\|!talent.twin_fangs) |
-| 2 | `boomstick` | if=buff.tip_of_the_spear.up&!cooldown.takedown.ready&!debuff.sentinels_mark.remains |
+| 2 | `boomstick` | if=buff.tip_of_the_spear.up&!debuff.sentinels_mark.remains |
 | 3 | `wildfire_bomb` | if=buff.tip_of_the_spear.up&(debuff.sentinels_mark.remains\|full_recharge_time<4+gcd) |
 | 4 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
 | 5 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
@@ -121,6 +119,7 @@ Source: `apl/default/hunter/survival.simc`
 
 # Executed before combat begins. Accepts non-harmful actions only.
 actions.precombat=summon_pet
+# Snapshot raid buffed stats before combat begins.
 actions.precombat+=/snapshot_stats
 actions.precombat+=/use_item,name=algethar_puzzle_box
 actions.precombat+=/wildfire_bomb,if=active_enemies=1
@@ -136,7 +135,7 @@ actions+=/call_action_list,name=sentcleave,if=active_enemies>2&!talent.howl_of_t
 # CDS
 actions.cds=blood_fury,if=buff.takedown.up|cooldown.takedown.ready
 actions.cds+=/use_items,if=buff.takedown.up|cooldown.takedown.ready|!talent.takedown
-actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up|fight_remains<16
+actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up
 actions.cds+=/ancestral_call,if=buff.takedown.up|cooldown.takedown.ready
 actions.cds+=/fireblood,if=buff.takedown.up|cooldown.takedown.ready
 actions.cds+=/berserking,if=buff.takedown.up|cooldown.takedown.ready
@@ -158,14 +157,12 @@ actions.plcleave+=/wildfire_bomb
 actions.plcleave+=/takedown
 
 # ST - PL
-actions.plst=kill_command,if=buff.tip_of_the_spear.stack<2&(buff.howl_of_the_pack_leader_wyvern.remains|buff.howl_of_the_pack_leader_boar.remains|buff.howl_of_the_pack_leader_bear.remains)
-actions.plst+=/wildfire_bomb,if=fury_of_the_wyvern_extendable&buff.wyverns_cry.remains<gcd
+actions.plst=kill_command,if=buff.tip_of_the_spear.stack<2&howl_summon.ready
 actions.plst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
-actions.plst+=/raptor_strike,if=!buff.raptor_swipe.up&cooldown.takedown.remains<gcd
-actions.plst+=/boomstick,if=buff.tip_of_the_spear.up|cooldown.takedown.remains<gcd&talent.twin_fangs
 actions.plst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
 actions.plst+=/flamefang_pitch
-actions.plst+=/wildfire_bomb,if=fury_of_the_wyvern_extendable&buff.tip_of_the_spear.up&!buff.takedown.remains
+actions.plst+=/wildfire_bomb,if=buff.tip_of_the_spear.up
+actions.plst+=/boomstick,if=buff.tip_of_the_spear.up
 actions.plst+=/raptor_strike,if=(buff.tip_of_the_spear.up|!buff.raptor_swipe.up)
 actions.plst+=/kill_command,if=cooldown.takedown.remains
 actions.plst+=/wildfire_bomb
@@ -185,7 +182,7 @@ actions.sentcleave+=/kill_command
 
 # ST - Sent
 actions.sentst=kill_command,if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains|!talent.twin_fangs)
-actions.sentst+=/boomstick,if=buff.tip_of_the_spear.up&!cooldown.takedown.ready&!debuff.sentinels_mark.remains
+actions.sentst+=/boomstick,if=buff.tip_of_the_spear.up&!debuff.sentinels_mark.remains
 actions.sentst+=/wildfire_bomb,if=buff.tip_of_the_spear.up&(debuff.sentinels_mark.remains|full_recharge_time<4+gcd)
 actions.sentst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
 actions.sentst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs

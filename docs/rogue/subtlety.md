@@ -1,6 +1,6 @@
 # Rogue – Subtlety
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-21 05:31 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-22 05:30 UTC
 
 Source: `apl/default/rogue/subtlety.simc`
 
@@ -30,7 +30,7 @@ Source: `apl/default/rogue/subtlety.simc`
 | 1 | `variable` | name=stealth,value=buff.shadow_dance.up\|buff.stealth.up\|buff.vanish.up |
 | 2 | `variable` | name=targets,value=spell_targets.shuriken_storm |
 | 3 | `variable` | name=racial_sync,value=(buff.shadow_blades.up&buff.shadow_dance.up)\|fight_remains<20 |
-| 4 | `variable` | name=shd_cp,value=buff.slice_and_dice.up&combo_points<=2&talent.deathstalkers_mark\|combo_points>=6&talent.unseen_blade\|variable.targets>=5 |
+| 4 | `variable` | name=shd_cp,value=buff.slice_and_dice.up&combo_points<=2&talent.deathstalkers_mark\|combo_points>=6&(!talent.deathstalkers_mark\|variable.targets>=5) |
 | 5 | `stealth` | — |
 | 6 | `call_action_list` | name=race |
 | 7 | `call_action_list` | name=item |
@@ -49,8 +49,8 @@ Source: `apl/default/rogue/subtlety.simc`
 | 2 | `shadowstrike` | if=!debuff.deathstalkers_mark.up&talent.deathstalkers_mark&!buff.darkest_night.up\|variable.targets<=3\|variable.priority_rotation |
 | 3 | `shuriken_storm` | if=variable.targets>1 |
 | 4 | `goremaws_bite` | if=combo_points.deficit>=3 |
-| 5 | `gloomblade` | if=variable.targets<2 |
-| 6 | `backstab` | if=variable.targets<2 |
+| 5 | `gloomblade` | if=variable.targets<2&!variable.stealth |
+| 6 | `backstab` | if=variable.targets<2&!variable.stealth |
 
 ## Action List: `cds`
 
@@ -60,7 +60,7 @@ Source: `apl/default/rogue/subtlety.simc`
 | 2 | `shadow_dance` | if=!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready\|buff.darkest_night.up)&(cooldown.shadow_blades.remains>=30-cooldown.secret_technique.duration)\|(buff.shadow_blades.up&cooldown.secret_technique.duration>=18))\|(fight_remains<=10\|target.time_to_die-remains<=9) |
 | 3 | `shadow_dance` | if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration |
 | 4 | `shadow_dance` | if=equipped.algethar_puzzle_box&talent.unseen_blade&!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready\|buff.darkest_night.up)&(trinket.algethar_puzzle_box.cooldown.remains>=39-30*cooldown.shadow_blades.up)) |
-| 5 | `vanish` | if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=1 |
+| 5 | `vanish` | if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=2 |
 | 6 | `shadowmeld` | if=energy>=50&!variable.stealth&combo_points.deficit>=2 |
 
 ## Action List: `fill`
@@ -123,7 +123,7 @@ actions.precombat+=/stealth
 actions=variable,name=stealth,value=buff.shadow_dance.up|buff.stealth.up|buff.vanish.up
 actions+=/variable,name=targets,value=spell_targets.shuriken_storm
 actions+=/variable,name=racial_sync,value=(buff.shadow_blades.up&buff.shadow_dance.up)|fight_remains<20
-actions+=/variable,name=shd_cp,value=buff.slice_and_dice.up&combo_points<=2&talent.deathstalkers_mark|combo_points>=6&talent.unseen_blade|variable.targets>=5
+actions+=/variable,name=shd_cp,value=buff.slice_and_dice.up&combo_points<=2&talent.deathstalkers_mark|combo_points>=6&(!talent.deathstalkers_mark|variable.targets>=5)
 actions+=/stealth
 actions+=/call_action_list,name=race
 actions+=/call_action_list,name=item
@@ -138,8 +138,8 @@ actions.build=shuriken_storm,if=prev.shadow_dance&buff.premeditation.up&talent.d
 actions.build+=/shadowstrike,if=!debuff.deathstalkers_mark.up&talent.deathstalkers_mark&!buff.darkest_night.up|variable.targets<=3|variable.priority_rotation
 actions.build+=/shuriken_storm,if=variable.targets>1
 actions.build+=/goremaws_bite,if=combo_points.deficit>=3
-actions.build+=/gloomblade,if=variable.targets<2
-actions.build+=/backstab,if=variable.targets<2
+actions.build+=/gloomblade,if=variable.targets<2&!variable.stealth
+actions.build+=/backstab,if=variable.targets<2&!variable.stealth
 
 # Cooldowns  Delay the last Shadow Blades to line up with puzzle box if its equipped.
 actions.cds=shadow_blades,if=variable.shd_cp&cooldown.shadow_dance.charges_fractional>=1+0.8*talent.deathstalkers_mark&cooldown.secret_technique.ready&(fight_remains>90|!equipped.algethar_puzzle_box|trinket.1.proc.mastery.up)|(fight_remains<=20|target.time_to_die.remains<=20)
@@ -148,7 +148,7 @@ actions.cds+=/shadow_dance,if=!variable.stealth&variable.shd_cp&energy>=30&((coo
 actions.cds+=/shadow_dance,if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration
 # Used for when Shadow Blades is ready but holding for Algethar Puzzlebox trinket at the end of pull
 actions.cds+=/shadow_dance,if=equipped.algethar_puzzle_box&talent.unseen_blade&!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready|buff.darkest_night.up)&(trinket.algethar_puzzle_box.cooldown.remains>=39-30*cooldown.shadow_blades.up))
-actions.cds+=/vanish,if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=1
+actions.cds+=/vanish,if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=2
 actions.cds+=/shadowmeld,if=energy>=50&!variable.stealth&combo_points.deficit>=2
 
 # This list usually contains Cooldowns with negligible impact that causes global cooldowns
