@@ -1,13 +1,9 @@
 [
-  "apl/default/deathknight/frost.simc",
-  "apl/default/druid/feral.simc",
-  "apl/default/evoker/augmentation.simc",
-  "apl/default/hunter/marksmanship.simc",
-  "apl/default/hunter/survival.simc",
-  "apl/default/mage/frost.simc",
-  "apl/default/monk/windwalker.simc",
+  "apl/default/deathknight/unholy.simc",
+  "apl/default/druid/balance.simc",
   "apl/default/rogue/outlaw.simc",
-  "apl/default/rogue/subtlety.simc",
-  "apl/default/warrior/arms.simc",
-  "apl/assisted_combat/shaman/enhancement.simc"
+  "apl/default/warrior/protection.simc",
+  "apl/assisted_combat/deathknight/unholy.simc",
+  "apl/assisted_combat/paladin/protection.simc",
+  "apl/assisted_combat/paladin/retribution.simc"
 ]

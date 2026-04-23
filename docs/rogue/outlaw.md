@@ -1,6 +1,6 @@
 # Rogue – Outlaw
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-22 05:30 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-23 05:35 UTC
 
 Source: `apl/default/rogue/outlaw.simc`
 
@@ -30,7 +30,7 @@ Source: `apl/default/rogue/outlaw.simc`
 | 1 | `stealth` | — |
 | 2 | `kick` | — |
 | 3 | `variable` | name=ambush_condition,value=(talent.hidden_opportunity\|combo_points.deficit>=2+talent.improved_ambush)&energy>=50 |
-| 4 | `variable` | name=finish_condition,value=combo_points>=cp_max_spend-1-(hero_tree.fatebound&!cooldown.between_the_eyes.ready) |
+| 4 | `variable` | name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&(hero_tree.fatebound\|cooldown.killing_spree.ready)) |
 | 5 | `variable` | name=blade_flurry_sync,value=spell_targets.blade_flurry<2&raid_event.adds.in>20\|buff.blade_flurry.up |
 | 6 | `call_action_list` | name=cds |
 | 7 | `run_action_list` | name=finish,if=variable.finish_condition |
@@ -109,8 +109,8 @@ actions=stealth
 # Interrupt on cooldown to allow simming interactions with that.
 actions+=/kick
 actions+=/variable,name=ambush_condition,value=(talent.hidden_opportunity|combo_points.deficit>=2+talent.improved_ambush)&energy>=50
-# Use finishers if at -1 from max combo points, but Fatebound uses Dispatch at -2.
-actions+=/variable,name=finish_condition,value=combo_points>=cp_max_spend-1-(hero_tree.fatebound&!cooldown.between_the_eyes.ready)
+# Use finishers if at -1 from max combo points, but Killing Spree is used at -2, and Fatebound uses Dispatch at -2.
+actions+=/variable,name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&(hero_tree.fatebound|cooldown.killing_spree.ready))
 actions+=/variable,name=blade_flurry_sync,value=spell_targets.blade_flurry<2&raid_event.adds.in>20|buff.blade_flurry.up
 actions+=/call_action_list,name=cds
 actions+=/run_action_list,name=finish,if=variable.finish_condition

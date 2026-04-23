@@ -1,6 +1,6 @@
 # Druid – Balance
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-22 05:30 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-23 05:35 UTC
 
 Source: `apl/default/druid/balance.simc`
 
@@ -35,61 +35,61 @@ Source: `apl/default/druid/balance.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_items` | if=(!trinket.1.is.wraps_of_cosmic_madness\|!trinket.2.is.wraps_of_cosmic_madness)&(buff.ca_inc.up\|(trinket.1.cooldown.duration=60\|trinket.2.cooldown.duration=60)&(buff.harmony_of_the_grove.up\|variable.ec))\|fight_remains<cooldown.ca_inc.remains |
+| 1 | `use_items` | if=(!trinket.1.is.wraps_of_cosmic_madness\|!trinket.2.is.wraps_of_cosmic_madness)&buff.ca_inc.up&(buff.harmony_of_the_grove.up\|variable.ec)\|fight_remains<20 |
 | 2 | `use_item` | name=wraps_of_cosmic_madness,if=!buff.eclipse.up |
 | 3 | `potion` | if=buff.harmony_of_the_grove.up&buff.ca_inc.up&!variable.ec\|buff.ca_inc.up&variable.ec\|variable.opener&prev_gcd.1.solar_eclipse\|fight_remains<=30 |
 | 4 | `berserking` | if=buff.ca_inc.up&(buff.harmony_of_the_grove.up\|!talent.dream_surge)\|fight_remains<cooldown.ca_inc.remains |
 | 5 | `invoke_external_buff` | name=power_infusion,if=buff.ca_inc.up |
-| 6 | `variable` | name=inc_charge,op=set,value=1,if=cooldown.ca_inc.charges_fractional<1 |
-| 7 | `variable` | name=opener,op=set,value=0,if=buff.ca_inc.up |
-| 8 | `variable` | name=eclipse_down,value=!buff.eclipse_lunar.up&!buff.eclipse_solar.up |
-| 9 | `variable` | name=cd_window,value=cooldown.force_of_nature.remains>15\|cooldown.ca_inc.remains<44 |
-| 10 | `variable` | name=cd_window_narrow,value=cooldown.force_of_nature.remains>30\|cooldown.ca_inc.remains>10&cooldown.ca_inc.remains<20 |
-| 11 | `variable` | name=no_weaver_procs,value=!buff.touch_the_cosmos.react&!buff.starweavers_warp.react |
-| 12 | `variable` | name=ca_soon,value=cooldown.ca_inc.remains<3\|cooldown.ca_inc.charges_fractional>1 |
-| 13 | `run_action_list` | name=opener_aoe,if=variable.opener&spell_targets>2 |
-| 14 | `run_action_list` | name=opener_kotg,if=variable.opener&spell_targets=1&talent.dream_surge |
-| 15 | `run_action_list` | name=opener_ec,if=variable.opener&spell_targets=1 |
-| 16 | `run_action_list` | name=ec_st,if=hero_tree.elunes_chosen&spell_targets=1 |
-| 17 | `run_action_list` | name=kotg_st,if=spell_targets=1 |
-| 18 | `run_action_list` | name=aoe,if=spell_targets>1 |
+| 6 | `variable` | name=passive_asp,value=(2+2*set_bonus.mid1_2pc*buff.eclipse.down)*(dot.moonfire.ticking+dot.sunfire.ticking+buff.solstice.up*((active_dots.moonfire>4)+(active_dots.moonfire>16)+(active_dots.sunfire>4)+(active_dots.sunfire>16)))%spell_haste+talent.natures_balance+buff.fury_of_elune.up*((floor(buff.fury_of_elune.remains%0.5)>?4)*2.5+talent.the_eternal_moon*(buff.fury_of_elune.remains<2)*6)+buff.sundered_firmament.up*((floor(buff.sundered_firmament.remains%0.5)>?4)*0.6+talent.the_eternal_moon*(buff.sundered_firmament.remains<2)*6) |
+| 7 | `variable` | name=inc_charge,op=set,value=1,if=cooldown.ca_inc.charges_fractional<1 |
+| 8 | `variable` | name=opener,op=set,value=0,if=buff.ca_inc.up |
+| 9 | `variable` | name=eclipse_down,value=!buff.eclipse_lunar.up&!buff.eclipse_solar.up |
+| 10 | `variable` | name=cd_window,value=cooldown.force_of_nature.remains>15\|cooldown.ca_inc.remains<44 |
+| 11 | `variable` | name=cd_window_narrow,value=cooldown.force_of_nature.remains>30\|cooldown.ca_inc.remains>10&cooldown.ca_inc.remains<20 |
+| 12 | `variable` | name=no_weaver_procs,value=!buff.touch_the_cosmos.react&!buff.starweavers_warp.react |
+| 13 | `variable` | name=ca_soon,value=cooldown.ca_inc.remains<3\|cooldown.ca_inc.charges_fractional>1 |
+| 14 | `run_action_list` | name=opener_aoe,if=variable.opener&spell_targets>1 |
+| 15 | `run_action_list` | name=opener_kotg,if=variable.opener&spell_targets=1&talent.dream_surge |
+| 16 | `run_action_list` | name=opener_ec,if=variable.opener&spell_targets=1 |
+| 17 | `run_action_list` | name=ec_st,if=hero_tree.elunes_chosen&spell_targets=1 |
+| 18 | `run_action_list` | name=kotg_st,if=spell_targets=1 |
+| 19 | `run_action_list` | name=aoe,if=spell_targets>1 |
 
 ## Action List: `aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `celestial_alignment` | if=prev_gcd.1.force_of_nature&!variable.ec\|variable.ec&prev_gcd.1.fury_of_elune&buff.eclipse.down&(variable.on_use_trinket=0\|trinket.1.cooldown.remains>60\|trinket.1.cooldown.ready\|fight_remains<trinket.1.cooldown.remains\|trinket.2.cooldown.remains>60\|trinket.2.cooldown.ready\|fight_remains<trinket.2.cooldown.remains)\|fight_remains<20 |
-| 2 | `moonfire` | target_if=remains<2\|refreshable&variable.eclipse_down |
-| 3 | `sunfire` | target_if=remains<2\|refreshable&variable.eclipse_down |
-| 4 | `wrath` | if=eclipse.lunar&spell_targets=2&talent.dream_surge&buff.eclipse.down |
-| 5 | `starfire` | if=eclipse.solar&spell_targets>2&talent.dream_surge&buff.eclipse.down |
-| 6 | `fury_of_elune` | if=variable.ec\|!variable.ec&(buff.harmony_of_the_grove.up\|cooldown.force_of_nature.remains<gcd.max\|talent.radiant_moonlight&cooldown.force_of_nature.remains>20) |
-| 7 | `force_of_nature` | if=((buff.eclipse.down&!talent.early_spring\|talent.early_spring)&(cooldown.eclipse.remains<gcd.max\|cooldown.ca_inc.ready&(!talent.convoke_the_spirits\|cooldown.convoke_the_spirits.remains<gcd.max*5)))\|fight_remains<21 |
-| 8 | `solar_eclipse` | if=cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.solar_eclipse.ready&variable.cd_window_narrow\|fight_remains<15 |
-| 9 | `lunar_eclipse` | if=!variable.prio&spell_targets>2&!variable.ec&(cooldown.lunar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.lunar_eclipse.ready&variable.cd_window_narrow)\|variable.ec&(cooldown.ca_inc.full_recharge_time>15)\|fight_remains<15 |
+| 1 | `celestial_alignment` | if=(prev_gcd.1.force_of_nature&!variable.ec\|variable.ec&buff.eclipse.down&(cooldown.eclipse.charges_fractional<1.5\|(fight_style.dungeonroute\|fight_style.dungeonslice))&(variable.on_use_trinket=0\|trinket.1.cooldown.remains>60\|trinket.1.cooldown.ready\|fight_remains<trinket.1.cooldown.remains\|trinket.2.cooldown.remains>60\|trinket.2.cooldown.ready\|fight_remains<trinket.2.cooldown.remains))&target.time_to_die>(20*talent.incarnation+15*!talent.incarnation)\|fight_remains<20 |
+| 2 | `moonfire` | target_if=refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&(!talent.treants_of_the_moon\|spell_targets-active_dots.moonfire>6\|cooldown.force_of_nature.remains>3&!buff.harmony_of_the_grove.up) |
+| 3 | `sunfire` | target_if=(remains<2\|refreshable&variable.eclipse_down)&target.time_to_die>5 |
+| 4 | `fury_of_elune` | if=variable.ec\|!variable.ec&(buff.harmony_of_the_grove.up\|cooldown.force_of_nature.remains<gcd.max\|talent.radiant_moonlight&cooldown.force_of_nature.remains>20) |
+| 5 | `force_of_nature` | if=((buff.eclipse.down&!talent.early_spring\|talent.early_spring)&(cooldown.eclipse.remains<gcd.max\|cooldown.ca_inc.ready&(!talent.convoke_the_spirits\|cooldown.convoke_the_spirits.remains<gcd.max*5)))\|fight_remains<21 |
+| 6 | `wrath` | if=eclipse.lunar&spell_targets=2&talent.dream_surge&buff.eclipse.down |
+| 7 | `starfire` | if=eclipse.solar&spell_targets>2&talent.dream_surge&buff.eclipse.down |
+| 8 | `solar_eclipse` | if=spell_targets<3&(cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.solar_eclipse.ready&variable.cd_window_narrow)&target.time_to_die>5\|fight_remains<15 |
+| 9 | `lunar_eclipse` | if=(!variable.prio&spell_targets>2&!variable.ec&(cooldown.lunar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.lunar_eclipse.ready&variable.cd_window_narrow)\|variable.ec&(cooldown.ca_inc.full_recharge_time>15))&target.time_to_die>5\|fight_remains<15 |
 | 10 | `convoke_the_spirits` | if=buff.ca_inc.up&astral_power<40\|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down |
-| 11 | `wrath` | if=!variable.ec&!talent.convoke_the_spirits&spell_targets<3&buff.ascendant_stars.down&astral_power<80&variable.no_weaver_procs&cooldown.force_of_nature.remains<15 |
-| 12 | `sunfire` | target_if=!talent.aetherial_kindling&dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3,line_cd=10 |
-| 13 | `starsurge` | if=buff.starweavers_weft.react |
-| 14 | `starfall` | if=(astral_power>80\|buff.eclipse.up&action.starfall.cost>1\|buff.touch_the_cosmos.react\|!buff.starweavers_weft.react)&target.time_to_die>5 |
-| 15 | `starfire` | if=buff.ascendant_fires.up&buff.eclipse_lunar.up |
-| 16 | `new_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
-| 17 | `half_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
-| 18 | `full_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
-| 19 | `wild_mushroom` | if=buff.eclipse_solar.up\|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains |
-| 20 | `starfire` | if=variable.ec\|variable.eclipse_down&spell_targets.starfire>6\|buff.eclipse_lunar.up&(spell_targets.starfire>2&buff.ca_inc.up\|spell_targets.starfire<=2&!buff.ca_inc.up) |
-| 21 | `wrath` | — |
+| 11 | `sunfire` | target_if=!talent.aetherial_kindling&dot.sunfire.remains<10&variable.ca_soon&cooldown.eclipse.charges<1.5&buff.eclipse.remains<1&(cooldown.force_of_nature.remains<3\|variable.ec),line_cd=10 |
+| 12 | `starsurge` | if=buff.starweavers_weft.react |
+| 13 | `starfall` | if=(astral_power>80-79*variable.ec\|buff.eclipse.up&action.starfall.cost>1\|buff.touch_the_cosmos.react\|buff.starweavers_warp.react)&target.time_to_die>5 |
+| 14 | `starfire` | if=buff.ascendant_fires.up&buff.eclipse_lunar.up |
+| 15 | `new_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
+| 16 | `half_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
+| 17 | `full_moon` | if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5 |
+| 18 | `wild_mushroom` | if=buff.eclipse_solar.up\|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains |
+| 19 | `starfire` | if=variable.ec\|variable.eclipse_down&spell_targets.starfire>6\|buff.eclipse_lunar.up&(spell_targets.starfire>2&buff.ca_inc.up\|spell_targets.starfire<=2&!buff.ca_inc.up) |
+| 20 | `wrath` | — |
 
 ## Action List: `ec_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `celestial_alignment` | if=buff.ca_inc.down&buff.ascendant_stars.down&(cooldown.convoke_the_spirits.remains<5&talent.convoke_the_spirits\|cooldown.eclipse.charges_fractional<1.5&!talent.convoke_the_spirits\|!talent.elunes_guidance&talent.convoke_the_spirits) |
-| 2 | `moonfire` | target_if=remains<2\|refreshable&variable.eclipse_down |
-| 3 | `sunfire` | target_if=remains<2\|refreshable&variable.eclipse_down |
+| 1 | `celestial_alignment` | if=buff.ca_inc.down&buff.eclipse.down&(cooldown.convoke_the_spirits.remains<5&talent.convoke_the_spirits\|cooldown.eclipse.charges_fractional<1.5&!talent.convoke_the_spirits\|!talent.elunes_guidance&talent.convoke_the_spirits)&(target.time_to_die>(20*talent.incarnation+15*!talent.incarnation))\|fight_remains<20 |
+| 2 | `moonfire` | target_if=remains<2\|refreshable&buff.eclipse.down&target.time_to_die>10 |
+| 3 | `sunfire` | target_if=remains<2\|refreshable&buff.eclipse.down&target.time_to_die>10 |
 | 4 | `convoke_the_spirits` | if=buff.ca_inc.up&astral_power<40\|cooldown.ca_inc.remains>30&buff.ca_inc.down\|fight_remains<cooldown.ca_inc.remains |
-| 5 | `lunar_eclipse` | — |
-| 6 | `starfall` | if=buff.starweavers_warp.react |
+| 5 | `lunar_eclipse` | if=target.time_to_die>5 |
+| 6 | `starfall` | if=buff.starweavers_warp.react&target.time_to_die>5 |
 | 7 | `starsurge` | if=astral_power>80\|buff.eclipse.up&action.starsurge.cost>1\|buff.starweavers_weft.react\|buff.touch_the_cosmos.react |
 | 8 | `fury_of_elune` | if=!talent.sundered_firmament\|debuff.atmospheric_exposure.remains<2&buff.eclipse.remains>5\|!talent.convoke_the_spirits\|fight_remains<20 |
 | 9 | `force_of_nature` | — |
@@ -104,38 +104,38 @@ Source: `apl/default/druid/balance.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `celestial_alignment` | if=prev_gcd.1.force_of_nature&buff.ca_inc.down\|fight_remains<20 |
-| 2 | `moonfire` | target_if=buff.harmony_of_the_grove.down&(remains<2\|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains) |
-| 3 | `sunfire` | target_if=remains<2\|refreshable&!buff.eclipse.up |
-| 4 | `fury_of_elune` | if=(buff.harmony_of_the_grove.up\|cooldown.force_of_nature.remains<gcd.max\|talent.radiant_moonlight&cooldown.force_of_nature.remains>20) |
-| 5 | `solar_eclipse` | if=cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.solar_eclipse.ready&variable.cd_window_narrow\|fight_remains<20+(20*cooldown.ca_inc.ready) |
-| 6 | `force_of_nature` | if=((buff.eclipse.down&!talent.early_spring\|talent.early_spring)&(cooldown.eclipse.remains<gcd.max\|cooldown.ca_inc.ready&(!talent.convoke_the_spirits\|cooldown.convoke_the_spirits.remains<gcd.max*5)))\|fight_remains<21 |
-| 7 | `convoke_the_spirits` | if=buff.ca_inc.up&astral_power<40\|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down&astral_power<50\|fight_remains<action.convoke_the_spirits.execute_time+1 |
-| 8 | `wrath` | if=!talent.convoke_the_spirits&buff.ascendant_stars.down&astral_power<80&variable.no_weaver_procs&cooldown.force_of_nature.remains<15 |
-| 9 | `sunfire` | target_if=dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3,line_cd=10 |
-| 10 | `starfall` | if=buff.starweavers_warp.react\|talent.aetherial_kindling&talent.meteorites&buff.touch_the_cosmos.react |
-| 11 | `starsurge` | if=buff.eclipse.down&astral_power.deficit<20\|buff.eclipse.up&action.starsurge.cost>1&(buff.eclipse.remains>5\|astral_power.deficit<20)\|(!talent.meteorites\|!talent.aetherial_kindling)&buff.touch_the_cosmos.react\|buff.starweavers_weft.react |
-| 12 | `starfire` | if=buff.ascendant_fires.up&buff.eclipse_lunar.up |
-| 13 | `new_moon` | if=astral_power.deficit>energize_amount |
-| 14 | `half_moon` | if=astral_power.deficit>energize_amount |
-| 15 | `full_moon` | if=astral_power.deficit>energize_amount |
-| 16 | `wild_mushroom` | if=buff.eclipse.up\|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains |
-| 17 | `wrath` | — |
+| 1 | `celestial_alignment` | if=prev_gcd.1.force_of_nature&buff.ca_inc.down&(target.time_to_die>(20*talent.incarnation+15*!talent.incarnation+20*(in_boss_encounter&(fight_style.dungeonroute\|fight_style.dungeonslice))))\|fight_remains<20 |
+| 2 | `moonfire` | target_if=buff.harmony_of_the_grove.down&(remains<2\|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains)&target.time_to_die>10 |
+| 3 | `sunfire` | target_if=remains<2\|refreshable&buff.eclipse.down&target.time_to_die>10 |
+| 4 | `fury_of_elune` | if=(buff.harmony_of_the_grove.up\|cooldown.force_of_nature.remains<gcd.max\|talent.radiant_moonlight&cooldown.force_of_nature.remains>20)&target.time_to_die>10 |
+| 5 | `solar_eclipse` | if=(cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window\|cooldown.solar_eclipse.ready&variable.cd_window_narrow)\|fight_remains<20+(20*cooldown.ca_inc.ready) |
+| 6 | `force_of_nature` | if=((buff.eclipse.down&!talent.early_spring\|talent.early_spring)&(cooldown.eclipse.remains<gcd.max\|cooldown.ca_inc.ready&(!talent.convoke_the_spirits\|cooldown.convoke_the_spirits.remains<gcd.max*5)))&(target.time_to_die>10)\|fight_remains<21 |
+| 7 | `convoke_the_spirits` | if=(buff.ca_inc.up&astral_power<40\|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down&astral_power<50)&target.time_to_die>5\|fight_remains<action.convoke_the_spirits.execute_time+1 |
+| 8 | `sunfire` | target_if=dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3&target.time_to_die>10,line_cd=10 |
+| 9 | `starfall` | if=buff.starweavers_warp.react\|talent.aetherial_kindling&talent.meteorites&buff.touch_the_cosmos.react&target.time_to_die>5 |
+| 10 | `starsurge` | if=buff.eclipse.down&astral_power.deficit<20\|buff.eclipse.up&action.starsurge.cost>1&(astral_power.deficit<10\|cooldown.force_of_nature.remains>20\|buff.ascendant_stars.up)\|(!talent.meteorites\|!talent.aetherial_kindling)&buff.touch_the_cosmos.react\|buff.starweavers_weft.react |
+| 11 | `starfire` | if=buff.ascendant_fires.up&buff.eclipse_lunar.up |
+| 12 | `new_moon` | if=astral_power.deficit>energize_amount |
+| 13 | `half_moon` | if=astral_power.deficit>energize_amount |
+| 14 | `full_moon` | if=astral_power.deficit>energize_amount |
+| 15 | `wild_mushroom` | if=buff.eclipse.up\|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains |
+| 16 | `wrath` | — |
 
 ## Action List: `opener_aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `moonfire` | target_if=refreshable |
-| 2 | `sunfire` | target_if=refreshable |
-| 3 | `eclipse` | — |
-| 4 | `starsurge` | if=buff.starweavers_weft.react&buff.ascendant_stars.up |
-| 5 | `starfall` | if=buff.ascendant_stars.up&(action.starfall.cost>1\|buff.touch_the_cosmos.react) |
-| 6 | `starfire` | if=buff.ascendant_stars.up |
-| 7 | `sunfire` | line_cd=10,target_if=!talent.aetherial_kindling\|remains<5 |
-| 8 | `fury_of_elune` | — |
-| 9 | `force_of_nature` | — |
-| 10 | `celestial_alignment` | — |
+| 1 | `eclipse` | if=talent.incarnation_chosen_of_elune&(fight_style.dungeonroute\|fight_style.dungeonslice) |
+| 2 | `moonfire` | target_if=refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&(!talent.treants_of_the_moon\|spell_targets-active_dots.moonfire>6) |
+| 3 | `sunfire` | target_if=refreshable |
+| 4 | `eclipse` | if=cooldown.eclipse.charges=2 |
+| 5 | `starsurge` | if=buff.starweavers_weft.react&buff.ascendant_stars.up |
+| 6 | `starfall` | if=buff.ascendant_stars.up&(action.starfall.cost>1\|buff.touch_the_cosmos.react) |
+| 7 | `starfire` | if=buff.ascendant_stars.up |
+| 8 | `sunfire` | line_cd=10,target_if=!talent.aetherial_kindling\|remains<5 |
+| 9 | `fury_of_elune` | — |
+| 10 | `force_of_nature` | — |
+| 11 | `celestial_alignment` | — |
 
 ## Action List: `opener_ec`
 
@@ -176,7 +176,7 @@ Source: `apl/default/druid/balance.simc`
 # Executed before combat begins. Accepts non-harmful actions only.
 # Snapshot raid buffed stats before combat begins and pre-potting is done.
 actions.precombat=snapshot_stats
-# Snapshot raid buffed stats before combat begins and pre-potting is done.
+# Executed before combat begins. Accepts non-harmful actions only.
 actions.precombat+=/variable,name=no_cd_talent,value=!talent.celestial_alignment&!talent.incarnation_chosen_of_elune|druid.no_cds
 actions.precombat+=/variable,name=opener,op=set,value=1
 actions.precombat+=/variable,name=ec,op=set,value=1,if=talent.boundless_moonlight
@@ -186,20 +186,19 @@ actions.precombat+=/variable,name=on_use_trinket,op=add,value=(trinket.2.has_use
 actions.precombat+=/variable,name=prio,op=set,value=0
 actions.precombat+=/variable,name=inc_charge,op=set,value=0
 actions.precombat+=/moonkin_form
-# Pre-Cast
 actions.precombat+=/wrath
 actions.precombat+=/wrath
 actions.precombat+=/wrath,if=talent.dream_surge&enemies=1
 actions.precombat+=/starfire,if=hero_tree.elunes_chosen|enemies>1
 
 # Executed every time the actor is available.
-# Items, Racials & PI
-actions=use_items,if=(!trinket.1.is.wraps_of_cosmic_madness|!trinket.2.is.wraps_of_cosmic_madness)&(buff.ca_inc.up|(trinket.1.cooldown.duration=60|trinket.2.cooldown.duration=60)&(buff.harmony_of_the_grove.up|variable.ec))|fight_remains<cooldown.ca_inc.remains
+# Executed every time the actor is available.
+actions=use_items,if=(!trinket.1.is.wraps_of_cosmic_madness|!trinket.2.is.wraps_of_cosmic_madness)&buff.ca_inc.up&(buff.harmony_of_the_grove.up|variable.ec)|fight_remains<20
 actions+=/use_item,name=wraps_of_cosmic_madness,if=!buff.eclipse.up
 actions+=/potion,if=buff.harmony_of_the_grove.up&buff.ca_inc.up&!variable.ec|buff.ca_inc.up&variable.ec|variable.opener&prev_gcd.1.solar_eclipse|fight_remains<=30
 actions+=/berserking,if=buff.ca_inc.up&(buff.harmony_of_the_grove.up|!talent.dream_surge)|fight_remains<cooldown.ca_inc.remains
 actions+=/invoke_external_buff,name=power_infusion,if=buff.ca_inc.up
-# Variables Definition
+actions+=/variable,name=passive_asp,value=(2+2*set_bonus.mid1_2pc*buff.eclipse.down)*(dot.moonfire.ticking+dot.sunfire.ticking+buff.solstice.up*((active_dots.moonfire>4)+(active_dots.moonfire>16)+(active_dots.sunfire>4)+(active_dots.sunfire>16)))%spell_haste+talent.natures_balance+buff.fury_of_elune.up*((floor(buff.fury_of_elune.remains%0.5)>?4)*2.5+talent.the_eternal_moon*(buff.fury_of_elune.remains<2)*6)+buff.sundered_firmament.up*((floor(buff.sundered_firmament.remains%0.5)>?4)*0.6+talent.the_eternal_moon*(buff.sundered_firmament.remains<2)*6)
 actions+=/variable,name=inc_charge,op=set,value=1,if=cooldown.ca_inc.charges_fractional<1
 actions+=/variable,name=opener,op=set,value=0,if=buff.ca_inc.up
 actions+=/variable,name=eclipse_down,value=!buff.eclipse_lunar.up&!buff.eclipse_solar.up
@@ -207,38 +206,26 @@ actions+=/variable,name=cd_window,value=cooldown.force_of_nature.remains>15|cool
 actions+=/variable,name=cd_window_narrow,value=cooldown.force_of_nature.remains>30|cooldown.ca_inc.remains>10&cooldown.ca_inc.remains<20
 actions+=/variable,name=no_weaver_procs,value=!buff.touch_the_cosmos.react&!buff.starweavers_warp.react
 actions+=/variable,name=ca_soon,value=cooldown.ca_inc.remains<3|cooldown.ca_inc.charges_fractional>1
-# Run the APL
-actions+=/run_action_list,name=opener_aoe,if=variable.opener&spell_targets>2
+actions+=/run_action_list,name=opener_aoe,if=variable.opener&spell_targets>1
 actions+=/run_action_list,name=opener_kotg,if=variable.opener&spell_targets=1&talent.dream_surge
 actions+=/run_action_list,name=opener_ec,if=variable.opener&spell_targets=1
 actions+=/run_action_list,name=ec_st,if=hero_tree.elunes_chosen&spell_targets=1
 actions+=/run_action_list,name=kotg_st,if=spell_targets=1
 actions+=/run_action_list,name=aoe,if=spell_targets>1
 
-actions.aoe=celestial_alignment,if=prev_gcd.1.force_of_nature&!variable.ec|variable.ec&prev_gcd.1.fury_of_elune&buff.eclipse.down&(variable.on_use_trinket=0|trinket.1.cooldown.remains>60|trinket.1.cooldown.ready|fight_remains<trinket.1.cooldown.remains|trinket.2.cooldown.remains>60|trinket.2.cooldown.ready|fight_remains<trinket.2.cooldown.remains)|fight_remains<20
-# Dots
-actions.aoe+=/moonfire,target_if=remains<2|refreshable&variable.eclipse_down
-actions.aoe+=/sunfire,target_if=remains<2|refreshable&variable.eclipse_down
-# Enter correct eclipse
-actions.aoe+=/wrath,if=eclipse.lunar&spell_targets=2&talent.dream_surge&buff.eclipse.down
-actions.aoe+=/starfire,if=eclipse.solar&spell_targets>2&talent.dream_surge&buff.eclipse.down
-# Fury of Elune
+actions.aoe=celestial_alignment,if=(prev_gcd.1.force_of_nature&!variable.ec|variable.ec&buff.eclipse.down&(cooldown.eclipse.charges_fractional<1.5|(fight_style.dungeonroute|fight_style.dungeonslice))&(variable.on_use_trinket=0|trinket.1.cooldown.remains>60|trinket.1.cooldown.ready|fight_remains<trinket.1.cooldown.remains|trinket.2.cooldown.remains>60|trinket.2.cooldown.ready|fight_remains<trinket.2.cooldown.remains))&target.time_to_die>(20*talent.incarnation+15*!talent.incarnation)|fight_remains<20
+actions.aoe+=/moonfire,target_if=refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&(!talent.treants_of_the_moon|spell_targets-active_dots.moonfire>6|cooldown.force_of_nature.remains>3&!buff.harmony_of_the_grove.up)
+actions.aoe+=/sunfire,target_if=(remains<2|refreshable&variable.eclipse_down)&target.time_to_die>5
 actions.aoe+=/fury_of_elune,if=variable.ec|!variable.ec&(buff.harmony_of_the_grove.up|cooldown.force_of_nature.remains<gcd.max|talent.radiant_moonlight&cooldown.force_of_nature.remains>20)
 actions.aoe+=/force_of_nature,if=((buff.eclipse.down&!talent.early_spring|talent.early_spring)&(cooldown.eclipse.remains<gcd.max|cooldown.ca_inc.ready&(!talent.convoke_the_spirits|cooldown.convoke_the_spirits.remains<gcd.max*5)))|fight_remains<21
-# Enter Solar
-actions.aoe+=/solar_eclipse,if=cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.solar_eclipse.ready&variable.cd_window_narrow|fight_remains<15
-# Enter Lunar
-actions.aoe+=/lunar_eclipse,if=!variable.prio&spell_targets>2&!variable.ec&(cooldown.lunar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.lunar_eclipse.ready&variable.cd_window_narrow)|variable.ec&(cooldown.ca_inc.full_recharge_time>15)|fight_remains<15
-# Convoke
+actions.aoe+=/wrath,if=eclipse.lunar&spell_targets=2&talent.dream_surge&buff.eclipse.down
+actions.aoe+=/starfire,if=eclipse.solar&spell_targets>2&talent.dream_surge&buff.eclipse.down
+actions.aoe+=/solar_eclipse,if=spell_targets<3&(cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.solar_eclipse.ready&variable.cd_window_narrow)&target.time_to_die>5|fight_remains<15
+actions.aoe+=/lunar_eclipse,if=(!variable.prio&spell_targets>2&!variable.ec&(cooldown.lunar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.lunar_eclipse.ready&variable.cd_window_narrow)|variable.ec&(cooldown.ca_inc.full_recharge_time>15))&target.time_to_die>5|fight_remains<15
 actions.aoe+=/convoke_the_spirits,if=buff.ca_inc.up&astral_power<40|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down
-# Cast Wrath if Going Solar
-actions.aoe+=/wrath,if=!variable.ec&!talent.convoke_the_spirits&spell_targets<3&buff.ascendant_stars.down&astral_power<80&variable.no_weaver_procs&cooldown.force_of_nature.remains<15
-# Cast Sunfire Before Cooldowns
-actions.aoe+=/sunfire,target_if=!talent.aetherial_kindling&dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3,line_cd=10
-# Spenders
+actions.aoe+=/sunfire,target_if=!talent.aetherial_kindling&dot.sunfire.remains<10&variable.ca_soon&cooldown.eclipse.charges<1.5&buff.eclipse.remains<1&(cooldown.force_of_nature.remains<3|variable.ec),line_cd=10
 actions.aoe+=/starsurge,if=buff.starweavers_weft.react
-actions.aoe+=/starfall,if=(astral_power>80|buff.eclipse.up&action.starfall.cost>1|buff.touch_the_cosmos.react|!buff.starweavers_weft.react)&target.time_to_die>5
-# Builders
+actions.aoe+=/starfall,if=(astral_power>80-79*variable.ec|buff.eclipse.up&action.starfall.cost>1|buff.touch_the_cosmos.react|buff.starweavers_warp.react)&target.time_to_die>5
 actions.aoe+=/starfire,if=buff.ascendant_fires.up&buff.eclipse_lunar.up
 actions.aoe+=/new_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
 actions.aoe+=/half_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
@@ -247,23 +234,15 @@ actions.aoe+=/wild_mushroom,if=buff.eclipse_solar.up|cooldown.wild_mushroom.full
 actions.aoe+=/starfire,if=variable.ec|variable.eclipse_down&spell_targets.starfire>6|buff.eclipse_lunar.up&(spell_targets.starfire>2&buff.ca_inc.up|spell_targets.starfire<=2&!buff.ca_inc.up)
 actions.aoe+=/wrath
 
-# removed the eclipse charges check for convoke
-actions.ec_st=celestial_alignment,if=buff.ca_inc.down&buff.ascendant_stars.down&(cooldown.convoke_the_spirits.remains<5&talent.convoke_the_spirits|cooldown.eclipse.charges_fractional<1.5&!talent.convoke_the_spirits|!talent.elunes_guidance&talent.convoke_the_spirits)
-# Dots
-actions.ec_st+=/moonfire,target_if=remains<2|refreshable&variable.eclipse_down
-actions.ec_st+=/sunfire,target_if=remains<2|refreshable&variable.eclipse_down
-# Convoke
+actions.ec_st=celestial_alignment,if=buff.ca_inc.down&buff.eclipse.down&(cooldown.convoke_the_spirits.remains<5&talent.convoke_the_spirits|cooldown.eclipse.charges_fractional<1.5&!talent.convoke_the_spirits|!talent.elunes_guidance&talent.convoke_the_spirits)&(target.time_to_die>(20*talent.incarnation+15*!talent.incarnation))|fight_remains<20
+actions.ec_st+=/moonfire,target_if=remains<2|refreshable&buff.eclipse.down&target.time_to_die>10
+actions.ec_st+=/sunfire,target_if=remains<2|refreshable&buff.eclipse.down&target.time_to_die>10
 actions.ec_st+=/convoke_the_spirits,if=buff.ca_inc.up&astral_power<40|cooldown.ca_inc.remains>30&buff.ca_inc.down|fight_remains<cooldown.ca_inc.remains
-# Enter Lunar
-actions.ec_st+=/lunar_eclipse
-# Spenders
-actions.ec_st+=/starfall,if=buff.starweavers_warp.react
+actions.ec_st+=/lunar_eclipse,if=target.time_to_die>5
+actions.ec_st+=/starfall,if=buff.starweavers_warp.react&target.time_to_die>5
 actions.ec_st+=/starsurge,if=astral_power>80|buff.eclipse.up&action.starsurge.cost>1|buff.starweavers_weft.react|buff.touch_the_cosmos.react
-# Fury of Elune check exposure
 actions.ec_st+=/fury_of_elune,if=!talent.sundered_firmament|debuff.atmospheric_exposure.remains<2&buff.eclipse.remains>5|!talent.convoke_the_spirits|fight_remains<20
-# wtf is a tree
 actions.ec_st+=/force_of_nature
-# moon if exposure down or remains less then cast plus a bit
 actions.ec_st+=/new_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
 actions.ec_st+=/half_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
 actions.ec_st+=/full_moon,if=astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5
@@ -271,37 +250,27 @@ actions.ec_st+=/wild_mushroom,if=buff.eclipse_solar.up|cooldown.wild_mushroom.fu
 actions.ec_st+=/starfire,if=action.starfire.execute_time<buff.eclipse.remains
 actions.ec_st+=/wrath
 
-actions.kotg_st=celestial_alignment,if=prev_gcd.1.force_of_nature&buff.ca_inc.down|fight_remains<20
-# Dots
-actions.kotg_st+=/moonfire,target_if=buff.harmony_of_the_grove.down&(remains<2|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains)
-actions.kotg_st+=/sunfire,target_if=remains<2|refreshable&!buff.eclipse.up
-# Fury of Elune
-actions.kotg_st+=/fury_of_elune,if=(buff.harmony_of_the_grove.up|cooldown.force_of_nature.remains<gcd.max|talent.radiant_moonlight&cooldown.force_of_nature.remains>20)
-# Enter Eclipse
-actions.kotg_st+=/solar_eclipse,if=cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.solar_eclipse.ready&variable.cd_window_narrow|fight_remains<20+(20*cooldown.ca_inc.ready)
-# treeants
-actions.kotg_st+=/force_of_nature,if=((buff.eclipse.down&!talent.early_spring|talent.early_spring)&(cooldown.eclipse.remains<gcd.max|cooldown.ca_inc.ready&(!talent.convoke_the_spirits|cooldown.convoke_the_spirits.remains<gcd.max*5)))|fight_remains<21
-# Convoke
-actions.kotg_st+=/convoke_the_spirits,if=buff.ca_inc.up&astral_power<40|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down&astral_power<50|fight_remains<action.convoke_the_spirits.execute_time+1
-# Cast Wrath if Going Solar
-actions.kotg_st+=/wrath,if=!talent.convoke_the_spirits&buff.ascendant_stars.down&astral_power<80&variable.no_weaver_procs&cooldown.force_of_nature.remains<15
-# Cast Sunfire Before Cooldowns
-actions.kotg_st+=/sunfire,target_if=dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3,line_cd=10
-# Spenders
-actions.kotg_st+=/starfall,if=buff.starweavers_warp.react|talent.aetherial_kindling&talent.meteorites&buff.touch_the_cosmos.react
-actions.kotg_st+=/starsurge,if=buff.eclipse.down&astral_power.deficit<20|buff.eclipse.up&action.starsurge.cost>1&(buff.eclipse.remains>5|astral_power.deficit<20)|(!talent.meteorites|!talent.aetherial_kindling)&buff.touch_the_cosmos.react|buff.starweavers_weft.react
-# Instant Builder&
+actions.kotg_st=celestial_alignment,if=prev_gcd.1.force_of_nature&buff.ca_inc.down&(target.time_to_die>(20*talent.incarnation+15*!talent.incarnation+20*(in_boss_encounter&(fight_style.dungeonroute|fight_style.dungeonslice))))|fight_remains<20
+actions.kotg_st+=/moonfire,target_if=buff.harmony_of_the_grove.down&(remains<2|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains)&target.time_to_die>10
+actions.kotg_st+=/sunfire,target_if=remains<2|refreshable&buff.eclipse.down&target.time_to_die>10
+actions.kotg_st+=/fury_of_elune,if=(buff.harmony_of_the_grove.up|cooldown.force_of_nature.remains<gcd.max|talent.radiant_moonlight&cooldown.force_of_nature.remains>20)&target.time_to_die>10
+actions.kotg_st+=/solar_eclipse,if=(cooldown.solar_eclipse.charges_fractional>1.5&variable.cd_window|cooldown.solar_eclipse.ready&variable.cd_window_narrow)|fight_remains<20+(20*cooldown.ca_inc.ready)
+actions.kotg_st+=/force_of_nature,if=((buff.eclipse.down&!talent.early_spring|talent.early_spring)&(cooldown.eclipse.remains<gcd.max|cooldown.ca_inc.ready&(!talent.convoke_the_spirits|cooldown.convoke_the_spirits.remains<gcd.max*5)))&(target.time_to_die>10)|fight_remains<21
+actions.kotg_st+=/convoke_the_spirits,if=(buff.ca_inc.up&astral_power<40|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down&astral_power<50)&target.time_to_die>5|fight_remains<action.convoke_the_spirits.execute_time+1
+actions.kotg_st+=/sunfire,target_if=dot.sunfire.remains<10&variable.ca_soon&cooldown.force_of_nature.remains<3&target.time_to_die>10,line_cd=10
+actions.kotg_st+=/starfall,if=buff.starweavers_warp.react|talent.aetherial_kindling&talent.meteorites&buff.touch_the_cosmos.react&target.time_to_die>5
+actions.kotg_st+=/starsurge,if=buff.eclipse.down&astral_power.deficit<20|buff.eclipse.up&action.starsurge.cost>1&(astral_power.deficit<10|cooldown.force_of_nature.remains>20|buff.ascendant_stars.up)|(!talent.meteorites|!talent.aetherial_kindling)&buff.touch_the_cosmos.react|buff.starweavers_weft.react
 actions.kotg_st+=/starfire,if=buff.ascendant_fires.up&buff.eclipse_lunar.up
-# Builders
 actions.kotg_st+=/new_moon,if=astral_power.deficit>energize_amount
 actions.kotg_st+=/half_moon,if=astral_power.deficit>energize_amount
 actions.kotg_st+=/full_moon,if=astral_power.deficit>energize_amount
 actions.kotg_st+=/wild_mushroom,if=buff.eclipse.up|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains
 actions.kotg_st+=/wrath
 
-actions.opener_aoe=moonfire,target_if=refreshable
+actions.opener_aoe=eclipse,if=talent.incarnation_chosen_of_elune&(fight_style.dungeonroute|fight_style.dungeonslice)
+actions.opener_aoe+=/moonfire,target_if=refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&(!talent.treants_of_the_moon|spell_targets-active_dots.moonfire>6)
 actions.opener_aoe+=/sunfire,target_if=refreshable
-actions.opener_aoe+=/eclipse
+actions.opener_aoe+=/eclipse,if=cooldown.eclipse.charges=2
 actions.opener_aoe+=/starsurge,if=buff.starweavers_weft.react&buff.ascendant_stars.up
 actions.opener_aoe+=/starfall,if=buff.ascendant_stars.up&(action.starfall.cost>1|buff.touch_the_cosmos.react)
 actions.opener_aoe+=/starfire,if=buff.ascendant_stars.up
