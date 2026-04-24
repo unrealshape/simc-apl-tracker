@@ -1,9 +1,3 @@
 [
-  "apl/default/deathknight/unholy.simc",
-  "apl/default/druid/balance.simc",
-  "apl/default/rogue/outlaw.simc",
-  "apl/default/warrior/protection.simc",
-  "apl/assisted_combat/deathknight/unholy.simc",
-  "apl/assisted_combat/paladin/protection.simc",
-  "apl/assisted_combat/paladin/retribution.simc"
+  "apl/default/hunter/survival.simc"
 ]

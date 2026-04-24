@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-23 05:35 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-24 05:39 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/survival.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 61
+- **Total Actions:** 62
 - **Lists:** `precombat`, `default`, `cds`, `plcleave`, `plst`, `sentcleave`, `sentst`
 
 ## Action List: `precombat`
@@ -38,13 +38,14 @@ Source: `apl/default/hunter/survival.simc`
 |---|--------|------------|
 | 1 | `blood_fury` | if=buff.takedown.up\|cooldown.takedown.ready |
 | 2 | `use_items` | if=buff.takedown.up\|cooldown.takedown.ready\|!talent.takedown |
-| 3 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up |
-| 4 | `ancestral_call` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 5 | `fireblood` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 6 | `berserking` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 7 | `muzzle` | — |
-| 8 | `potion` | if=target.time_to_die<25\|cooldown.takedown.ready |
-| 9 | `aspect_of_the_eagle` | if=target.distance>=6 |
+| 3 | `use_item` | name=algethar_puzzle_box,if=cooldown.takedown.remains<5\|!talent.takedown |
+| 4 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up |
+| 5 | `ancestral_call` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 6 | `fireblood` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 7 | `berserking` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 8 | `muzzle` | — |
+| 9 | `potion` | if=target.time_to_die<25\|cooldown.takedown.ready |
+| 10 | `aspect_of_the_eagle` | if=target.distance>=6 |
 
 ## Action List: `plcleave`
 
@@ -135,6 +136,7 @@ actions+=/call_action_list,name=sentcleave,if=active_enemies>2&!talent.howl_of_t
 # CDS
 actions.cds=blood_fury,if=buff.takedown.up|cooldown.takedown.ready
 actions.cds+=/use_items,if=buff.takedown.up|cooldown.takedown.ready|!talent.takedown
+actions.cds+=/use_item,name=algethar_puzzle_box,if=cooldown.takedown.remains<5|!talent.takedown
 actions.cds+=/invoke_external_buff,name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up
 actions.cds+=/ancestral_call,if=buff.takedown.up|cooldown.takedown.ready
 actions.cds+=/fireblood,if=buff.takedown.up|cooldown.takedown.ready
