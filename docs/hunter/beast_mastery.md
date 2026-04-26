@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-25 05:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-26 05:43 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -75,7 +75,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=cooldown.bestial_wrath.remains<2*gcd |
+| 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=(talent.bloody_frenzy&talent.snakeskin_quiver&talent.jagged_wounds)&cooldown.bestial_wrath.remains<2*gcd |
 | 2 | `bestial_wrath` | — |
 | 3 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up\|!apex.3 |
 | 4 | `black_arrow` | if=buff.withering_fire.up |
@@ -94,7 +94,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 3 | `wild_thrash` | if=active_enemies>1 |
 | 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&(buff.natures_ally.up\|howl_summon.ready)\|!apex.3 |
 | 5 | `barbed_shot` | if=(focus<75\|full_recharge_time<gcd)&!talent.serpentine_strikes\|talent.serpentine_strikes |
-| 6 | `cobra_shot` | — |
+| 6 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
 
 ## Action List: `trinkets`
 
@@ -161,7 +161,7 @@ actions.drcleave+=/black_arrow
 actions.drcleave+=/wailing_arrow
 actions.drcleave+=/cobra_shot
 
-actions.drst=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=cooldown.bestial_wrath.remains<2*gcd
+actions.drst=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=(talent.bloody_frenzy&talent.snakeskin_quiver&talent.jagged_wounds)&cooldown.bestial_wrath.remains<2*gcd
 actions.drst+=/bestial_wrath
 actions.drst+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up|!apex.3
 actions.drst+=/black_arrow,if=buff.withering_fire.up
@@ -176,7 +176,7 @@ actions.st+=/bestial_wrath
 actions.st+=/wild_thrash,if=active_enemies>1
 actions.st+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&(buff.natures_ally.up|howl_summon.ready)|!apex.3
 actions.st+=/barbed_shot,if=(focus<75|full_recharge_time<gcd)&!talent.serpentine_strikes|talent.serpentine_strikes
-actions.st+=/cobra_shot
+actions.st+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 
 actions.trinkets=use_item,name=light_company_guidon,if=cooldown.bestial_wrath.ready|fight_remains<21
 actions.trinkets+=/use_item,name=void_execution_mandate,if=cooldown.bestial_wrath.ready|fight_remains<21

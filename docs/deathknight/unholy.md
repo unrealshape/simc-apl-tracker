@@ -1,6 +1,6 @@
 # Death Knight – Unholy
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-25 05:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-26 05:43 UTC
 
 Source: `apl/default/deathknight/unholy.simc`
 
@@ -46,8 +46,8 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `death_and_decay` | if=!death_and_decay.ticking&(talent.desecrate\|talent.cycle_of_death&!(cooldown.putrefy.charges=cooldown.putrefy.max_charges)) |
-| 2 | `festering_strike` | target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3\|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|debuff.festering_scythe_debuff.remains<3)\|!buff.festering_scythe.up&debuff.festering_scythe_debuff.remains<3) |
+| 1 | `death_and_decay` | if=!death_and_decay.ticking&talent.desecrate\|talent.cycle_of_death&cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>duration%2\|!raid_event.adds.exists&fight_remains>duration%2)&(raid_event.adds.exists&raid_event.adds.count<active_enemies\|!raid_event.adds.exists\|charges=max_charges\|raid_event.adds.remains>cooldown.any_dnd.duration) |
+| 2 | `festering_strike` | target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3\|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|buff.festering_scythe_tt.remains<3)\|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3) |
 | 3 | `epidemic` | if=variable.spending_rp&variable.epidemic_prio |
 | 4 | `death_coil` | target_if=min:health.pct,if=variable.spending_rp&!variable.epidemic_prio |
 | 5 | `festering_strike` | target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack=0 |
@@ -62,7 +62,7 @@ Source: `apl/default/deathknight/unholy.simc`
 | 1 | `potion` | if=(variable.st_planning\|variable.adds_remain)&variable.cds_active |
 | 2 | `invoke_external_buff` | name=power_infusion,if=pet.lesser_ghoul_army.active\|buff.forbidden_knowledge.up\|buff.dark_transformation.up |
 | 3 | `outbreak` | if=(!talent.blightburst\|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2\|time<5))&(dot.dread_plague.active_dots=0\|dot.virulent_plague.active_dots=0)&(fight_remains>gcd.max*2&!raid_event.adds.exists\|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2) |
-| 4 | `army_of_the_dead` | if=(variable.st_planning\|variable.adds_remain)&(debuff.festering_scythe_debuff.up\|!talent.festering_scythe) |
+| 4 | `army_of_the_dead` | if=(variable.st_planning\|variable.adds_remain)&(buff.festering_scythe_tt.up\|!talent.festering_scythe) |
 | 5 | `soul_reaper` | target_if=min:health.pct,if=!talent.blightfall&(!debuff.soul_reaper_debuff.up\|!variable.cds_active&cooldown.dark_transformation.remains>cooldown.soul_reaper.duration-1\|cooldown.dark_transformation.remains<gcd.max&talent.reaping)\|talent.blightfall&talent.infliction_of_sorrow&(buff.dark_transformation.remains<5\|buff.reaping.remains<=gcd.max) |
 | 6 | `putrefy` | if=(variable.st_planning\|variable.adds_remain)*(target.health.pct>35\|!talent.soul_reaper)&(charges=max_charges&!buff.sudden_doom.react&(cooldown.dark_transformation.remains>9\|!talent.reaping\|!talent.soul_reaper)\|buff.dark_transformation.up)\|fight_remains<cooldown.soul_reaper.remains\|raid_event.adds.exists&raid_event.adds.remains<3 |
 | 7 | `dark_transformation` | if=(variable.st_planning\|variable.adds_remain)&!buff.blightfall.up&(pet.lesser_ghoul_army.active\|cooldown.army_of_the_dead.remains>30\|!talent.army_of_the_dead)\|buff.blightfall.up&buff.dark_transformation.remains<4 |
@@ -84,7 +84,7 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `festering_strike` | if=talent.festering_scythe&fight_remains>3&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|debuff.festering_scythe_debuff.remains<3)\|!buff.festering_scythe.up&debuff.festering_scythe_debuff.remains<3) |
+| 1 | `festering_strike` | if=talent.festering_scythe&fight_remains>3&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|buff.festering_scythe_tt.remains<3)\|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3) |
 | 2 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1&talent.gift_of_the_sanlayn&buff.essence_of_the_blood_queen.stack<5&buff.vampiric_strike.up |
 | 3 | `death_coil` | if=buff.sudden_doom.react |
 | 4 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1&buff.blighted.up |
@@ -98,8 +98,8 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|debuff.festering_scythe_debuff.up)\|trinket.1.cast_time=0&variable.cds_active) |
-| 2 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|debuff.festering_scythe_debuff.up)\|trinket.2.cast_time=0&variable.cds_active) |
+| 1 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.1.cast_time=0&variable.cds_active) |
+| 2 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.2.cast_time=0&variable.cds_active) |
 | 3 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown) |
 | 4 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown) |
 
@@ -148,8 +148,8 @@ actions+=/call_action_list,name=aoe,if=active_enemies>=3
 actions+=/call_action_list,name=single_target,if=active_enemies<3
 
 # Aoe Rotation
-actions.aoe=death_and_decay,if=!death_and_decay.ticking&(talent.desecrate|talent.cycle_of_death&!(cooldown.putrefy.charges=cooldown.putrefy.max_charges))
-actions.aoe+=/festering_strike,target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|debuff.festering_scythe_debuff.remains<3)|!buff.festering_scythe.up&debuff.festering_scythe_debuff.remains<3)
+actions.aoe=death_and_decay,if=!death_and_decay.ticking&talent.desecrate|talent.cycle_of_death&cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>duration%2|!raid_event.adds.exists&fight_remains>duration%2)&(raid_event.adds.exists&raid_event.adds.count<active_enemies|!raid_event.adds.exists|charges=max_charges|raid_event.adds.remains>cooldown.any_dnd.duration)
+actions.aoe+=/festering_strike,target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|buff.festering_scythe_tt.remains<3)|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3)
 actions.aoe+=/epidemic,if=variable.spending_rp&variable.epidemic_prio
 actions.aoe+=/death_coil,target_if=min:health.pct,if=variable.spending_rp&!variable.epidemic_prio
 actions.aoe+=/festering_strike,target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack=0
@@ -162,7 +162,7 @@ actions.cooldowns=potion,if=(variable.st_planning|variable.adds_remain)&variable
 # Use<a href = 'https://www.wowhead.com/spell=10060/power-infusion'> Power Infusion</ a> while<a href = 'https://www.wowhead.com/spell=1233448/dark-transformation'> Dark Transformation</ a> is up
 actions.cooldowns+=/invoke_external_buff,name=power_infusion,if=pet.lesser_ghoul_army.active|buff.forbidden_knowledge.up|buff.dark_transformation.up
 actions.cooldowns+=/outbreak,if=(!talent.blightburst|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2|time<5))&(dot.dread_plague.active_dots=0|dot.virulent_plague.active_dots=0)&(fight_remains>gcd.max*2&!raid_event.adds.exists|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2)
-actions.cooldowns+=/army_of_the_dead,if=(variable.st_planning|variable.adds_remain)&(debuff.festering_scythe_debuff.up|!talent.festering_scythe)
+actions.cooldowns+=/army_of_the_dead,if=(variable.st_planning|variable.adds_remain)&(buff.festering_scythe_tt.up|!talent.festering_scythe)
 actions.cooldowns+=/soul_reaper,target_if=min:health.pct,if=!talent.blightfall&(!debuff.soul_reaper_debuff.up|!variable.cds_active&cooldown.dark_transformation.remains>cooldown.soul_reaper.duration-1|cooldown.dark_transformation.remains<gcd.max&talent.reaping)|talent.blightfall&talent.infliction_of_sorrow&(buff.dark_transformation.remains<5|buff.reaping.remains<=gcd.max)
 actions.cooldowns+=/putrefy,if=(variable.st_planning|variable.adds_remain)*(target.health.pct>35|!talent.soul_reaper)&(charges=max_charges&!buff.sudden_doom.react&(cooldown.dark_transformation.remains>9|!talent.reaping|!talent.soul_reaper)|buff.dark_transformation.up)|fight_remains<cooldown.soul_reaper.remains|raid_event.adds.exists&raid_event.adds.remains<3
 actions.cooldowns+=/dark_transformation,if=(variable.st_planning|variable.adds_remain)&!buff.blightfall.up&(pet.lesser_ghoul_army.active|cooldown.army_of_the_dead.remains>30|!talent.army_of_the_dead)|buff.blightfall.up&buff.dark_transformation.remains<4
@@ -178,7 +178,7 @@ actions.racials+=/fireblood,if=variable.cds_active
 actions.racials+=/lights_judgment,if=runic_power<20&rune<2
 
 # Single Target Rotation
-actions.single_target=festering_strike,if=talent.festering_scythe&fight_remains>3&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|debuff.festering_scythe_debuff.remains<3)|!buff.festering_scythe.up&debuff.festering_scythe_debuff.remains<3)
+actions.single_target=festering_strike,if=talent.festering_scythe&fight_remains>3&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|buff.festering_scythe_tt.remains<3)|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3)
 actions.single_target+=/scourge_strike,if=buff.lesser_ghoul_ready.stack>=1&talent.gift_of_the_sanlayn&buff.essence_of_the_blood_queen.stack<5&buff.vampiric_strike.up
 actions.single_target+=/death_coil,if=buff.sudden_doom.react
 actions.single_target+=/scourge_strike,if=buff.lesser_ghoul_ready.stack>=1&buff.blighted.up
@@ -189,8 +189,8 @@ actions.single_target+=/festering_strike
 actions.single_target+=/death_coil
 
 # Trinkets
-actions.trinkets=use_item,slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|debuff.festering_scythe_debuff.up)|trinket.1.cast_time=0&variable.cds_active)
-actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|debuff.festering_scythe_debuff.up)|trinket.2.cast_time=0&variable.cds_active)
+actions.trinkets=use_item,slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.1.cast_time=0&variable.cds_active)
+actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.2.cast_time=0&variable.cds_active)
 actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)
 actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)
 

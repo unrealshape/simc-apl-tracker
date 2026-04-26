@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-25 05:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-26 05:43 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -71,11 +71,11 @@ Source: `apl/default/hunter/survival.simc`
 | 2 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
 | 3 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
 | 4 | `flamefang_pitch` | — |
-| 5 | `wildfire_bomb` | if=buff.tip_of_the_spear.up |
+| 5 | `wildfire_bomb` | if=buff.tip_of_the_spear.up&(talent.lethal_calibration&full_recharge_time<4+gcd\|!talent.lethal_calibration) |
 | 6 | `boomstick` | if=buff.tip_of_the_spear.up |
 | 7 | `raptor_strike` | if=(buff.tip_of_the_spear.up\|!buff.raptor_swipe.up) |
-| 8 | `kill_command` | if=cooldown.takedown.remains |
-| 9 | `wildfire_bomb` | — |
+| 8 | `wildfire_bomb` | if=buff.tip_of_the_spear.up |
+| 9 | `kill_command` | if=cooldown.takedown.remains |
 | 10 | `takedown` | — |
 
 ## Action List: `sentcleave`
@@ -163,11 +163,11 @@ actions.plst=kill_command,if=buff.tip_of_the_spear.stack<2&howl_summon.ready
 actions.plst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
 actions.plst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
 actions.plst+=/flamefang_pitch
-actions.plst+=/wildfire_bomb,if=buff.tip_of_the_spear.up
+actions.plst+=/wildfire_bomb,if=buff.tip_of_the_spear.up&(talent.lethal_calibration&full_recharge_time<4+gcd|!talent.lethal_calibration)
 actions.plst+=/boomstick,if=buff.tip_of_the_spear.up
 actions.plst+=/raptor_strike,if=(buff.tip_of_the_spear.up|!buff.raptor_swipe.up)
+actions.plst+=/wildfire_bomb,if=buff.tip_of_the_spear.up
 actions.plst+=/kill_command,if=cooldown.takedown.remains
-actions.plst+=/wildfire_bomb
 actions.plst+=/takedown
 
 # AOE - Sent

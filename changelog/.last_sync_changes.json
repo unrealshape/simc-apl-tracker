@@ -1,1 +1,7 @@
-[]
+[
+  "apl/default/deathknight/unholy.simc",
+  "apl/default/hunter/beast_mastery.simc",
+  "apl/default/hunter/survival.simc",
+  "apl/default/paladin/retribution.simc",
+  "apl/assisted_combat/deathknight/unholy.simc"
+]
