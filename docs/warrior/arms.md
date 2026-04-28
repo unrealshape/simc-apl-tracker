@@ -1,6 +1,6 @@
 # Warrior – Arms
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-27 06:05 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-28 06:10 UTC
 
 Source: `apl/default/warrior/arms.simc`
 
@@ -192,8 +192,8 @@ Source: `apl/default/warrior/arms.simc`
 | 4 | `ravager` | if=cooldown.colossus_smash.remains<=gcd |
 | 5 | `colossus_smash` | — |
 | 6 | `bladestorm` | if=debuff.colossus_smash.up |
-| 7 | `mortal_strike` | — |
-| 8 | `heroic_strike` | — |
+| 7 | `heroic_strike` | — |
+| 8 | `mortal_strike` | — |
 | 9 | `execute` | if=buff.sudden_death.up |
 | 10 | `cleave` | if=active_enemies=2&buff.collateral_damage.stack=3 |
 | 11 | `overpower` | — |
@@ -382,8 +382,8 @@ actions.slayer_st+=/champions_spear,if=debuff.colossus_smash.up|buff.avatar.up
 actions.slayer_st+=/ravager,if=cooldown.colossus_smash.remains<=gcd
 actions.slayer_st+=/colossus_smash
 actions.slayer_st+=/bladestorm,if=debuff.colossus_smash.up
-actions.slayer_st+=/mortal_strike
 actions.slayer_st+=/heroic_strike
+actions.slayer_st+=/mortal_strike
 actions.slayer_st+=/execute,if=buff.sudden_death.up
 actions.slayer_st+=/cleave,if=active_enemies=2&buff.collateral_damage.stack=3
 actions.slayer_st+=/overpower

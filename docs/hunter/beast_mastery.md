@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-27 06:05 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-28 06:10 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -51,7 +51,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 2 | `wild_thrash` | if=talent.beast_cleave |
 | 3 | `bestial_wrath` | if=!prev.wild_thrash |
 | 4 | `wild_thrash` | if=!talent.beast_cleave |
-| 5 | `kill_command` | — |
+| 5 | `kill_command` | if=buff.natures_ally.up\|talent.master_handler&(active_enemies>3\|howl_summon.ready) |
 | 6 | `cobra_shot` | if=cooldown.wild_thrash.remains>gcd&buff.hogstrider.up&active_enemies<4 |
 | 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
 | 8 | `cobra_shot` | if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd\|!talent.beast_cleave |
@@ -77,12 +77,12 @@ Source: `apl/default/hunter/beast_mastery.simc`
 |---|--------|------------|
 | 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=(talent.bloody_frenzy&talent.snakeskin_quiver&talent.jagged_wounds)&cooldown.bestial_wrath.remains<2*gcd |
 | 2 | `bestial_wrath` | — |
-| 3 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up\|!apex.3 |
-| 4 | `black_arrow` | if=buff.withering_fire.up |
+| 3 | `black_arrow` | if=buff.withering_fire.up&cooldown.kill_command.full_recharge_time>gcd |
+| 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up\|!apex.3 |
 | 5 | `wailing_arrow` | if=buff.withering_fire.remains<execute_time+2*gcd\|time_to_die.remains<execute_time+gcd |
 | 6 | `cobra_shot` | if=talent.killer_cobra&buff.bestial_wrath.up&cooldown.barbed_shot.charges_fractional<1.4 |
-| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
-| 8 | `black_arrow` | — |
+| 7 | `black_arrow` | — |
+| 8 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
 | 9 | `cobra_shot` | — |
 
 ## Action List: `st`
@@ -145,7 +145,7 @@ actions.cleave=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.cleave+=/wild_thrash,if=talent.beast_cleave
 actions.cleave+=/bestial_wrath,if=!prev.wild_thrash
 actions.cleave+=/wild_thrash,if=!talent.beast_cleave
-actions.cleave+=/kill_command
+actions.cleave+=/kill_command,if=buff.natures_ally.up|talent.master_handler&(active_enemies>3|howl_summon.ready)
 actions.cleave+=/cobra_shot,if=cooldown.wild_thrash.remains>gcd&buff.hogstrider.up&active_enemies<4
 actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.cleave+=/cobra_shot,if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd|!talent.beast_cleave
@@ -163,12 +163,12 @@ actions.drcleave+=/cobra_shot
 
 actions.drst=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=(talent.bloody_frenzy&talent.snakeskin_quiver&talent.jagged_wounds)&cooldown.bestial_wrath.remains<2*gcd
 actions.drst+=/bestial_wrath
+actions.drst+=/black_arrow,if=buff.withering_fire.up&cooldown.kill_command.full_recharge_time>gcd
 actions.drst+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up|!apex.3
-actions.drst+=/black_arrow,if=buff.withering_fire.up
 actions.drst+=/wailing_arrow,if=buff.withering_fire.remains<execute_time+2*gcd|time_to_die.remains<execute_time+gcd
 actions.drst+=/cobra_shot,if=talent.killer_cobra&buff.bestial_wrath.up&cooldown.barbed_shot.charges_fractional<1.4
-actions.drst+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.drst+=/black_arrow
+actions.drst+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.drst+=/cobra_shot
 
 actions.st=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd
