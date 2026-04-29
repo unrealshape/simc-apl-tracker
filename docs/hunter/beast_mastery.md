@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-04-28 06:10 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-04-29 05:57 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 59
+- **Total Actions:** 60
 - **Lists:** `precombat`, `default`, `cds`, `cleave`, `drcleave`, `drst`, `st`, `trinkets`
 
 ## Action List: `precombat`
@@ -60,16 +60,17 @@ Source: `apl/default/hunter/beast_mastery.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `bestial_wrath` | if=buff.beast_cleave.remains |
-| 2 | `wild_thrash` | — |
-| 3 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up\|!apex.3 |
-| 4 | `barbed_shot` | if=full_recharge_time<1*gcd,target_if=min:dot.barbed_shot.remains\|max_prio_damage |
-| 5 | `black_arrow` | if=buff.withering_fire.up |
-| 6 | `wailing_arrow` | if=buff.withering_fire.remains<execute_time+gcd\|time_to_die.remains<execute_time+gcd |
-| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
-| 8 | `black_arrow` | — |
-| 9 | `wailing_arrow` | — |
-| 10 | `cobra_shot` | — |
+| 1 | `black_arrow` | if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2 |
+| 2 | `bestial_wrath` | if=buff.beast_cleave.remains |
+| 3 | `wild_thrash` | — |
+| 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up\|!apex.3 |
+| 5 | `barbed_shot` | if=full_recharge_time<1*gcd,target_if=min:dot.barbed_shot.remains\|max_prio_damage |
+| 6 | `black_arrow` | if=buff.withering_fire.up |
+| 7 | `wailing_arrow` | if=buff.withering_fire.remains<execute_time+gcd\|time_to_die.remains<execute_time+gcd |
+| 8 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
+| 9 | `black_arrow` | — |
+| 10 | `wailing_arrow` | — |
+| 11 | `cobra_shot` | — |
 
 ## Action List: `drst`
 
@@ -150,7 +151,8 @@ actions.cleave+=/cobra_shot,if=cooldown.wild_thrash.remains>gcd&buff.hogstrider.
 actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.cleave+=/cobra_shot,if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd|!talent.beast_cleave
 
-actions.drcleave=bestial_wrath,if=buff.beast_cleave.remains
+actions.drcleave=black_arrow,if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2
+actions.drcleave+=/bestial_wrath,if=buff.beast_cleave.remains
 actions.drcleave+=/wild_thrash
 actions.drcleave+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.up|!apex.3
 actions.drcleave+=/barbed_shot,if=full_recharge_time<1*gcd,target_if=min:dot.barbed_shot.remains|max_prio_damage
