@@ -1,6 +1,6 @@
 # Rogue – Subtlety
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-01 06:19 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-02 05:41 UTC
 
 Source: `apl/default/rogue/subtlety.simc`
 

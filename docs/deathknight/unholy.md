@@ -1,6 +1,6 @@
 # Death Knight – Unholy
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-01 06:19 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-02 05:41 UTC
 
 Source: `apl/default/deathknight/unholy.simc`
 
@@ -111,7 +111,7 @@ Source: `apl/default/deathknight/unholy.simc`
 | 2 | `variable` | name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists\|!raid_event.adds.in\|raid_event.adds.in>15\|!raid_event.pull.exists\|raid_event.pull.exists&raid_event.pull.in>15) |
 | 3 | `variable` | name=adds_remain,value=active_enemies>=2&((!raid_event.adds.exists\|!raid_event.pull.exists)\|raid_event.adds.remains>5\|raid_event.pull.remains>5) |
 | 4 | `variable` | name=cds_active,value=pet.lesser_ghoul_army.active\|buff.forbidden_knowledge.up\|buff.dark_transformation.up&buff.dark_transformation.remains>5 |
-| 5 | `variable` | name=epidemic_prio,value=active_enemies>=4-pet.whitemane.active&!buff.forbidden_knowledge.up\|active_enemies>=6-pet.whitemane.active&buff.forbidden_knowledge.up |
+| 5 | `variable` | name=epidemic_prio,value=active_enemies>=4&!buff.forbidden_knowledge.up\|active_enemies>=6&buff.forbidden_knowledge.up |
 
 ## Raw APL
 
@@ -199,5 +199,5 @@ actions.variables=variable,name=spending_rp,value=rune<2|buff.forbidden_knowledg
 actions.variables+=/variable,name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists|!raid_event.adds.in|raid_event.adds.in>15|!raid_event.pull.exists|raid_event.pull.exists&raid_event.pull.in>15)
 actions.variables+=/variable,name=adds_remain,value=active_enemies>=2&((!raid_event.adds.exists|!raid_event.pull.exists)|raid_event.adds.remains>5|raid_event.pull.remains>5)
 actions.variables+=/variable,name=cds_active,value=pet.lesser_ghoul_army.active|buff.forbidden_knowledge.up|buff.dark_transformation.up&buff.dark_transformation.remains>5
-actions.variables+=/variable,name=epidemic_prio,value=active_enemies>=4-pet.whitemane.active&!buff.forbidden_knowledge.up|active_enemies>=6-pet.whitemane.active&buff.forbidden_knowledge.up
+actions.variables+=/variable,name=epidemic_prio,value=active_enemies>=4&!buff.forbidden_knowledge.up|active_enemies>=6&buff.forbidden_knowledge.up
 ```
