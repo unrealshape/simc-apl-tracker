@@ -1,6 +1,6 @@
 # Paladin – Retribution
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-03 06:08 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-04 06:17 UTC
 
 Source: `apl/default/paladin/retribution.simc`
 
@@ -37,7 +37,7 @@ Source: `apl/default/paladin/retribution.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | name=algethar_puzzle_box,if=(cooldown.avenging_wrath.remains=0&!talent.radiant_glory\|(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0\|cooldown.execution_sentenc.remains=0)&talent.radiant_glory) |
+| 1 | `use_item` | name=algethar_puzzle_box,if=(cooldown.avenging_wrath.remains=0&!talent.radiant_glory\|(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0\|cooldown.execution_sentence.remains=0)&talent.radiant_glory) |
 | 2 | `use_item` | slot=trinket1,if=((buff.avenging_wrath.up&cooldown.avenging_wrath.remains>40)&!talent.radiant_glory\|talent.radiant_glory&(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0\|debuff.execution_sentence_debuff.up))&(!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|variable.trinket_priority=1)\|trinket.1.proc.any_dps.duration>=fight_remains |
 | 3 | `use_item` | slot=trinket2,if=((buff.avenging_wrath.up&cooldown.avenging_wrath.remains>40)&!talent.radiant_glory\|talent.radiant_glory&(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0\|debuff.execution_sentence_debuff.up))&(!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|variable.trinket_priority=2)\|trinket.2.proc.any_dps.duration>=fight_remains |
 | 4 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(trinket.2.cooldown.remains\|!variable.trinket_2_buffs\|!buff.avenging_wrath.up&cooldown.avenging_wrath.remains>20) |
@@ -102,7 +102,7 @@ actions+=/rebuke
 actions+=/call_action_list,name=cooldowns
 actions+=/call_action_list,name=generators
 
-actions.cooldowns=use_item,name=algethar_puzzle_box,if=(cooldown.avenging_wrath.remains=0&!talent.radiant_glory|(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0|cooldown.execution_sentenc.remains=0)&talent.radiant_glory)
+actions.cooldowns=use_item,name=algethar_puzzle_box,if=(cooldown.avenging_wrath.remains=0&!talent.radiant_glory|(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0|cooldown.execution_sentence.remains=0)&talent.radiant_glory)
 actions.cooldowns+=/use_item,slot=trinket1,if=((buff.avenging_wrath.up&cooldown.avenging_wrath.remains>40)&!talent.radiant_glory|talent.radiant_glory&(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0|debuff.execution_sentence_debuff.up))&(!trinket.2.has_cooldown|trinket.2.cooldown.remains|variable.trinket_priority=1)|trinket.1.proc.any_dps.duration>=fight_remains
 actions.cooldowns+=/use_item,slot=trinket2,if=((buff.avenging_wrath.up&cooldown.avenging_wrath.remains>40)&!talent.radiant_glory|talent.radiant_glory&(!talent.execution_sentence&cooldown.wake_of_ashes.remains=0|debuff.execution_sentence_debuff.up))&(!trinket.1.has_cooldown|trinket.1.cooldown.remains|variable.trinket_priority=2)|trinket.2.proc.any_dps.duration>=fight_remains
 actions.cooldowns+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(trinket.2.cooldown.remains|!variable.trinket_2_buffs|!buff.avenging_wrath.up&cooldown.avenging_wrath.remains>20)
