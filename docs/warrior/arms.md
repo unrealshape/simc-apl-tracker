@@ -1,6 +1,6 @@
 # Warrior – Arms
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-05 05:47 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-06 06:08 UTC
 
 Source: `apl/default/warrior/arms.simc`
 
@@ -170,7 +170,7 @@ Source: `apl/default/warrior/arms.simc`
 | 4 | `colossus_smash` | — |
 | 5 | `heroic_strike` | — |
 | 6 | `bladestorm` | if=debuff.colossus_smash.up |
-| 7 | `mortal_strike` | if=buff.executioners_precision.stack=2\|debuff.colossus_smash.up |
+| 7 | `mortal_strike` | if=buff.executioners_precision.stack=2&(talent.martial_prowess\|!talent.martial_prowess&debuff.colossus_smash.up)\|debuff.colossus_smash.up&talent.battlelord |
 | 8 | `overpower` | if=buff.opportunist.up&talent.opportunist |
 | 9 | `overpower` | if=talent.fierce_followthrough&!buff.battlelord.up&rage<80 |
 | 10 | `execute` | if=rage>40\|buff.sudden_death.up |
@@ -364,7 +364,7 @@ actions.slayer_execute+=/avatar
 actions.slayer_execute+=/colossus_smash
 actions.slayer_execute+=/heroic_strike
 actions.slayer_execute+=/bladestorm,if=debuff.colossus_smash.up
-actions.slayer_execute+=/mortal_strike,if=buff.executioners_precision.stack=2|debuff.colossus_smash.up
+actions.slayer_execute+=/mortal_strike,if=buff.executioners_precision.stack=2&(talent.martial_prowess|!talent.martial_prowess&debuff.colossus_smash.up)|debuff.colossus_smash.up&talent.battlelord
 actions.slayer_execute+=/overpower,if=buff.opportunist.up&talent.opportunist
 actions.slayer_execute+=/overpower,if=talent.fierce_followthrough&!buff.battlelord.up&rage<80
 actions.slayer_execute+=/execute,if=rage>40|buff.sudden_death.up

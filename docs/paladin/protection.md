@@ -1,6 +1,6 @@
 # Paladin – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-05 05:47 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-06 06:08 UTC
 
 Source: `apl/default/paladin/protection.simc`
 
