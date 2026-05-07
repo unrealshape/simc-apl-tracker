@@ -1,6 +1,6 @@
 # Hunter – Marksmanship
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-06 06:08 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-07 06:14 UTC
 
 Source: `apl/default/hunter/marksmanship.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/marksmanship.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 68
+- **Total Actions:** 69
 - **Lists:** `precombat`, `default`, `cds`, `draoe`, `drst`, `sentaoe`, `sentst`, `trinkets`
 
 ## Action List: `precombat`
@@ -100,16 +100,17 @@ Source: `apl/default/hunter/marksmanship.simc`
 |---|--------|------------|
 | 1 | `volley` | if=!buff.double_tap.up |
 | 2 | `trueshot` | if=!buff.double_tap.up&variable.trueshot_ready |
-| 3 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=full_recharge_time<gcd+cast_time |
-| 4 | `rapid_fire` | if=(buff.bulletstorm.remains<action.aimed_shot.execute_time\|buff.bulletstorm.stack<18\|talent.unload&target.health.pct<20) |
-| 5 | `kill_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&active_enemies=1 |
-| 6 | `arcane_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&(buff.trueshot.up&prev_gcd.1.aimed_shot\|!buff.trueshot.up) |
-| 7 | `moonlight_chakram` | if=buff.trueshot.remains<execute_time+gcd |
-| 8 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage |
-| 9 | `moonlight_chakram` | — |
-| 10 | `rapid_fire` | — |
-| 11 | `explosive_shot` | — |
-| 12 | `steady_shot` | — |
+| 3 | `rapid_fire` | if=buff.bulletstorm.stack<18 |
+| 4 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=full_recharge_time<gcd+cast_time |
+| 5 | `arcane_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&(buff.trueshot.up&prev_gcd.1.aimed_shot\|!buff.trueshot.up) |
+| 6 | `rapid_fire` | if=(buff.bulletstorm.remains<action.aimed_shot.execute_time\|talent.unload&target.health.pct<20) |
+| 7 | `kill_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&active_enemies=1 |
+| 8 | `moonlight_chakram` | if=buff.trueshot.remains<execute_time+gcd |
+| 9 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage |
+| 10 | `moonlight_chakram` | — |
+| 11 | `rapid_fire` | — |
+| 12 | `explosive_shot` | — |
+| 13 | `steady_shot` | — |
 
 ## Action List: `trinkets`
 
@@ -191,10 +192,11 @@ actions.sentaoe+=/steady_shot
 
 actions.sentst=volley,if=!buff.double_tap.up
 actions.sentst+=/trueshot,if=!buff.double_tap.up&variable.trueshot_ready
+actions.sentst+=/rapid_fire,if=buff.bulletstorm.stack<18
 actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage,if=full_recharge_time<gcd+cast_time
-actions.sentst+=/rapid_fire,if=(buff.bulletstorm.remains<action.aimed_shot.execute_time|buff.bulletstorm.stack<18|talent.unload&target.health.pct<20)
-actions.sentst+=/kill_shot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&active_enemies=1
 actions.sentst+=/arcane_shot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&(buff.trueshot.up&prev_gcd.1.aimed_shot|!buff.trueshot.up)
+actions.sentst+=/rapid_fire,if=(buff.bulletstorm.remains<action.aimed_shot.execute_time|talent.unload&target.health.pct<20)
+actions.sentst+=/kill_shot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&active_enemies=1
 actions.sentst+=/moonlight_chakram,if=buff.trueshot.remains<execute_time+gcd
 actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage
 actions.sentst+=/moonlight_chakram
