@@ -1,6 +1,6 @@
 # Warlock – Destruction
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-08 05:33 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-09 05:51 UTC
 
 Source: `apl/default/warlock/destruction.simc`
 
