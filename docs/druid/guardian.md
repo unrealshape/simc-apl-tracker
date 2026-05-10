@@ -1,6 +1,6 @@
 # Druid – Guardian
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-09 05:51 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-10 06:15 UTC
 
 Source: `apl/default/druid/guardian.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/druid/guardian.simc`
 ## Overview
 
 - **Action Lists:** 4
-- **Total Actions:** 47
+- **Total Actions:** 52
 - **Lists:** `precombat`, `default`, `bear`, `cooldowns`
 
 ## Action List: `precombat`
@@ -38,27 +38,32 @@ Source: `apl/default/druid/guardian.simc`
 | 2 | `thrash` | if=talent.lunar_calling.enabled |
 | 3 | `maul` | if=buff.ravage.up&rage>=40&!talent.killing_blow.enabled |
 | 4 | `maul` | if=buff.ravage.up&rage>=60&talent.killing_blow.enabled |
-| 5 | `maul` | if=rage>=55&!talent.fount_of_strength.enabled |
-| 6 | `mangle` | if=dot.red_moon.ticking |
-| 7 | `rake` | if=!buff.cat_form.up&talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled\|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled\|talent.fount_of_strength.enabled) |
-| 8 | `cat_form` | if=!buff.cat_form.up&!talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled\|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled\|talent.fount_of_strength.enabled) |
-| 9 | `moonkin_form` | if=!buff.moonkin_form.up&cooldown.heart_of_the_wild.up&active_enemies>=6&talent.moonkin_form.enabled |
-| 10 | `thrash` | target_if=refreshable\|(dot.thrash.stack<5&talent.flashing_claws.rank=2\|dot.thrash.stack<4&talent.flashing_claws.rank=1\|dot.thrash.stack<3&!talent.flashing_claws.enabled) |
-| 11 | `ironfur` | if=!buff.ironfur.up&!buff.ravage.up&!target.cooldown.pause_action.remains |
-| 12 | `ferocious_bite` | if=(buff.cat_form.up&buff.feline_potential.up&(buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)&!dot.rip.refreshable) |
-| 13 | `rake` | if=!buff.cat_form.up&talent.fluid_form.enabled&buff.feline_potential_counter.stack=6&talent.wildpower_surge.enabled&active_enemies<=2 |
-| 14 | `rip` | if=(buff.cat_form.up&buff.feline_potential.up)&active_enemies<=2 |
-| 15 | `red_moon` | if=cooldown.mangle.up&!dot.red_moon.ticking |
-| 16 | `mangle` | if=((buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)&buff.feline_potential_counter.stack<6&talent.wildpower_surge.enabled) |
-| 17 | `shred` | if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&!dot.rake.refreshable&talent.fluid_form.enabled) |
-| 18 | `rake` | if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&talent.fluid_form.enabled) |
-| 19 | `maul` | if=!buff.ravage.up&rage>=90&talent.fount_of_strength.enabled |
-| 20 | `mangle` | if=(buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)\|talent.red_moon.enabled&(cooldown.red_moon.remains>3&(((rage<88)&!talent.fount_of_strength.enabled)\|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)\|((rage<108)&talent.fount_of_strength.enabled)\|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled))) |
-| 21 | `mangle` | if=!talent.red_moon.enabled&(((rage<88)&!talent.fount_of_strength.enabled)\|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)\|((rage<108)&talent.fount_of_strength.enabled)\|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)) |
-| 22 | `thrash` | — |
-| 23 | `moonfire` | if=buff.galactic_guardian.up&buff.bear_form.up&talent.boundless_moonlight.enabled&!talent.red_moon.enabled |
-| 24 | `swipe_bear` | if=(talent.lunation.enabled&active_enemies>4)\|!talent.lunation.enabled\|talent.lunation.enabled&talent.red_moon.enabled |
-| 25 | `moonfire` | if=(talent.lunation.enabled)&buff.bear_form.up&!talent.red_moon.enabled |
+| 5 | `maul` | if=rage>=55&!talent.fount_of_strength.enabled&talent.wild_guardian.enabled |
+| 6 | `maul` | if=!talent.fount_of_strength.enabled&!talent.wild_guardian.enabled&talent.raze.enabled |
+| 7 | `maul` | if=rage>=55&!talent.fount_of_strength.enabled&active_enemies<3&talent.killing_blow.enabled&!talent.wild_guardian.enabled&!talent.raze.enabled |
+| 8 | `maul` | if=rage>=55&!talent.fount_of_strength.enabled&active_enemies<2&!talent.killing_blow.enabled&!talent.wild_guardian.enabled&!talent.raze.enabled |
+| 9 | `mangle` | if=dot.red_moon.ticking |
+| 10 | `rake` | if=!buff.cat_form.up&talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled\|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled\|talent.fount_of_strength.enabled) |
+| 11 | `cat_form` | if=!buff.cat_form.up&!talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled\|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled\|talent.fount_of_strength.enabled) |
+| 12 | `moonkin_form` | if=!buff.moonkin_form.up&cooldown.heart_of_the_wild.up&active_enemies>=6&talent.moonkin_form.enabled |
+| 13 | `thrash` | target_if=refreshable\|(dot.thrash.stack<5&talent.flashing_claws.rank=2\|dot.thrash.stack<4&talent.flashing_claws.rank=1\|dot.thrash.stack<3&!talent.flashing_claws.enabled) |
+| 14 | `ironfur` | if=!buff.ironfur.up&!buff.ravage.up&!target.cooldown.pause_action.remains&talent.wild_guardian.enabled |
+| 15 | `ironfur` | if=!buff.ironfur.up&!talent.wild_guardian.enabled\|rage>=80&!talent.wild_guardian.enabled |
+| 16 | `ferocious_bite` | if=(buff.cat_form.up&buff.feline_potential.up&(buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)&!dot.rip.refreshable) |
+| 17 | `rake` | if=!buff.cat_form.up&talent.fluid_form.enabled&buff.feline_potential_counter.stack=6&talent.wildpower_surge.enabled&active_enemies<=2 |
+| 18 | `rip` | if=(buff.cat_form.up&buff.feline_potential.up)&active_enemies<=2 |
+| 19 | `red_moon` | if=cooldown.mangle.up&!dot.red_moon.ticking&(!talent.convoke_the_spirits.enabled\|talent.convoke_the_spirits.enabled&cooldown.convoke_the_spirits.remains>=5) |
+| 20 | `moonfire` | if=buff.galactic_guardian.up&buff.bear_form.up&talent.boundless_moonlight.enabled&!talent.red_moon.enabled&!talent.wild_guardian.enabled |
+| 21 | `mangle` | if=(((buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)&buff.feline_potential_counter.stack<6&talent.wildpower_surge.enabled)) |
+| 22 | `shred` | if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&!dot.rake.refreshable&talent.fluid_form.enabled) |
+| 23 | `rake` | if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&talent.fluid_form.enabled) |
+| 24 | `maul` | if=!buff.ravage.up&rage>=90&talent.fount_of_strength.enabled |
+| 25 | `moonfire` | if=(talent.lunation.enabled)&buff.bear_form.up&!talent.red_moon.enabled&!talent.raze.enabled&!talent.wild_guardian.enabled |
+| 26 | `mangle` | if=(buff.incarnation_guardian_of_ursoc.up\|buff.berserk.up)\|talent.red_moon.enabled&(cooldown.red_moon.remains>3&(((rage<88)&!talent.fount_of_strength.enabled)\|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)\|((rage<108)&talent.fount_of_strength.enabled)\|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled))) |
+| 27 | `mangle` | if=!talent.red_moon.enabled&(((rage<88)&!talent.fount_of_strength.enabled)\|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)\|((rage<108)&talent.fount_of_strength.enabled)\|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)) |
+| 28 | `thrash` | — |
+| 29 | `swipe_bear` | if=!talent.lunation.enabled\|talent.lunation.enabled&talent.red_moon.enabled |
+| 30 | `moonfire` | if=(talent.lunation.enabled)&buff.bear_form.up&!talent.red_moon.enabled |
 
 ## Action List: `cooldowns`
 
@@ -74,10 +79,10 @@ Source: `apl/default/druid/guardian.simc`
 | 8 | `barkskin` | if=buff.bear_form.up |
 | 9 | `lunar_beam` | if=(cooldown.incarnation_guardian_of_ursoc.up\|cooldown.berserk.up)\|((cooldown.incarnation_guardian_of_ursoc.remains>60\|cooldown.berserk.remains>60)&!talent.lunation.enabled\|(cooldown.incarnation_guardian_of_ursoc.remains>30\|cooldown.berserk.remains>30)&talent.lunation.enabled) |
 | 10 | `heart_of_the_wild` | if=(active_enemies<=5&talent.moonkin_form.enabled&buff.cat_form.up\|!talent.moonkin_form.enabled&buff.cat_form.up)\|buff.moonkin_form.up&active_enemies>=6&talent.moonkin_form.enabled |
-| 11 | `convoke_the_spirits` | — |
+| 11 | `convoke_the_spirits` | if=buff.bear_form.up&(((buff.lunar_beam.up\|cooldown.lunar_beam.remains>15)&talent.lunation.enabled)\|!talent.lunation.enabled) |
 | 12 | `sundering_roar` | if=(dot.thrash_bear.stack<5&talent.flashing_claws.rank=2\|dot.thrash_bear.stack<4&talent.flashing_claws.rank=1\|dot.thrash_bear.stack<3&!talent.flashing_claws.enabled) |
 | 13 | `berserk` | if=!cooldown.heart_of_the_wild.up&(talent.heart_of_the_wild.enabled)\|!talent.ravage.enabled\|!talent.heart_of_the_wild.enabled |
-| 14 | `wild_guardian` | if=(buff.ravage.up&talent.ravage.enabled)\|!talent.ravage.enabled |
+| 14 | `wild_guardian` | if=(buff.ravage.up&talent.ravage.enabled)\|!talent.ravage.enabled&buff.lunar_beam.up |
 
 ## Raw APL
 
@@ -109,26 +114,31 @@ actions.bear=bear_form,if=!buff.bear_form.up&!buff.feline_potential.up
 actions.bear+=/thrash,if=talent.lunar_calling.enabled
 actions.bear+=/maul,if=buff.ravage.up&rage>=40&!talent.killing_blow.enabled
 actions.bear+=/maul,if=buff.ravage.up&rage>=60&talent.killing_blow.enabled
-actions.bear+=/maul,if=rage>=55&!talent.fount_of_strength.enabled
+actions.bear+=/maul,if=rage>=55&!talent.fount_of_strength.enabled&talent.wild_guardian.enabled
+actions.bear+=/maul,if=!talent.fount_of_strength.enabled&!talent.wild_guardian.enabled&talent.raze.enabled
+actions.bear+=/maul,if=rage>=55&!talent.fount_of_strength.enabled&active_enemies<3&talent.killing_blow.enabled&!talent.wild_guardian.enabled&!talent.raze.enabled
+actions.bear+=/maul,if=rage>=55&!talent.fount_of_strength.enabled&active_enemies<2&!talent.killing_blow.enabled&!talent.wild_guardian.enabled&!talent.raze.enabled
 actions.bear+=/mangle,if=dot.red_moon.ticking
 actions.bear+=/rake,if=!buff.cat_form.up&talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled|talent.fount_of_strength.enabled)
 actions.bear+=/cat_form,if=!buff.cat_form.up&!talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled|talent.fount_of_strength.enabled)
 actions.bear+=/moonkin_form,if=!buff.moonkin_form.up&cooldown.heart_of_the_wild.up&active_enemies>=6&talent.moonkin_form.enabled
 actions.bear+=/thrash,target_if=refreshable|(dot.thrash.stack<5&talent.flashing_claws.rank=2|dot.thrash.stack<4&talent.flashing_claws.rank=1|dot.thrash.stack<3&!talent.flashing_claws.enabled)
-actions.bear+=/ironfur,if=!buff.ironfur.up&!buff.ravage.up&!target.cooldown.pause_action.remains
+actions.bear+=/ironfur,if=!buff.ironfur.up&!buff.ravage.up&!target.cooldown.pause_action.remains&talent.wild_guardian.enabled
+actions.bear+=/ironfur,if=!buff.ironfur.up&!talent.wild_guardian.enabled|rage>=80&!talent.wild_guardian.enabled
 actions.bear+=/ferocious_bite,if=(buff.cat_form.up&buff.feline_potential.up&(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)&!dot.rip.refreshable)
 actions.bear+=/rake,if=!buff.cat_form.up&talent.fluid_form.enabled&buff.feline_potential_counter.stack=6&talent.wildpower_surge.enabled&active_enemies<=2
 actions.bear+=/rip,if=(buff.cat_form.up&buff.feline_potential.up)&active_enemies<=2
-actions.bear+=/red_moon,if=cooldown.mangle.up&!dot.red_moon.ticking
-actions.bear+=/mangle,if=((buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)&buff.feline_potential_counter.stack<6&talent.wildpower_surge.enabled)
+actions.bear+=/red_moon,if=cooldown.mangle.up&!dot.red_moon.ticking&(!talent.convoke_the_spirits.enabled|talent.convoke_the_spirits.enabled&cooldown.convoke_the_spirits.remains>=5)
+actions.bear+=/moonfire,if=buff.galactic_guardian.up&buff.bear_form.up&talent.boundless_moonlight.enabled&!talent.red_moon.enabled&!talent.wild_guardian.enabled
+actions.bear+=/mangle,if=(((buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)&buff.feline_potential_counter.stack<6&talent.wildpower_surge.enabled))
 actions.bear+=/shred,if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&!dot.rake.refreshable&talent.fluid_form.enabled)
 actions.bear+=/rake,if=(buff.feline_potential_counter.stack=6&!buff.cat_form.up&talent.fluid_form.enabled)
 actions.bear+=/maul,if=!buff.ravage.up&rage>=90&talent.fount_of_strength.enabled
+actions.bear+=/moonfire,if=(talent.lunation.enabled)&buff.bear_form.up&!talent.red_moon.enabled&!talent.raze.enabled&!talent.wild_guardian.enabled
 actions.bear+=/mangle,if=(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)|talent.red_moon.enabled&(cooldown.red_moon.remains>3&(((rage<88)&!talent.fount_of_strength.enabled)|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)|((rage<108)&talent.fount_of_strength.enabled)|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)))
 actions.bear+=/mangle,if=!talent.red_moon.enabled&(((rage<88)&!talent.fount_of_strength.enabled)|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)|((rage<108)&talent.fount_of_strength.enabled)|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled))
 actions.bear+=/thrash
-actions.bear+=/moonfire,if=buff.galactic_guardian.up&buff.bear_form.up&talent.boundless_moonlight.enabled&!talent.red_moon.enabled
-actions.bear+=/swipe_bear,if=(talent.lunation.enabled&active_enemies>4)|!talent.lunation.enabled|talent.lunation.enabled&talent.red_moon.enabled
+actions.bear+=/swipe_bear,if=!talent.lunation.enabled|talent.lunation.enabled&talent.red_moon.enabled
 actions.bear+=/moonfire,if=(talent.lunation.enabled)&buff.bear_form.up&!talent.red_moon.enabled
 
 actions.cooldowns=use_items
@@ -141,8 +151,8 @@ actions.cooldowns+=/bristling_fur,if=!target.cooldown.pause_action.remains&coold
 actions.cooldowns+=/barkskin,if=buff.bear_form.up
 actions.cooldowns+=/lunar_beam,if=(cooldown.incarnation_guardian_of_ursoc.up|cooldown.berserk.up)|((cooldown.incarnation_guardian_of_ursoc.remains>60|cooldown.berserk.remains>60)&!talent.lunation.enabled|(cooldown.incarnation_guardian_of_ursoc.remains>30|cooldown.berserk.remains>30)&talent.lunation.enabled)
 actions.cooldowns+=/heart_of_the_wild,if=(active_enemies<=5&talent.moonkin_form.enabled&buff.cat_form.up|!talent.moonkin_form.enabled&buff.cat_form.up)|buff.moonkin_form.up&active_enemies>=6&talent.moonkin_form.enabled
-actions.cooldowns+=/convoke_the_spirits
+actions.cooldowns+=/convoke_the_spirits,if=buff.bear_form.up&(((buff.lunar_beam.up|cooldown.lunar_beam.remains>15)&talent.lunation.enabled)|!talent.lunation.enabled)
 actions.cooldowns+=/sundering_roar,if=(dot.thrash_bear.stack<5&talent.flashing_claws.rank=2|dot.thrash_bear.stack<4&talent.flashing_claws.rank=1|dot.thrash_bear.stack<3&!talent.flashing_claws.enabled)
 actions.cooldowns+=/berserk,if=!cooldown.heart_of_the_wild.up&(talent.heart_of_the_wild.enabled)|!talent.ravage.enabled|!talent.heart_of_the_wild.enabled
-actions.cooldowns+=/wild_guardian,if=(buff.ravage.up&talent.ravage.enabled)|!talent.ravage.enabled
+actions.cooldowns+=/wild_guardian,if=(buff.ravage.up&talent.ravage.enabled)|!talent.ravage.enabled&buff.lunar_beam.up
 ```
