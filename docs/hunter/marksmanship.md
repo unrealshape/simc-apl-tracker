@@ -1,6 +1,6 @@
 # Hunter – Marksmanship
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-10 06:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-11 06:43 UTC
 
 Source: `apl/default/hunter/marksmanship.simc`
 
