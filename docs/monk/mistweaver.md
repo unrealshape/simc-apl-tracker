@@ -1,6 +1,6 @@
 # Monk – Mistweaver
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-11 06:43 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-12 06:17 UTC
 
 Source: `apl/default/monk/mistweaver.simc`
 
