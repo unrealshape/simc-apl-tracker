@@ -1,6 +1,6 @@
 # Rogue – Subtlety
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-12 06:17 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-13 06:28 UTC
 
 Source: `apl/default/rogue/subtlety.simc`
 
@@ -35,7 +35,7 @@ Source: `apl/default/rogue/subtlety.simc`
 | 6 | `call_action_list` | name=race |
 | 7 | `call_action_list` | name=item |
 | 8 | `call_action_list` | name=cds |
-| 9 | `shadowstrike` | if=talent.ancient_arts_3&variable.targets<=2&(buff.darkest_night.up\|(talent.unseen_blade&buff.supercharge_1.up))&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up&!cooldown.secret_technique.ready |
+| 9 | `shadowstrike` | if=talent.ancient_arts_3&variable.targets<=2&(buff.darkest_night.up\|(talent.unseen_blade&buff.supercharge_1.up))&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up |
 | 10 | `shuriken_storm` | if=talent.ancient_arts_3&variable.targets>=3&(buff.supercharge_1.up)&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up&!cooldown.secret_technique.ready |
 | 11 | `call_action_list` | name=finish,if=combo_points>=cp_max_spend-!buff.darkest_night.up |
 | 12 | `call_action_list` | name=build,if=variable.stealth\|energy>60 |
@@ -56,9 +56,9 @@ Source: `apl/default/rogue/subtlety.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `shadow_blades` | if=variable.shd_cp&cooldown.shadow_dance.charges_fractional>=1+0.8*talent.deathstalkers_mark&cooldown.secret_technique.ready&(fight_remains>90\|!equipped.algethar_puzzle_box\|trinket.1.proc.mastery.up)\|(fight_remains<=20\|target.time_to_die.remains<=20) |
+| 1 | `shadow_blades` | if=variable.shd_cp&cooldown.shadow_dance.charges_fractional>=1+0.8*talent.deathstalkers_mark&cooldown.secret_technique.ready&(fight_remains>90\|!equipped.algethar_puzzle_box\|trinket.1.proc.mastery.up\|trinket.2.proc.mastery.up)\|(fight_remains<=20\|target.time_to_die.remains<=20) |
 | 2 | `shadow_dance` | if=!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready\|buff.darkest_night.up)&(cooldown.shadow_blades.remains>=30-cooldown.secret_technique.duration)\|(buff.shadow_blades.up&cooldown.secret_technique.duration>=18))\|(fight_remains<=10\|target.time_to_die-remains<=9) |
-| 3 | `shadow_dance` | if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration |
+| 3 | `shadow_dance` | if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration+1 |
 | 4 | `shadow_dance` | if=equipped.algethar_puzzle_box&talent.unseen_blade&!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready\|buff.darkest_night.up)&(trinket.algethar_puzzle_box.cooldown.remains>=39-30*cooldown.shadow_blades.up)) |
 | 5 | `vanish` | if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=2 |
 | 6 | `shadowmeld` | if=energy>=50&!variable.stealth&combo_points.deficit>=2 |
@@ -76,11 +76,11 @@ Source: `apl/default/rogue/subtlety.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `secret_technique` | if=buff.shadow_dance.up\|(cooldown.secret_technique.duration<18\|cooldown.shadow_dance.remains>=10)&!cooldown.shadow_dance.ready |
-| 2 | `eviscerate` | if=buff.darkest_night.up |
+| 1 | `eviscerate` | if=buff.darkest_night.up |
+| 2 | `secret_technique` | if=buff.shadow_dance.up\|(cooldown.secret_technique.duration<18\|cooldown.shadow_dance.remains>=10)&!cooldown.shadow_dance.ready |
 | 3 | `coup_de_grace` | if=cooldown.secret_technique.remains>=3\|buff.shadow_dance.up |
-| 4 | `black_powder` | if=variable.targets>=3-talent.potent_powder |
-| 5 | `eviscerate` | if=cooldown.secret_technique.remains>=3\|buff.shadow_dance.up\|buff.shadow_blades.up\|talent.deathstalkers_mark |
+| 4 | `black_powder` | if=variable.targets>=3 |
+| 5 | `eviscerate` | if=cooldown.secret_technique.remains>=3&talent.unseen_blade\|buff.shadow_dance.up\|buff.shadow_blades.up\|debuff.deathstalkers_mark.stack>1\|debuff.deathstalkers_mark.stack=1&buff.shadow_techniques.stack>=5 |
 
 ## Action List: `item`
 
@@ -128,7 +128,7 @@ actions+=/stealth
 actions+=/call_action_list,name=race
 actions+=/call_action_list,name=item
 actions+=/call_action_list,name=cds
-actions+=/shadowstrike,if=talent.ancient_arts_3&variable.targets<=2&(buff.darkest_night.up|(talent.unseen_blade&buff.supercharge_1.up))&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up&!cooldown.secret_technique.ready
+actions+=/shadowstrike,if=talent.ancient_arts_3&variable.targets<=2&(buff.darkest_night.up|(talent.unseen_blade&buff.supercharge_1.up))&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up
 actions+=/shuriken_storm,if=talent.ancient_arts_3&variable.targets>=3&(buff.supercharge_1.up)&buff.shadow_techniques.stack>=5&!buff.ancient_arts.up&!cooldown.secret_technique.ready
 actions+=/call_action_list,name=finish,if=combo_points>=cp_max_spend-!buff.darkest_night.up
 actions+=/call_action_list,name=build,if=variable.stealth|energy>60
@@ -142,10 +142,10 @@ actions.build+=/gloomblade,if=variable.targets<2&!variable.stealth
 actions.build+=/backstab,if=variable.targets<2&!variable.stealth
 
 # Cooldowns  Delay the last Shadow Blades to line up with puzzle box if its equipped.
-actions.cds=shadow_blades,if=variable.shd_cp&cooldown.shadow_dance.charges_fractional>=1+0.8*talent.deathstalkers_mark&cooldown.secret_technique.ready&(fight_remains>90|!equipped.algethar_puzzle_box|trinket.1.proc.mastery.up)|(fight_remains<=20|target.time_to_die.remains<=20)
+actions.cds=shadow_blades,if=variable.shd_cp&cooldown.shadow_dance.charges_fractional>=1+0.8*talent.deathstalkers_mark&cooldown.secret_technique.ready&(fight_remains>90|!equipped.algethar_puzzle_box|trinket.1.proc.mastery.up|trinket.2.proc.mastery.up)|(fight_remains<=20|target.time_to_die.remains<=20)
 actions.cds+=/shadow_dance,if=!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready|buff.darkest_night.up)&(cooldown.shadow_blades.remains>=30-cooldown.secret_technique.duration)|(buff.shadow_blades.up&cooldown.secret_technique.duration>=18))|(fight_remains<=10|target.time_to_die-remains<=9)
 # Have the second Shadow Dance in Shadow Blades line up with the end of Shadow Blades instead of back-to-back for trickster.
-actions.cds+=/shadow_dance,if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration
+actions.cds+=/shadow_dance,if=buff.shadow_blades.up&talent.unseen_blade&buff.shadow_blades.remains<=buff.shadow_dance.duration+1
 # Used for when Shadow Blades is ready but holding for Algethar Puzzlebox trinket at the end of pull
 actions.cds+=/shadow_dance,if=equipped.algethar_puzzle_box&talent.unseen_blade&!variable.stealth&variable.shd_cp&energy>=30&((cooldown.secret_technique.ready|buff.darkest_night.up)&(trinket.algethar_puzzle_box.cooldown.remains>=39-30*cooldown.shadow_blades.up))
 actions.cds+=/vanish,if=!variable.stealth&energy>=50&!buff.subterfuge.up&combo_points<=2
@@ -157,16 +157,15 @@ actions.fill+=/arcane_pulse
 actions.fill+=/lights_judgment
 actions.fill+=/bag_of_tricks
 
-actions.finish=secret_technique,if=buff.shadow_dance.up|(cooldown.secret_technique.duration<18|cooldown.shadow_dance.remains>=10)&!cooldown.shadow_dance.ready
-actions.finish+=/eviscerate,if=buff.darkest_night.up
+actions.finish=eviscerate,if=buff.darkest_night.up
+actions.finish+=/secret_technique,if=buff.shadow_dance.up|(cooldown.secret_technique.duration<18|cooldown.shadow_dance.remains>=10)&!cooldown.shadow_dance.ready
 actions.finish+=/coup_de_grace,if=cooldown.secret_technique.remains>=3|buff.shadow_dance.up
-actions.finish+=/black_powder,if=variable.targets>=3-talent.potent_powder
+actions.finish+=/black_powder,if=variable.targets>=3
 # Pool some Shadow Technique Stacks before entering Shadow Dance by not finishing right before.
-actions.finish+=/eviscerate,if=cooldown.secret_technique.remains>=3|buff.shadow_dance.up|buff.shadow_blades.up|talent.deathstalkers_mark
+actions.finish+=/eviscerate,if=cooldown.secret_technique.remains>=3&talent.unseen_blade|buff.shadow_dance.up|buff.shadow_blades.up|debuff.deathstalkers_mark.stack>1|debuff.deathstalkers_mark.stack=1&buff.shadow_techniques.stack>=5
 
 # Trinket and Items
 actions.item=potion,if=buff.shadow_blades.up|fight_remains<30
-# actions.item+=/use_item,name=light_company_guidon,use_off_gcd=1,if=buff.shadow_blades.up
 actions.item+=/use_item,name=algethar_puzzle_box,if=cooldown.shadow_blades.ready&cooldown.secret_technique.remains<=2&combo_points>=6
 actions.item+=/use_items,slots=trinket1,if=(variable.trinket_sync_slot=1&(buff.shadow_blades.up|fight_remains<=20)|(variable.trinket_sync_slot=2&(!trinket.2.cooldown.ready&cooldown.shadow_blades.remains>20))|!variable.trinket_sync_slot)
 actions.item+=/use_items,slots=trinket2,if=(variable.trinket_sync_slot=2&(buff.shadow_blades.up|fight_remains<=20)|(variable.trinket_sync_slot=1&(!trinket.1.cooldown.ready&cooldown.shadow_blades.remains>20))|!variable.trinket_sync_slot)
