@@ -1,6 +1,6 @@
 # Rogue – Outlaw
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-13 06:28 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-16 05:57 UTC
 
 Source: `apl/default/rogue/outlaw.simc`
 
