@@ -1,6 +1,6 @@
 # Priest – Shadow
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-18 07:00 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-19 06:51 UTC
 
 Source: `apl/default/priest/shadow.simc`
 
@@ -82,7 +82,7 @@ Source: `apl/default/priest/shadow.simc`
 |---|--------|------------|
 | 1 | `variable` | name=dots_up,op=set,value=active_dot.vampiric_touch=active_enemies&active_dot.shadow_word_pain>=active_dot.vampiric_touch,if=active_enemies<3 |
 | 2 | `call_action_list` | name=cds,if=fight_remains<30\|target.time_to_die>15&(!variable.holding_tentacle_slam\|active_enemies>2)&variable.dots_up |
-| 3 | `shadow_word_death` | target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=priest.force_devour_matter&talent.devour_matter |
+| 3 | `shadow_word_death` | target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=(priest.force_devour_matter\|target.has_absorb)&talent.devour_matter |
 | 4 | `shadow_word_madness` | target_if=max:target.time_to_die*(dot.shadow_word_madness.remains<=gcd.max\|variable.dr_force_prio\|!talent.distorted_reality&variable.me_force_prio),if=active_dot.shadow_word_madness<=1&dot.shadow_word_madness.remains<=gcd.max\|insanity.deficit<=35\|buff.mind_devourer.react\|!raid_event.adds.exists&target.time_to_die<=10\|buff.entropic_rift.up&action.shadow_word_madness.cost>0 |
 | 5 | `void_volley` | — |
 | 6 | `void_blast` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die) |
@@ -169,8 +169,8 @@ actions.heal_for_tof=holy_nova,if=talent.lightburst
 
 actions.main=variable,name=dots_up,op=set,value=active_dot.vampiric_touch=active_enemies&active_dot.shadow_word_pain>=active_dot.vampiric_touch,if=active_enemies<3
 actions.main+=/call_action_list,name=cds,if=fight_remains<30|target.time_to_die>15&(!variable.holding_tentacle_slam|active_enemies>2)&variable.dots_up
-# High Priority Shadow Word: Death when you are forcing the bonus from Devour Matter
-actions.main+=/shadow_word_death,target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=priest.force_devour_matter&talent.devour_matter
+# High Priority Shadow Word: Death when Devour Matter is active (target shielded or forced)
+actions.main+=/shadow_word_death,target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=(priest.force_devour_matter|target.has_absorb)&talent.devour_matter
 # Do not overcap on insanity
 actions.main+=/shadow_word_madness,target_if=max:target.time_to_die*(dot.shadow_word_madness.remains<=gcd.max|variable.dr_force_prio|!talent.distorted_reality&variable.me_force_prio),if=active_dot.shadow_word_madness<=1&dot.shadow_word_madness.remains<=gcd.max|insanity.deficit<=35|buff.mind_devourer.react|!raid_event.adds.exists&target.time_to_die<=10|buff.entropic_rift.up&action.shadow_word_madness.cost>0
 actions.main+=/void_volley
