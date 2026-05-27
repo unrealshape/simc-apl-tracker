@@ -1,6 +1,6 @@
 # Rogue – Assassination
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-26 06:50 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-27 07:07 UTC
 
 Source: `apl/default/rogue/assassination.simc`
 
