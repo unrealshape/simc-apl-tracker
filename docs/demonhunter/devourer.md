@@ -1,6 +1,6 @@
 # Demon Hunter – Devourer
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-05-27 07:07 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-05-28 06:57 UTC
 
 Source: `apl/default/demonhunter/devourer.simc`
 
