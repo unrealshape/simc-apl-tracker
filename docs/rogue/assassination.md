@@ -1,6 +1,6 @@
 # Rogue – Assassination
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-01 08:39 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-02 07:27 UTC
 
 Source: `apl/default/rogue/assassination.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/rogue/assassination.simc`
 ## Overview
 
 - **Action Lists:** 9
-- **Total Actions:** 44
+- **Total Actions:** 48
 - **Lists:** `precombat`, `default`, `cds`, `core_dot`, `generate`, `items`, `misc_cds`, `spend`, `vanish`
 
 ## Action List: `precombat`
@@ -63,9 +63,11 @@ Source: `apl/default/rogue/assassination.simc`
 |---|--------|------------|
 | 1 | `crimson_tempest` | target_if=max:dot.rupture.remains,if=!variable.single_target&(active_dot.garrote<spell_targets.fan_of_knives\|active_dot.rupture<spell_targets.fan_of_knives)&(dot.rupture.remains>5\|energy.regen_combined>40) |
 | 2 | `shiv` | if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=3&talent.toxic_stiletto |
-| 3 | `ambush` | if=spell_targets.fan_of_knives<=1+talent.blindside |
-| 4 | `mutilate` | if=spell_targets.fan_of_knives<=1+talent.blindside |
-| 5 | `fan_of_knives` | if=spell_targets.fan_of_knives>1+talent.blindside |
+| 3 | `fan_of_knives` | if=spell_targets.fan_of_knives>1+talent.blindside |
+| 4 | `ambush` | if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2\|buff.bloodlust.up\|!talent.deathstalkers_mark\|talent.blindside) |
+| 5 | `mutilate` | if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2\|buff.bloodlust.up\|!talent.deathstalkers_mark\|talent.blindside) |
+| 6 | `fan_of_knives` | if=spell_targets.fan_of_knives<=1+talent.blindside&!talent.blindside&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark) |
+| 7 | `shiv` | if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark) |
 
 ## Action List: `items`
 
@@ -91,8 +93,10 @@ Source: `apl/default/rogue/assassination.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `envenom` | if=buff.implacable_tracker.stack<4 |
-| 2 | `envenom` | if=energy.pct>70\|fight_remains<15 |
+| 1 | `cancel_buff` | name=envenom,if=buff.implacable_tracker.stack>4&(!talent.rapid_injection\|spell_targets.fan_of_knives>=5) |
+| 2 | `cancel_buff` | name=envenom,if=buff.implacable_tracker.stack>3&talent.rapid_injection&debuff.deathstalkers_mark.stack=1 |
+| 3 | `envenom` | if=buff.implacable_tracker.stack<4 |
+| 4 | `envenom` | if=energy.pct>70\|fight_remains<15 |
 
 ## Action List: `vanish`
 
@@ -165,12 +169,15 @@ actions.core_dot+=/rupture,cycle_targets=1,if=!talent.crimson_tempest&combo_poin
 actions.generate=crimson_tempest,target_if=max:dot.rupture.remains,if=!variable.single_target&(active_dot.garrote<spell_targets.fan_of_knives|active_dot.rupture<spell_targets.fan_of_knives)&(dot.rupture.remains>5|energy.regen_combined>40)
 # Special Edge Case to use Shiv for Darkest Night in low target cleave as Toxic Stiletto makes it very efficient
 actions.generate+=/shiv,if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=3&talent.toxic_stiletto
-# Ambush on low target counts when available
-actions.generate+=/ambush,if=spell_targets.fan_of_knives<=1+talent.blindside
-# Mutilate on low target counts
-actions.generate+=/mutilate,if=spell_targets.fan_of_knives<=1+talent.blindside
-# Fan of Knives in AoE to fill if nothing else
+# Fan of Knives in AoE
 actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives>1+talent.blindside
+# Ambush on low target counts when available
+actions.generate+=/ambush,if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2|buff.bloodlust.up|!talent.deathstalkers_mark|talent.blindside)
+# Mutilate on low target counts
+actions.generate+=/mutilate,if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2|buff.bloodlust.up|!talent.deathstalkers_mark|talent.blindside)
+# Fan of Knives and Shiv in ST with Deathstalker builds
+actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives<=1+talent.blindside&!talent.blindside&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark)
+actions.generate+=/shiv,if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark)
 
 # Special Case Trinkets
 actions.items=variable,name=base_trinket_condition,value=dot.rupture.ticking&cooldown.deathmark.remains<2|dot.deathmark.ticking|fight_remains<=22
@@ -187,8 +194,12 @@ actions.misc_cds+=/berserking,use_off_gcd=1,if=debuff.deathmark.up
 actions.misc_cds+=/fireblood,use_off_gcd=1,if=debuff.deathmark.up
 actions.misc_cds+=/ancestral_call,use_off_gcd=1,if=debuff.deathmark.up
 
-# Spend List Envenom if we are not at max stacks of the Apex talent
-actions.spend=envenom,if=buff.implacable_tracker.stack<4
+# Spend List   Cancelaura Envenom in situations where we can make use of the energy but don't have time to AFK
+actions.spend=cancel_buff,name=envenom,if=buff.implacable_tracker.stack>4&(!talent.rapid_injection|spell_targets.fan_of_knives>=5)
+# Special edgecase Cancelaura for Darkest Night handling
+actions.spend+=/cancel_buff,name=envenom,if=buff.implacable_tracker.stack>3&talent.rapid_injection&debuff.deathstalkers_mark.stack=1
+# Spend with envenom as per normal
+actions.spend+=/envenom,if=buff.implacable_tracker.stack<4
 # Envenom if we are going to overcap on energy
 actions.spend+=/envenom,if=energy.pct>70|fight_remains<15
 
