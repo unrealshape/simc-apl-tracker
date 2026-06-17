@@ -1,6 +1,6 @@
 # Mage – Fire
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-15 09:27 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-17 08:31 UTC
 
 Source: `apl/default/mage/fire.simc`
 
