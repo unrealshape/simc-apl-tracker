@@ -1,6 +1,6 @@
 # Shaman – Elemental
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-18 08:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-19 08:35 UTC
 
 Source: `apl/default/shaman/elemental.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/shaman/elemental.simc`
 ## Overview
 
 - **Action Lists:** 4
-- **Total Actions:** 61
+- **Total Actions:** 60
 - **Lists:** `precombat`, `default`, `aoe`, `single_target`
 
 ## Action List: `precombat`
@@ -51,26 +51,25 @@ Source: `apl/default/shaman/elemental.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `stormkeeper` | if=cooldown.ascendance.remains>10\|cooldown.ascendance.remains<gcd\|fight_remains<20 |
-| 2 | `voltaic_blaze` | if=time<3&talent.purging_flames |
-| 3 | `ancestral_swiftness` | — |
-| 4 | `ascendance` | if=cooldown.stormkeeper.remains>15\|fight_remains<20 |
-| 5 | `flame_shock` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2))&talent.master_of_the_elements&talent.inferno_arc&spell_targets.chain_lightning=3 |
-| 6 | `voltaic_blaze` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)\|talent.purging_flames&!buff.ascendance.up) |
-| 7 | `elemental_blast` | target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up=0) |
-| 8 | `earthquake` | if=buff.tempest.stack<2&lightning_rod<active_enemies&spell_targets.chain_lightning>=3+talent.elemental_blast&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up>0) |
-| 9 | `elemental_blast` | target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&spell_targets.chain_lightning=3 |
-| 10 | `lava_burst` | if=buff.purging_flames.up&(buff.lava_surge.up\|cooldown.voltaic_blaze.remains<2) |
-| 11 | `lava_burst` | if=buff.tempest.up&buff.lava_surge.up&talent.master_of_the_elements&spell_targets.chain_lightning=3 |
-| 12 | `tempest` | target_if=min:debuff.lightning_rod.remains,if=buff.master_of_the_elements.up |
-| 13 | `tempest` | target_if=min:debuff.lightning_rod.remains,if=buff.stormkeeper.stack<4&buff.tempest.stack=2 |
-| 14 | `chain_lightning` | if=buff.stormkeeper.up&maelstrom.deficit>(spell_targets.chain_lightning>?5)*(2+(spell_targets.chain_lightning>?5)+2) |
-| 15 | `earthquake` | if=!talent.elemental_blast&maelstrom.deficit<15+(buff.stormkeeper.up*(spell_targets.chain_lightning>?5)*(2+(spell_targets.chain_lightning>?5))) |
-| 16 | `elemental_blast` | — |
-| 17 | `tempest` | target_if=min:debuff.lightning_rod.remains |
-| 18 | `chain_lightning` | — |
-| 19 | `flame_shock` | moving=1 |
-| 20 | `voltaic_blaze` | moving=1 |
-| 21 | `frost_shock` | moving=1 |
+| 2 | `ancestral_swiftness` | — |
+| 3 | `flame_shock` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2))&talent.master_of_the_elements&talent.inferno_arc&spell_targets.chain_lightning=3 |
+| 4 | `voltaic_blaze` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)\|talent.purging_flames) |
+| 5 | `ascendance` | if=cooldown.stormkeeper.remains>15\|fight_remains<20 |
+| 6 | `elemental_blast` | target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up=0) |
+| 7 | `earthquake` | if=buff.tempest.stack<2&lightning_rod<active_enemies&spell_targets.chain_lightning>=3+talent.elemental_blast&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up>0\|!talent.elemental_blast) |
+| 8 | `elemental_blast` | target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&spell_targets.chain_lightning=3 |
+| 9 | `lava_burst` | if=buff.purging_flames.up&(buff.lava_surge.up\|cooldown.voltaic_blaze.remains<2) |
+| 10 | `lava_burst` | if=buff.tempest.up&buff.lava_surge.up&talent.master_of_the_elements&spell_targets.chain_lightning=3 |
+| 11 | `tempest` | target_if=min:debuff.lightning_rod.remains,if=buff.master_of_the_elements.up |
+| 12 | `tempest` | target_if=min:debuff.lightning_rod.remains,if=buff.stormkeeper.stack<4&buff.tempest.stack=2 |
+| 13 | `chain_lightning` | if=buff.stormkeeper.up&maelstrom.deficit>(spell_targets.chain_lightning>?5)*(2+(spell_targets.chain_lightning>?5)+2) |
+| 14 | `earthquake` | if=!talent.elemental_blast&maelstrom.deficit<15+(buff.stormkeeper.up*(spell_targets.chain_lightning>?5)*(2+(spell_targets.chain_lightning>?5))) |
+| 15 | `elemental_blast` | — |
+| 16 | `tempest` | target_if=min:debuff.lightning_rod.remains |
+| 17 | `chain_lightning` | — |
+| 18 | `flame_shock` | moving=1 |
+| 19 | `voltaic_blaze` | moving=1 |
+| 20 | `frost_shock` | moving=1 |
 
 ## Action List: `single_target`
 
@@ -78,10 +77,10 @@ Source: `apl/default/shaman/elemental.simc`
 |---|--------|------------|
 | 1 | `stormkeeper` | if=cooldown.ascendance.remains>10\|cooldown.ascendance.remains<gcd\|fight_remains<20 |
 | 2 | `ancestral_swiftness` | — |
-| 3 | `ascendance` | if=cooldown.stormkeeper.remains>15\|fight_remains<20 |
-| 4 | `flame_shock` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)) |
-| 5 | `voltaic_blaze` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)\|talent.purging_flames&spell_targets.chain_lightning=2) |
-| 6 | `lava_burst` | if=!buff.master_of_the_elements.up&maelstrom.deficit>15&(talent.master_of_the_elements\|talent.molten_wrath\|talent.call_of_the_ancestors\|buff.lava_surge.up\|talent.fusion_of_elements&(!buff.storm_elemental.up\|buff.wind_gust.stack=4)\|buff.purging_flames.up&(buff.lava_surge.up\|cooldown.voltaic_blaze.remains<2)) |
+| 3 | `flame_shock` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)) |
+| 4 | `voltaic_blaze` | if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)\|(buff.fire_elemental.up&buff.fire_elemental.remains<2)\|talent.purging_flames&spell_targets.chain_lightning=2) |
+| 5 | `ascendance` | if=cooldown.stormkeeper.remains>15\|fight_remains<20 |
+| 6 | `lava_burst` | if=!buff.master_of_the_elements.up&maelstrom.deficit>15&(cooldown.lava_burst.charges_fractional>1.8\|!buff.call_of_the_ancestors.up\|spell_targets.chain_lightning=1)&(talent.master_of_the_elements\|(talent.molten_wrath&cooldown.lava_burst.charges_fractional>0.8+talent.elemental_reverb)\|buff.lava_surge.up\|(talent.fusion_of_elements\|talent.call_of_the_ancestors)&(!buff.storm_elemental.up\|buff.wind_gust.stack=4)\|buff.purging_flames.up&spell_targets.chain_lightning=2&(buff.lava_surge.up\|cooldown.voltaic_blaze.remains<2)) |
 | 7 | `tempest` | if=buff.master_of_the_elements.up\|!talent.master_of_the_elements |
 | 8 | `lightning_bolt` | if=buff.stormkeeper.up&(buff.master_of_the_elements.up\|!talent.master_of_the_elements) |
 | 9 | `elemental_blast` | target_if=min:debuff.lightning_rod.remains |
@@ -137,19 +136,18 @@ actions+=/potion,if=buff.bloodlust.up|cooldown.ascendance.ready&cooldown.stormke
 actions+=/run_action_list,name=aoe,if=spell_targets.chain_lightning>=3
 actions+=/run_action_list,name=single_target
 
-# Stormkeeper on CD, unless sub 10s hold for Asc or the fight is about to end.
+# --- 3+ TARGET ROTATION ---  Stormkeeper on CD, unless sub 10s hold for Asc or the fight is about to end.
 actions.aoe=stormkeeper,if=cooldown.ascendance.remains>10|cooldown.ascendance.remains<gcd|fight_remains<20
-actions.aoe+=/voltaic_blaze,if=time<3&talent.purging_flames
 actions.aoe+=/ancestral_swiftness
-# Ascendance on CD, unless SK can be sync'd with it.
-actions.aoe+=/ascendance,if=cooldown.stormkeeper.remains>15|fight_remains<20
 # [3t] Apply Flame shock on 3t for MotE and Inferno arc.
 actions.aoe+=/flame_shock,if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)|(buff.fire_elemental.up&buff.fire_elemental.remains<2))&talent.master_of_the_elements&talent.inferno_arc&spell_targets.chain_lightning=3
 # Apply Voltaic blaze for Inferno arc or Purging flames.
-actions.aoe+=/voltaic_blaze,if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)|(buff.fire_elemental.up&buff.fire_elemental.remains<2)|talent.purging_flames&!buff.ascendance.up)
+actions.aoe+=/voltaic_blaze,if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)|(buff.fire_elemental.up&buff.fire_elemental.remains<2)|talent.purging_flames)
+# Ascendance on CD, unless SK can be sync'd with it.
+actions.aoe+=/ascendance,if=cooldown.stormkeeper.remains>15|fight_remains<20
 # Elemental Blast if no buffs or at 3t, Earthquake to spread Lightning Rod otherwise
 actions.aoe+=/elemental_blast,target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up=0)
-actions.aoe+=/earthquake,if=buff.tempest.stack<2&lightning_rod<active_enemies&spell_targets.chain_lightning>=3+talent.elemental_blast&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up>0)
+actions.aoe+=/earthquake,if=buff.tempest.stack<2&lightning_rod<active_enemies&spell_targets.chain_lightning>=3+talent.elemental_blast&(buff.elemental_blast_critical_strike.up+buff.elemental_blast_haste.up+buff.elemental_blast_mastery.up>0|!talent.elemental_blast)
 actions.aoe+=/elemental_blast,target_if=min:debuff.lightning_rod.remains,if=buff.tempest.stack<2&spell_targets.chain_lightning=3
 # Spend Purging flames.
 actions.aoe+=/lava_burst,if=buff.purging_flames.up&(buff.lava_surge.up|cooldown.voltaic_blaze.remains<2)
@@ -168,16 +166,16 @@ actions.aoe+=/flame_shock,moving=1
 actions.aoe+=/voltaic_blaze,moving=1
 actions.aoe+=/frost_shock,moving=1
 
-# Stormkeeper on CD, unless sub 10s hold for Asc or the fight is about to end.
+# --- 1 and 2 TARGET ROTATION ---  Stormkeeper on CD, unless sub 10s hold for Asc or the fight is about to end.
 actions.single_target=stormkeeper,if=cooldown.ascendance.remains>10|cooldown.ascendance.remains<gcd|fight_remains<20
 actions.single_target+=/ancestral_swiftness
-# Ascendance on CD, unless SK can be sync'd with it.
-actions.single_target+=/ascendance,if=cooldown.stormkeeper.remains>15|fight_remains<20
 # Maintain Flame shock, minor gain to refresh it when FE is about to fade.
 actions.single_target+=/flame_shock,if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)|(buff.fire_elemental.up&buff.fire_elemental.remains<2))
 actions.single_target+=/voltaic_blaze,if=!buff.master_of_the_elements.up&((dot.flame_shock.refreshable&cooldown.ascendance.remains>5)|(buff.fire_elemental.up&buff.fire_elemental.remains<2)|talent.purging_flames&spell_targets.chain_lightning=2)
+# Ascendance on CD, unless SK can be sync'd with it.
+actions.single_target+=/ascendance,if=cooldown.stormkeeper.remains>15|fight_remains<20
 # Lava Burst if any empowering it talent chosen OR to consume surge procs.
-actions.single_target+=/lava_burst,if=!buff.master_of_the_elements.up&maelstrom.deficit>15&(talent.master_of_the_elements|talent.molten_wrath|talent.call_of_the_ancestors|buff.lava_surge.up|talent.fusion_of_elements&(!buff.storm_elemental.up|buff.wind_gust.stack=4)|buff.purging_flames.up&(buff.lava_surge.up|cooldown.voltaic_blaze.remains<2))
+actions.single_target+=/lava_burst,if=!buff.master_of_the_elements.up&maelstrom.deficit>15&(cooldown.lava_burst.charges_fractional>1.8|!buff.call_of_the_ancestors.up|spell_targets.chain_lightning=1)&(talent.master_of_the_elements|(talent.molten_wrath&cooldown.lava_burst.charges_fractional>0.8+talent.elemental_reverb)|buff.lava_surge.up|(talent.fusion_of_elements|talent.call_of_the_ancestors)&(!buff.storm_elemental.up|buff.wind_gust.stack=4)|buff.purging_flames.up&spell_targets.chain_lightning=2&(buff.lava_surge.up|cooldown.voltaic_blaze.remains<2))
 # Tempest and Lightning Bolt with SK if you have MotE.
 actions.single_target+=/tempest,if=buff.master_of_the_elements.up|!talent.master_of_the_elements
 actions.single_target+=/lightning_bolt,if=buff.stormkeeper.up&(buff.master_of_the_elements.up|!talent.master_of_the_elements)

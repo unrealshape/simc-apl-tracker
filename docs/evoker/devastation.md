@@ -1,6 +1,6 @@
 # Evoker – Devastation
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-18 08:11 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-19 08:35 UTC
 
 Source: `apl/default/evoker/devastation.simc`
 
