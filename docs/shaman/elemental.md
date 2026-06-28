@@ -1,6 +1,6 @@
 # Shaman – Elemental
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-27 06:32 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-28 07:05 UTC
 
 Source: `apl/default/shaman/elemental.simc`
 
