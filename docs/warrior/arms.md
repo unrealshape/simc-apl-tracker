@@ -1,6 +1,6 @@
 # Warrior – Arms
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-28 07:05 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-06-29 08:18 UTC
 
 Source: `apl/default/warrior/arms.simc`
 
