@@ -1,6 +1,6 @@
 # Death Knight – Frost
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-06-29 08:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
 
 Source: `apl/default/deathknight/frost.simc`
 
