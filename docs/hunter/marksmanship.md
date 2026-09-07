@@ -1,6 +1,6 @@
 # Hunter – Marksmanship
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/hunter/marksmanship.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/marksmanship.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 69
+- **Total Actions:** 80
 - **Lists:** `precombat`, `default`, `cds`, `draoe`, `drst`, `sentaoe`, `sentst`, `trinkets`
 
 ## Action List: `precombat`
@@ -19,21 +19,22 @@ Source: `apl/default/hunter/marksmanship.simc`
 | 1 | `snapshot_stats` | — |
 | 2 | `summon_pet` | if=talent.unbreakable_bond |
 | 3 | `use_item` | name=algethar_puzzle_box |
-| 4 | `aimed_shot` | if=active_enemies<3\|talent.black_arrow&talent.headshot |
-| 5 | `steady_shot` | — |
+| 4 | `aimed_shot` | — |
 
 ## Action List: `default`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `variable` | name=trueshot_ready,value=!talent.bullseye\|fight_remains>cooldown.trueshot.duration+10\|buff.bullseye.stack=buff.bullseye.max_stack\|fight_remains<25\|time<10 |
-| 2 | `auto_shot` | — |
-| 3 | `call_action_list` | name=cds |
-| 4 | `call_action_list` | name=trinkets |
-| 5 | `call_action_list` | name=draoe,if=active_enemies>2&talent.trick_shots&hero_tree.dark_ranger |
-| 6 | `call_action_list` | name=sentaoe,if=active_enemies>2&talent.trick_shots&hero_tree.sentinel |
-| 7 | `call_action_list` | name=drst,if=hero_tree.dark_ranger |
-| 8 | `call_action_list` | name=sentst,if=hero_tree.sentinel |
+| 1 | `variable` | name=trueshot_ready,value=!talent.bullseye\|(fight_remains>cooldown.trueshot.duration+10\|buff.bullseye.stack=buff.bullseye.max_stack)&(cooldown.explosive_shot.remains>=15\|cooldown.explosive_shot.ready)\|fight_remains<25\|time<10 |
+| 2 | `variable` | name=trueshot_ready,op=setif,condition=fight_style.dungeonroute,value_else=variable.trueshot_ready,value=raid_event.pull.remains>30\|raid_event.pull.in>60\|talent.calling_the_shots |
+| 3 | `retarget` | target_if=max:target.health,line_cd=5,if=fight_style.dungeonroute |
+| 4 | `auto_shot` | — |
+| 5 | `call_action_list` | name=cds |
+| 6 | `call_action_list` | name=trinkets |
+| 7 | `call_action_list` | name=draoe,if=active_enemies>2&talent.trick_shots&hero_tree.dark_ranger |
+| 8 | `call_action_list` | name=sentaoe,if=active_enemies>2&talent.trick_shots&hero_tree.sentinel |
+| 9 | `call_action_list` | name=drst,if=hero_tree.dark_ranger |
+| 10 | `call_action_list` | name=sentst,if=hero_tree.sentinel |
 
 ## Action List: `cds`
 
@@ -46,71 +47,81 @@ Source: `apl/default/hunter/marksmanship.simc`
 | 5 | `fireblood` | if=buff.trueshot.up\|cooldown.trueshot.remains>30\|fight_remains<9 |
 | 6 | `lights_judgment` | if=buff.trueshot.down |
 | 7 | `potion` | if=buff.trueshot.up&(buff.bloodlust.up\|fight_remains<120-30*talent.calling_the_shots)\|fight_remains<31 |
+| 8 | `potion` | name=liquid_luster_2,if=potion.potion_of_recklessness&buff.bullseye.up&cooldown.trueshot.remains<10&(fight_style.dungeonroute\|cooldown.explosive_shot.remains>=25\|cooldown.explosive_shot.remains<10)\|fight_remains<31 |
 
 ## Action List: `draoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage,if=buff.trick_shots.remains>cast_time&full_recharge_time<gcd+cast_time |
-| 2 | `black_arrow` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
-| 3 | `multishot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&!talent.aspect_of_the_hydra&!prev_gcd.1.multishot\|buff.trick_shots.down |
-| 4 | `trueshot` | if=!buff.double_tap.up&variable.trueshot_ready |
-| 5 | `rapid_fire` | if=buff.trick_shots.remains>execute_time&(buff.bulletstorm.remains<action.aimed_shot.execute_time\|talent.unload) |
-| 6 | `wailing_arrow` | if=!cooldown.black_arrow.ready |
-| 7 | `volley` | if=!buff.double_tap.up |
-| 8 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage,if=buff.trick_shots.remains>cast_time |
-| 9 | `multishot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
-| 10 | `explosive_shot` | — |
-| 11 | `steady_shot` | — |
+| 1 | `explosive_shot` | target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&(!max_prio_damage\|!fight_style.dungeonroute)&(!talent.tactical_reload\|!buff.lock_and_load.up) |
+| 2 | `explosive_shot` | if=(!talent.tactical_reload\|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready\|buff.unstable_trigger.up\|!fight_style.dungeonroute) |
+| 3 | `volley` | — |
+| 4 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage,if=buff.trick_shots.remains>cast_time&full_recharge_time<gcd+cast_time |
+| 5 | `black_arrow` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
+| 6 | `multishot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.trick_shots.down |
+| 7 | `trueshot` | if=variable.trueshot_ready |
+| 8 | `rapid_fire` | if=buff.trick_shots.remains>execute_time |
+| 9 | `wailing_arrow` | if=!cooldown.black_arrow.ready |
+| 10 | `multishot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
+| 11 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage,if=buff.trick_shots.remains>cast_time |
+| 12 | `black_arrow` | — |
+| 13 | `multishot` | if=focus>cost+action.aimed_shot.cost&!max_prio_damage |
+| 14 | `steady_shot` | — |
 
 ## Action List: `drst`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `black_arrow` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
-| 2 | `aimed_shot` | if=buff.trueshot.up&buff.precise_shots.down&cooldown.black_arrow.ready\|full_recharge_time<gcd+cast_time |
-| 3 | `trueshot` | if=!buff.double_tap.up&variable.trueshot_ready |
-| 4 | `rapid_fire` | — |
-| 5 | `wailing_arrow` | if=!cooldown.black_arrow.ready |
-| 6 | `arcane_shot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
-| 7 | `volley` | if=!buff.double_tap.up |
-| 8 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage |
-| 9 | `explosive_shot` | — |
-| 10 | `steady_shot` | — |
+| 2 | `explosive_shot` | target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&active_enemies>1&(!max_prio_damage\|!fight_style.dungeonroute)&(!talent.tactical_reload\|!buff.lock_and_load.up) |
+| 3 | `explosive_shot` | if=(!talent.tactical_reload\|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready\|buff.unstable_trigger.up\|!fight_style.dungeonroute) |
+| 4 | `volley` | — |
+| 5 | `aimed_shot` | if=buff.trueshot.up&buff.precise_shots.down&cooldown.black_arrow.ready\|full_recharge_time<gcd+cast_time |
+| 6 | `trueshot` | if=variable.trueshot_ready |
+| 7 | `rapid_fire` | — |
+| 8 | `wailing_arrow` | — |
+| 9 | `multishot` | target_if=max:debuff.spotters_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|active_enemies>2) |
+| 10 | `arcane_shot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up |
+| 11 | `aimed_shot` | target_if=max:debuff.spotters_mark.up\|max_prio_damage |
+| 12 | `black_arrow` | — |
+| 13 | `steady_shot` | — |
 
 ## Action List: `sentaoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `multishot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target,if=buff.precise_shots.up&!talent.aspect_of_the_hydra&!prev_gcd.1.multishot\|buff.trick_shots.down |
-| 2 | `rapid_fire` | if=(buff.bulletstorm.remains<action.aimed_shot.execute_time\|buff.bulletstorm.stack<18\|talent.unload&target.health.pct<20) |
-| 3 | `trueshot` | if=!buff.double_tap.up&variable.trueshot_ready |
-| 4 | `volley` | if=!buff.double_tap.up |
-| 5 | `explosive_shot` | if=talent.shrapnel_shot&buff.trueshot.down&buff.lock_and_load.down&cooldown.aimed_shot.charges_fractional<=1.1 |
-| 6 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=buff.trick_shots.remains>cast_time |
-| 7 | `moonlight_chakram` | — |
-| 8 | `rapid_fire` | if=buff.trick_shots.remains>execute_time |
-| 9 | `multishot` | target_if=max:debuff.spotters_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&talent.windrunner_quiver |
-| 10 | `explosive_shot` | — |
-| 11 | `steady_shot` | — |
+| 1 | `explosive_shot` | target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&(!max_prio_damage\|!fight_style.dungeonroute)&(!talent.tactical_reload\|!buff.lock_and_load.up) |
+| 2 | `explosive_shot` | if=(!talent.tactical_reload\|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready\|buff.unstable_trigger.up\|!fight_style.dungeonroute) |
+| 3 | `volley` | — |
+| 4 | `trueshot` | if=variable.trueshot_ready |
+| 5 | `moonlight_chakram` | if=buff.moonlight_chakram.remains<gcd.max |
+| 6 | `multishot` | target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&!talent.aspect_of_the_hydra\|buff.trick_shots.down |
+| 7 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up,if=debuff.sentinels_mark.react&buff.bulletstorm.up |
+| 8 | `rapid_fire` | target_if=max:debuff.sentinels_mark.down,if=talent.unload,interrupt_if=talent.unload&ticks_remain<2&buff.precise_shots.up&!gcd.remains,interrupt_immediate=1,interrupt_global=1 |
+| 9 | `rapid_fire` | interrupt_if=talent.unload&ticks_remain<2&buff.precise_shots.up&!gcd.remains,interrupt_immediate=1,interrupt_global=1 |
+| 10 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up,if=buff.trick_shots.remains>cast_time |
+| 11 | `moonlight_chakram` | — |
+| 12 | `multishot` | if=focus>cost+action.aimed_shot.cost&!max_prio_damage |
+| 13 | `steady_shot` | — |
 
 ## Action List: `sentst`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `volley` | if=!buff.double_tap.up |
-| 2 | `trueshot` | if=!buff.double_tap.up&variable.trueshot_ready |
-| 3 | `rapid_fire` | if=buff.bulletstorm.stack<18 |
-| 4 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage,if=full_recharge_time<gcd+cast_time |
-| 5 | `arcane_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&(buff.trueshot.up&prev_gcd.1.aimed_shot\|!buff.trueshot.up) |
-| 6 | `rapid_fire` | if=(buff.bulletstorm.remains<action.aimed_shot.execute_time\|talent.unload&target.health.pct<20) |
-| 7 | `kill_shot` | target_if=max:debuff.sentinels_mark.down\|action.aimed_shot.in_flight_to_target\|max_prio_damage,if=buff.precise_shots.up&active_enemies=1 |
-| 8 | `moonlight_chakram` | if=buff.trueshot.remains<execute_time+gcd |
-| 9 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up\|max_prio_damage |
-| 10 | `moonlight_chakram` | — |
-| 11 | `rapid_fire` | — |
-| 12 | `explosive_shot` | — |
-| 13 | `steady_shot` | — |
+| 1 | `explosive_shot` | target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&active_enemies>1&(!max_prio_damage\|!fight_style.dungeonroute)&(!talent.tactical_reload\|!buff.lock_and_load.up) |
+| 2 | `explosive_shot` | if=(!talent.tactical_reload\|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready\|buff.unstable_trigger.up\|!fight_style.dungeonroute) |
+| 3 | `volley` | — |
+| 4 | `trueshot` | if=variable.trueshot_ready |
+| 5 | `moonlight_chakram` | if=buff.moonlight_chakram.remains<5 |
+| 6 | `aimed_shot` | if=debuff.sentinels_mark.react&buff.bulletstorm.up&active_enemies>1&fight_style.dungeonroute |
+| 7 | `rapid_fire` | target_if=max:debuff.sentinels_mark.down,if=!fight_style.dungeonroute |
+| 8 | `rapid_fire` | — |
+| 9 | `kill_shot` | target_if=max:debuff.sentinels_mark.down\|max_prio_damage,if=buff.precise_shots.up |
+| 10 | `multishot` | target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|!max_prio_damage\|active_enemies>2) |
+| 11 | `arcane_shot` | target_if=max:debuff.sentinels_mark.down\|max_prio_damage,if=buff.precise_shots.up |
+| 12 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up |
+| 13 | `moonlight_chakram` | — |
+| 14 | `steady_shot` | — |
 
 ## Action List: `trinkets`
 
@@ -134,11 +145,13 @@ Source: `apl/default/hunter/marksmanship.simc`
 actions.precombat=snapshot_stats
 actions.precombat+=/summon_pet,if=talent.unbreakable_bond
 actions.precombat+=/use_item,name=algethar_puzzle_box
-actions.precombat+=/aimed_shot,if=active_enemies<3|talent.black_arrow&talent.headshot
-actions.precombat+=/steady_shot
+actions.precombat+=/aimed_shot
 
 # Executed every time the actor is available.
-actions=variable,name=trueshot_ready,value=!talent.bullseye|fight_remains>cooldown.trueshot.duration+10|buff.bullseye.stack=buff.bullseye.max_stack|fight_remains<25|time<10
+actions=variable,name=trueshot_ready,value=!talent.bullseye|(fight_remains>cooldown.trueshot.duration+10|buff.bullseye.stack=buff.bullseye.max_stack)&(cooldown.explosive_shot.remains>=15|cooldown.explosive_shot.ready)|fight_remains<25|time<10
+# For DungeonRoute, hold Trueshot at the end of pulls.
+actions+=/variable,name=trueshot_ready,op=setif,condition=fight_style.dungeonroute,value_else=variable.trueshot_ready,value=raid_event.pull.remains>30|raid_event.pull.in>60|talent.calling_the_shots
+actions+=/retarget,target_if=max:target.health,line_cd=5,if=fight_style.dungeonroute
 actions+=/auto_shot
 actions+=/call_action_list,name=cds
 actions+=/call_action_list,name=trinkets
@@ -154,54 +167,71 @@ actions.cds+=/ancestral_call,if=buff.trueshot.up|cooldown.trueshot.remains>30|fi
 actions.cds+=/fireblood,if=buff.trueshot.up|cooldown.trueshot.remains>30|fight_remains<9
 actions.cds+=/lights_judgment,if=buff.trueshot.down
 actions.cds+=/potion,if=buff.trueshot.up&(buff.bloodlust.up|fight_remains<120-30*talent.calling_the_shots)|fight_remains<31
+# Bullseye's crit devalues Potion of Recklessness in execute. Additionally, a mid-fight pot means that prepotting Luster before Trueshot becomes higher value than pre-potting before combat begins. Therefore, Pot of Recklessness on pull, but during execute, Luster pot around 10s before Trueshot to maximize its benefit.
+actions.cds+=/potion,name=liquid_luster_2,if=potion.potion_of_recklessness&buff.bullseye.up&cooldown.trueshot.remains<10&(fight_style.dungeonroute|cooldown.explosive_shot.remains>=25|cooldown.explosive_shot.remains<10)|fight_remains<31
 
-actions.draoe=aimed_shot,target_if=max:debuff.spotters_mark.up|max_prio_damage,if=buff.trick_shots.remains>cast_time&full_recharge_time<gcd+cast_time
+actions.draoe=explosive_shot,target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&(!max_prio_damage|!fight_style.dungeonroute)&(!talent.tactical_reload|!buff.lock_and_load.up)
+# In DRoute, prioritize Rapid Fire over Explosive Shot to maximize the RF CDR from Explo, but never let the 2nd free Explo from Unstable Trigger lapse.
+actions.draoe+=/explosive_shot,if=(!talent.tactical_reload|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready|buff.unstable_trigger.up|!fight_style.dungeonroute)
+actions.draoe+=/volley
+actions.draoe+=/aimed_shot,target_if=max:debuff.spotters_mark.up|max_prio_damage,if=buff.trick_shots.remains>cast_time&full_recharge_time<gcd+cast_time
 actions.draoe+=/black_arrow,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up
-actions.draoe+=/multishot,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&!talent.aspect_of_the_hydra&!prev_gcd.1.multishot|buff.trick_shots.down
-actions.draoe+=/trueshot,if=!buff.double_tap.up&variable.trueshot_ready
-actions.draoe+=/rapid_fire,if=buff.trick_shots.remains>execute_time&(buff.bulletstorm.remains<action.aimed_shot.execute_time|talent.unload)
+actions.draoe+=/multishot,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.trick_shots.down
+actions.draoe+=/trueshot,if=variable.trueshot_ready
+actions.draoe+=/rapid_fire,if=buff.trick_shots.remains>execute_time
 actions.draoe+=/wailing_arrow,if=!cooldown.black_arrow.ready
-actions.draoe+=/volley,if=!buff.double_tap.up
-actions.draoe+=/aimed_shot,target_if=max:debuff.spotters_mark.up|max_prio_damage,if=buff.trick_shots.remains>cast_time
 actions.draoe+=/multishot,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up
-actions.draoe+=/explosive_shot
+actions.draoe+=/aimed_shot,target_if=max:debuff.spotters_mark.up|max_prio_damage,if=buff.trick_shots.remains>cast_time
+actions.draoe+=/black_arrow
+actions.draoe+=/multishot,if=focus>cost+action.aimed_shot.cost&!max_prio_damage
 actions.draoe+=/steady_shot
 
 actions.drst=black_arrow,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up
+actions.drst+=/explosive_shot,target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&active_enemies>1&(!max_prio_damage|!fight_style.dungeonroute)&(!talent.tactical_reload|!buff.lock_and_load.up)
+# In DRoute, prioritize Rapid Fire over Explosive Shot to maximize the RF CDR from Explo, but never let the 2nd free Explo from Unstable Trigger lapse.
+actions.drst+=/explosive_shot,if=(!talent.tactical_reload|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready|buff.unstable_trigger.up|!fight_style.dungeonroute)
+actions.drst+=/volley
 actions.drst+=/aimed_shot,if=buff.trueshot.up&buff.precise_shots.down&cooldown.black_arrow.ready|full_recharge_time<gcd+cast_time
-actions.drst+=/trueshot,if=!buff.double_tap.up&variable.trueshot_ready
+actions.drst+=/trueshot,if=variable.trueshot_ready
 actions.drst+=/rapid_fire
-actions.drst+=/wailing_arrow,if=!cooldown.black_arrow.ready
+actions.drst+=/wailing_arrow
+# Multi-Shot as a PS spender on 2T with Hydra talented. In DRoute, do it on 3 or more targets.
+actions.drst+=/multishot,target_if=max:debuff.spotters_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute|active_enemies>2)
 actions.drst+=/arcane_shot,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up
-actions.drst+=/volley,if=!buff.double_tap.up
 actions.drst+=/aimed_shot,target_if=max:debuff.spotters_mark.up|max_prio_damage
-actions.drst+=/explosive_shot
+actions.drst+=/black_arrow
 actions.drst+=/steady_shot
 
-actions.sentaoe=multishot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target,if=buff.precise_shots.up&!talent.aspect_of_the_hydra&!prev_gcd.1.multishot|buff.trick_shots.down
-actions.sentaoe+=/rapid_fire,if=(buff.bulletstorm.remains<action.aimed_shot.execute_time|buff.bulletstorm.stack<18|talent.unload&target.health.pct<20)
-actions.sentaoe+=/trueshot,if=!buff.double_tap.up&variable.trueshot_ready
-actions.sentaoe+=/volley,if=!buff.double_tap.up
-actions.sentaoe+=/explosive_shot,if=talent.shrapnel_shot&buff.trueshot.down&buff.lock_and_load.down&cooldown.aimed_shot.charges_fractional<=1.1
-actions.sentaoe+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage,if=buff.trick_shots.remains>cast_time
+actions.sentaoe=explosive_shot,target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&(!max_prio_damage|!fight_style.dungeonroute)&(!talent.tactical_reload|!buff.lock_and_load.up)
+# In DRoute, prioritize Rapid Fire over Explosive Shot to maximize the RF CDR from Explo, but never let the 2nd free Explo from Unstable Trigger lapse.
+actions.sentaoe+=/explosive_shot,if=(!talent.tactical_reload|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready|buff.unstable_trigger.up|!fight_style.dungeonroute)
+actions.sentaoe+=/volley
+actions.sentaoe+=/trueshot,if=variable.trueshot_ready
+actions.sentaoe+=/moonlight_chakram,if=buff.moonlight_chakram.remains<gcd.max
+actions.sentaoe+=/multishot,target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&!talent.aspect_of_the_hydra|buff.trick_shots.down
+actions.sentaoe+=/aimed_shot,target_if=max:debuff.sentinels_mark.up,if=debuff.sentinels_mark.react&buff.bulletstorm.up
+actions.sentaoe+=/rapid_fire,target_if=max:debuff.sentinels_mark.down,if=talent.unload,interrupt_if=talent.unload&ticks_remain<2&buff.precise_shots.up&!gcd.remains,interrupt_immediate=1,interrupt_global=1
+actions.sentaoe+=/rapid_fire,interrupt_if=talent.unload&ticks_remain<2&buff.precise_shots.up&!gcd.remains,interrupt_immediate=1,interrupt_global=1
+actions.sentaoe+=/aimed_shot,target_if=max:debuff.sentinels_mark.up,if=buff.trick_shots.remains>cast_time
 actions.sentaoe+=/moonlight_chakram
-actions.sentaoe+=/rapid_fire,if=buff.trick_shots.remains>execute_time
-actions.sentaoe+=/multishot,target_if=max:debuff.spotters_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&talent.windrunner_quiver
-actions.sentaoe+=/explosive_shot
+actions.sentaoe+=/multishot,if=focus>cost+action.aimed_shot.cost&!max_prio_damage
 actions.sentaoe+=/steady_shot
 
-actions.sentst=volley,if=!buff.double_tap.up
-actions.sentst+=/trueshot,if=!buff.double_tap.up&variable.trueshot_ready
-actions.sentst+=/rapid_fire,if=buff.bulletstorm.stack<18
-actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage,if=full_recharge_time<gcd+cast_time
-actions.sentst+=/arcane_shot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&(buff.trueshot.up&prev_gcd.1.aimed_shot|!buff.trueshot.up)
-actions.sentst+=/rapid_fire,if=(buff.bulletstorm.remains<action.aimed_shot.execute_time|talent.unload&target.health.pct<20)
-actions.sentst+=/kill_shot,target_if=max:debuff.sentinels_mark.down|action.aimed_shot.in_flight_to_target|max_prio_damage,if=buff.precise_shots.up&active_enemies=1
-actions.sentst+=/moonlight_chakram,if=buff.trueshot.remains<execute_time+gcd
-actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up|max_prio_damage
-actions.sentst+=/moonlight_chakram
+actions.sentst=explosive_shot,target_if=min:dot.explosive_shot.remains,if=set_bonus.mid2_4pc&active_enemies>1&(!max_prio_damage|!fight_style.dungeonroute)&(!talent.tactical_reload|!buff.lock_and_load.up)
+# In DRoute, prioritize Rapid Fire over Explosive Shot to maximize the RF CDR from Explo, but never let the 2nd free Explo from Unstable Trigger lapse.
+actions.sentst+=/explosive_shot,if=(!talent.tactical_reload|!buff.lock_and_load.up)&(!cooldown.rapid_fire.ready|buff.unstable_trigger.up|!fight_style.dungeonroute)
+actions.sentst+=/volley
+actions.sentst+=/trueshot,if=variable.trueshot_ready
+actions.sentst+=/moonlight_chakram,if=buff.moonlight_chakram.remains<5
+actions.sentst+=/aimed_shot,if=debuff.sentinels_mark.react&buff.bulletstorm.up&active_enemies>1&fight_style.dungeonroute
+actions.sentst+=/rapid_fire,target_if=max:debuff.sentinels_mark.down,if=!fight_style.dungeonroute
 actions.sentst+=/rapid_fire
-actions.sentst+=/explosive_shot
+actions.sentst+=/kill_shot,target_if=max:debuff.sentinels_mark.down|max_prio_damage,if=buff.precise_shots.up
+# Multi-Shot as a PS spender on 2T with Hydra talented. In DRoute, do it on 3 or more targets.
+actions.sentst+=/multishot,target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute|!max_prio_damage|active_enemies>2)
+actions.sentst+=/arcane_shot,target_if=max:debuff.sentinels_mark.down|max_prio_damage,if=buff.precise_shots.up
+actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up
+actions.sentst+=/moonlight_chakram
 actions.sentst+=/steady_shot
 
 # A buff trinket that lines up cleanly with Trueshot; use with Trueshot.

@@ -1,6 +1,6 @@
 # Death Knight – Blood
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/deathknight/blood.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/deathknight/blood.simc`
 ## Overview
 
 - **Action Lists:** 6
-- **Total Actions:** 54
+- **Total Actions:** 56
 - **Lists:** `precombat`, `default`, `deathbringer`, `high_prio_actions`, `san_gift`, `sanlayn`
 
 ## Action List: `precombat`
@@ -27,16 +27,19 @@ Source: `apl/default/deathknight/blood.simc`
 | 2 | `use_items` | — |
 | 3 | `use_item` | name=light_company_guidon,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<15 |
 | 4 | `use_item` | name=algethar_puzzle_box,if=fight_remains>122\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<25 |
-| 5 | `fireblood` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<8 |
-| 6 | `blood_fury` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<12 |
-| 7 | `berserking` | if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<=15 |
-| 8 | `ancestral_call` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<15 |
-| 9 | `potion` | if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<=30 |
-| 10 | `vampiric_blood` | if=!buff.vampiric_blood.up |
-| 11 | `call_action_list` | name=high_prio_actions |
-| 12 | `run_action_list` | name=deathbringer,if=hero_tree.deathbringer |
-| 13 | `run_action_list` | name=san_gift,if=hero_tree.sanlayn&buff.gift_of_the_sanlayn.up |
-| 14 | `run_action_list` | name=sanlayn,if=hero_tree.sanlayn |
+| 5 | `use_item` | name=voracious_heart_of_ulatek,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<20 |
+| 6 | `use_item` | name=blazebinders_hoof,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<20\|fight_remains>120 |
+| 7 | `use_item` | name=vile_vial_of_volatile_venom,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<20\|fight_remains>120 |
+| 8 | `fireblood` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<8 |
+| 9 | `blood_fury` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<12 |
+| 10 | `berserking` | if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<=15 |
+| 11 | `ancestral_call` | if=fight_remains>120\|cooldown.dancing_rune_weapon.remains>78\|fight_remains<15 |
+| 12 | `potion` | if=cooldown.dancing_rune_weapon.remains>78\|fight_remains<=30 |
+| 13 | `vampiric_blood` | if=!buff.vampiric_blood.up |
+| 14 | `call_action_list` | name=high_prio_actions |
+| 15 | `run_action_list` | name=deathbringer,if=hero_tree.deathbringer |
+| 16 | `run_action_list` | name=san_gift,if=hero_tree.sanlayn&buff.gift_of_the_sanlayn.up |
+| 17 | `run_action_list` | name=sanlayn,if=hero_tree.sanlayn |
 
 ## Action List: `deathbringer`
 
@@ -60,8 +63,7 @@ Source: `apl/default/deathknight/blood.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `raise_dead` | use_off_gcd=1 |
-| 2 | `death_strike` | if=buff.coagulopathy.up&buff.coagulopathy.remains<=gcd |
-| 3 | `dancing_rune_weapon` | if=!buff.exterminate.up&!debuff.reapers_mark_debuff.up&!buff.dancing_rune_weapon.up&(fight_remains>95\|fight_remains<25\|time>300) |
+| 2 | `dancing_rune_weapon` | if=!buff.exterminate.up&!debuff.reapers_mark_debuff.up&(fight_remains>95\|fight_remains<25\|time>300) |
 
 ## Action List: `san_gift`
 
@@ -69,32 +71,32 @@ Source: `apl/default/deathknight/blood.simc`
 |---|--------|------------|
 | 1 | `heart_strike` | if=buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains |
 | 2 | `death_strike` | if=runic_power.deficit<36 |
-| 3 | `blood_boil` | if=!drw.bp_ticking |
-| 4 | `any_dnd` | if=buff.crimson_scourge.remains |
-| 5 | `heart_strike` | if=buff.essence_of_the_blood_queen.stack<7 |
-| 6 | `death_strike` | — |
-| 7 | `blood_boil` | if=buff.boiling_point.up&!buff.boiling_point_echo.up |
-| 8 | `heart_strike` | — |
-| 9 | `blood_boil` | — |
+| 3 | `any_dnd` | if=buff.crimson_scourge.remains&!buff.visceral_strength.remains |
+| 4 | `heart_strike` | if=buff.essence_of_the_blood_queen.stack<7 |
+| 5 | `death_strike` | — |
+| 6 | `blood_boil` | if=buff.boiling_point.up |
+| 7 | `heart_strike` | — |
+| 8 | `blood_boil` | — |
 
 ## Action List: `sanlayn`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `deaths_caress` | if=!buff.bone_shield.up\|buff.bone_shield.remains<1.5\|buff.bone_shield.stack<=1 |
-| 2 | `blood_boil` | if=dot.blood_plague.remains<3 |
-| 3 | `heart_strike` | if=(buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains&buff.vampiric_strike.remains) |
-| 4 | `death_strike` | if=runic_power.deficit<20 |
-| 5 | `deaths_caress` | if=buff.bone_shield.stack<6 |
-| 6 | `marrowrend` | if=buff.bone_shield.stack<6 |
-| 7 | `any_dnd` | if=buff.crimson_scourge.remains |
-| 8 | `heart_strike` | if=buff.vampiric_strike.up |
-| 9 | `death_strike` | — |
-| 10 | `blood_boil` | if=buff.boiling_point.up&!buff.boiling_point_echo.up |
+| 2 | `heart_strike` | if=(buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains&buff.vampiric_strike.remains&fight_remains>buff.essence_of_the_blood_queen.remains+10) |
+| 3 | `death_strike` | if=runic_power.deficit<20 |
+| 4 | `deaths_caress` | if=buff.bone_shield.stack<6 |
+| 5 | `marrowrend` | if=buff.bone_shield.stack<6 |
+| 6 | `any_dnd` | if=buff.crimson_scourge.remains |
+| 7 | `blood_boil` | if=buff.boiling_point.up |
+| 8 | `marrowrend` | if=buff.blood_debt.stack=10 |
+| 9 | `heart_strike` | if=buff.vampiric_strike.up |
+| 10 | `death_strike` | if=runic_power.deficit<40\|fight_remains<10\|(buff.essence_of_the_blood_queen.remains&buff.essence_of_the_blood_queen.remains<8) |
 | 11 | `consumption` | empower_to=1 |
 | 12 | `heart_strike` | if=rune>=2 |
 | 13 | `blood_boil` | — |
 | 14 | `heart_strike` | — |
+| 15 | `death_strike` | — |
 
 ## Raw APL
 
@@ -114,6 +116,9 @@ actions=auto_attack
 actions+=/use_items
 actions+=/use_item,name=light_company_guidon,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78|fight_remains<15
 actions+=/use_item,name=algethar_puzzle_box,if=fight_remains>122|cooldown.dancing_rune_weapon.remains>78|fight_remains<25
+actions+=/use_item,name=voracious_heart_of_ulatek,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78|fight_remains<20
+actions+=/use_item,name=blazebinders_hoof,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78|fight_remains<20|fight_remains>120
+actions+=/use_item,name=vile_vial_of_volatile_venom,use_off_gcd=1,if=cooldown.dancing_rune_weapon.remains>78|fight_remains<20|fight_remains>120
 actions+=/fireblood,if=fight_remains>120|cooldown.dancing_rune_weapon.remains>78|fight_remains<8
 actions+=/blood_fury,if=fight_remains>120|cooldown.dancing_rune_weapon.remains>78|fight_remains<12
 actions+=/berserking,if=cooldown.dancing_rune_weapon.remains>78|fight_remains<=15
@@ -139,31 +144,30 @@ actions.deathbringer+=/consumption,empower_to=1
 actions.deathbringer+=/arcane_torrent,if=runic_power.deficit>20
 
 actions.high_prio_actions=raise_dead,use_off_gcd=1
-actions.high_prio_actions+=/death_strike,if=buff.coagulopathy.up&buff.coagulopathy.remains<=gcd
-actions.high_prio_actions+=/dancing_rune_weapon,if=!buff.exterminate.up&!debuff.reapers_mark_debuff.up&!buff.dancing_rune_weapon.up&(fight_remains>95|fight_remains<25|time>300)
+actions.high_prio_actions+=/dancing_rune_weapon,if=!buff.exterminate.up&!debuff.reapers_mark_debuff.up&(fight_remains>95|fight_remains<25|time>300)
 
 actions.san_gift=heart_strike,if=buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains
 actions.san_gift+=/death_strike,if=runic_power.deficit<36
-actions.san_gift+=/blood_boil,if=!drw.bp_ticking
-actions.san_gift+=/any_dnd,if=buff.crimson_scourge.remains
+actions.san_gift+=/any_dnd,if=buff.crimson_scourge.remains&!buff.visceral_strength.remains
 actions.san_gift+=/heart_strike,if=buff.essence_of_the_blood_queen.stack<7
 actions.san_gift+=/death_strike
-actions.san_gift+=/blood_boil,if=buff.boiling_point.up&!buff.boiling_point_echo.up
+actions.san_gift+=/blood_boil,if=buff.boiling_point.up
 actions.san_gift+=/heart_strike
 actions.san_gift+=/blood_boil
 
 actions.sanlayn=deaths_caress,if=!buff.bone_shield.up|buff.bone_shield.remains<1.5|buff.bone_shield.stack<=1
-actions.sanlayn+=/blood_boil,if=dot.blood_plague.remains<3
-actions.sanlayn+=/heart_strike,if=(buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains&buff.vampiric_strike.remains)
+actions.sanlayn+=/heart_strike,if=(buff.essence_of_the_blood_queen.remains<1.5&buff.essence_of_the_blood_queen.remains&buff.vampiric_strike.remains&fight_remains>buff.essence_of_the_blood_queen.remains+10)
 actions.sanlayn+=/death_strike,if=runic_power.deficit<20
 actions.sanlayn+=/deaths_caress,if=buff.bone_shield.stack<6
 actions.sanlayn+=/marrowrend,if=buff.bone_shield.stack<6
 actions.sanlayn+=/any_dnd,if=buff.crimson_scourge.remains
+actions.sanlayn+=/blood_boil,if=buff.boiling_point.up
+actions.sanlayn+=/marrowrend,if=buff.blood_debt.stack=10
 actions.sanlayn+=/heart_strike,if=buff.vampiric_strike.up
-actions.sanlayn+=/death_strike
-actions.sanlayn+=/blood_boil,if=buff.boiling_point.up&!buff.boiling_point_echo.up
+actions.sanlayn+=/death_strike,if=runic_power.deficit<40|fight_remains<10|(buff.essence_of_the_blood_queen.remains&buff.essence_of_the_blood_queen.remains<8)
 actions.sanlayn+=/consumption,empower_to=1
 actions.sanlayn+=/heart_strike,if=rune>=2
 actions.sanlayn+=/blood_boil
 actions.sanlayn+=/heart_strike
+actions.sanlayn+=/death_strike
 ```

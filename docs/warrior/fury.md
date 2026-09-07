@@ -1,6 +1,6 @@
 # Warrior – Fury
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/warrior/fury.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/warrior/fury.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 112
+- **Total Actions:** 121
 - **Lists:** `precombat`, `default`, `slayer`, `slayer_aoe`, `thane`, `thane_aoe`, `trinkets`, `variables`
 
 ## Action List: `precombat`
@@ -61,21 +61,27 @@ Source: `apl/default/warrior/fury.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `recklessness` | — |
-| 2 | `avatar` | — |
-| 3 | `rampage` | if=buff.enrage.remains<gcd\|rage>=100 |
-| 4 | `bladestorm` | if=(buff.enrage.up&talent.deft_experience\|buff.enrage.remains>1)&(buff.recklessness.up\|cooldown.recklessness.remains>30) |
-| 5 | `odyns_fury` | — |
-| 6 | `execute` | — |
-| 7 | `bloodbath` | — |
-| 8 | `rampage` | if=buff.recklessness.up |
-| 9 | `crushing_blow` | — |
-| 10 | `bloodthirst` | — |
-| 11 | `rampage` | — |
-| 12 | `wrecking_throw` | — |
-| 13 | `rend` | if=dot.rend.duration<6 |
-| 14 | `raging_blow` | — |
-| 15 | `whirlwind` | — |
-| 16 | `storm_bolt` | if=buff.bladestorm.up |
+| 2 | `rampage` | if=buff.enrage.remains<gcd |
+| 3 | `rampage` | if=buff.recklessness.up&rage>=100 |
+| 4 | `rampage` | if=buff.recklessness.up&cooldown.bladestorm.ready |
+| 5 | `bladestorm` | if=buff.recklessness.up\|target.time_to_die<=5 |
+| 6 | `execute` | if=buff.recklessness.up&buff.sudden_death.up |
+| 7 | `rampage` | if=buff.recklessness.up&!buff.hack_and_slash.up |
+| 8 | `crushing_blow` | — |
+| 9 | `odyns_fury` | if=buff.recklessness.up |
+| 10 | `execute` | if=buff.recklessness.up |
+| 11 | `bloodbath` | — |
+| 12 | `odyns_fury` | if=buff.recklessness.up |
+| 13 | `rampage` | if=rage>100 |
+| 14 | `execute` | — |
+| 15 | `execute` | if=buff.sudden_death.up |
+| 16 | `odyns_fury` | — |
+| 17 | `execute` | — |
+| 18 | `raging_blow` | — |
+| 19 | `rampage` | — |
+| 20 | `bloodthirst` | — |
+| 21 | `whirlwind` | — |
+| 22 | `storm_bolt` | if=buff.bladestorm.up |
 
 ## Action List: `slayer_aoe`
 
@@ -84,43 +90,42 @@ Source: `apl/default/warrior/fury.simc`
 | 1 | `whirlwind` | if=talent.improved_whirlwind&buff.whirlwind.stack=0 |
 | 2 | `recklessness` | — |
 | 3 | `avatar` | — |
-| 4 | `rampage` | if=buff.enrage.remains<gcd\|rage>=110 |
-| 5 | `bladestorm` | if=(buff.enrage.up&talent.deft_experience\|buff.enrage.remains>1)&(buff.recklessness.up\|cooldown.recklessness.remains>30) |
-| 6 | `odyns_fury` | — |
-| 7 | `execute` | if=buff.sudden_death.up |
-| 8 | `rampage` | if=buff.recklessness.up |
+| 4 | `rampage` | — |
+| 5 | `bladestorm` | if=buff.recklessness.up\|target.time_to_die<=5 |
+| 6 | `execute` | if=buff.sudden_death.up |
+| 7 | `odyns_fury` | — |
+| 8 | `crushing_blow` | — |
 | 9 | `bloodbath` | — |
-| 10 | `whirlwind` | if=talent.improved_whirlwind&buff.recklessness.up |
-| 11 | `crushing_blow` | — |
-| 12 | `execute` | — |
-| 13 | `rampage` | — |
-| 14 | `rend` | if=dot.rend_dot.duration<6&!talent.improved_whirlwind |
-| 15 | `bloodthirst` | — |
-| 16 | `whirlwind` | if=talent.improved_whirlwind |
-| 17 | `raging_blow` | — |
-| 18 | `storm_bolt` | if=buff.bladestorm.up |
+| 10 | `execute` | — |
+| 11 | `raging_blow` | — |
+| 12 | `bloodthirst` | — |
+| 13 | `whirlwind` | — |
+| 14 | `storm_bolt` | if=buff.bladestorm.up |
 
 ## Action List: `thane`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `odyns_fury` | — |
-| 2 | `recklessness` | — |
-| 3 | `avatar` | — |
-| 4 | `rampage` | if=buff.enrage.remains<gcd\|rage>=100 |
-| 5 | `thunder_blast` | if=buff.thunder_blast.stack=2 |
-| 6 | `bloodbath` | — |
-| 7 | `rampage` | if=buff.recklessness.up |
-| 8 | `thunder_blast` | if=buff.avatar.up |
-| 9 | `bloodthirst` | — |
-| 10 | `execute` | — |
-| 11 | `crushing_blow` | — |
+| 1 | `recklessness` | — |
+| 2 | `avatar` | — |
+| 3 | `rampage` | if=buff.enrage.remains<gcd\|rage>=100 |
+| 4 | `bloodbath` | if=buff.recklessness.up&buff.fury_mid2_4pc_crit.stack<2 |
+| 5 | `thunder_blast` | if=buff.thunder_blast.stack=2\|buff.avatar.remains<2\|buff.thunder_blast.remains<2 |
+| 6 | `crushing_blow` | if=buff.hack_and_slash.up |
+| 7 | `bloodbath` | — |
+| 8 | `rampage` | if=buff.recklessness.up |
+| 9 | `thunder_blast` | if=buff.avatar.up |
+| 10 | `crushing_blow` | — |
+| 11 | `raging_blow` | if=buff.hack_and_slash.up |
 | 12 | `thunder_blast` | — |
 | 13 | `rampage` | — |
-| 14 | `thunder_clap` | if=buff.avatar.up&!talent.wrath_and_fury |
-| 15 | `raging_blow` | — |
-| 16 | `thunder_clap` | — |
-| 17 | `whirlwind` | — |
+| 14 | `bloodthirst` | — |
+| 15 | `execute` | if=talent.deep_wounds |
+| 16 | `raging_blow` | — |
+| 17 | `odyns_fury` | — |
+| 18 | `thunder_clap` | if=buff.avatar.up&!talent.wrath_and_fury |
+| 19 | `execute` | — |
+| 20 | `thunder_clap` | — |
 
 ## Action List: `thane_aoe`
 
@@ -129,21 +134,25 @@ Source: `apl/default/warrior/fury.simc`
 | 1 | `odyns_fury` | — |
 | 2 | `recklessness` | — |
 | 3 | `avatar` | — |
-| 4 | `thunder_blast` | if=buff.thunder_blast.stack=2 |
-| 5 | `thunder_blast` | if=buff.avatar.up |
-| 6 | `thunder_clap` | if=talent.improved_whirlwind&buff.whirlwind.stack=0\|(buff.avatar.up&active_enemies>6) |
-| 7 | `rampage` | if=buff.enrage.remains<gcd\|rage>=100 |
-| 8 | `bloodbath` | — |
-| 9 | `rampage` | if=buff.recklessness.up |
-| 10 | `thunder_clap` | if=buff.avatar.up |
-| 11 | `bloodthirst` | — |
-| 12 | `thunder_blast` | — |
-| 13 | `execute` | — |
-| 14 | `thunder_clap` | — |
-| 15 | `crushing_blow` | — |
-| 16 | `rampage` | — |
-| 17 | `raging_blow` | — |
-| 18 | `whirlwind` | — |
+| 4 | `rampage` | if=!buff.enrage.up |
+| 5 | `thunder_blast` | — |
+| 6 | `thunder_blast` | if=buff.thunder_blast.stack=2 |
+| 7 | `thunder_blast` | if=buff.avatar.up |
+| 8 | `thunder_clap` | if=talent.improved_whirlwind&buff.whirlwind.stack=0\|(buff.avatar.up&active_enemies>6) |
+| 9 | `rampage` | if=buff.enrage.remains<gcd\|rage>=100 |
+| 10 | `bloodbath` | — |
+| 11 | `crushing_blow` | if=buff.hack_and_slash.up |
+| 12 | `rampage` | if=buff.recklessness.up |
+| 13 | `thunder_clap` | if=buff.avatar.up |
+| 14 | `crushing_blow` | — |
+| 15 | `bloodthirst` | — |
+| 16 | `thunder_blast` | — |
+| 17 | `raging_blow` | if=buff.hack_and_slash.up |
+| 18 | `execute` | — |
+| 19 | `rampage` | — |
+| 20 | `thunder_clap` | — |
+| 21 | `raging_blow` | — |
+| 22 | `whirlwind` | — |
 
 ## Action List: `trinkets`
 
@@ -213,75 +222,84 @@ actions+=/run_action_list,name=thane,if=talent.lightning_strikes&active_enemies=
 actions+=/run_action_list,name=thane_aoe,if=talent.lightning_strikes&active_enemies>1
 
 actions.slayer=recklessness
-actions.slayer+=/avatar
-actions.slayer+=/rampage,if=buff.enrage.remains<gcd|rage>=100
-actions.slayer+=/bladestorm,if=(buff.enrage.up&talent.deft_experience|buff.enrage.remains>1)&(buff.recklessness.up|cooldown.recklessness.remains>30)
+actions.slayer+=/rampage,if=buff.enrage.remains<gcd
+actions.slayer+=/rampage,if=buff.recklessness.up&rage>=100
+actions.slayer+=/rampage,if=buff.recklessness.up&cooldown.bladestorm.ready
+actions.slayer+=/bladestorm,if=buff.recklessness.up|target.time_to_die<=5
+actions.slayer+=/execute,if=buff.recklessness.up&buff.sudden_death.up
+actions.slayer+=/rampage,if=buff.recklessness.up&!buff.hack_and_slash.up
+actions.slayer+=/crushing_blow
+actions.slayer+=/odyns_fury,if=buff.recklessness.up
+actions.slayer+=/execute,if=buff.recklessness.up
+actions.slayer+=/bloodbath
+actions.slayer+=/odyns_fury,if=buff.recklessness.up
+actions.slayer+=/rampage,if=rage>100
+actions.slayer+=/execute
+actions.slayer+=/execute,if=buff.sudden_death.up
 actions.slayer+=/odyns_fury
 actions.slayer+=/execute
-actions.slayer+=/bloodbath
-actions.slayer+=/rampage,if=buff.recklessness.up
-actions.slayer+=/crushing_blow
-actions.slayer+=/bloodthirst
-actions.slayer+=/rampage
-actions.slayer+=/wrecking_throw
-actions.slayer+=/rend,if=dot.rend.duration<6
 actions.slayer+=/raging_blow
+actions.slayer+=/rampage
+actions.slayer+=/bloodthirst
 actions.slayer+=/whirlwind
 actions.slayer+=/storm_bolt,if=buff.bladestorm.up
 
 actions.slayer_aoe=whirlwind,if=talent.improved_whirlwind&buff.whirlwind.stack=0
 actions.slayer_aoe+=/recklessness
 actions.slayer_aoe+=/avatar
-actions.slayer_aoe+=/rampage,if=buff.enrage.remains<gcd|rage>=110
-actions.slayer_aoe+=/bladestorm,if=(buff.enrage.up&talent.deft_experience|buff.enrage.remains>1)&(buff.recklessness.up|cooldown.recklessness.remains>30)
-actions.slayer_aoe+=/odyns_fury
-actions.slayer_aoe+=/execute,if=buff.sudden_death.up
-actions.slayer_aoe+=/rampage,if=buff.recklessness.up
-actions.slayer_aoe+=/bloodbath
-actions.slayer_aoe+=/whirlwind,if=talent.improved_whirlwind&buff.recklessness.up
-actions.slayer_aoe+=/crushing_blow
-actions.slayer_aoe+=/execute
 actions.slayer_aoe+=/rampage
-actions.slayer_aoe+=/rend,if=dot.rend_dot.duration<6&!talent.improved_whirlwind
-actions.slayer_aoe+=/bloodthirst
-actions.slayer_aoe+=/whirlwind,if=talent.improved_whirlwind
+actions.slayer_aoe+=/bladestorm,if=buff.recklessness.up|target.time_to_die<=5
+actions.slayer_aoe+=/execute,if=buff.sudden_death.up
+actions.slayer_aoe+=/odyns_fury
+actions.slayer_aoe+=/crushing_blow
+actions.slayer_aoe+=/bloodbath
+actions.slayer_aoe+=/execute
 actions.slayer_aoe+=/raging_blow
+actions.slayer_aoe+=/bloodthirst
+actions.slayer_aoe+=/whirlwind
 actions.slayer_aoe+=/storm_bolt,if=buff.bladestorm.up
 
-actions.thane=odyns_fury
-actions.thane+=/recklessness
+actions.thane=recklessness
 actions.thane+=/avatar
 actions.thane+=/rampage,if=buff.enrage.remains<gcd|rage>=100
-actions.thane+=/thunder_blast,if=buff.thunder_blast.stack=2
+actions.thane+=/bloodbath,if=buff.recklessness.up&buff.fury_mid2_4pc_crit.stack<2
+actions.thane+=/thunder_blast,if=buff.thunder_blast.stack=2|buff.avatar.remains<2|buff.thunder_blast.remains<2
+actions.thane+=/crushing_blow,if=buff.hack_and_slash.up
 actions.thane+=/bloodbath
 actions.thane+=/rampage,if=buff.recklessness.up
 actions.thane+=/thunder_blast,if=buff.avatar.up
-actions.thane+=/bloodthirst
-actions.thane+=/execute
 actions.thane+=/crushing_blow
+actions.thane+=/raging_blow,if=buff.hack_and_slash.up
 actions.thane+=/thunder_blast
 actions.thane+=/rampage
-actions.thane+=/thunder_clap,if=buff.avatar.up&!talent.wrath_and_fury
+actions.thane+=/bloodthirst
+actions.thane+=/execute,if=talent.deep_wounds
 actions.thane+=/raging_blow
+actions.thane+=/odyns_fury
+actions.thane+=/thunder_clap,if=buff.avatar.up&!talent.wrath_and_fury
+actions.thane+=/execute
 actions.thane+=/thunder_clap
-actions.thane+=/whirlwind
 
 actions.thane_aoe=odyns_fury
 actions.thane_aoe+=/recklessness
 actions.thane_aoe+=/avatar
+actions.thane_aoe+=/rampage,if=!buff.enrage.up
+actions.thane_aoe+=/thunder_blast
 actions.thane_aoe+=/thunder_blast,if=buff.thunder_blast.stack=2
 actions.thane_aoe+=/thunder_blast,if=buff.avatar.up
 actions.thane_aoe+=/thunder_clap,if=talent.improved_whirlwind&buff.whirlwind.stack=0|(buff.avatar.up&active_enemies>6)
 actions.thane_aoe+=/rampage,if=buff.enrage.remains<gcd|rage>=100
 actions.thane_aoe+=/bloodbath
+actions.thane_aoe+=/crushing_blow,if=buff.hack_and_slash.up
 actions.thane_aoe+=/rampage,if=buff.recklessness.up
 actions.thane_aoe+=/thunder_clap,if=buff.avatar.up
+actions.thane_aoe+=/crushing_blow
 actions.thane_aoe+=/bloodthirst
 actions.thane_aoe+=/thunder_blast
+actions.thane_aoe+=/raging_blow,if=buff.hack_and_slash.up
 actions.thane_aoe+=/execute
-actions.thane_aoe+=/thunder_clap
-actions.thane_aoe+=/crushing_blow
 actions.thane_aoe+=/rampage
+actions.thane_aoe+=/thunder_clap
 actions.thane_aoe+=/raging_blow
 actions.thane_aoe+=/whirlwind
 

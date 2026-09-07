@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 60
+- **Total Actions:** 55
 - **Lists:** `precombat`, `default`, `cds`, `cleave`, `drcleave`, `drst`, `st`, `trinkets`
 
 ## Action List: `precombat`
@@ -24,13 +24,14 @@ Source: `apl/default/hunter/beast_mastery.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `auto_shot` | — |
-| 2 | `call_action_list` | name=cds |
-| 3 | `call_action_list` | name=trinkets |
-| 4 | `call_action_list` | name=drst,if=talent.black_arrow&(active_enemies<2\|!talent.beast_cleave&active_enemies<3) |
-| 5 | `call_action_list` | name=drcleave,if=talent.black_arrow&(active_enemies>2\|talent.beast_cleave&active_enemies>1) |
-| 6 | `call_action_list` | name=st,if=!talent.black_arrow&(active_enemies<2\|!talent.beast_cleave&active_enemies<3) |
-| 7 | `call_action_list` | name=cleave,if=!talent.black_arrow&(active_enemies>2\|talent.beast_cleave&active_enemies>1) |
+| 1 | `retarget` | target_if=max:target.health,line_cd=5,if=fight_style.dungeonroute |
+| 2 | `auto_shot` | — |
+| 3 | `call_action_list` | name=cds |
+| 4 | `call_action_list` | name=trinkets |
+| 5 | `call_action_list` | name=drst,if=talent.black_arrow&(active_enemies<2\|!talent.beast_cleave&active_enemies<3) |
+| 6 | `call_action_list` | name=drcleave,if=talent.black_arrow&(active_enemies>2\|talent.beast_cleave&active_enemies>1) |
+| 7 | `call_action_list` | name=st,if=!talent.black_arrow&(active_enemies<2\|!talent.beast_cleave&active_enemies<3) |
+| 8 | `call_action_list` | name=cleave,if=!talent.black_arrow&(active_enemies>2\|talent.beast_cleave&active_enemies>1) |
 
 ## Action List: `cds`
 
@@ -47,12 +48,12 @@ Source: `apl/default/hunter/beast_mastery.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=full_recharge_time<gcd |
-| 2 | `wild_thrash` | if=talent.beast_cleave |
-| 3 | `bestial_wrath` | if=!prev.wild_thrash |
-| 4 | `wild_thrash` | if=!talent.beast_cleave |
-| 5 | `kill_command` | if=buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready) |
-| 6 | `cobra_shot` | if=cooldown.wild_thrash.remains>gcd&buff.hogstrider.up&active_enemies<4 |
+| 1 | `wild_thrash` | if=talent.beast_cleave&(prev_gcd.1.bestial_wrath\|!buff.beast_cleave.up) |
+| 2 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=full_recharge_time<gcd |
+| 3 | `bestial_wrath` | if=buff.beast_cleave.remains\|!talent.beast_cleave\|!talent.wild_thrash |
+| 4 | `wild_thrash` | if=talent.beast_cleave&cooldown.bestial_wrath.remains>buff.beast_cleave.remains\|!talent.beast_cleave |
+| 5 | `kill_command` | if=buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready)\|!apex.3 |
+| 6 | `cobra_shot` | if=buff.cobra_fang.up&buff.beast_cleave.remains |
 | 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
 | 8 | `cobra_shot` | if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd\|!talent.beast_cleave |
 
@@ -61,10 +62,10 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `black_arrow` | if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2 |
-| 2 | `bestial_wrath` | if=buff.beast_cleave.remains |
-| 3 | `wild_thrash` | — |
+| 2 | `bestial_wrath` | if=buff.beast_cleave.remains\|!talent.beast_cleave |
+| 3 | `wild_thrash` | if=talent.beast_cleave&(prev_gcd.1.bestial_wrath\|!buff.beast_cleave.up\|cooldown.bestial_wrath.remains>buff.beast_cleave.remains)\|!talent.beast_cleave |
 | 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react\|!apex.3 |
-| 5 | `barbed_shot` | if=full_recharge_time<1*gcd,target_if=min:dot.barbed_shot.remains\|max_prio_damage |
+| 5 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=full_recharge_time<1*gcd |
 | 6 | `black_arrow` | if=buff.withering_fire.up |
 | 7 | `wailing_arrow` | if=buff.withering_fire.remains<execute_time+gcd\|time_to_die.remains<execute_time+gcd |
 | 8 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
@@ -81,36 +82,30 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 3 | `black_arrow` | if=buff.withering_fire.up&cooldown.kill_command.full_recharge_time>gcd |
 | 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react\|!apex.3 |
 | 5 | `wailing_arrow` | if=buff.withering_fire.remains<execute_time+2*gcd\|time_to_die.remains<execute_time+gcd |
-| 6 | `cobra_shot` | if=talent.killer_cobra&buff.bestial_wrath.up&cooldown.barbed_shot.charges_fractional<1.4 |
-| 7 | `black_arrow` | — |
-| 8 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
-| 9 | `cobra_shot` | — |
+| 6 | `cobra_shot` | if=buff.cobra_fang.at_max_stacks |
+| 7 | `cobra_shot` | if=talent.killer_cobra&buff.bestial_wrath.up&cooldown.barbed_shot.charges_fractional<1.4 |
+| 8 | `black_arrow` | — |
+| 9 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
+| 10 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
 
 ## Action List: `st`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd |
+| 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd\|full_recharge_time<gcd |
 | 2 | `bestial_wrath` | — |
 | 3 | `wild_thrash` | if=active_enemies>1 |
-| 4 | `kill_command` | if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&(buff.natures_ally.react\|howl_summon.ready)\|!apex.3 |
-| 5 | `barbed_shot` | if=(focus<75\|full_recharge_time<gcd)&!talent.serpentine_strikes\|talent.serpentine_strikes |
-| 6 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
+| 4 | `kill_command` | if=howl_summon.ready\|(cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react\|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4\|cooldown.kill_command.charges_fractional>1.8) |
+| 5 | `cobra_shot` | if=buff.cobra_fang.at_max_stacks |
+| 6 | `barbed_shot` | if=(focus<75\|full_recharge_time<gcd)&!talent.serpentine_strikes\|talent.serpentine_strikes |
+| 7 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
 
 ## Action List: `trinkets`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | name=light_company_guidon,if=cooldown.bestial_wrath.ready\|fight_remains<21 |
-| 2 | `use_item` | name=void_execution_mandate,if=cooldown.bestial_wrath.ready\|fight_remains<21 |
-| 3 | `use_item` | name=algethar_puzzle_box,if=cooldown.bestial_wrath.remains<2\|fight_remains<23 |
-| 4 | `use_item` | name=emberwing_feather,if=cooldown.bestial_wrath.ready\|fight_remains<16 |
-| 5 | `use_item` | name=freightrunners_flask,if=cooldown.bestial_wrath.ready\|fight_remains<16 |
-| 6 | `use_item` | name=sealed_chaos_urn,if=cooldown.bestial_wrath.ready\|fight_remains<21 |
-| 7 | `use_item` | name=evercollapsing_void_fissure,if=cooldown.bestial_wrath.ready\|fight_remains<11 |
-| 8 | `use_item` | name=rangercaptains_iridescent_insignia |
-| 9 | `use_item` | name=void_stalkers_contract |
-| 10 | `use_item` | name=latchs_crooked_hook |
+| 1 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage |
+| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff |
 
 ## Raw APL
 
@@ -127,7 +122,8 @@ actions.precombat+=/snapshot_stats
 actions.precombat+=/use_item,name=algethar_puzzle_box
 
 # Executed every time the actor is available.
-actions=auto_shot
+actions=retarget,target_if=max:target.health,line_cd=5,if=fight_style.dungeonroute
+actions+=/auto_shot
 actions+=/call_action_list,name=cds
 actions+=/call_action_list,name=trinkets
 actions+=/call_action_list,name=drst,if=talent.black_arrow&(active_enemies<2|!talent.beast_cleave&active_enemies<3)
@@ -142,20 +138,21 @@ actions.cds+=/ancestral_call,if=cooldown.bestial_wrath.ready|fight_remains<16
 actions.cds+=/fireblood,if=cooldown.bestial_wrath.ready|fight_remains<9
 actions.cds+=/potion,if=cooldown.bestial_wrath.ready|fight_remains<31
 
-actions.cleave=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=full_recharge_time<gcd
-actions.cleave+=/wild_thrash,if=talent.beast_cleave
-actions.cleave+=/bestial_wrath,if=!prev.wild_thrash
-actions.cleave+=/wild_thrash,if=!talent.beast_cleave
-actions.cleave+=/kill_command,if=buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)
-actions.cleave+=/cobra_shot,if=cooldown.wild_thrash.remains>gcd&buff.hogstrider.up&active_enemies<4
+# Bestial Wrath spawns an Apex Pet which casts Bestial Wrath 1.5s after, but it does not get the Beast Cleave that was active prior to Bestial Wrath. Therefore, to ensure this hit cleaves, Wild Thrash needs to follow up Bestial Wrath.
+actions.cleave=wild_thrash,if=talent.beast_cleave&(prev_gcd.1.bestial_wrath|!buff.beast_cleave.up)
+actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=full_recharge_time<gcd
+actions.cleave+=/bestial_wrath,if=buff.beast_cleave.remains|!talent.beast_cleave|!talent.wild_thrash
+actions.cleave+=/wild_thrash,if=talent.beast_cleave&cooldown.bestial_wrath.remains>buff.beast_cleave.remains|!talent.beast_cleave
+actions.cleave+=/kill_command,if=buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)|!apex.3
+actions.cleave+=/cobra_shot,if=buff.cobra_fang.up&buff.beast_cleave.remains
 actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
 actions.cleave+=/cobra_shot,if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd|!talent.beast_cleave
 
 actions.drcleave=black_arrow,if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2
-actions.drcleave+=/bestial_wrath,if=buff.beast_cleave.remains
-actions.drcleave+=/wild_thrash
+actions.drcleave+=/bestial_wrath,if=buff.beast_cleave.remains|!talent.beast_cleave
+actions.drcleave+=/wild_thrash,if=talent.beast_cleave&(prev_gcd.1.bestial_wrath|!buff.beast_cleave.up|cooldown.bestial_wrath.remains>buff.beast_cleave.remains)|!talent.beast_cleave
 actions.drcleave+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react|!apex.3
-actions.drcleave+=/barbed_shot,if=full_recharge_time<1*gcd,target_if=min:dot.barbed_shot.remains|max_prio_damage
+actions.drcleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=full_recharge_time<1*gcd
 actions.drcleave+=/black_arrow,if=buff.withering_fire.up
 actions.drcleave+=/wailing_arrow,if=buff.withering_fire.remains<execute_time+gcd|time_to_die.remains<execute_time+gcd
 actions.drcleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
@@ -168,26 +165,20 @@ actions.drst+=/bestial_wrath
 actions.drst+=/black_arrow,if=buff.withering_fire.up&cooldown.kill_command.full_recharge_time>gcd
 actions.drst+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react|!apex.3
 actions.drst+=/wailing_arrow,if=buff.withering_fire.remains<execute_time+2*gcd|time_to_die.remains<execute_time+gcd
+actions.drst+=/cobra_shot,if=buff.cobra_fang.at_max_stacks
 actions.drst+=/cobra_shot,if=talent.killer_cobra&buff.bestial_wrath.up&cooldown.barbed_shot.charges_fractional<1.4
 actions.drst+=/black_arrow
 actions.drst+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
-actions.drst+=/cobra_shot
+actions.drst+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 
-actions.st=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd
+actions.st=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd|full_recharge_time<gcd
 actions.st+=/bestial_wrath
 actions.st+=/wild_thrash,if=active_enemies>1
-actions.st+=/kill_command,if=cooldown.bestial_wrath.remains>full_recharge_time+gcd&(buff.natures_ally.react|howl_summon.ready)|!apex.3
+actions.st+=/kill_command,if=howl_summon.ready|(cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4|cooldown.kill_command.charges_fractional>1.8)
+actions.st+=/cobra_shot,if=buff.cobra_fang.at_max_stacks
 actions.st+=/barbed_shot,if=(focus<75|full_recharge_time<gcd)&!talent.serpentine_strikes|talent.serpentine_strikes
 actions.st+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 
-actions.trinkets=use_item,name=light_company_guidon,if=cooldown.bestial_wrath.ready|fight_remains<21
-actions.trinkets+=/use_item,name=void_execution_mandate,if=cooldown.bestial_wrath.ready|fight_remains<21
-actions.trinkets+=/use_item,name=algethar_puzzle_box,if=cooldown.bestial_wrath.remains<2|fight_remains<23
-actions.trinkets+=/use_item,name=emberwing_feather,if=cooldown.bestial_wrath.ready|fight_remains<16
-actions.trinkets+=/use_item,name=freightrunners_flask,if=cooldown.bestial_wrath.ready|fight_remains<16
-actions.trinkets+=/use_item,name=sealed_chaos_urn,if=cooldown.bestial_wrath.ready|fight_remains<21
-actions.trinkets+=/use_item,name=evercollapsing_void_fissure,if=cooldown.bestial_wrath.ready|fight_remains<11
-actions.trinkets+=/use_item,name=rangercaptains_iridescent_insignia
-actions.trinkets+=/use_item,name=void_stalkers_contract
-actions.trinkets+=/use_item,name=latchs_crooked_hook
+actions.trinkets=use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage
+actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff
 ```

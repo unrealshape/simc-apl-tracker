@@ -1,6 +1,6 @@
 # Evoker – Augmentation
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/evoker/augmentation.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/evoker/augmentation.simc`
 ## Overview
 
 - **Action Lists:** 4
-- **Total Actions:** 63
+- **Total Actions:** 62
 - **Lists:** `precombat`, `default`, `filler`, `items`
 
 ## Action List: `precombat`
@@ -40,7 +40,7 @@ Source: `apl/default/evoker/augmentation.simc`
 | 22 | `variable` | name=spam_on_use_trinket,op=reset,default=1 |
 | 23 | `variable` | name=azure_st_filler,op=reset,default=1 |
 | 24 | `variable` | name=bombardments_pooling,op=reset,default=1 |
-| 25 | `variable` | name=crit_fish,op=reset,default=0 |
+| 25 | `variable` | name=crit_fish,op=reset,default=1 |
 | 26 | `use_item` | name=aberrant_spellforge |
 | 27 | `blistering_scales` | target_if=target.role.tank |
 | 28 | `living_flame` | — |
@@ -54,24 +54,23 @@ Source: `apl/default/evoker/augmentation.simc`
 | 3 | `hover` | use_off_gcd=1,if=gcd.remains>=0.5&(!raid_event.movement.exists\|raid_event.movement.in<=6) |
 | 4 | `invoke_external_buff` | name=power_infusion,if=buff.duplicate.up |
 | 5 | `potion` | if=consumable.potion_of_recklessness&talent.doubletime |
-| 6 | `ebon_might` | if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0\|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05\|variable.crit_fish<1)\|buff.ebon_might_self.value<=0.05&talent.doubletime&variable.crit_fish>=1 |
+| 6 | `ebon_might` | if=(((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0\|raid_event.adds.in<=3)\|talent.doubletime&variable.crit_fish>=1)&(variable.eons_remains>0\|!talent.doubletime\|buff.ebon_might_self.up) |
 | 7 | `prescience` | target_if=min:(debuff.prescience.remains-200*(target.role.attack\|target.role.spell\|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&time<=8 |
 | 8 | `potion` | if=variable.eons_remains<=0\|cooldown.breath_of_eons.remains>=90\|fight_remains<=30&!fight_style.dungeonroute |
 | 9 | `call_action_list` | name=items |
 | 10 | `fury_of_the_aspects` | if=talent.time_convergence&!buff.time_convergence_intellect.up&(essence>=2\|buff.essence_burst.react)&variable.eons_remains>=8 |
-| 11 | `tip_the_scales` | if=!cooldown.breath_of_eons.up&(cooldown.fire_breath.up\|talent.temporal_burst&cooldown.fire_breath.remains>gcd.max*2) |
+| 11 | `tip_the_scales` | if=(!cooldown.breath_of_eons.up\|!cooldown.allied_virtual_cd_time.up&variable.enforce_timings=1)&(cooldown.fire_breath.up\|talent.temporal_burst&cooldown.fire_breath.remains>gcd.max*2) |
 | 12 | `deep_breath` | cancel_if=gcd.remains<=0 |
-| 13 | `breath_of_eons` | if=target.time_to_die>=20&!variable.enforce_timings\|variable.enforce_timings&(evoker.allied_cds_up>0\|cooldown.allied_virtual_cd_time.up),cancel_if=gcd.remains<=0 |
-| 14 | `fire_breath` | target_if=target.time_to_die>duration+0.2,empower_to=4,if=buff.ebon_might_self.up&talent.leaping_flames |
-| 15 | `fire_breath` | target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&!talent.leaping_flames |
-| 16 | `upheaval` | target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up |
-| 17 | `prescience` | target_if=min:(debuff.prescience.remains-200*(target.role.attack\|target.role.spell\|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&(!talent.anachronism\|buff.essence_burst.stack<buff.essence_burst.max_stack)\|cooldown.time_skip.up&talent.time_skip |
-| 18 | `time_skip` | if=!talent.chronoboon&cooldown.breath_of_eons.remains>=15\|cooldown.tip_the_scales.remains>=6&!buff.tip_the_scales.up |
-| 19 | `emerald_blossom` | if=talent.dream_of_spring&buff.essence_burst.react&(variable.spam_heal=2\|variable.spam_heal=1&!buff.ancient_flame.up&talent.ancient_flame)&(buff.ebon_might_self.up\|essence.deficit=0\|buff.essence_burst.stack=buff.essence_burst.max_stack&cooldown.ebon_might.remains>4) |
-| 20 | `run_action_list` | name=filler,if=(cooldown.fire_breath.remains<=gcd.max*4\|cooldown.upheaval.remains<=gcd.max*4)&talent.extended_battle&buff.essence_burst.react<2&variable.bombardments_pooling |
-| 21 | `eruption` | target_if=min:debuff.bombardments.remains+100*(target.time_to_die<=8),if=buff.mass_eruption_stacks.up |
-| 22 | `eruption` | target_if=max:debuff.bombardments.remains,if=debuff.bombardments.remains>execute_time\|buff.ebon_might_self.remains>execute_time&(buff.essence_burst.react>1\|!talent.bombardments\|!variable.bombardments_pooling) |
-| 23 | `run_action_list` | name=filler |
+| 13 | `breath_of_eons` | if=target.time_to_die>=20&(!variable.enforce_timings)\|variable.enforce_timings&cooldown.allied_virtual_cd_time.up,cancel_if=gcd.remains<=0 |
+| 14 | `eruption` | if=talent.afterimage&buff.essence_burst.at_max_stacks |
+| 15 | `fire_breath` | target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&cooldown.upheaval.up |
+| 16 | `fire_breath` | target_if=target.time_to_die>duration+0.2,empower_to=3,if=buff.ebon_might_self.up&!cooldown.upheaval.up |
+| 17 | `upheaval` | target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&buff.magnified_fate.remains<=duration |
+| 18 | `prescience` | target_if=min:(debuff.prescience.remains-200*(target.role.attack\|target.role.spell\|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&(!talent.anachronism\|buff.essence_burst.stack<buff.essence_burst.max_stack)\|cooldown.time_skip.up&talent.time_skip |
+| 19 | `time_skip` | if=!talent.chronoboon&cooldown.breath_of_eons.remains>=15\|cooldown.tip_the_scales.remains>=6&!buff.tip_the_scales.up |
+| 20 | `emerald_blossom` | if=talent.dream_of_spring&buff.essence_burst.react&(variable.spam_heal=2\|variable.spam_heal=1&!buff.ancient_flame.up&talent.ancient_flame)&(buff.ebon_might_self.up\|essence.deficit=0\|buff.essence_burst.stack=buff.essence_burst.max_stack&cooldown.ebon_might.remains>4) |
+| 21 | `eruption` | target_if=max:debuff.bombardments.remains,if=buff.ebon_might_self.remains>execute_time |
+| 22 | `run_action_list` | name=filler |
 
 ## Action List: `filler`
 
@@ -84,7 +83,7 @@ Source: `apl/default/evoker/augmentation.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | name=vaelgors_final_stare,if=evoker.shifting_buffs>=2\|evoker.shifting_buffs>=1&(cooldown.fire_breath.remains<=7\|cooldown.upheaval.remains<=7) |
+| 1 | `use_item` | name=vaelgors_final_stare,if=evoker.shifting_buffs>=2\|evoker.shifting_buffs>=1&(cooldown.fire_breath.remains<=7\|cooldown.upheaval.remains<=7)\|cooldown.fire_breath.up&cooldown.upheaval.up |
 | 2 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&!variable.trinket_1_manual&!variable.trinket_1_exclude&((debuff.temporal_wound.up\|prev_gcd.1.breath_of_eons\|!talent.breath_of_eons&buff.ebon_might_self.up&active_enemies>=1\|variable.spam_on_use_trinket&(!cooldown.breath_of_eons.up\|variable.eons_remains>=10))\|variable.trinket_2_buffs&!trinket.2.cooldown.up&(prev_gcd.1.fire_breath\|prev_gcd.1.upheaval)&buff.ebon_might_self.up)&(variable.trinket_2_exclude\|!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|variable.trinket_priority=1)\|trinket.1.proc.any_dps.duration>=fight_remains |
 | 3 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&!variable.trinket_2_manual&!variable.trinket_2_exclude&((debuff.temporal_wound.up\|prev_gcd.1.breath_of_eons\|!talent.breath_of_eons&buff.ebon_might_self.up&active_enemies>=1\|variable.spam_on_use_trinket&(!cooldown.breath_of_eons.up\|variable.eons_remains>=10))\|variable.trinket_1_buffs&!trinket.1.cooldown.up&(prev_gcd.1.fire_breath\|prev_gcd.1.upheaval)&buff.ebon_might_self.up)&(variable.trinket_1_exclude\|!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|variable.trinket_priority=2)\|trinket.2.proc.any_dps.duration>=fight_remains |
 | 4 | `azure_strike` | if=cooldown.item_cd_1141.up&(variable.trinket_1_ogcd_cast&trinket.1.cooldown.up&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains)\|variable.trinket_2_ogcd_cast&trinket.2.cooldown.up&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains)) |
@@ -131,7 +130,7 @@ actions.precombat+=/variable,name=enforce_timings,op=reset,default=0
 actions.precombat+=/variable,name=spam_on_use_trinket,op=reset,default=1
 actions.precombat+=/variable,name=azure_st_filler,op=reset,default=1
 actions.precombat+=/variable,name=bombardments_pooling,op=reset,default=1
-actions.precombat+=/variable,name=crit_fish,op=reset,default=0
+actions.precombat+=/variable,name=crit_fish,op=reset,default=1
 actions.precombat+=/use_item,name=aberrant_spellforge
 actions.precombat+=/blistering_scales,target_if=target.role.tank
 actions.precombat+=/living_flame
@@ -142,29 +141,28 @@ actions+=/cancel_buff,name=tip_the_scales,if=cooldown.fire_breath.remains>0&tale
 actions+=/hover,use_off_gcd=1,if=gcd.remains>=0.5&(!raid_event.movement.exists|raid_event.movement.in<=6)
 actions+=/invoke_external_buff,name=power_infusion,if=buff.duplicate.up
 actions+=/potion,if=consumable.potion_of_recklessness&talent.doubletime
-actions+=/ebon_might,if=((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0|raid_event.adds.in<=3)&(buff.ebon_might_self.value<=0.05|variable.crit_fish<1)|buff.ebon_might_self.value<=0.05&talent.doubletime&variable.crit_fish>=1
+actions+=/ebon_might,if=(((buff.ebon_might_self.remains-cast_time)<=buff.ebon_might_self.duration*variable.ebon_might_pandemic_threshold)&(active_enemies>0|raid_event.adds.in<=3)|talent.doubletime&variable.crit_fish>=1)&(variable.eons_remains>0|!talent.doubletime|buff.ebon_might_self.up)
 actions+=/prescience,target_if=min:(debuff.prescience.remains-200*(target.role.attack|target.role.spell|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&time<=8
 actions+=/potion,if=variable.eons_remains<=0|cooldown.breath_of_eons.remains>=90|fight_remains<=30&!fight_style.dungeonroute
 actions+=/call_action_list,name=items
 actions+=/fury_of_the_aspects,if=talent.time_convergence&!buff.time_convergence_intellect.up&(essence>=2|buff.essence_burst.react)&variable.eons_remains>=8
-actions+=/tip_the_scales,if=!cooldown.breath_of_eons.up&(cooldown.fire_breath.up|talent.temporal_burst&cooldown.fire_breath.remains>gcd.max*2)
+actions+=/tip_the_scales,if=(!cooldown.breath_of_eons.up|!cooldown.allied_virtual_cd_time.up&variable.enforce_timings=1)&(cooldown.fire_breath.up|talent.temporal_burst&cooldown.fire_breath.remains>gcd.max*2)
 actions+=/deep_breath,cancel_if=gcd.remains<=0
-actions+=/breath_of_eons,if=target.time_to_die>=20&!variable.enforce_timings|variable.enforce_timings&(evoker.allied_cds_up>0|cooldown.allied_virtual_cd_time.up),cancel_if=gcd.remains<=0
-actions+=/fire_breath,target_if=target.time_to_die>duration+0.2,empower_to=4,if=buff.ebon_might_self.up&talent.leaping_flames
-actions+=/fire_breath,target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&!talent.leaping_flames
-actions+=/upheaval,target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up
+actions+=/breath_of_eons,if=target.time_to_die>=20&(!variable.enforce_timings)|variable.enforce_timings&cooldown.allied_virtual_cd_time.up,cancel_if=gcd.remains<=0
+actions+=/eruption,if=talent.afterimage&buff.essence_burst.at_max_stacks
+actions+=/fire_breath,target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&cooldown.upheaval.up
+actions+=/fire_breath,target_if=target.time_to_die>duration+0.2,empower_to=3,if=buff.ebon_might_self.up&!cooldown.upheaval.up
+actions+=/upheaval,target_if=target.time_to_die>duration+0.2,empower_to=1,if=buff.ebon_might_self.up&buff.magnified_fate.remains<=duration
 actions+=/prescience,target_if=min:(debuff.prescience.remains-200*(target.role.attack|target.role.spell|target.role.dps)+50*target.spec.augmentation),if=debuff.prescience.remains<gcd.max*2&(!talent.anachronism|buff.essence_burst.stack<buff.essence_burst.max_stack)|cooldown.time_skip.up&talent.time_skip
 actions+=/time_skip,if=!talent.chronoboon&cooldown.breath_of_eons.remains>=15|cooldown.tip_the_scales.remains>=6&!buff.tip_the_scales.up
 actions+=/emerald_blossom,if=talent.dream_of_spring&buff.essence_burst.react&(variable.spam_heal=2|variable.spam_heal=1&!buff.ancient_flame.up&talent.ancient_flame)&(buff.ebon_might_self.up|essence.deficit=0|buff.essence_burst.stack=buff.essence_burst.max_stack&cooldown.ebon_might.remains>4)
-actions+=/run_action_list,name=filler,if=(cooldown.fire_breath.remains<=gcd.max*4|cooldown.upheaval.remains<=gcd.max*4)&talent.extended_battle&buff.essence_burst.react<2&variable.bombardments_pooling
-actions+=/eruption,target_if=min:debuff.bombardments.remains+100*(target.time_to_die<=8),if=buff.mass_eruption_stacks.up
-actions+=/eruption,target_if=max:debuff.bombardments.remains,if=debuff.bombardments.remains>execute_time|buff.ebon_might_self.remains>execute_time&(buff.essence_burst.react>1|!talent.bombardments|!variable.bombardments_pooling)
+actions+=/eruption,target_if=max:debuff.bombardments.remains,if=buff.ebon_might_self.remains>execute_time
 actions+=/run_action_list,name=filler
 
 actions.filler=living_flame,if=(buff.ancient_flame.up|mana>=200000|!talent.dream_of_spring|variable.spam_heal=0)&(talent.pupil_of_alexstrasza&active_enemies>1|!talent.echoing_strike&!variable.azure_st_filler|talent.chrono_flame&variable.azure_st_filler<2)|buff.leaping_flames.up
 actions.filler+=/azure_strike
 
-actions.items=use_item,name=vaelgors_final_stare,if=evoker.shifting_buffs>=2|evoker.shifting_buffs>=1&(cooldown.fire_breath.remains<=7|cooldown.upheaval.remains<=7)
+actions.items=use_item,name=vaelgors_final_stare,if=evoker.shifting_buffs>=2|evoker.shifting_buffs>=1&(cooldown.fire_breath.remains<=7|cooldown.upheaval.remains<=7)|cooldown.fire_breath.up&cooldown.upheaval.up
 actions.items+=/use_item,slot=trinket1,if=variable.trinket_1_buffs&!variable.trinket_1_manual&!variable.trinket_1_exclude&((debuff.temporal_wound.up|prev_gcd.1.breath_of_eons|!talent.breath_of_eons&buff.ebon_might_self.up&active_enemies>=1|variable.spam_on_use_trinket&(!cooldown.breath_of_eons.up|variable.eons_remains>=10))|variable.trinket_2_buffs&!trinket.2.cooldown.up&(prev_gcd.1.fire_breath|prev_gcd.1.upheaval)&buff.ebon_might_self.up)&(variable.trinket_2_exclude|!trinket.2.has_cooldown|trinket.2.cooldown.remains|variable.trinket_priority=1)|trinket.1.proc.any_dps.duration>=fight_remains
 actions.items+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&!variable.trinket_2_manual&!variable.trinket_2_exclude&((debuff.temporal_wound.up|prev_gcd.1.breath_of_eons|!talent.breath_of_eons&buff.ebon_might_self.up&active_enemies>=1|variable.spam_on_use_trinket&(!cooldown.breath_of_eons.up|variable.eons_remains>=10))|variable.trinket_1_buffs&!trinket.1.cooldown.up&(prev_gcd.1.fire_breath|prev_gcd.1.upheaval)&buff.ebon_might_self.up)&(variable.trinket_1_exclude|!trinket.1.has_cooldown|trinket.1.cooldown.remains|variable.trinket_priority=2)|trinket.2.proc.any_dps.duration>=fight_remains
 # Azure Strike for OGCD trinkets. Ideally this would be Prescience casts in reality but this is simpler and seems to have no noticeable diferrence in DPS.

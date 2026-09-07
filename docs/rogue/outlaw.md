@@ -1,6 +1,6 @@
 # Rogue – Outlaw
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/rogue/outlaw.simc`
 
@@ -30,15 +30,16 @@ Source: `apl/default/rogue/outlaw.simc`
 | 1 | `stealth` | — |
 | 2 | `kick` | — |
 | 3 | `variable` | name=ambush_condition,value=(talent.hidden_opportunity\|combo_points.deficit>=2+talent.improved_ambush)&energy>=50 |
-| 4 | `variable` | name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&(hero_tree.fatebound\|cooldown.killing_spree.ready)) |
-| 5 | `variable` | name=blade_flurry_sync,value=spell_targets.blade_flurry<2&raid_event.adds.in>20\|buff.blade_flurry.up |
-| 6 | `call_action_list` | name=cds |
-| 7 | `run_action_list` | name=finish,if=variable.finish_condition |
-| 8 | `call_action_list` | name=build |
-| 9 | `arcane_torrent` | if=energy.base_deficit>=15+energy.regen |
-| 10 | `arcane_pulse` | — |
-| 11 | `lights_judgment` | — |
-| 12 | `bag_of_tricks` | — |
+| 4 | `variable` | name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&hero_tree.fatebound) |
+| 5 | `variable` | name=finish_condition,value=1,if=buff.fang_strike.up&!cooldown.between_the_eyes.ready&!cooldown.killing_spree.ready |
+| 6 | `variable` | name=blade_flurry_sync,value=spell_targets.blade_flurry<2&raid_event.adds.in>20\|buff.blade_flurry.up |
+| 7 | `call_action_list` | name=cds |
+| 8 | `run_action_list` | name=finish,if=variable.finish_condition |
+| 9 | `call_action_list` | name=build |
+| 10 | `arcane_torrent` | if=energy.base_deficit>=15+energy.regen |
+| 11 | `arcane_pulse` | — |
+| 12 | `lights_judgment` | — |
+| 13 | `bag_of_tricks` | — |
 
 ## Action List: `build`
 
@@ -46,22 +47,21 @@ Source: `apl/default/rogue/outlaw.simc`
 |---|--------|------------|
 | 1 | `ambush` | if=talent.hidden_opportunity&buff.audacity.up |
 | 2 | `blade_flurry` | if=talent.deft_maneuvers&spell_targets>=3 |
-| 3 | `coup_de_grace` | if=buff.disorienting_strikes.up |
-| 4 | `pistol_shot` | if=talent.audacity&talent.hidden_opportunity&buff.opportunity.up&!buff.audacity.up |
-| 5 | `pistol_shot` | if=talent.fan_the_hammer&buff.opportunity.up&(buff.opportunity.stack>=buff.opportunity.max_stack\|buff.opportunity.remains<2) |
-| 6 | `pistol_shot` | if=talent.fan_the_hammer&buff.opportunity.up&(combo_points.deficit>=(1+talent.quick_draw+(talent.quick_draw*talent.fan_the_hammer.rank))&(combo_points>1\|rtb_buffs<2\|!talent.deal_fate)) |
-| 7 | `pistol_shot` | if=!talent.fan_the_hammer&buff.opportunity.up&(energy.base_deficit>energy.regen*1.5\|combo_points.deficit<=1\|talent.quick_draw.enabled\|talent.audacity.enabled&!buff.audacity.up) |
-| 8 | `pool_resource` | for_next=1 |
-| 9 | `ambush` | if=talent.hidden_opportunity |
-| 10 | `sinister_strike` | — |
+| 3 | `pistol_shot` | if=talent.audacity&talent.hidden_opportunity&buff.opportunity.up&!buff.audacity.up |
+| 4 | `pistol_shot` | if=talent.fan_the_hammer&buff.opportunity.up&(buff.opportunity.stack>=buff.opportunity.max_stack\|buff.opportunity.remains<2) |
+| 5 | `pistol_shot` | if=talent.fan_the_hammer&buff.opportunity.up&(combo_points.deficit>=(1+talent.quick_draw+(talent.quick_draw*talent.fan_the_hammer.rank))&(combo_points>1\|rtb_buffs<2\|!talent.deal_fate)) |
+| 6 | `pistol_shot` | if=!talent.fan_the_hammer&buff.opportunity.up&(energy.base_deficit>energy.regen*1.5\|combo_points.deficit<=1\|talent.quick_draw.enabled\|talent.audacity.enabled&!buff.audacity.up) |
+| 7 | `pool_resource` | for_next=1 |
+| 8 | `ambush` | if=talent.hidden_opportunity |
+| 9 | `sinister_strike` | — |
 
 ## Action List: `cds`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `adrenaline_rush` | if=!buff.adrenaline_rush.up&(!variable.finish_condition\|!talent.improved_adrenaline_rush)&(raid_event.adds.remains>5\|raid_event.adds.in<5\|raid_event.adds.in>30) |
+| 1 | `adrenaline_rush` | if=!buff.adrenaline_rush.up&(raid_event.adds.remains>5\|raid_event.adds.in<5\|raid_event.adds.in>30) |
 | 2 | `blade_flurry` | if=spell_targets>=2&buff.blade_flurry.remains<gcd |
-| 3 | `preparation` | if=cooldown.adrenaline_rush.remains>30&!cooldown.between_the_eyes.ready\|fight_remains<30 |
+| 3 | `preparation` | if=cooldown.adrenaline_rush.remains>30&!cooldown.between_the_eyes.ready&!cooldown.killing_spree.ready\|fight_remains<30 |
 | 4 | `keep_it_rolling` | if=rtb_buffs>=3 |
 | 5 | `roll_the_bones` | if=!buff.roll_the_bones.up\|rtb_buffs=1+(buff.loaded_dice.up&cooldown.between_the_eyes.ready) |
 | 6 | `blade_rush` | if=set_bonus.mid1_2pc\|spell_targets=1&energy.base_time_to_max>2\|spell_targets>=2 |
@@ -79,9 +79,9 @@ Source: `apl/default/rogue/outlaw.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `between_the_eyes` | if=cooldown.adrenaline_rush.remains>30\|buff.adrenaline_rush.up\|!talent.supercharger\|!talent.zero_in |
+| 1 | `between_the_eyes` | if=!(buff.supercharge_1.up&!buff.supercharge_2.up)\|!talent.supercharger\|!cooldown.killing_spree.ready |
 | 2 | `pool_resource` | for_next=1 |
-| 3 | `killing_spree` | interrupt_if=energy.time_to_max<2,interrupt_global=1 |
+| 3 | `killing_spree` | if=buff.supercharge_1.up\|cooldown.adrenaline_rush.remains>120\|!talent.supercharger |
 | 4 | `coup_de_grace` | — |
 | 5 | `dispatch` | — |
 
@@ -109,8 +109,10 @@ actions=stealth
 # Interrupt on cooldown to allow simming interactions with that.
 actions+=/kick
 actions+=/variable,name=ambush_condition,value=(talent.hidden_opportunity|combo_points.deficit>=2+talent.improved_ambush)&energy>=50
-# Use finishers if at -1 from max combo points, but Killing Spree is used at -2, and Fatebound uses Dispatch at -2.
-actions+=/variable,name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&(hero_tree.fatebound|cooldown.killing_spree.ready))
+# Use finishers if at -1 from max combo points, but Fatebound uses Dispatch at -2.
+actions+=/variable,name=finish_condition,value=combo_points>=cp_max_spend-1-(!cooldown.between_the_eyes.ready&hero_tree.fatebound)
+# Use Dispatch early with MID2 4pc proc but not as priority over other finishers.
+actions+=/variable,name=finish_condition,value=1,if=buff.fang_strike.up&!cooldown.between_the_eyes.ready&!cooldown.killing_spree.ready
 actions+=/variable,name=blade_flurry_sync,value=spell_targets.blade_flurry<2&raid_event.adds.in>20|buff.blade_flurry.up
 actions+=/call_action_list,name=cds
 actions+=/run_action_list,name=finish,if=variable.finish_condition
@@ -124,8 +126,6 @@ actions+=/bag_of_tricks
 actions.build=ambush,if=talent.hidden_opportunity&buff.audacity.up
 # With Deft Maneuvers, build CPs with Blade Flurry at 3+ targets.
 actions.build+=/blade_flurry,if=talent.deft_maneuvers&spell_targets>=3
-# Prioritize Coup de Grace if Unseen Blade is guaranteed after Killing Spree.
-actions.build+=/coup_de_grace,if=buff.disorienting_strikes.up
 # With Audacity + Hidden Opportunity, consume Opportunity to proc Audacity any time Ambush is not available.
 actions.build+=/pistol_shot,if=talent.audacity&talent.hidden_opportunity&buff.opportunity.up&!buff.audacity.up
 # With Fan the Hammer, consume Opportunity if at max stacks or if it will expire.
@@ -139,17 +139,17 @@ actions.build+=/pool_resource,for_next=1
 actions.build+=/ambush,if=talent.hidden_opportunity
 actions.build+=/sinister_strike
 
-# Cooldowns  Maintain Adrenaline Rush. With Improved AR, use at low CPs. Has a cursory check to try not to send if immediate downtime is expected.
-actions.cds=adrenaline_rush,if=!buff.adrenaline_rush.up&(!variable.finish_condition|!talent.improved_adrenaline_rush)&(raid_event.adds.remains>5|raid_event.adds.in<5|raid_event.adds.in>30)
+# Cooldowns  Maintain Adrenaline Rush. Has a cursory check to try not to send if immediate downtime is expected.
+actions.cds=adrenaline_rush,if=!buff.adrenaline_rush.up&(raid_event.adds.remains>5|raid_event.adds.in<5|raid_event.adds.in>30)
 # Maintain Blade Flurry at 2+ targets.
 actions.cds+=/blade_flurry,if=spell_targets>=2&buff.blade_flurry.remains<gcd
-# Use Preparation to reset Adrenaline Rush and Between the Eyes.
-actions.cds+=/preparation,if=cooldown.adrenaline_rush.remains>30&!cooldown.between_the_eyes.ready|fight_remains<30
+# Use Preparation to reset Adrenaline Rush, Between the Eyes, and Killing Spree.
+actions.cds+=/preparation,if=cooldown.adrenaline_rush.remains>30&!cooldown.between_the_eyes.ready&!cooldown.killing_spree.ready|fight_remains<30
 # Use Keep it Rolling with at least stage 3 of RtB.
 actions.cds+=/keep_it_rolling,if=rtb_buffs>=3
-# Use Roll the Bones if not active, or reroll for stage 2. Roll over stage 2 if both Loaded Dice is active and KIR is ready.
+# Use Roll the Bones if not active, or reroll for stage 2. Roll over stage 2 if both Loaded Dice is active and BtE is ready.
 actions.cds+=/roll_the_bones,if=!buff.roll_the_bones.up|rtb_buffs=1+(buff.loaded_dice.up&cooldown.between_the_eyes.ready)
-# Use Blade Rush if using tier, or in AoE, or if you will not overcap energy within the gcd on ST.
+# Use Blade Rush if using MID1 tier, or in AoE, or if you will not overcap energy within the gcd on ST.
 actions.cds+=/blade_rush,if=set_bonus.mid1_2pc|spell_targets=1&energy.base_time_to_max>2|spell_targets>=2
 # Hidden Opportunity builds use Vanish or Shadowmeld for an extra Ambush in between procs.
 actions.cds+=/vanish,if=!variable.finish_condition&talent.hidden_opportunity&!buff.audacity.up&!buff.opportunity.up
@@ -163,11 +163,11 @@ actions.cds+=/ancestral_call
 actions.cds+=/use_items,slots=trinket1,if=buff.between_the_eyes.up|trinket.1.has_stat.any_dps|fight_remains<=20
 actions.cds+=/use_items,slots=trinket2,if=buff.between_the_eyes.up|trinket.2.has_stat.any_dps|fight_remains<=20
 
-# Finishers  With Supercharger and Zero In, hold BtE for an upcoming Adrenaline Rush
-actions.finish=between_the_eyes,if=cooldown.adrenaline_rush.remains>30|buff.adrenaline_rush.up|!talent.supercharger|!talent.zero_in
+# Finishers  Prioritize Between the Eyes unless you can spend the final Supercharger on Killing Spree.
+actions.finish=between_the_eyes,if=!(buff.supercharge_1.up&!buff.supercharge_2.up)|!talent.supercharger|!cooldown.killing_spree.ready
 actions.finish+=/pool_resource,for_next=1
-# Cancel Killing Spree with a builder/finisher if approaching max energy.
-actions.finish+=/killing_spree,interrupt_if=energy.time_to_max<2,interrupt_global=1
+# Always attempt to Supercharge Killing Spree unless Adrenaline Rush is horrifically desync'd.
+actions.finish+=/killing_spree,if=buff.supercharge_1.up|cooldown.adrenaline_rush.remains>120|!talent.supercharger
 actions.finish+=/coup_de_grace
 actions.finish+=/dispatch
 ```

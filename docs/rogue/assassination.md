@@ -1,6 +1,6 @@
 # Rogue – Assassination
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/rogue/assassination.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/rogue/assassination.simc`
 ## Overview
 
 - **Action Lists:** 9
-- **Total Actions:** 48
+- **Total Actions:** 49
 - **Lists:** `precombat`, `default`, `cds`, `core_dot`, `generate`, `items`, `misc_cds`, `spend`, `vanish`
 
 ## Action List: `precombat`
@@ -18,8 +18,8 @@ Source: `apl/default/rogue/assassination.simc`
 |---|--------|------------|
 | 1 | `apply_poison` | — |
 | 2 | `snapshot_stats` | — |
-| 3 | `variable` | name=trinket_sync_slot,value=1,if=trinket.1.has_use_buff&(!trinket.2.has_use_buff\|trinket.1.cooldown.duration>=trinket.2.cooldown.duration)&!trinket.2.is.treacherous_transmitter\|trinket.1.is.treacherous_transmitter\|trinket.1.is.house_of_cards |
-| 4 | `variable` | name=trinket_sync_slot,value=2,if=trinket.2.has_use_buff&(!trinket.1.has_use_buff\|trinket.2.cooldown.duration>trinket.1.cooldown.duration)&!trinket.1.is.treacherous_transmitter\|trinket.2.is.treacherous_transmitter\|trinket.2.is.house_of_cards |
+| 3 | `variable` | name=trinket_sync_slot,value=1,if=trinket.1.has_use_buff&(!trinket.2.has_use_buff\|trinket.1.cooldown.duration>=trinket.2.cooldown.duration) |
+| 4 | `variable` | name=trinket_sync_slot,value=2,if=trinket.2.has_use_buff&(!trinket.1.has_use_buff\|trinket.2.cooldown.duration>trinket.1.cooldown.duration) |
 | 5 | `stealth` | — |
 | 6 | `slice_and_dice` | precombat_seconds=1 |
 
@@ -30,9 +30,9 @@ Source: `apl/default/rogue/assassination.simc`
 | 1 | `stealth` | — |
 | 2 | `kick` | — |
 | 3 | `variable` | name=single_target,value=spell_targets.fan_of_knives=1 |
-| 4 | `thistle_tea` | if=energy.pct<50&fight_remains<10 |
+| 4 | `thistle_tea` | if=energy.pct<30\|fight_remains<10 |
 | 5 | `ambush` | if=stealthed.rogue&variable.single_target&talent.blindside&talent.improved_ambush&!talent.shrouded_suffocation |
-| 6 | `call_action_list` | name=cds |
+| 6 | `call_action_list` | name=cds,if=variable.single_target\|!talent.scent_of_blood\|buff.scent_of_blood.stack>=(2*talent.scent_of_blood.rank*spell_targets.fan_of_knives>?20) |
 | 7 | `call_action_list` | name=core_dot |
 | 8 | `call_action_list` | name=generate,if=!buff.darkest_night.up&combo_points<5\|buff.darkest_night.up&combo_points.deficit>0 |
 | 9 | `call_action_list` | name=spend,if=!buff.darkest_night.up&combo_points>=5\|buff.darkest_night.up&combo_points.deficit=0 |
@@ -42,10 +42,11 @@ Source: `apl/default/rogue/assassination.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `deathmark` | if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.remains>2&(target.time_to_die>10\|fight_remains<20) |
-| 2 | `call_action_list` | name=items |
-| 3 | `call_action_list` | name=misc_cds |
-| 4 | `kingsbane` | if=dot.garrote.ticking&dot.rupture.ticking&(dot.deathmark.ticking\|cooldown.deathmark.remains>52)&buff.envenom.up&(target.time_to_die>10\|fight_remains<20) |
-| 5 | `call_action_list` | name=vanish,if=!stealthed.rogue |
+| 2 | `invoke_external_buff` | name=power_infusion,if=dot.deathmark.ticking |
+| 3 | `call_action_list` | name=items |
+| 4 | `call_action_list` | name=misc_cds |
+| 5 | `kingsbane` | if=dot.garrote.ticking&dot.rupture.ticking&(dot.deathmark.ticking\|cooldown.deathmark.remains>52)&buff.envenom.up&(target.time_to_die>10\|fight_remains<20) |
+| 6 | `call_action_list` | name=vanish,if=!stealthed.rogue |
 
 ## Action List: `core_dot`
 
@@ -62,12 +63,12 @@ Source: `apl/default/rogue/assassination.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `crimson_tempest` | target_if=max:dot.rupture.remains,if=!variable.single_target&(active_dot.garrote<spell_targets.fan_of_knives\|active_dot.rupture<spell_targets.fan_of_knives)&(dot.rupture.remains>5\|energy.regen_combined>40) |
-| 2 | `shiv` | if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=3&talent.toxic_stiletto |
-| 3 | `fan_of_knives` | if=spell_targets.fan_of_knives>1+talent.blindside |
-| 4 | `ambush` | if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2\|buff.bloodlust.up\|!talent.deathstalkers_mark\|talent.blindside) |
-| 5 | `mutilate` | if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2\|buff.bloodlust.up\|!talent.deathstalkers_mark\|talent.blindside) |
-| 6 | `fan_of_knives` | if=spell_targets.fan_of_knives<=1+talent.blindside&!talent.blindside&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark) |
-| 7 | `shiv` | if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark) |
+| 2 | `shiv` | if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&talent.darkest_night |
+| 3 | `fan_of_knives` | if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=1 |
+| 4 | `fan_of_knives` | if=spell_targets.fan_of_knives>1+(talent.blindside&!talent.clear_the_witnesses) |
+| 5 | `ambush` | if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses) |
+| 6 | `mutilate` | if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses) |
+| 7 | `fan_of_knives` | if=main_hand.1h\|off_hand.1h |
 
 ## Action List: `items`
 
@@ -75,9 +76,10 @@ Source: `apl/default/rogue/assassination.simc`
 |---|--------|------------|
 | 1 | `variable` | name=base_trinket_condition,value=dot.rupture.ticking&cooldown.deathmark.remains<2\|dot.deathmark.ticking\|fight_remains<=22 |
 | 2 | `use_item` | name=astral_gladiators_badge_of_ferocity,use_off_gcd=1,if=dot.kingsbane.ticking\|dot.deathmark.ticking\|(cooldown.kingsbane.remains>60\|cooldown.deathmark.remains>60) |
-| 3 | `use_item` | name=algethar_puzzle_box,use_off_gcd=1,if=variable.base_trinket_condition&buff.envenom.up |
-| 4 | `use_items` | slots=trinket1,if=(variable.trinket_sync_slot=1&(debuff.deathmark.up)\|(variable.trinket_sync_slot=2&!trinket.2.cooldown.ready&cooldown.deathmark.remains>20))\|!variable.trinket_sync_slot\|fight_remains<=20 |
-| 5 | `use_items` | slots=trinket2,if=(variable.trinket_sync_slot=2&(debuff.deathmark.up)\|(variable.trinket_sync_slot=1&!trinket.1.cooldown.ready&cooldown.deathmark.remains>20))\|!variable.trinket_sync_slot\|fight_remains<=20 |
+| 3 | `use_item` | name=algethar_puzzle_box,use_off_gcd=1,if=variable.base_trinket_condition&buff.envenom.up&(target.time_to_die>10\|fight_remains<20) |
+| 4 | `use_item` | name=font_of_venomous_rage,use_off_gcd=1,if=buff.lingering_darkness.up\|!dot.deathmark.ticking&!cooldown.deathmark.ready&cooldown.deathmark.remains>20 |
+| 5 | `use_items` | slots=trinket1,if=(variable.trinket_sync_slot=1&(debuff.deathmark.up)\|(variable.trinket_sync_slot=2&!trinket.2.cooldown.ready&cooldown.deathmark.remains>20))\|!variable.trinket_sync_slot\|fight_remains<=20 |
+| 6 | `use_items` | slots=trinket2,if=(variable.trinket_sync_slot=2&(debuff.deathmark.up)\|(variable.trinket_sync_slot=1&!trinket.1.cooldown.ready&cooldown.deathmark.remains>20))\|!variable.trinket_sync_slot\|fight_remains<=20 |
 
 ## Action List: `misc_cds`
 
@@ -93,10 +95,9 @@ Source: `apl/default/rogue/assassination.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `cancel_buff` | name=envenom,if=buff.implacable_tracker.stack>4&(!talent.rapid_injection\|spell_targets.fan_of_knives>=5) |
-| 2 | `cancel_buff` | name=envenom,if=buff.implacable_tracker.stack>3&talent.rapid_injection&debuff.deathstalkers_mark.stack=1 |
-| 3 | `envenom` | if=buff.implacable_tracker.stack<4 |
-| 4 | `envenom` | if=energy.pct>70\|fight_remains<15 |
+| 1 | `envenom` | if=buff.envenom.remains<=1\|buff.deathmark.up |
+| 2 | `envenom` | if=energy.pct>70\|fight_remains<15 |
+| 3 | `envenom` | if=energy.pct>30&(target.time_to_die<12\|spell_targets.fan_of_knives>=4) |
 
 ## Action List: `vanish`
 
@@ -118,8 +119,8 @@ Source: `apl/default/rogue/assassination.simc`
 actions.precombat=apply_poison
 actions.precombat+=/snapshot_stats
 # Check which trinket slots have Stat Values
-actions.precombat+=/variable,name=trinket_sync_slot,value=1,if=trinket.1.has_use_buff&(!trinket.2.has_use_buff|trinket.1.cooldown.duration>=trinket.2.cooldown.duration)&!trinket.2.is.treacherous_transmitter|trinket.1.is.treacherous_transmitter|trinket.1.is.house_of_cards
-actions.precombat+=/variable,name=trinket_sync_slot,value=2,if=trinket.2.has_use_buff&(!trinket.1.has_use_buff|trinket.2.cooldown.duration>trinket.1.cooldown.duration)&!trinket.1.is.treacherous_transmitter|trinket.2.is.treacherous_transmitter|trinket.2.is.house_of_cards
+actions.precombat+=/variable,name=trinket_sync_slot,value=1,if=trinket.1.has_use_buff&(!trinket.2.has_use_buff|trinket.1.cooldown.duration>=trinket.2.cooldown.duration)
+actions.precombat+=/variable,name=trinket_sync_slot,value=2,if=trinket.2.has_use_buff&(!trinket.1.has_use_buff|trinket.2.cooldown.duration>trinket.1.cooldown.duration)
 # Pre-cast Slice and Dice if possible
 actions.precombat+=/stealth
 actions.precombat+=/slice_and_dice,precombat_seconds=1
@@ -132,11 +133,11 @@ actions+=/kick
 # Helper Variable to check for single target in combat
 actions+=/variable,name=single_target,value=spell_targets.fan_of_knives=1
 # Edge-case check to dump thistle tea at the end of fights
-actions+=/thistle_tea,if=energy.pct<50&fight_remains<10
+actions+=/thistle_tea,if=energy.pct<30|fight_remains<10
 # Special Ambush condition for the start of fights when applicable
 actions+=/ambush,if=stealthed.rogue&variable.single_target&talent.blindside&talent.improved_ambush&!talent.shrouded_suffocation
 # Cooldown list takes priority
-actions+=/call_action_list,name=cds
+actions+=/call_action_list,name=cds,if=variable.single_target|!talent.scent_of_blood|buff.scent_of_blood.stack>=(2*talent.scent_of_blood.rank*spell_targets.fan_of_knives>?20)
 # Maintain dots when possible
 actions+=/call_action_list,name=core_dot
 # Build combo points until 5, max with darkest night
@@ -146,6 +147,7 @@ actions+=/call_action_list,name=spend,if=!buff.darkest_night.up&combo_points>=5|
 
 # Cooldown list Deathmark if bleeds are active, kingsbane is ready, and we have envenom
 actions.cds=deathmark,if=dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.remains>2&(target.time_to_die>10|fight_remains<20)
+actions.cds+=/invoke_external_buff,name=power_infusion,if=dot.deathmark.ticking
 # Check for on-use trinket usage
 actions.cds+=/call_action_list,name=items
 # Check for Racial abilties, potions, and any other misc cooldowns
@@ -167,22 +169,23 @@ actions.core_dot+=/rupture,cycle_targets=1,if=!talent.crimson_tempest&combo_poin
 
 # Generator List Crimson Tempest to spread bleeds to everything in AoE
 actions.generate=crimson_tempest,target_if=max:dot.rupture.remains,if=!variable.single_target&(active_dot.garrote<spell_targets.fan_of_knives|active_dot.rupture<spell_targets.fan_of_knives)&(dot.rupture.remains>5|energy.regen_combined>40)
-# Special Edge Case to use Shiv for Darkest Night in low target cleave as Toxic Stiletto makes it very efficient
-actions.generate+=/shiv,if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=3&talent.toxic_stiletto
+# Special Edge Case to use Shiv and Fan of Knives in ST as Toxic Stiletto makes it very efficient
+actions.generate+=/shiv,if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&talent.darkest_night
+actions.generate+=/fan_of_knives,if=buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=1
 # Fan of Knives in AoE
-actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives>1+talent.blindside
+actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives>1+(talent.blindside&!talent.clear_the_witnesses)
 # Ambush on low target counts when available
-actions.generate+=/ambush,if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2|buff.bloodlust.up|!talent.deathstalkers_mark|talent.blindside)
+actions.generate+=/ambush,if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)
 # Mutilate on low target counts
-actions.generate+=/mutilate,if=spell_targets.fan_of_knives<=1+talent.blindside&(buff.unshakeable_drive.stack>2|buff.bloodlust.up|!talent.deathstalkers_mark|talent.blindside)
-# Fan of Knives and Shiv in ST with Deathstalker builds
-actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives<=1+talent.blindside&!talent.blindside&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark)
-actions.generate+=/shiv,if=spell_targets.fan_of_knives<=1&talent.toxic_stiletto&(buff.unshakeable_drive.stack<3&!buff.bloodlust.up&talent.deathstalkers_mark)
+actions.generate+=/mutilate,if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)
+# Fan of Knives fallback for Axe Users
+actions.generate+=/fan_of_knives,if=main_hand.1h|off_hand.1h
 
 # Special Case Trinkets
 actions.items=variable,name=base_trinket_condition,value=dot.rupture.ticking&cooldown.deathmark.remains<2|dot.deathmark.ticking|fight_remains<=22
 actions.items+=/use_item,name=astral_gladiators_badge_of_ferocity,use_off_gcd=1,if=dot.kingsbane.ticking|dot.deathmark.ticking|(cooldown.kingsbane.remains>60|cooldown.deathmark.remains>60)
-actions.items+=/use_item,name=algethar_puzzle_box,use_off_gcd=1,if=variable.base_trinket_condition&buff.envenom.up
+actions.items+=/use_item,name=algethar_puzzle_box,use_off_gcd=1,if=variable.base_trinket_condition&buff.envenom.up&(target.time_to_die>10|fight_remains<20)
+actions.items+=/use_item,name=font_of_venomous_rage,use_off_gcd=1,if=buff.lingering_darkness.up|!dot.deathmark.ticking&!cooldown.deathmark.ready&cooldown.deathmark.remains>20
 actions.items+=/use_items,slots=trinket1,if=(variable.trinket_sync_slot=1&(debuff.deathmark.up)|(variable.trinket_sync_slot=2&!trinket.2.cooldown.ready&cooldown.deathmark.remains>20))|!variable.trinket_sync_slot|fight_remains<=20
 actions.items+=/use_items,slots=trinket2,if=(variable.trinket_sync_slot=2&(debuff.deathmark.up)|(variable.trinket_sync_slot=1&!trinket.1.cooldown.ready&cooldown.deathmark.remains>20))|!variable.trinket_sync_slot|fight_remains<=20
 
@@ -194,14 +197,12 @@ actions.misc_cds+=/berserking,use_off_gcd=1,if=debuff.deathmark.up
 actions.misc_cds+=/fireblood,use_off_gcd=1,if=debuff.deathmark.up
 actions.misc_cds+=/ancestral_call,use_off_gcd=1,if=debuff.deathmark.up
 
-# Spend List   Cancelaura Envenom in situations where we can make use of the energy but don't have time to AFK
-actions.spend=cancel_buff,name=envenom,if=buff.implacable_tracker.stack>4&(!talent.rapid_injection|spell_targets.fan_of_knives>=5)
-# Special edgecase Cancelaura for Darkest Night handling
-actions.spend+=/cancel_buff,name=envenom,if=buff.implacable_tracker.stack>3&talent.rapid_injection&debuff.deathstalkers_mark.stack=1
-# Spend with envenom as per normal
-actions.spend+=/envenom,if=buff.implacable_tracker.stack<4
+# Spend List   Spend with envenom as per normal, clipping the last second to maintain uptime
+actions.spend=envenom,if=buff.envenom.remains<=1|buff.deathmark.up
 # Envenom if we are going to overcap on energy
 actions.spend+=/envenom,if=energy.pct>70|fight_remains<15
+# In AoE with mob cycles, we want to start envenoming sooner to avoid wasting time/energy
+actions.spend+=/envenom,if=energy.pct>30&(target.time_to_die<12|spell_targets.fan_of_knives>=4)
 
 # Vanish list Single Target vanish check to line up improved garrote with Deathmark, making sure there are no adds soon. TODO Check after ImpGar fixes
 actions.vanish=vanish,if=variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(dot.deathmark.ticking|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30

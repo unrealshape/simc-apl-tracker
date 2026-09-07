@@ -1,6 +1,6 @@
 # Shaman – Enhancement
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/shaman/enhancement.simc`
 
@@ -9,8 +9,8 @@ Source: `apl/default/shaman/enhancement.simc`
 ## Overview
 
 - **Action Lists:** 6
-- **Total Actions:** 106
-- **Lists:** `precombat`, `default`, `aoe`, `buffs`, `single_sb`, `single_totemic`
+- **Total Actions:** 113
+- **Lists:** `precombat`, `default`, `aoe`, `cooldowns`, `single_sb`, `single_totemic`
 
 ## Action List: `precombat`
 
@@ -19,10 +19,12 @@ Source: `apl/default/shaman/enhancement.simc`
 | 1 | `windfury_weapon` | — |
 | 2 | `flametongue_weapon` | — |
 | 3 | `lightning_shield` | — |
-| 4 | `variable` | name=trinket1_is_weird,value=trinket.1.is.algethar_puzzle_box\|trinket.1.is.unyielding_netherprism |
-| 5 | `variable` | name=trinket2_is_weird,value=trinket.2.is.algethar_puzzle_box\|trinket.2.is.unyielding_netherprism |
+| 4 | `variable` | name=trinket1_is_weird,value=trinket.1.is.algethar_puzzle_box\|trinket.1.is.unyielding_netherprism\|trinket.1.is.font_of_venomous_rage |
+| 5 | `variable` | name=trinket2_is_weird,value=trinket.2.is.algethar_puzzle_box\|trinket.2.is.unyielding_netherprism\|trinket.2.is.font_of_venomous_rage |
 | 6 | `snapshot_stats` | — |
 | 7 | `use_item` | name=algethar_puzzle_box |
+| 8 | `potion` | if=!potion.liquid_luster |
+| 9 | `potion` | pre_pot_time=12,if=potion.liquid_luster |
 
 ## Action List: `default`
 
@@ -46,7 +48,7 @@ Source: `apl/default/shaman/enhancement.simc`
 | 2 | `flame_shock` | if=!ticking |
 | 3 | `surging_totem` | — |
 | 4 | `ascendance` | if=ti_chain_lightning |
-| 5 | `call_action_list` | name=buffs |
+| 5 | `call_action_list` | name=cooldowns |
 | 6 | `sundering` | if=talent.surging_elements.enabled\|buff.whirling_earth.up |
 | 7 | `lava_lash` | if=buff.whirling_fire.up |
 | 8 | `doom_winds` | — |
@@ -60,7 +62,7 @@ Source: `apl/default/shaman/enhancement.simc`
 | 16 | `windstrike` | if=talent.thorims_invocation.enabled&talent.splitstream.enabled&buff.hot_hand.up |
 | 17 | `stormstrike` | if=talent.thorims_invocation.enabled&buff.doom_winds.up&talent.splitstream.enabled&buff.hot_hand.up |
 | 18 | `chain_lightning` | if=buff.maelstrom_weapon.stack>=(9+1*talent.surging_totem.enabled)&talent.splitstream.enabled&buff.hot_hand.up |
-| 19 | `voltaic_blaze` | if=talent.fire_nova.enabled |
+| 19 | `voltaic_blaze` | if=talent.fire_nova.enabled\|set_bonus.midnight_season_2_2pc |
 | 20 | `crash_lightning` | — |
 | 21 | `windstrike` | if=talent.thorims_invocation.enabled |
 | 22 | `stormstrike` | if=talent.thorims_invocation.enabled&buff.doom_winds.up |
@@ -77,20 +79,21 @@ Source: `apl/default/shaman/enhancement.simc`
 | 33 | `chain_lightning` | if=buff.maelstrom_weapon.stack>=5 |
 | 34 | `flame_shock` | — |
 
-## Action List: `buffs`
+## Action List: `cooldowns`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `use_item` | name=algethar_puzzle_box,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))\|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))\|(fight_remains%%120<=20) |
 | 2 | `use_item` | name=unyielding_netherprism,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))\|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))\|fight_remains<=20 |
-| 3 | `use_item` | slot=trinket1,if=!variable.trinket1_is_weird&((buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)))\|!trinket.1.has_use_buff |
-| 4 | `use_item` | slot=trinket2,if=!variable.trinket2_is_weird&((buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)))\|!trinket.2.has_use_buff |
-| 5 | `potion` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%300<=30)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
-| 6 | `blood_fury` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.blood_fury.cooldown<=action.blood_fury.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
-| 7 | `berserking` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.berserking.cooldown<=action.berserking.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
-| 8 | `fireblood` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.fireblood.cooldown<=action.fireblood.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
-| 9 | `ancestral_call` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.ancestral_call.cooldown<=action.ancestral_call.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
-| 10 | `invoke_external_buff` | name=power_infusion,if=((talent.deeply_rooted_elements.enabled&buff.ascendance.remains>7.5)\|(!talent.deeply_rooted_elements.enabled&(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active))\|(fight_remains%%120<=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 3 | `use_item` | slot=trinket1,if=!variable.trinket1_is_weird&((buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains<=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))\|!trinket.1.has_use_buff) |
+| 4 | `use_item` | slot=trinket2,if=!variable.trinket2_is_weird&((buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains<=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))\|!trinket.2.has_use_buff) |
+| 5 | `use_item` | name=font_of_venomous_rage,if=!buff.ascendance.up&((!trinket.1.has_use_buff&!trinket.2.has_use_buff)\|time>=20) |
+| 6 | `potion` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%300<=30)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 7 | `blood_fury` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.blood_fury.cooldown<=action.blood_fury.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 8 | `berserking` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.berserking.cooldown<=action.berserking.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 9 | `fireblood` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.fireblood.cooldown<=action.fireblood.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 10 | `ancestral_call` | if=(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active\|(fight_remains%%action.ancestral_call.cooldown<=action.ancestral_call.duration)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)) |
+| 11 | `invoke_external_buff` | name=power_infusion,if=((talent.deeply_rooted_elements.enabled&buff.ascendance.remains>7.5)\|(!talent.deeply_rooted_elements.enabled&(buff.ascendance.up\|buff.doom_winds.up\|pet.surging_totem.active))\|(fight_remains%%120<=20)\|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)\|cooldown.ascendance.remains<gcd.max) |
 
 ## Action List: `single_sb`
 
@@ -100,26 +103,29 @@ Source: `apl/default/shaman/enhancement.simc`
 | 2 | `voltaic_blaze` | if=dot.flame_shock.remains=0&time<5 |
 | 3 | `flame_shock` | if=!ticking |
 | 4 | `lava_lash` | if=!debuff.lashing_flames.up&time<5 |
-| 5 | `call_action_list` | name=buffs |
-| 6 | `sundering` | if=talent.surging_elements.enabled\|talent.feral_spirit.enabled |
-| 7 | `doom_winds` | — |
-| 8 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
-| 9 | `voltaic_blaze` | if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled |
-| 10 | `windstrike` | if=buff.maelstrom_weapon.stack>0&talent.thorims_invocation.enabled |
-| 11 | `ascendance` | — |
-| 12 | `stormstrike` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
-| 13 | `crash_lightning` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
-| 14 | `tempest` | if=buff.maelstrom_weapon.stack=10 |
-| 15 | `lightning_bolt` | if=buff.maelstrom_weapon.stack=10 |
-| 16 | `stormstrike` | if=charges_fractional>=1.8 |
-| 17 | `lava_lash` | — |
-| 18 | `stormstrike` | — |
-| 19 | `voltaic_blaze` | — |
-| 20 | `sundering` | — |
-| 21 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=8 |
-| 22 | `crash_lightning` | — |
-| 23 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
-| 24 | `flame_shock` | — |
+| 5 | `stormstrike` | if=time<1 |
+| 6 | `call_action_list` | name=cooldowns |
+| 7 | `sundering` | if=talent.surging_elements.enabled\|talent.feral_spirit.enabled |
+| 8 | `doom_winds` | — |
+| 9 | `voltaic_blaze` | if=set_bonus.midnight_season_2_2pc |
+| 10 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
+| 11 | `voltaic_blaze` | if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled |
+| 12 | `windstrike` | if=buff.maelstrom_weapon.stack>0&talent.thorims_invocation.enabled |
+| 13 | `ascendance` | — |
+| 14 | `stormstrike` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
+| 15 | `crash_lightning` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
+| 16 | `tempest` | if=buff.maelstrom_weapon.stack=10 |
+| 17 | `lightning_bolt` | if=buff.maelstrom_weapon.stack=10 |
+| 18 | `stormstrike` | if=charges_fractional>=1.8 |
+| 19 | `lava_lash` | if=talent.lashing_flames.enabled |
+| 20 | `stormstrike` | — |
+| 21 | `voltaic_blaze` | — |
+| 22 | `sundering` | — |
+| 23 | `lava_lash` | — |
+| 24 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=8 |
+| 25 | `crash_lightning` | — |
+| 26 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
+| 27 | `flame_shock` | — |
 
 ## Action List: `single_totemic`
 
@@ -128,25 +134,26 @@ Source: `apl/default/shaman/enhancement.simc`
 | 1 | `voltaic_blaze` | if=dot.flame_shock.remains=0 |
 | 2 | `flame_shock` | if=!ticking |
 | 3 | `surging_totem` | — |
-| 4 | `call_action_list` | name=buffs |
+| 4 | `call_action_list` | name=cooldowns |
 | 5 | `sundering` | if=talent.surging_elements.enabled\|buff.whirling_earth.up\|talent.feral_spirit.enabled |
 | 6 | `lava_lash` | if=buff.whirling_fire.up\|buff.hot_hand.up |
 | 7 | `doom_winds` | — |
-| 8 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
-| 9 | `primordial_storm` | if=(buff.maelstrom_weapon.stack>=10\|buff.primordial_storm.remains<3.5&buff.maelstrom_weapon.stack>=5) |
-| 10 | `windstrike` | if=talent.thorims_invocation.enabled&buff.ascendance.up |
-| 11 | `ascendance` | if=ti_lightning_bolt |
-| 12 | `crash_lightning` | if=talent.thorims_invocation.enabled&buff.doom_winds.up\|buff.ascendance.up |
-| 13 | `stormstrike` | if=talent.thorims_invocation.enabled&buff.doom_winds.up |
-| 14 | `lightning_bolt` | if=talent.elemental_tempo.enabled&(buff.maelstrom_weapon.stack>=5&(cooldown.lava_lash.remains>gcd.max)&(cooldown.lava_lash.remains<=buff.maelstrom_weapon.stack*0.3)\|buff.maelstrom_weapon.stack>=10) |
-| 15 | `crash_lightning` | if=!buff.crash_lightning.up |
-| 16 | `lava_lash` | — |
-| 17 | `sundering` | if=cooldown.surging_totem.remains>25 |
-| 18 | `stormstrike` | — |
-| 19 | `voltaic_blaze` | — |
-| 20 | `crash_lightning` | — |
-| 21 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
-| 22 | `flame_shock` | — |
+| 8 | `voltaic_blaze` | if=set_bonus.midnight_season_2_2pc |
+| 9 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
+| 10 | `primordial_storm` | if=(buff.maelstrom_weapon.stack>=10\|buff.primordial_storm.remains<3.5&buff.maelstrom_weapon.stack>=5) |
+| 11 | `windstrike` | if=talent.thorims_invocation.enabled&buff.ascendance.up |
+| 12 | `ascendance` | if=ti_lightning_bolt |
+| 13 | `crash_lightning` | if=talent.thorims_invocation.enabled&buff.doom_winds.up\|buff.ascendance.up |
+| 14 | `stormstrike` | if=talent.thorims_invocation.enabled&buff.doom_winds.up |
+| 15 | `lightning_bolt` | if=talent.elemental_tempo.enabled&(buff.maelstrom_weapon.stack>=5&(cooldown.lava_lash.remains>gcd.max)&(cooldown.lava_lash.remains<=buff.maelstrom_weapon.stack*0.3)\|buff.maelstrom_weapon.stack>=10) |
+| 16 | `crash_lightning` | if=!buff.crash_lightning.up |
+| 17 | `lava_lash` | — |
+| 18 | `sundering` | if=cooldown.surging_totem.remains>25 |
+| 19 | `stormstrike` | — |
+| 20 | `voltaic_blaze` | — |
+| 21 | `crash_lightning` | — |
+| 22 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
+| 23 | `flame_shock` | — |
 
 ## Raw APL
 
@@ -161,11 +168,13 @@ Source: `apl/default/shaman/enhancement.simc`
 actions.precombat=windfury_weapon
 actions.precombat+=/flametongue_weapon
 actions.precombat+=/lightning_shield
-actions.precombat+=/variable,name=trinket1_is_weird,value=trinket.1.is.algethar_puzzle_box|trinket.1.is.unyielding_netherprism
-actions.precombat+=/variable,name=trinket2_is_weird,value=trinket.2.is.algethar_puzzle_box|trinket.2.is.unyielding_netherprism
+actions.precombat+=/variable,name=trinket1_is_weird,value=trinket.1.is.algethar_puzzle_box|trinket.1.is.unyielding_netherprism|trinket.1.is.font_of_venomous_rage
+actions.precombat+=/variable,name=trinket2_is_weird,value=trinket.2.is.algethar_puzzle_box|trinket.2.is.unyielding_netherprism|trinket.2.is.font_of_venomous_rage
 # Snapshot raid buffed stats before combat begins and pre-potting is done.
 actions.precombat+=/snapshot_stats
 actions.precombat+=/use_item,name=algethar_puzzle_box
+actions.precombat+=/potion,if=!potion.liquid_luster
+actions.precombat+=/potion,pre_pot_time=12,if=potion.liquid_luster
 
 # Executed every time the actor is available.
 actions=variable,name=target_nature_mod,value=(1+debuff.chaos_brand.up*debuff.chaos_brand.value)*(1+(debuff.hunters_mark.up*target.health.pct>=80)*debuff.hunters_mark.value)
@@ -183,7 +192,7 @@ actions.aoe=voltaic_blaze,if=talent.surging_totem.enabled&dot.flame_shock.remain
 actions.aoe+=/flame_shock,if=!ticking
 actions.aoe+=/surging_totem
 actions.aoe+=/ascendance,if=ti_chain_lightning
-actions.aoe+=/call_action_list,name=buffs
+actions.aoe+=/call_action_list,name=cooldowns
 actions.aoe+=/sundering,if=talent.surging_elements.enabled|buff.whirling_earth.up
 actions.aoe+=/lava_lash,if=buff.whirling_fire.up
 actions.aoe+=/doom_winds
@@ -197,7 +206,7 @@ actions.aoe+=/crash_lightning,if=talent.thorims_invocation.enabled&(buff.doom_wi
 actions.aoe+=/windstrike,if=talent.thorims_invocation.enabled&talent.splitstream.enabled&buff.hot_hand.up
 actions.aoe+=/stormstrike,if=talent.thorims_invocation.enabled&buff.doom_winds.up&talent.splitstream.enabled&buff.hot_hand.up
 actions.aoe+=/chain_lightning,if=buff.maelstrom_weapon.stack>=(9+1*talent.surging_totem.enabled)&talent.splitstream.enabled&buff.hot_hand.up
-actions.aoe+=/voltaic_blaze,if=talent.fire_nova.enabled
+actions.aoe+=/voltaic_blaze,if=talent.fire_nova.enabled|set_bonus.midnight_season_2_2pc
 actions.aoe+=/crash_lightning
 actions.aoe+=/windstrike,if=talent.thorims_invocation.enabled
 actions.aoe+=/stormstrike,if=talent.thorims_invocation.enabled&buff.doom_winds.up
@@ -214,26 +223,29 @@ actions.aoe+=/stormstrike
 actions.aoe+=/chain_lightning,if=buff.maelstrom_weapon.stack>=5
 actions.aoe+=/flame_shock
 
-# Buff action priority list
-actions.buffs=use_item,name=algethar_puzzle_box,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))|(fight_remains%%120<=20)
-actions.buffs+=/use_item,name=unyielding_netherprism,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))|fight_remains<=20
-actions.buffs+=/use_item,slot=trinket1,if=!variable.trinket1_is_weird&((buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)))|!trinket.1.has_use_buff
-actions.buffs+=/use_item,slot=trinket2,if=!variable.trinket2_is_weird&((buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)))|!trinket.2.has_use_buff
-actions.buffs+=/potion,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%300<=30)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
-actions.buffs+=/blood_fury,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.blood_fury.cooldown<=action.blood_fury.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
-actions.buffs+=/berserking,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.berserking.cooldown<=action.berserking.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
-actions.buffs+=/fireblood,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.fireblood.cooldown<=action.fireblood.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
-actions.buffs+=/ancestral_call,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.ancestral_call.cooldown<=action.ancestral_call.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
-actions.buffs+=/invoke_external_buff,name=power_infusion,if=((talent.deeply_rooted_elements.enabled&buff.ascendance.remains>7.5)|(!talent.deeply_rooted_elements.enabled&(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active))|(fight_remains%%120<=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+# Cooldown action priority list
+actions.cooldowns=use_item,name=algethar_puzzle_box,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))|(fight_remains%%120<=20)
+actions.cooldowns+=/use_item,name=unyielding_netherprism,if=(talent.ascendance.enabled&(cooldown.ascendance.remains<2*gcd.max))|(talent.doom_winds.enabled&!talent.ascendance.enabled&(cooldown.doom_winds.remains<2*gcd.max))|fight_remains<=20
+actions.cooldowns+=/use_item,slot=trinket1,if=!variable.trinket1_is_weird&((buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains<=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))|!trinket.1.has_use_buff)
+actions.cooldowns+=/use_item,slot=trinket2,if=!variable.trinket2_is_weird&((buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains<=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))|!trinket.2.has_use_buff)
+actions.cooldowns+=/use_item,name=font_of_venomous_rage,if=!buff.ascendance.up&((!trinket.1.has_use_buff&!trinket.2.has_use_buff)|time>=20)
+actions.cooldowns+=/potion,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%300<=30)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+actions.cooldowns+=/blood_fury,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.blood_fury.cooldown<=action.blood_fury.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+actions.cooldowns+=/berserking,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.berserking.cooldown<=action.berserking.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+actions.cooldowns+=/fireblood,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.fireblood.cooldown<=action.fireblood.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+actions.cooldowns+=/ancestral_call,if=(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active|(fight_remains%%action.ancestral_call.cooldown<=action.ancestral_call.duration)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled))
+actions.cooldowns+=/invoke_external_buff,name=power_infusion,if=((talent.deeply_rooted_elements.enabled&buff.ascendance.remains>7.5)|(!talent.deeply_rooted_elements.enabled&(buff.ascendance.up|buff.doom_winds.up|pet.surging_totem.active))|(fight_remains%%120<=20)|(!talent.ascendance.enabled&!talent.doom_winds.enabled&!talent.surging_totem.enabled)|cooldown.ascendance.remains<gcd.max)
 
 # Single target action priority list for the Stormbringer hero talent tree
 actions.single_sb=primordial_storm,if=(buff.maelstrom_weapon.stack>=9|buff.primordial_storm.remains<=4&buff.maelstrom_weapon.stack>=5)
 actions.single_sb+=/voltaic_blaze,if=dot.flame_shock.remains=0&time<5
 actions.single_sb+=/flame_shock,if=!ticking
 actions.single_sb+=/lava_lash,if=!debuff.lashing_flames.up&time<5
-actions.single_sb+=/call_action_list,name=buffs
+actions.single_sb+=/stormstrike,if=time<1
+actions.single_sb+=/call_action_list,name=cooldowns
 actions.single_sb+=/sundering,if=talent.surging_elements.enabled|talent.feral_spirit.enabled
 actions.single_sb+=/doom_winds
+actions.single_sb+=/voltaic_blaze,if=set_bonus.midnight_season_2_2pc
 actions.single_sb+=/crash_lightning,if=!buff.crash_lightning.up|talent.storm_unleashed.enabled
 actions.single_sb+=/voltaic_blaze,if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled
 actions.single_sb+=/windstrike,if=buff.maelstrom_weapon.stack>0&talent.thorims_invocation.enabled
@@ -243,10 +255,11 @@ actions.single_sb+=/crash_lightning,if=buff.doom_winds.up&talent.thorims_invocat
 actions.single_sb+=/tempest,if=buff.maelstrom_weapon.stack=10
 actions.single_sb+=/lightning_bolt,if=buff.maelstrom_weapon.stack=10
 actions.single_sb+=/stormstrike,if=charges_fractional>=1.8
-actions.single_sb+=/lava_lash
+actions.single_sb+=/lava_lash,if=talent.lashing_flames.enabled
 actions.single_sb+=/stormstrike
 actions.single_sb+=/voltaic_blaze
 actions.single_sb+=/sundering
+actions.single_sb+=/lava_lash
 actions.single_sb+=/lightning_bolt,if=buff.maelstrom_weapon.stack>=8
 actions.single_sb+=/crash_lightning
 actions.single_sb+=/lightning_bolt,if=buff.maelstrom_weapon.stack>=5
@@ -256,10 +269,11 @@ actions.single_sb+=/flame_shock
 actions.single_totemic=voltaic_blaze,if=dot.flame_shock.remains=0
 actions.single_totemic+=/flame_shock,if=!ticking
 actions.single_totemic+=/surging_totem
-actions.single_totemic+=/call_action_list,name=buffs
+actions.single_totemic+=/call_action_list,name=cooldowns
 actions.single_totemic+=/sundering,if=talent.surging_elements.enabled|buff.whirling_earth.up|talent.feral_spirit.enabled
 actions.single_totemic+=/lava_lash,if=buff.whirling_fire.up|buff.hot_hand.up
 actions.single_totemic+=/doom_winds
+actions.single_totemic+=/voltaic_blaze,if=set_bonus.midnight_season_2_2pc
 actions.single_totemic+=/crash_lightning,if=!buff.crash_lightning.up|talent.storm_unleashed.enabled
 actions.single_totemic+=/primordial_storm,if=(buff.maelstrom_weapon.stack>=10|buff.primordial_storm.remains<3.5&buff.maelstrom_weapon.stack>=5)
 actions.single_totemic+=/windstrike,if=talent.thorims_invocation.enabled&buff.ascendance.up

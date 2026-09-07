@@ -1,6 +1,6 @@
 # Warrior – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-07-01 07:15 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
 
 Source: `apl/default/warrior/protection.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/warrior/protection.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 73
+- **Total Actions:** 71
 - **Lists:** `precombat`, `default`, `colossus_aoe`, `colossus_st`, `thane_aoe`, `thane_st`, `variables`
 
 ## Action List: `precombat`
@@ -41,78 +41,76 @@ Source: `apl/default/warrior/protection.simc`
 | 15 | `potion` | if=buff.avatar.up\|buff.avatar.up&target.health.pct<=20 |
 | 16 | `ignore_pain` | if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready\|rage.deficit<=20&cooldown.shield_charge.ready\|rage.deficit<=20&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled\|rage.deficit<=15\|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.practiced_strikes.enabled\|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled\|rage.deficit<=18&cooldown.shield_slam.ready&talent.practiced_strikes.enabled)\|(rage>=70\|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains,use_off_gcd=1 |
 | 17 | `ravager` | — |
-| 18 | `demoralizing_shout` | if=talent.booming_voice.enabled |
-| 19 | `champions_leap` | — |
-| 20 | `champions_spear` | — |
-| 21 | `thunder_blast` | if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2 |
-| 22 | `demolish` | if=buff.colossal_might.stack>=3 |
-| 23 | `shield_charge` | — |
-| 24 | `shield_block` | if=buff.shield_block.remains<=10 |
-| 25 | `run_action_list` | name=colossus_aoe,if=hero_tree.colossus&spell_targets.thunder_clap>=3 |
-| 26 | `run_action_list` | name=thane_aoe,if=hero_tree.mountain_thane&spell_targets.thunder_clap>=3 |
-| 27 | `run_action_list` | name=colossus_st,if=talent.demolish |
-| 28 | `run_action_list` | name=thane_st,if=talent.lightning_strikes |
+| 18 | `thunder_blast` | if=talent.booming_voice.enabled&buff.thunder_blast.stack=2&talent.snap_induction.enabled |
+| 19 | `demoralizing_shout` | if=talent.booming_voice.enabled |
+| 20 | `champions_leap` | — |
+| 21 | `champions_spear` | — |
+| 22 | `thunder_blast` | if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2 |
+| 23 | `demolish` | if=buff.colossal_might.stack>=3 |
+| 24 | `shield_charge` | — |
+| 25 | `shield_block` | if=buff.shield_block.remains<=10 |
+| 26 | `run_action_list` | name=colossus_aoe,if=hero_tree.colossus&spell_targets.thunder_clap>=3 |
+| 27 | `run_action_list` | name=thane_aoe,if=hero_tree.mountain_thane&spell_targets.thunder_clap>=3 |
+| 28 | `run_action_list` | name=colossus_st,if=talent.demolish |
+| 29 | `run_action_list` | name=thane_st,if=talent.lightning_strikes |
 
 ## Action List: `colossus_aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `thunder_clap` | if=dot.rend_dot.remains<=1 |
-| 2 | `shield_slam` | if=buff.violent_outburst.up&buff.phalanx.up |
-| 3 | `thunder_clap` | if=spell_targets.thunder_clap>6&buff.avatar.up |
-| 4 | `revenge` | if=rage>=70&spell_targets.revenge>=3 |
-| 5 | `shield_slam` | if=rage<=60\|buff.violent_outburst.up |
-| 6 | `thunder_clap` | — |
-| 7 | `revenge` | if=rage>=30\|rage>=40&talent.barbaric_training.enabled |
-| 8 | `execute` | if=spell_targets.execute>=2&(rage>=50\|buff.sudden_death.up)&talent.heavy_handed.enabled |
+| 1 | `thunder_clap` | if=buff.ravager.up&!dot.rend_dot.ticking |
+| 2 | `revenge` | if=buff.revenge.up |
+| 3 | `shield_slam` | if=buff.phalanx.up&(buff.violent_outburst.up\|rage<30) |
+| 4 | `thunder_clap` | if=rage<30 |
+| 5 | `revenge` | if=spell_targets.revenge>=3 |
+| 6 | `shield_slam` | — |
+| 7 | `thunder_clap` | — |
+| 8 | `revenge` | if=rage>=30 |
+| 9 | `execute` | if=spell_targets.execute>=2&(rage>=50\|buff.sudden_death.up)&talent.heavy_handed.enabled |
 
 ## Action List: `colossus_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `shield_slam` | — |
-| 2 | `thunder_clap` | — |
-| 3 | `revenge` | if=buff.ravager.up |
-| 4 | `execute` | if=buff.sudden_death.up&talent.deep_wounds\|talent.deep_wounds&rage>=40 |
-| 5 | `thunder_clap` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80 |
-| 6 | `revenge` | if=rage>=80&!variable.execute_phase\|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&!variable.execute_phase |
-| 7 | `wrecking_throw` | if=talent.javelineer.enabled |
-| 8 | `shattering_throw` | if=talent.javelineer.enabled |
-| 9 | `revenge` | — |
-| 10 | `devastate` | — |
+| 2 | `thunder_clap` | if=!buff.phalanx.up |
+| 3 | `execute` | — |
+| 4 | `revenge` | if=buff.revenge.up |
+| 5 | `thunder_clap` | — |
+| 6 | `revenge` | — |
+| 7 | `thunder_clap` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80 |
+| 8 | `revenge` | if=rage>=80&!variable.execute_phase\|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&!variable.execute_phase |
+| 9 | `wrecking_throw` | if=talent.javelineer.enabled |
+| 10 | `shattering_throw` | if=talent.javelineer.enabled |
+| 11 | `devastate` | — |
+| 12 | `thunder_clap` | if=!buff.phalanx.up |
 
 ## Action List: `thane_aoe`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `thunder_blast` | if=dot.rend_dot.remains<=1 |
-| 2 | `thunder_clap` | if=dot.rend_dot.remains<=1 |
-| 3 | `shield_slam` | if=buff.violent_outburst.up&buff.phalanx.up |
-| 4 | `thunder_blast` | if=spell_targets.thunder_clap>=2&buff.avatar.up |
-| 5 | `shield_slam` | if=buff.phalanx.up |
-| 6 | `thunder_clap` | if=spell_targets.thunder_clap>=4&buff.avatar.up |
-| 7 | `revenge` | if=rage>=70&spell_targets.revenge>=3 |
-| 8 | `shield_slam` | if=rage<=60\|buff.violent_outburst.up |
-| 9 | `thunder_blast` | — |
-| 10 | `thunder_clap` | — |
-| 11 | `execute` | if=spell_targets.execute>=2&(rage>=50\|buff.sudden_death.up)&talent.heavy_handed.enabled |
-| 12 | `revenge` | if=rage>=30\|rage>=40&talent.barbaric_training.enabled |
+| 1 | `thunder_blast` | — |
+| 2 | `shield_slam` | if=buff.phalanx.up |
+| 3 | `thunder_clap` | — |
+| 4 | `revenge` | if=buff.revenge.up |
+| 5 | `shield_slam` | — |
+| 6 | `revenge` | — |
+| 7 | `execute` | if=spell_targets.execute=3&(rage>=50\|buff.sudden_death.up)&talent.heavy_handed.enabled |
 
 ## Action List: `thane_st`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `thunder_blast` | — |
-| 2 | `thunder_clap` | if=buff.ravager.up |
-| 3 | `shield_slam` | — |
-| 4 | `thunder_clap` | — |
-| 5 | `thunder_blast` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains) |
-| 6 | `execute` | if=buff.sudden_death.up\|rage>=40 |
+| 2 | `shield_slam` | — |
+| 3 | `execute` | — |
+| 4 | `revenge` | if=buff.revenge.up |
+| 5 | `thunder_clap` | — |
+| 6 | `thunder_blast` | if=(spell_targets.thunder_clap>=1\|cooldown.shield_slam.remains) |
 | 7 | `wrecking_throw` | if=talent.javelineer.enabled |
 | 8 | `shattering_throw` | if=talent.javelineer.enabled |
-| 9 | `revenge` | if=rage>=80&!variable.execute_phase\|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains\|buff.revenge.up&!variable.execute_phase |
-| 10 | `revenge` | — |
-| 11 | `devastate` | — |
+| 9 | `revenge` | — |
+| 10 | `devastate` | — |
 
 ## Action List: `variables`
 
@@ -152,6 +150,7 @@ actions+=/bag_of_tricks
 actions+=/potion,if=buff.avatar.up|buff.avatar.up&target.health.pct<=20
 actions+=/ignore_pain,if=target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready|rage.deficit<=20&cooldown.shield_charge.ready|rage.deficit<=20&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled|rage.deficit<=15|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.practiced_strikes.enabled|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled|rage.deficit<=18&cooldown.shield_slam.ready&talent.practiced_strikes.enabled)|(rage>=70|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains,use_off_gcd=1
 actions+=/ravager
+actions+=/thunder_blast,if=talent.booming_voice.enabled&buff.thunder_blast.stack=2&talent.snap_induction.enabled
 actions+=/demoralizing_shout,if=talent.booming_voice.enabled
 actions+=/champions_leap
 actions+=/champions_spear
@@ -164,48 +163,45 @@ actions+=/run_action_list,name=thane_aoe,if=hero_tree.mountain_thane&spell_targe
 actions+=/run_action_list,name=colossus_st,if=talent.demolish
 actions+=/run_action_list,name=thane_st,if=talent.lightning_strikes
 
-actions.colossus_aoe=thunder_clap,if=dot.rend_dot.remains<=1
-actions.colossus_aoe+=/shield_slam,if=buff.violent_outburst.up&buff.phalanx.up
-actions.colossus_aoe+=/thunder_clap,if=spell_targets.thunder_clap>6&buff.avatar.up
-actions.colossus_aoe+=/revenge,if=rage>=70&spell_targets.revenge>=3
-actions.colossus_aoe+=/shield_slam,if=rage<=60|buff.violent_outburst.up
+actions.colossus_aoe=thunder_clap,if=buff.ravager.up&!dot.rend_dot.ticking
+actions.colossus_aoe+=/revenge,if=buff.revenge.up
+actions.colossus_aoe+=/shield_slam,if=buff.phalanx.up&(buff.violent_outburst.up|rage<30)
+actions.colossus_aoe+=/thunder_clap,if=rage<30
+actions.colossus_aoe+=/revenge,if=spell_targets.revenge>=3
+actions.colossus_aoe+=/shield_slam
 actions.colossus_aoe+=/thunder_clap
-actions.colossus_aoe+=/revenge,if=rage>=30|rage>=40&talent.barbaric_training.enabled
+actions.colossus_aoe+=/revenge,if=rage>=30
 actions.colossus_aoe+=/execute,if=spell_targets.execute>=2&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled
 
 actions.colossus_st=shield_slam
+actions.colossus_st+=/thunder_clap,if=!buff.phalanx.up
+actions.colossus_st+=/execute
+actions.colossus_st+=/revenge,if=buff.revenge.up
 actions.colossus_st+=/thunder_clap
-actions.colossus_st+=/revenge,if=buff.ravager.up
-actions.colossus_st+=/execute,if=buff.sudden_death.up&talent.deep_wounds|talent.deep_wounds&rage>=40
+actions.colossus_st+=/revenge
 actions.colossus_st+=/thunder_clap,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80
 actions.colossus_st+=/revenge,if=rage>=80&!variable.execute_phase|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&!variable.execute_phase
 actions.colossus_st+=/wrecking_throw,if=talent.javelineer.enabled
 actions.colossus_st+=/shattering_throw,if=talent.javelineer.enabled
-actions.colossus_st+=/revenge
 actions.colossus_st+=/devastate
+actions.colossus_st+=/thunder_clap,if=!buff.phalanx.up
 
-actions.thane_aoe=thunder_blast,if=dot.rend_dot.remains<=1
-actions.thane_aoe+=/thunder_clap,if=dot.rend_dot.remains<=1
-actions.thane_aoe+=/shield_slam,if=buff.violent_outburst.up&buff.phalanx.up
-actions.thane_aoe+=/thunder_blast,if=spell_targets.thunder_clap>=2&buff.avatar.up
+actions.thane_aoe=thunder_blast
 actions.thane_aoe+=/shield_slam,if=buff.phalanx.up
-actions.thane_aoe+=/thunder_clap,if=spell_targets.thunder_clap>=4&buff.avatar.up
-actions.thane_aoe+=/revenge,if=rage>=70&spell_targets.revenge>=3
-actions.thane_aoe+=/shield_slam,if=rage<=60|buff.violent_outburst.up
-actions.thane_aoe+=/thunder_blast
 actions.thane_aoe+=/thunder_clap
-actions.thane_aoe+=/execute,if=spell_targets.execute>=2&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled
-actions.thane_aoe+=/revenge,if=rage>=30|rage>=40&talent.barbaric_training.enabled
+actions.thane_aoe+=/revenge,if=buff.revenge.up
+actions.thane_aoe+=/shield_slam
+actions.thane_aoe+=/revenge
+actions.thane_aoe+=/execute,if=spell_targets.execute=3&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled
 
 actions.thane_st=thunder_blast
-actions.thane_st+=/thunder_clap,if=buff.ravager.up
 actions.thane_st+=/shield_slam
+actions.thane_st+=/execute
+actions.thane_st+=/revenge,if=buff.revenge.up
 actions.thane_st+=/thunder_clap
 actions.thane_st+=/thunder_blast,if=(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)
-actions.thane_st+=/execute,if=buff.sudden_death.up|rage>=40
 actions.thane_st+=/wrecking_throw,if=talent.javelineer.enabled
 actions.thane_st+=/shattering_throw,if=talent.javelineer.enabled
-actions.thane_st+=/revenge,if=rage>=80&!variable.execute_phase|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&!variable.execute_phase
 actions.thane_st+=/revenge
 actions.thane_st+=/devastate
 
