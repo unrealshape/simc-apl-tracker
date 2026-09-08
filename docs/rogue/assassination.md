@@ -1,6 +1,6 @@
 # Rogue – Assassination
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-07 21:44 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-08 07:58 UTC
 
 Source: `apl/default/rogue/assassination.simc`
 
@@ -68,7 +68,7 @@ Source: `apl/default/rogue/assassination.simc`
 | 4 | `fan_of_knives` | if=spell_targets.fan_of_knives>1+(talent.blindside&!talent.clear_the_witnesses) |
 | 5 | `ambush` | if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses) |
 | 6 | `mutilate` | if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses) |
-| 7 | `fan_of_knives` | if=main_hand.1h\|off_hand.1h |
+| 7 | `fan_of_knives` | if=!(main_hand.dagger&off_hand.dagger) |
 
 ## Action List: `items`
 
@@ -178,8 +178,8 @@ actions.generate+=/fan_of_knives,if=spell_targets.fan_of_knives>1+(talent.blinds
 actions.generate+=/ambush,if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)
 # Mutilate on low target counts
 actions.generate+=/mutilate,if=spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)
-# Fan of Knives fallback for Axe Users
-actions.generate+=/fan_of_knives,if=main_hand.1h|off_hand.1h
+# Fan of Knives fallback for non-dagger weapon swaps
+actions.generate+=/fan_of_knives,if=!(main_hand.dagger&off_hand.dagger)
 
 # Special Case Trinkets
 actions.items=variable,name=base_trinket_condition,value=dot.rupture.ticking&cooldown.deathmark.remains<2|dot.deathmark.ticking|fight_remains<=22
