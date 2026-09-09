@@ -1,6 +1,6 @@
 # Monk – Windwalker
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-08 07:58 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-09 08:02 UTC
 
 Source: `apl/default/monk/windwalker.simc`
 
