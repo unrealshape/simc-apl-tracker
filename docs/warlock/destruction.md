@@ -1,6 +1,6 @@
 # Warlock – Destruction
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-09 08:02 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-10 08:01 UTC
 
 Source: `apl/default/warlock/destruction.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/warlock/destruction.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 78
+- **Total Actions:** 80
 - **Lists:** `precombat`, `default`, `aoe_dia`, `aoe_hc`, `items`, `ogcd`, `variables`
 
 ## Action List: `precombat`
@@ -62,19 +62,21 @@ Source: `apl/default/warlock/destruction.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `summon_infernal` | — |
-| 2 | `chaos_bolt` | if=talent.diabolic_ritual&(demonic_art\|(variable.ritual_length<action.chaos_bolt.execute_time))&(active_enemies<=(10-2*talent.destructive_rapidity)) |
-| 3 | `rain_of_fire` | if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))\|buff.alythesss_ire.up)&active_enemies>=3 |
-| 4 | `conflagrate` | target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),if=dot_refreshable_count.immolate>0&!dot.immolate.refreshable |
-| 5 | `shadowburn` | target_if=min:(time_to_die+999*debuff.havoc.remains),if=(active_enemies<=(4-talent.destructive_rapidity+2*buff.fiendish_cruelty.up))\|(talent.conflagration_of_chaos&active_enemies<=(6+2*buff.fiendish_cruelty.up)) |
-| 6 | `ruination` | — |
-| 7 | `cataclysm` | if=raid_event.adds.in>15\|talent.lake_of_fire |
-| 8 | `havoc` | target_if=min:((-target.time_to_die)<?-15)+dot.immolate.remains+99*(self.target=target),if=(!cooldown.summon_infernal.up\|!talent.summon_infernal)&target.time_to_die>8\|time<5 |
-| 9 | `infernal_bolt` | if=soul_shard<3 |
-| 10 | `chaos_bolt` | if=active_enemies<=2&variable.ritual_length>4 |
-| 11 | `soul_fire` | target_if=min:(dot.immolate.remains+100*debuff.havoc.remains),if=soul_shard<4&(talent.avatar_of_destruction&active_enemies<=10\|active_enemies<=5) |
-| 12 | `immolate` | target_if=min:dot.immolate.remains+99*debuff.havoc.remains,if=dot.immolate.refreshable&(!talent.cataclysm.enabled\|cooldown.cataclysm.remains>dot.immolate.remains)&active_dot.immolate<=5&!talent.cataclysm&target.time_to_die>18 |
-| 13 | `conflagrate` | target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),if=buff.backdraft.stack<2\|!talent.backdraft |
-| 14 | `incinerate` | — |
+| 2 | `shadowburn` | if=demonic_art |
+| 3 | `chaos_bolt` | if=demonic_art |
+| 4 | `chaos_bolt` | if=(demonic_art\|(variable.ritual_length<action.chaos_bolt.execute_time))&(active_enemies<=(4-talent.destructive_rapidity)) |
+| 5 | `rain_of_fire` | if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))\|buff.alythesss_ire.up)&active_enemies>=3 |
+| 6 | `conflagrate` | target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),if=dot_refreshable_count.immolate>0&!dot.immolate.refreshable |
+| 7 | `shadowburn` | target_if=min:(time_to_die+999*debuff.havoc.remains),if=(!talent.destructive_rapidity&active_enemies<=(2+2*buff.fiendish_cruelty.up))\|(talent.conflagration_of_chaos&active_enemies<=(6-talent.destructive_rapidity+2*buff.fiendish_cruelty.up)) |
+| 8 | `ruination` | — |
+| 9 | `cataclysm` | if=raid_event.adds.in>15\|talent.lake_of_fire |
+| 10 | `havoc` | target_if=min:((-target.time_to_die)<?-15)+dot.immolate.remains+99*(self.target=target),if=(!cooldown.summon_infernal.up\|!talent.summon_infernal)&target.time_to_die>8\|time<5 |
+| 11 | `infernal_bolt` | if=soul_shard<3 |
+| 12 | `chaos_bolt` | if=active_enemies<=2&variable.ritual_length>4 |
+| 13 | `soul_fire` | target_if=min:(dot.immolate.remains+100*debuff.havoc.remains),if=soul_shard<4&(talent.avatar_of_destruction&active_enemies<=10\|active_enemies<=5) |
+| 14 | `immolate` | target_if=min:dot.immolate.remains+99*debuff.havoc.remains,if=dot.immolate.refreshable&(!talent.cataclysm.enabled\|cooldown.cataclysm.remains>dot.immolate.remains)&active_dot.immolate<=5&!talent.cataclysm&target.time_to_die>18 |
+| 15 | `conflagrate` | target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),if=buff.backdraft.stack<2\|!talent.backdraft |
+| 16 | `incinerate` | — |
 
 ## Action List: `aoe_hc`
 
@@ -84,7 +86,7 @@ Source: `apl/default/warlock/destruction.simc`
 | 2 | `malevolence` | — |
 | 3 | `rain_of_fire` | if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=4 |
 | 4 | `conflagrate` | target_if=max:(dot.wither.remains-99*debuff.havoc.remains),if=dot_refreshable_count.wither>0&!dot.wither.refreshable |
-| 5 | `shadowburn` | target_if=min:(time_to_die+999*debuff.havoc.remains),if=buff.fiendish_cruelty.up\|(talent.conflagration_of_chaos&(active_enemies<=(5-talent.destructive_rapidity))) |
+| 5 | `shadowburn` | target_if=min:(time_to_die+999*debuff.havoc.remains),if=(buff.fiendish_cruelty.up&active_enemies<=4)\|(talent.conflagration_of_chaos&(active_enemies<=(5+buff.fiendish_cruelty.up))) |
 | 6 | `cataclysm` | if=raid_event.adds.in>15 |
 | 7 | `havoc` | target_if=min:((-target.time_to_die)<?-15)+dot.wither.remains+99*(self.target=target),if=(!cooldown.summon_infernal.up\|!talent.summon_infernal)&target.time_to_die>8&(cooldown.malevolence.remains>15\|!talent.malevolence)\|time<5 |
 | 8 | `rain_of_fire` | if=active_enemies>=4 |
@@ -174,10 +176,12 @@ actions+=/infernal_bolt,if=soul_shard<=3
 actions+=/incinerate
 
 actions.aoe_dia=summon_infernal
-actions.aoe_dia+=/chaos_bolt,if=talent.diabolic_ritual&(demonic_art|(variable.ritual_length<action.chaos_bolt.execute_time))&(active_enemies<=(10-2*talent.destructive_rapidity))
+actions.aoe_dia+=/shadowburn,if=demonic_art
+actions.aoe_dia+=/chaos_bolt,if=demonic_art
+actions.aoe_dia+=/chaos_bolt,if=(demonic_art|(variable.ritual_length<action.chaos_bolt.execute_time))&(active_enemies<=(4-talent.destructive_rapidity))
 actions.aoe_dia+=/rain_of_fire,if=((soul_shard>=(3.5-0.1*(active_dot.immolate)))|buff.alythesss_ire.up)&active_enemies>=3
 actions.aoe_dia+=/conflagrate,target_if=max:(dot.immolate.remains-99*debuff.havoc.remains),if=dot_refreshable_count.immolate>0&!dot.immolate.refreshable
-actions.aoe_dia+=/shadowburn,target_if=min:(time_to_die+999*debuff.havoc.remains),if=(active_enemies<=(4-talent.destructive_rapidity+2*buff.fiendish_cruelty.up))|(talent.conflagration_of_chaos&active_enemies<=(6+2*buff.fiendish_cruelty.up))
+actions.aoe_dia+=/shadowburn,target_if=min:(time_to_die+999*debuff.havoc.remains),if=(!talent.destructive_rapidity&active_enemies<=(2+2*buff.fiendish_cruelty.up))|(talent.conflagration_of_chaos&active_enemies<=(6-talent.destructive_rapidity+2*buff.fiendish_cruelty.up))
 actions.aoe_dia+=/ruination
 actions.aoe_dia+=/cataclysm,if=raid_event.adds.in>15|talent.lake_of_fire
 actions.aoe_dia+=/havoc,target_if=min:((-target.time_to_die)<?-15)+dot.immolate.remains+99*(self.target=target),if=(!cooldown.summon_infernal.up|!talent.summon_infernal)&target.time_to_die>8|time<5
@@ -192,7 +196,7 @@ actions.aoe_hc=summon_infernal
 actions.aoe_hc+=/malevolence
 actions.aoe_hc+=/rain_of_fire,if=(soul_shard>=(4.0-0.1*(active_dot.wither)))&active_enemies>=4
 actions.aoe_hc+=/conflagrate,target_if=max:(dot.wither.remains-99*debuff.havoc.remains),if=dot_refreshable_count.wither>0&!dot.wither.refreshable
-actions.aoe_hc+=/shadowburn,target_if=min:(time_to_die+999*debuff.havoc.remains),if=buff.fiendish_cruelty.up|(talent.conflagration_of_chaos&(active_enemies<=(5-talent.destructive_rapidity)))
+actions.aoe_hc+=/shadowburn,target_if=min:(time_to_die+999*debuff.havoc.remains),if=(buff.fiendish_cruelty.up&active_enemies<=4)|(talent.conflagration_of_chaos&(active_enemies<=(5+buff.fiendish_cruelty.up)))
 actions.aoe_hc+=/cataclysm,if=raid_event.adds.in>15
 actions.aoe_hc+=/havoc,target_if=min:((-target.time_to_die)<?-15)+dot.wither.remains+99*(self.target=target),if=(!cooldown.summon_infernal.up|!talent.summon_infernal)&target.time_to_die>8&(cooldown.malevolence.remains>15|!talent.malevolence)|time<5
 actions.aoe_hc+=/rain_of_fire,if=active_enemies>=4
