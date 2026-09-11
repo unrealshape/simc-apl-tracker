@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-10 08:01 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-11 07:57 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -98,7 +98,7 @@ Source: `apl/default/hunter/survival.simc`
 |---|--------|------------|
 | 1 | `kill_command` | if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains\|!talent.twin_fangs) |
 | 2 | `boomstick` | — |
-| 3 | `wildfire_bomb` | if=buff.tip_of_the_spear.up&(debuff.sentinels_mark.remains\|full_recharge_time<4) |
+| 3 | `wildfire_bomb` | if=(debuff.sentinels_mark.remains\|full_recharge_time<4) |
 | 4 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
 | 5 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
 | 6 | `moonlight_chakram` | — |
@@ -182,7 +182,7 @@ actions.sentcleave+=/kill_command
 # ST - Sent
 actions.sentst=kill_command,if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains|!talent.twin_fangs)
 actions.sentst+=/boomstick
-actions.sentst+=/wildfire_bomb,if=buff.tip_of_the_spear.up&(debuff.sentinels_mark.remains|full_recharge_time<4)
+actions.sentst+=/wildfire_bomb,if=(debuff.sentinels_mark.remains|full_recharge_time<4)
 actions.sentst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
 actions.sentst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
 actions.sentst+=/moonlight_chakram

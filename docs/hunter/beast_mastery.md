@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-10 08:01 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-11 07:57 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -104,8 +104,8 @@ Source: `apl/default/hunter/beast_mastery.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage |
-| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff |
+| 1 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready\|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)\|fight_remains<21 |
+| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!potion.liquid_luster\|!equipped.font_of_venomous_rage\|((buff.liquid_luster.up&buff.liquid_luster.remains<6)\|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up))\|fight_remains<10 |
 
 ## Raw APL
 
@@ -179,6 +179,6 @@ actions.st+=/cobra_shot,if=buff.cobra_fang.at_max_stacks
 actions.st+=/barbed_shot,if=(focus<75|full_recharge_time<gcd)&!talent.serpentine_strikes|talent.serpentine_strikes
 actions.st+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 
-actions.trinkets=use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage
-actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff
+actions.trinkets=use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)|fight_remains<21
+actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!potion.liquid_luster|!equipped.font_of_venomous_rage|((buff.liquid_luster.up&buff.liquid_luster.remains<6)|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up))|fight_remains<10
 ```
