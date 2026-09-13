@@ -1,6 +1,6 @@
 # Death Knight – Blood
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-12 07:50 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-13 08:12 UTC
 
 Source: `apl/default/deathknight/blood.simc`
 
