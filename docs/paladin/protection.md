@@ -1,6 +1,6 @@
 # Paladin – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-13 08:12 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-14 08:47 UTC
 
 Source: `apl/default/paladin/protection.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/paladin/protection.simc`
 ## Overview
 
 - **Action Lists:** 2
-- **Total Actions:** 36
+- **Total Actions:** 43
 - **Lists:** `precombat`, `default`
 
 ## Action List: `precombat`
@@ -20,43 +20,50 @@ Source: `apl/default/paladin/protection.simc`
 | 2 | `rite_of_adjuration` | — |
 | 3 | `snapshot_stats` | — |
 | 4 | `devotion_aura` | — |
-| 5 | `lights_judgment` | — |
-| 6 | `consecration` | — |
+| 5 | `potion` | pre_pot_time=8,if=potion.liquid_luster |
+| 6 | `lights_judgment` | — |
+| 7 | `consecration` | — |
 
 ## Action List: `default`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `auto_attack` | — |
-| 2 | `use_item` | name=algethar_puzzle_box |
-| 3 | `use_items` | — |
-| 4 | `potion` | if=buff.avenging_wrath.up |
-| 5 | `avenging_wrath` | if=cooldown.divine_toll.remains<=10 |
+| 2 | `use_items` | — |
+| 3 | `potion` | if=(buff.avenging_wrath.up&!potion.liquid_luster)\|(cooldown.avenging_wrath.remains<=8&potion.liquid_luster) |
+| 4 | `holy_armaments` | if=next_armament=holy_bulwark&(cooldown.avenging_wrath.up\|buff.avenging_wrath.up) |
+| 5 | `avenging_wrath` | if=cooldown.divine_toll.remains<=10&(hero_tree.templar\|(buff.holy_bulwark.up\|next_armament=sacred_weapon&cooldown.holy_armaments.charges<2\|cooldown.holy_armaments.charges<1)) |
 | 6 | `fireblood` | if=buff.avenging_wrath.up |
 | 7 | `divine_toll` | if=buff.avenging_wrath.up\|(!talent.righteous_protector.enabled&cooldown.avenging_wrath.remains>30) |
 | 8 | `hammer_of_light` | if=(!buff.undisputed_ruling.up\|buff.hammer_of_light_ready.remains<5)&debuff.judgment.up |
-| 9 | `shield_of_the_righteous` | if=!buff.hammer_of_light_ready.up\|(!buff.hammer_of_light_ready.remains<5&buff.undisputed_ruling.up)\|buff.hammer_of_light_free.up\|prev_gcd.1.divine_toll |
-| 10 | `holy_armaments` | if=next_armament=sacred_weapon&(buff.sacred_weapon.remains<6\|!buff.sacred_weapon.up) |
-| 11 | `hammer_of_wrath` | if=buff.hammer_of_light_ready.up&!debuff.judgment.up |
-| 12 | `hammer_of_wrath` | if=hero_tree.lightsmith |
-| 13 | `judgment` | if=buff.hammer_of_light_ready.up&!debuff.judgment.up |
-| 14 | `avengers_shield` | if=buff.vanguard.up\|(buff.avenging_wrath.up&apex.3) |
-| 15 | `holy_armaments` | if=next_armament=holy_bulwark&cooldown.avenging_wrath.remains<5 |
-| 16 | `consecration` | if=buff.divine_guidance.stack>=5 |
-| 17 | `hammer_of_wrath` | — |
-| 18 | `judgment` | if=full_recharge_time<=gcd*2 |
-| 19 | `avengers_shield` | — |
-| 20 | `consecration` | if=!consecration.up |
-| 21 | `hammer_of_the_righteous` | if=buff.blessed_assurance.up |
-| 22 | `blessed_hammer` | if=buff.blessed_assurance.up |
-| 23 | `judgment` | — |
-| 24 | `holy_armaments` | if=next_armament=holy_bulwark&charges=2 |
-| 25 | `consecration` | if=!consecration.up |
-| 26 | `blessed_hammer` | — |
-| 27 | `hammer_of_the_righteous` | — |
-| 28 | `arcane_torrent` | — |
-| 29 | `word_of_glory` | if=buff.shining_light_free.up |
-| 30 | `consecration` | — |
+| 9 | `shield_of_the_righteous` | if=hero_tree.templar&(!buff.hammer_of_light_ready.up\|(!buff.hammer_of_light_ready.remains<5&buff.undisputed_ruling.up)\|buff.hammer_of_light_free.up\|prev_gcd.1.divine_toll) |
+| 10 | `shield_of_the_righteous` | if=hero_tree.lightsmith&(((debuff.judgment.up&(holy_power>=5&buff.avenging_wrath.up)\|(holy_power>=3&!buff.avenging_wrath.up))\|holy_power=5)\|!talent.instrument_of_the_divine.enabled\|buff.divine_purpose.up) |
+| 11 | `holy_armaments` | if=next_armament=sacred_weapon&((buff.sacred_weapon.remains<6\|!buff.sacred_weapon.up\|(cooldown.avenging_wrath.remains>20&!buff.avenging_wrath.up))\|charges=2) |
+| 12 | `hammer_of_wrath` | if=buff.hammer_of_light_ready.up&!debuff.judgment.up |
+| 13 | `hammer_of_wrath` | if=hero_tree.lightsmith&full_recharge_time<=gcd*2 |
+| 14 | `judgment` | if=buff.hammer_of_light_ready.up&!debuff.judgment.up |
+| 15 | `shield_of_the_righteous` | if=buff.avenging_wrath.up&talent.instrument_of_the_divine |
+| 16 | `avengers_shield` | if=buff.vanguard.up\|(buff.avenging_wrath.up&apex.3) |
+| 17 | `holy_armaments` | if=next_armament=holy_bulwark&cooldown.avenging_wrath.remains<3 |
+| 18 | `consecration` | if=buff.divine_guidance.stack>=5 |
+| 19 | `hammer_of_wrath` | — |
+| 20 | `judgment` | if=full_recharge_time<=gcd*2 |
+| 21 | `avengers_shield` | — |
+| 22 | `consecration` | if=!consecration.up |
+| 23 | `hammer_of_the_righteous` | if=buff.blessed_assurance.up |
+| 24 | `blessed_hammer` | if=buff.blessed_assurance.up |
+| 25 | `judgment` | — |
+| 26 | `consecration` | if=buff.divine_guidance.stack>=4 |
+| 27 | `holy_armaments` | if=next_armament=holy_bulwark&charges=2 |
+| 28 | `consecration` | if=!consecration.up |
+| 29 | `blessed_hammer` | — |
+| 30 | `hammer_of_the_righteous` | — |
+| 31 | `arcane_torrent` | — |
+| 32 | `word_of_glory` | if=buff.shining_light_free.up |
+| 33 | `hammer_of_the_righteous` | — |
+| 34 | `arcane_torrent` | — |
+| 35 | `word_of_glory` | if=buff.shining_light_free.up |
+| 36 | `consecration` | — |
 
 ## Raw APL
 
@@ -72,25 +79,28 @@ actions.precombat=rite_of_sanctification
 actions.precombat+=/rite_of_adjuration
 actions.precombat+=/snapshot_stats
 actions.precombat+=/devotion_aura
+actions.precombat+=/potion,pre_pot_time=8,if=potion.liquid_luster
 actions.precombat+=/lights_judgment
 actions.precombat+=/consecration
 
 # Executed every time the actor is available.
 actions=auto_attack
-actions+=/use_item,name=algethar_puzzle_box
 actions+=/use_items
-actions+=/potion,if=buff.avenging_wrath.up
-actions+=/avenging_wrath,if=cooldown.divine_toll.remains<=10
+actions+=/potion,if=(buff.avenging_wrath.up&!potion.liquid_luster)|(cooldown.avenging_wrath.remains<=8&potion.liquid_luster)
+actions+=/holy_armaments,if=next_armament=holy_bulwark&(cooldown.avenging_wrath.up|buff.avenging_wrath.up)
+actions+=/avenging_wrath,if=cooldown.divine_toll.remains<=10&(hero_tree.templar|(buff.holy_bulwark.up|next_armament=sacred_weapon&cooldown.holy_armaments.charges<2|cooldown.holy_armaments.charges<1))
 actions+=/fireblood,if=buff.avenging_wrath.up
 actions+=/divine_toll,if=buff.avenging_wrath.up|(!talent.righteous_protector.enabled&cooldown.avenging_wrath.remains>30)
 actions+=/hammer_of_light,if=(!buff.undisputed_ruling.up|buff.hammer_of_light_ready.remains<5)&debuff.judgment.up
-actions+=/shield_of_the_righteous,if=!buff.hammer_of_light_ready.up|(!buff.hammer_of_light_ready.remains<5&buff.undisputed_ruling.up)|buff.hammer_of_light_free.up|prev_gcd.1.divine_toll
-actions+=/holy_armaments,if=next_armament=sacred_weapon&(buff.sacred_weapon.remains<6|!buff.sacred_weapon.up)
+actions+=/shield_of_the_righteous,if=hero_tree.templar&(!buff.hammer_of_light_ready.up|(!buff.hammer_of_light_ready.remains<5&buff.undisputed_ruling.up)|buff.hammer_of_light_free.up|prev_gcd.1.divine_toll)
+actions+=/shield_of_the_righteous,if=hero_tree.lightsmith&(((debuff.judgment.up&(holy_power>=5&buff.avenging_wrath.up)|(holy_power>=3&!buff.avenging_wrath.up))|holy_power=5)|!talent.instrument_of_the_divine.enabled|buff.divine_purpose.up)
+actions+=/holy_armaments,if=next_armament=sacred_weapon&((buff.sacred_weapon.remains<6|!buff.sacred_weapon.up|(cooldown.avenging_wrath.remains>20&!buff.avenging_wrath.up))|charges=2)
 actions+=/hammer_of_wrath,if=buff.hammer_of_light_ready.up&!debuff.judgment.up
-actions+=/hammer_of_wrath,if=hero_tree.lightsmith
+actions+=/hammer_of_wrath,if=hero_tree.lightsmith&full_recharge_time<=gcd*2
 actions+=/judgment,if=buff.hammer_of_light_ready.up&!debuff.judgment.up
+actions+=/shield_of_the_righteous,if=buff.avenging_wrath.up&talent.instrument_of_the_divine
 actions+=/avengers_shield,if=buff.vanguard.up|(buff.avenging_wrath.up&apex.3)
-actions+=/holy_armaments,if=next_armament=holy_bulwark&cooldown.avenging_wrath.remains<5
+actions+=/holy_armaments,if=next_armament=holy_bulwark&cooldown.avenging_wrath.remains<3
 actions+=/consecration,if=buff.divine_guidance.stack>=5
 actions+=/hammer_of_wrath
 actions+=/judgment,if=full_recharge_time<=gcd*2
@@ -99,9 +109,13 @@ actions+=/consecration,if=!consecration.up
 actions+=/hammer_of_the_righteous,if=buff.blessed_assurance.up
 actions+=/blessed_hammer,if=buff.blessed_assurance.up
 actions+=/judgment
+actions+=/consecration,if=buff.divine_guidance.stack>=4
 actions+=/holy_armaments,if=next_armament=holy_bulwark&charges=2
 actions+=/consecration,if=!consecration.up
 actions+=/blessed_hammer
+actions+=/hammer_of_the_righteous
+actions+=/arcane_torrent
+actions+=/word_of_glory,if=buff.shining_light_free.up
 actions+=/hammer_of_the_righteous
 actions+=/arcane_torrent
 actions+=/word_of_glory,if=buff.shining_light_free.up
