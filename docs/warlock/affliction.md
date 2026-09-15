@@ -1,6 +1,6 @@
 # Warlock – Affliction
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-14 08:47 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-15 08:34 UTC
 
 Source: `apl/default/warlock/affliction.simc`
 
@@ -77,11 +77,11 @@ Source: `apl/default/warlock/affliction.simc`
 | 3 | `wither` | if=refreshable |
 | 4 | `dark_harvest` | if=execute_time<(dot.agony.remains<?dot.corruption.remains) |
 | 5 | `malevolence` | — |
-| 6 | `malefic_grasp` | if=buff.nightfall.react>1\|pet.darkglare.remains<gcd |
-| 7 | `drain_soul` | if=buff.nightfall.react>1 |
-| 8 | `shadow_bolt` | if=buff.nightfall.react>1 |
-| 9 | `unstable_affliction` | if=pet.darkglare.remains\|buff.malevolence.remains\|soul_shard>4\|buff.shard_instability.react\|buff.cascading_calamity.remains<gcd.max |
-| 10 | `summon_darkglare` | — |
+| 6 | `summon_darkglare` | — |
+| 7 | `malefic_grasp` | if=buff.nightfall.react>1\|pet.darkglare.remains<gcd |
+| 8 | `drain_soul` | if=buff.nightfall.react>1 |
+| 9 | `shadow_bolt` | if=buff.nightfall.react>1 |
+| 10 | `unstable_affliction` | if=pet.darkglare.remains\|buff.malevolence.remains\|soul_shard>4\|buff.shard_instability.react\|buff.cascading_calamity.remains<gcd.max |
 
 ## Action List: `SH_aoe`
 
@@ -244,11 +244,11 @@ actions.HC_st+=/agony,if=refreshable
 actions.HC_st+=/wither,if=refreshable
 actions.HC_st+=/dark_harvest,if=execute_time<(dot.agony.remains<?dot.corruption.remains)
 actions.HC_st+=/malevolence
+actions.HC_st+=/summon_darkglare
 actions.HC_st+=/malefic_grasp,if=buff.nightfall.react>1|pet.darkglare.remains<gcd
 actions.HC_st+=/drain_soul,if=buff.nightfall.react>1
 actions.HC_st+=/shadow_bolt,if=buff.nightfall.react>1
 actions.HC_st+=/unstable_affliction,if=pet.darkglare.remains|buff.malevolence.remains|soul_shard>4|buff.shard_instability.react|buff.cascading_calamity.remains<gcd.max
-actions.HC_st+=/summon_darkglare
 
 actions.SH_aoe=haunt
 actions.SH_aoe+=/seed_of_corruption,if=(!dot.corruption.ticking|dot.corruption.refreshable)&!dot.seed_of_corruption.ticking&!prev.seed_of_corruption&!action.seed_of_corruption.in_flight
