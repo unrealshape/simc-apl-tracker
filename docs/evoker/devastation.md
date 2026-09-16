@@ -1,6 +1,6 @@
 # Evoker – Devastation
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-15 08:34 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-16 08:28 UTC
 
 Source: `apl/default/evoker/devastation.simc`
 
@@ -8,9 +8,9 @@ Source: `apl/default/evoker/devastation.simc`
 
 ## Overview
 
-- **Action Lists:** 8
-- **Total Actions:** 86
-- **Lists:** `precombat`, `default`, `es`, `fb`, `fs`, `green`, `sc`, `trinkets`
+- **Action Lists:** 9
+- **Total Actions:** 89
+- **Lists:** `precombat`, `default`, `es`, `fb_fs`, `fb_sc`, `fs`, `green`, `sc`, `trinkets`
 
 ## Action List: `precombat`
 
@@ -24,8 +24,8 @@ Source: `apl/default/evoker/devastation.simc`
 | 6 | `variable` | name=weapon_stat_value,value=0 |
 | 7 | `variable` | name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_1_buffs&(trinket.1.cooldown.duration%%cooldown.dragonrage.duration=0\|cooldown.dragonrage.duration%%trinket.1.cooldown.duration=0) |
 | 8 | `variable` | name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_2_buffs&(trinket.2.cooldown.duration%%cooldown.dragonrage.duration=0\|cooldown.dragonrage.duration%%trinket.2.cooldown.duration=0) |
-| 9 | `variable` | name=trinket_1_manual,value=0 |
-| 10 | `variable` | name=trinket_2_manual,value=0 |
+| 9 | `variable` | name=trinket_1_manual,value=trinket.1.is.font_of_venomous_rage |
+| 10 | `variable` | name=trinket_2_manual,value=trinket.2.is.font_of_venomous_rage |
 | 11 | `variable` | name=trinket_1_ogcd_cast,value=0 |
 | 12 | `variable` | name=trinket_2_ogcd_cast,value=0 |
 | 13 | `variable` | name=trinket_1_exclude,value=trinket.1.is.ruby_whelp_shell\|trinket.1.is.whispering_incarnate_icon |
@@ -38,11 +38,10 @@ Source: `apl/default/evoker/devastation.simc`
 | 20 | `variable` | name=dr_prep_time,default=6,op=reset |
 | 21 | `variable` | name=dr_prep_time_aoe,default=4,op=reset |
 | 22 | `variable` | name=can_use_empower,value=1,default=1,if=!talent.animosity\|!talent.dragonrage |
-| 23 | `variable` | name=test,default=1,op=reset |
-| 24 | `verdant_embrace` | if=talent.scarlet_adaptation |
+| 23 | `verdant_embrace` | if=talent.scarlet_adaptation |
+| 24 | `hover` | if=talent.slipstream |
 | 25 | `hover` | if=talent.slipstream |
-| 26 | `hover` | if=talent.slipstream |
-| 27 | `living_flame` | — |
+| 26 | `living_flame` | — |
 
 ## Action List: `default`
 
@@ -63,18 +62,27 @@ Source: `apl/default/evoker/devastation.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `eternity_surge` | empower_to=1,target_if=max:target.health.pct,if=active_enemies<=3-talent.star_salvo |
-| 2 | `eternity_surge` | empower_to=2,target_if=max:target.health.pct,if=(active_enemies>=2+2*talent.eternitys_span)-talent.star_salvo |
-| 3 | `eternity_surge` | empower_to=3,target_if=max:target.health.pct,if=(active_enemies>=3+3*talent.eternitys_span)-talent.star_salvo |
-| 4 | `eternity_surge` | empower_to=4,target_if=max:target.health.pct |
+| 1 | `eternity_surge` | empower_to=4,target_if=max:target.health.pct,if=(active_enemies=4+4*talent.eternitys_span)&!talent.star_salvo\|(active_enemies>=4+4*talent.eternitys_span-talent.star_salvo)&talent.star_salvo |
+| 2 | `eternity_surge` | empower_to=3,target_if=max:target.health.pct,if=(active_enemies=3+3*talent.eternitys_span)&!talent.star_salvo\|(active_enemies>=3+3*talent.eternitys_span-talent.star_salvo)&talent.star_salvo |
+| 3 | `eternity_surge` | empower_to=2,target_if=max:target.health.pct,if=(active_enemies=2+2*talent.eternitys_span)&!talent.star_salvo\|(active_enemies>=2+2*talent.eternitys_span-talent.star_salvo)&talent.star_salvo |
+| 4 | `eternity_surge` | empower_to=1,target_if=max:target.health.pct |
 
-## Action List: `fb`
+## Action List: `fb_fs`
 
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `fire_breath` | empower_to=1,target_if=max:target.health.pct,if=active_enemies=1\|variable.use_pyre_fs |
 | 2 | `fire_breath` | empower_to=2,target_if=max:target.health.pct,if=active_enemies=2\|buff.dragonrage.up\|buff.rising_fury.up |
 | 3 | `fire_breath` | empower_to=3,target_if=max:target.health.pct,if=active_enemies>=3 |
+
+## Action List: `fb_sc`
+
+| # | Action | Conditions |
+|---|--------|------------|
+| 1 | `fire_breath` | empower_to=1,target_if=max:target.health.pct,if=active_enemies=1\|active_enemies>4 |
+| 2 | `fire_breath` | empower_to=2,target_if=max:target.health.pct,if=active_enemies=2 |
+| 3 | `fire_breath` | empower_to=3,target_if=max:target.health.pct,if=active_enemies=3 |
+| 4 | `fire_breath` | empower_to=4,target_if=max:target.health.pct,if=active_enemies=4 |
 
 ## Action List: `fs`
 
@@ -85,7 +93,7 @@ Source: `apl/default/evoker/devastation.simc`
 | 3 | `hover` | use_off_gcd=1,if=raid_event.movement.in<6&!buff.hover.up&gcd.remains>=0.5&!variable.use_pyre_fs |
 | 4 | `tip_the_scales` | use_off_gcd=1,if=buff.dragonrage.up&variable.use_tts |
 | 5 | `call_action_list` | name=es,if=variable.can_use_empower\|buff.tip_the_scales.up |
-| 6 | `call_action_list` | name=fb,if=variable.can_use_empower&dot.fire_breath_damage.refreshable&!buff.tip_the_scales.up |
+| 6 | `call_action_list` | name=fb_fs,if=variable.can_use_empower&dot.fire_breath_damage.refreshable&!buff.tip_the_scales.up |
 | 7 | `pyre` | target_if=max:target.health.pct,if=variable.use_pyre_fs |
 | 8 | `disintegrate` | target_if=max:dot.fire_breath_damage.remains,chain=1,if=(raid_event.movement.in>2\|buff.hover.up),early_chain_if=ticks_remain<=1,interrupt_if=ticks_remain<=1 |
 | 9 | `deep_breath` | if=talent.imminent_destruction&active_dot.fire_breath_damage=0&active_enemies>=4,cancel_if=gcd.remains=0,interrupt_if=gcd.remains=0 |
@@ -113,7 +121,7 @@ Source: `apl/default/evoker/devastation.simc`
 | 4 | `azure_sweep` | if=(buff.essence_burst.down\|!buff.essence_burst.at_max_stacks)&set_bonus.mid1_2pc&cooldown.eternity_surge.remains<=6 |
 | 5 | `call_action_list` | name=es |
 | 6 | `tip_the_scales` | use_off_gcd=1,if=action.fire_breath.ready |
-| 7 | `fire_breath` | empower_to=1 |
+| 7 | `call_action_list` | name=fb_sc |
 | 8 | `deep_breath` | if=active_enemies>=2,cancel_if=gcd.remains=0 |
 | 9 | `disintegrate` | early_chain_if=ticks_remain<=1&buff.mass_disintegrate_stacks.up,if=(raid_event.movement.in>2\|buff.hover.up)&buff.mass_disintegrate_stacks.up&buff.charged_blast.stack<15,interrupt_if=talent.volatility&active_enemies>=8 |
 | 10 | `pyre` | target_if=max:target.health.pct,if=(active_enemies>=5\|active_enemies>=4&talent.volatility.rank=2)&!buff.mass_disintegrate_stacks.up\|active_enemies>=3&talent.charged_blast&buff.charged_blast.stack>=15 |
@@ -129,14 +137,14 @@ Source: `apl/default/evoker/devastation.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | slot=trinket1,if=(buff.dragonrage.up&(buff.rising_fury.stack>=4\|talent.legacy_of_the_lifebinder)&((variable.trinket_2_buffs&!cooldown.fire_breath.up&trinket.2.cooldown.remains)\|buff.tip_the_scales.up&variable.trinket_priority=1\|(!cooldown.fire_breath.up)\|active_enemies>=3)&(!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|variable.trinket_priority=1\|variable.trinket_2_exclude)&!variable.trinket_1_manual\|trinket.1.proc.any_dps.duration>=fight_remains\|trinket.1.cooldown.duration<=60&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=1)&!variable.trinket_1_manual) |
-| 2 | `use_item` | slot=trinket2,if=trinket.2.is.vaelgors_final_stare&buff.dragonrage.up&active_enemies>=3 |
-| 3 | `use_item` | slot=trinket2,if=buff.dragonrage.up&(buff.rising_fury.stack>=4\|talent.legacy_of_the_lifebinder)&((variable.trinket_1_buffs&!cooldown.fire_breath.up&trinket.1.cooldown.remains)\|buff.tip_the_scales.up&variable.trinket_priority=2\|(!cooldown.fire_breath.up)\|active_enemies>=3)&(!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|variable.trinket_priority=2\|variable.trinket_1_exclude)&!variable.trinket_2_manual\|trinket.2.proc.any_dps.duration>=fight_remains\|trinket.2.cooldown.duration<=60&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=2)&!variable.trinket_2_manual |
-| 4 | `use_item` | slot=main_hand,if=variable.weapon_buffs&((variable.trinket_2_buffs&(trinket.2.cooldown.remains\|trinket.2.cooldown.duration<=20)\|!variable.trinket_2_buffs\|variable.trinket_2_exclude\|variable.trinket_priority=3)&(variable.trinket_1_buffs&(trinket.1.cooldown.remains\|trinket.1.cooldown.duration<=20)\|!variable.trinket_1_buffs\|variable.trinket_1_exclude\|variable.trinket_priority=3)&(!cooldown.fire_breath.up\|(!cooldown.fire_breath.up)\|active_enemies>=3))&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=3\|variable.trinket_priority=1&trinket.1.cooldown.remains\|variable.trinket_priority=2&trinket.2.cooldown.remains) |
-| 5 | `use_item` | use_off_gcd=1,slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains\|trinket.2.is.spymasters_web\|trinket.2.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_2_buffs\|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
-| 6 | `use_item` | use_off_gcd=1,slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains\|trinket.1.is.spymasters_web\|trinket.1.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_1_buffs\|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
-| 7 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains\|trinket.2.is.spymasters_web\|trinket.2.cooldown.duration=0)&(!variable.trinket_1_ogcd_cast)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_2_buffs\|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
-| 8 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains\|trinket.1.is.spymasters_web\|trinket.1.cooldown.duration=0)&(!variable.trinket_2_ogcd_cast)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_1_buffs\|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
+| 1 | `use_item` | slot=trinket1,if=(buff.dragonrage.up&(buff.rising_fury.stack>=4\|!talent.rising_fury\|talent.legacy_of_the_lifebinder)&((variable.trinket_2_buffs&!cooldown.fire_breath.up&trinket.2.cooldown.remains)\|buff.tip_the_scales.up&variable.trinket_priority=1\|(!cooldown.fire_breath.up)\|active_enemies>=3)&(!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|variable.trinket_priority=1\|variable.trinket_2_exclude)&!variable.trinket_1_manual\|trinket.1.proc.any_dps.duration>=fight_remains\|trinket.1.cooldown.duration<=60&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=1)&!variable.trinket_1_manual) |
+| 2 | `use_item` | slot=trinket2,if=buff.dragonrage.up&(buff.rising_fury.stack>=4\|!talent.rising_fury\|talent.legacy_of_the_lifebinder)&((variable.trinket_1_buffs&!cooldown.fire_breath.up&trinket.1.cooldown.remains)\|buff.tip_the_scales.up&variable.trinket_priority=2\|(!cooldown.fire_breath.up)\|active_enemies>=3)&(!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|variable.trinket_priority=2\|variable.trinket_1_exclude)&!variable.trinket_2_manual\|trinket.2.proc.any_dps.duration>=fight_remains\|trinket.2.cooldown.duration<=60&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=2)&!variable.trinket_2_manual |
+| 3 | `use_item` | slot=main_hand,if=variable.weapon_buffs&((variable.trinket_2_buffs&(trinket.2.cooldown.remains\|trinket.2.cooldown.duration<=20)\|!variable.trinket_2_buffs\|variable.trinket_2_exclude\|variable.trinket_priority=3)&(variable.trinket_1_buffs&(trinket.1.cooldown.remains\|trinket.1.cooldown.duration<=20)\|!variable.trinket_1_buffs\|variable.trinket_1_exclude\|variable.trinket_priority=3)&(!cooldown.fire_breath.up\|(!cooldown.fire_breath.up)\|active_enemies>=3))&(variable.next_dragonrage>20\|!talent.dragonrage)&(!buff.dragonrage.up\|variable.trinket_priority=3\|variable.trinket_priority=1&trinket.1.cooldown.remains\|variable.trinket_priority=2&trinket.2.cooldown.remains) |
+| 4 | `use_item` | use_off_gcd=1,slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains\|trinket.2.is.spymasters_web\|trinket.2.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_2_buffs\|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
+| 5 | `use_item` | use_off_gcd=1,slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains\|trinket.1.is.spymasters_web\|trinket.1.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_1_buffs\|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
+| 6 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains\|trinket.2.is.spymasters_web\|trinket.2.cooldown.duration=0)&(!variable.trinket_1_ogcd_cast)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_2_buffs\|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
+| 7 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains\|trinket.1.is.spymasters_web\|trinket.1.cooldown.duration=0)&(!variable.trinket_2_ogcd_cast)&(variable.next_dragonrage>20\|!talent.dragonrage\|!variable.trinket_1_buffs\|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5\|fight_remains>=130+variable.next_dragonrage)) |
+| 8 | `use_item` | name=font_of_venomous_rage,if=!buff.dragonrage.up |
 
 ## Raw APL
 
@@ -156,8 +164,8 @@ actions.precombat+=/variable,name=weapon_sync,op=setif,value=1,value_else=0.5,co
 actions.precombat+=/variable,name=weapon_stat_value,value=0
 actions.precombat+=/variable,name=trinket_1_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_1_buffs&(trinket.1.cooldown.duration%%cooldown.dragonrage.duration=0|cooldown.dragonrage.duration%%trinket.1.cooldown.duration=0)
 actions.precombat+=/variable,name=trinket_2_sync,op=setif,value=1,value_else=0.5,condition=variable.trinket_2_buffs&(trinket.2.cooldown.duration%%cooldown.dragonrage.duration=0|cooldown.dragonrage.duration%%trinket.2.cooldown.duration=0)
-actions.precombat+=/variable,name=trinket_1_manual,value=0
-actions.precombat+=/variable,name=trinket_2_manual,value=0
+actions.precombat+=/variable,name=trinket_1_manual,value=trinket.1.is.font_of_venomous_rage
+actions.precombat+=/variable,name=trinket_2_manual,value=trinket.2.is.font_of_venomous_rage
 actions.precombat+=/variable,name=trinket_1_ogcd_cast,value=0
 actions.precombat+=/variable,name=trinket_2_ogcd_cast,value=0
 actions.precombat+=/variable,name=trinket_1_exclude,value=trinket.1.is.ruby_whelp_shell|trinket.1.is.whispering_incarnate_icon
@@ -170,7 +178,6 @@ actions.precombat+=/variable,name=r1_cast_time,value=1.0*spell_haste
 actions.precombat+=/variable,name=dr_prep_time,default=6,op=reset
 actions.precombat+=/variable,name=dr_prep_time_aoe,default=4,op=reset
 actions.precombat+=/variable,name=can_use_empower,value=1,default=1,if=!talent.animosity|!talent.dragonrage
-actions.precombat+=/variable,name=test,default=1,op=reset
 actions.precombat+=/verdant_embrace,if=talent.scarlet_adaptation
 actions.precombat+=/hover,if=talent.slipstream
 actions.precombat+=/hover,if=talent.slipstream
@@ -189,16 +196,22 @@ actions+=/run_action_list,name=sc,if=talent.mass_disintegrate
 actions+=/run_action_list,name=fs
 
 # Pick optimal Eternity Surge Rank
-actions.es=eternity_surge,empower_to=1,target_if=max:target.health.pct,if=active_enemies<=3-talent.star_salvo
-actions.es+=/eternity_surge,empower_to=2,target_if=max:target.health.pct,if=(active_enemies>=2+2*talent.eternitys_span)-talent.star_salvo
-actions.es+=/eternity_surge,empower_to=3,target_if=max:target.health.pct,if=(active_enemies>=3+3*talent.eternitys_span)-talent.star_salvo
-actions.es+=/eternity_surge,empower_to=4,target_if=max:target.health.pct
+actions.es=eternity_surge,empower_to=4,target_if=max:target.health.pct,if=(active_enemies=4+4*talent.eternitys_span)&!talent.star_salvo|(active_enemies>=4+4*talent.eternitys_span-talent.star_salvo)&talent.star_salvo
+actions.es+=/eternity_surge,empower_to=3,target_if=max:target.health.pct,if=(active_enemies=3+3*talent.eternitys_span)&!talent.star_salvo|(active_enemies>=3+3*talent.eternitys_span-talent.star_salvo)&talent.star_salvo
+actions.es+=/eternity_surge,empower_to=2,target_if=max:target.health.pct,if=(active_enemies=2+2*talent.eternitys_span)&!talent.star_salvo|(active_enemies>=2+2*talent.eternitys_span-talent.star_salvo)&talent.star_salvo
+actions.es+=/eternity_surge,empower_to=1,target_if=max:target.health.pct
 
 # Fire Breath Upranking
-actions.fb=fire_breath,empower_to=1,target_if=max:target.health.pct,if=active_enemies=1|variable.use_pyre_fs
-actions.fb+=/fire_breath,empower_to=2,target_if=max:target.health.pct,if=active_enemies=2|buff.dragonrage.up|buff.rising_fury.up
+actions.fb_fs=fire_breath,empower_to=1,target_if=max:target.health.pct,if=active_enemies=1|variable.use_pyre_fs
+actions.fb_fs+=/fire_breath,empower_to=2,target_if=max:target.health.pct,if=active_enemies=2|buff.dragonrage.up|buff.rising_fury.up
 # Cap at R3 since R4 is just sort of bad for all cases
-actions.fb+=/fire_breath,empower_to=3,target_if=max:target.health.pct,if=active_enemies>=3
+actions.fb_fs+=/fire_breath,empower_to=3,target_if=max:target.health.pct,if=active_enemies>=3
+
+# Fire Breath Upranking
+actions.fb_sc=fire_breath,empower_to=1,target_if=max:target.health.pct,if=active_enemies=1|active_enemies>4
+actions.fb_sc+=/fire_breath,empower_to=2,target_if=max:target.health.pct,if=active_enemies=2
+actions.fb_sc+=/fire_breath,empower_to=3,target_if=max:target.health.pct,if=active_enemies=3
+actions.fb_sc+=/fire_breath,empower_to=4,target_if=max:target.health.pct,if=active_enemies=4
 
 # Flameshaper Action List. AoE Precast for Dragonrage Pyres
 actions.fs=fire_breath,target_if=max:target.health.pct,empower_to=1,if=cooldown.dragonrage.remains<gcd.max*2&active_dot.fire_breath_damage=0&(target.time_to_die>=15|!raid_event.adds.exists)&variable.use_pyre_fs
@@ -208,7 +221,7 @@ actions.fs+=/tip_the_scales,use_off_gcd=1,if=buff.dragonrage.up&variable.use_tts
 # Target Match with ES (Hitting everything is priority over lower ranks)
 actions.fs+=/call_action_list,name=es,if=variable.can_use_empower|buff.tip_the_scales.up
 # Upranking in 2-3T is back on the menu boys
-actions.fs+=/call_action_list,name=fb,if=variable.can_use_empower&dot.fire_breath_damage.refreshable&!buff.tip_the_scales.up
+actions.fs+=/call_action_list,name=fb_fs,if=variable.can_use_empower&dot.fire_breath_damage.refreshable&!buff.tip_the_scales.up
 actions.fs+=/pyre,target_if=max:target.health.pct,if=variable.use_pyre_fs
 actions.fs+=/disintegrate,target_if=max:dot.fire_breath_damage.remains,chain=1,if=(raid_event.movement.in>2|buff.hover.up),early_chain_if=ticks_remain<=1,interrupt_if=ticks_remain<=1
 # Queue the token deep breath condition
@@ -235,8 +248,7 @@ actions.sc+=/azure_sweep,if=(buff.essence_burst.down|!buff.essence_burst.at_max_
 # Swell Gaming with EoI is good, With EH its bad
 actions.sc+=/call_action_list,name=es
 actions.sc+=/tip_the_scales,use_off_gcd=1,if=action.fire_breath.ready
-# Swell Gaming with EoI is good, With EH its bad
-actions.sc+=/fire_breath,empower_to=1
+actions.sc+=/call_action_list,name=fb_sc
 # Using DB whenever is neutral at 2T and a gain above
 actions.sc+=/deep_breath,if=active_enemies>=2,cancel_if=gcd.remains=0
 actions.sc+=/disintegrate,early_chain_if=ticks_remain<=1&buff.mass_disintegrate_stacks.up,if=(raid_event.movement.in>2|buff.hover.up)&buff.mass_disintegrate_stacks.up&buff.charged_blast.stack<15,interrupt_if=talent.volatility&active_enemies>=8
@@ -250,13 +262,12 @@ actions.sc+=/call_action_list,name=green,if=talent.ancient_flame&!buff.ancient_f
 actions.sc+=/azure_strike
 
 # Trinket Spaghetti
-actions.trinkets=use_item,slot=trinket1,if=(buff.dragonrage.up&(buff.rising_fury.stack>=4|talent.legacy_of_the_lifebinder)&((variable.trinket_2_buffs&!cooldown.fire_breath.up&trinket.2.cooldown.remains)|buff.tip_the_scales.up&variable.trinket_priority=1|(!cooldown.fire_breath.up)|active_enemies>=3)&(!trinket.2.has_cooldown|trinket.2.cooldown.remains|variable.trinket_priority=1|variable.trinket_2_exclude)&!variable.trinket_1_manual|trinket.1.proc.any_dps.duration>=fight_remains|trinket.1.cooldown.duration<=60&(variable.next_dragonrage>20|!talent.dragonrage)&(!buff.dragonrage.up|variable.trinket_priority=1)&!variable.trinket_1_manual)
-# other spagetti is so complicated. Just Trinket in AoE without a delay.
-actions.trinkets+=/use_item,slot=trinket2,if=trinket.2.is.vaelgors_final_stare&buff.dragonrage.up&active_enemies>=3
-actions.trinkets+=/use_item,slot=trinket2,if=buff.dragonrage.up&(buff.rising_fury.stack>=4|talent.legacy_of_the_lifebinder)&((variable.trinket_1_buffs&!cooldown.fire_breath.up&trinket.1.cooldown.remains)|buff.tip_the_scales.up&variable.trinket_priority=2|(!cooldown.fire_breath.up)|active_enemies>=3)&(!trinket.1.has_cooldown|trinket.1.cooldown.remains|variable.trinket_priority=2|variable.trinket_1_exclude)&!variable.trinket_2_manual|trinket.2.proc.any_dps.duration>=fight_remains|trinket.2.cooldown.duration<=60&(variable.next_dragonrage>20|!talent.dragonrage)&(!buff.dragonrage.up|variable.trinket_priority=2)&!variable.trinket_2_manual
+actions.trinkets=use_item,slot=trinket1,if=(buff.dragonrage.up&(buff.rising_fury.stack>=4|!talent.rising_fury|talent.legacy_of_the_lifebinder)&((variable.trinket_2_buffs&!cooldown.fire_breath.up&trinket.2.cooldown.remains)|buff.tip_the_scales.up&variable.trinket_priority=1|(!cooldown.fire_breath.up)|active_enemies>=3)&(!trinket.2.has_cooldown|trinket.2.cooldown.remains|variable.trinket_priority=1|variable.trinket_2_exclude)&!variable.trinket_1_manual|trinket.1.proc.any_dps.duration>=fight_remains|trinket.1.cooldown.duration<=60&(variable.next_dragonrage>20|!talent.dragonrage)&(!buff.dragonrage.up|variable.trinket_priority=1)&!variable.trinket_1_manual)
+actions.trinkets+=/use_item,slot=trinket2,if=buff.dragonrage.up&(buff.rising_fury.stack>=4|!talent.rising_fury|talent.legacy_of_the_lifebinder)&((variable.trinket_1_buffs&!cooldown.fire_breath.up&trinket.1.cooldown.remains)|buff.tip_the_scales.up&variable.trinket_priority=2|(!cooldown.fire_breath.up)|active_enemies>=3)&(!trinket.1.has_cooldown|trinket.1.cooldown.remains|variable.trinket_priority=2|variable.trinket_1_exclude)&!variable.trinket_2_manual|trinket.2.proc.any_dps.duration>=fight_remains|trinket.2.cooldown.duration<=60&(variable.next_dragonrage>20|!talent.dragonrage)&(!buff.dragonrage.up|variable.trinket_priority=2)&!variable.trinket_2_manual
 actions.trinkets+=/use_item,slot=main_hand,if=variable.weapon_buffs&((variable.trinket_2_buffs&(trinket.2.cooldown.remains|trinket.2.cooldown.duration<=20)|!variable.trinket_2_buffs|variable.trinket_2_exclude|variable.trinket_priority=3)&(variable.trinket_1_buffs&(trinket.1.cooldown.remains|trinket.1.cooldown.duration<=20)|!variable.trinket_1_buffs|variable.trinket_1_exclude|variable.trinket_priority=3)&(!cooldown.fire_breath.up|(!cooldown.fire_breath.up)|active_enemies>=3))&(variable.next_dragonrage>20|!talent.dragonrage)&(!buff.dragonrage.up|variable.trinket_priority=3|variable.trinket_priority=1&trinket.1.cooldown.remains|variable.trinket_priority=2&trinket.2.cooldown.remains)
 actions.trinkets+=/use_item,use_off_gcd=1,slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1|trinket.2.cooldown.remains|trinket.2.is.spymasters_web|trinket.2.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20|!talent.dragonrage|!variable.trinket_2_buffs|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5|fight_remains>=130+variable.next_dragonrage))
 actions.trinkets+=/use_item,use_off_gcd=1,slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2|trinket.1.cooldown.remains|trinket.1.is.spymasters_web|trinket.1.cooldown.duration=0)&(gcd.remains>0.1&!prev_gcd.1.deep_breath)&(variable.next_dragonrage>20|!talent.dragonrage|!variable.trinket_1_buffs|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5|fight_remains>=130+variable.next_dragonrage))
 actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&!variable.trinket_1_manual&(variable.damage_trinket_priority=1|trinket.2.cooldown.remains|trinket.2.is.spymasters_web|trinket.2.cooldown.duration=0)&(!variable.trinket_1_ogcd_cast)&(variable.next_dragonrage>20|!talent.dragonrage|!variable.trinket_2_buffs|trinket.2.is.spymasters_web&(buff.spymasters_report.stack<5|fight_remains>=130+variable.next_dragonrage))
 actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&!variable.trinket_2_manual&(variable.damage_trinket_priority=2|trinket.1.cooldown.remains|trinket.1.is.spymasters_web|trinket.1.cooldown.duration=0)&(!variable.trinket_2_ogcd_cast)&(variable.next_dragonrage>20|!talent.dragonrage|!variable.trinket_1_buffs|trinket.1.is.spymasters_web&(buff.spymasters_report.stack<5|fight_remains>=130+variable.next_dragonrage))
+actions.trinkets+=/use_item,name=font_of_venomous_rage,if=!buff.dragonrage.up
 ```

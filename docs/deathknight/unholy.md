@@ -1,6 +1,6 @@
 # Death Knight – Unholy
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-15 08:34 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-16 08:28 UTC
 
 Source: `apl/default/deathknight/unholy.simc`
 
