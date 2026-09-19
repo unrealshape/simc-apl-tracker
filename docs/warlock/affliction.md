@@ -1,6 +1,6 @@
 # Warlock – Affliction
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-18 08:08 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-19 07:57 UTC
 
 Source: `apl/default/warlock/affliction.simc`
 
@@ -47,8 +47,8 @@ Source: `apl/default/warlock/affliction.simc`
 | 2 | `seed_of_corruption` | if=(!dot.wither.ticking\|dot.wither.refreshable)&!dot.seed_of_corruption.ticking&!prev.seed_of_corruption&!action.seed_of_corruption.in_flight |
 | 3 | `dark_harvest` | — |
 | 4 | `agony` | target_if=min:remains,if=active_dot.agony<14&remains<5 |
-| 5 | `summon_darkglare` | — |
-| 6 | `malevolence` | — |
+| 5 | `malevolence` | — |
+| 6 | `summon_darkglare` | — |
 | 7 | `seed_of_corruption` | if=talent.sow_the_seeds\|active_enemies>5 |
 | 8 | `unstable_affliction` | — |
 | 9 | `agony` | target_if=min:remains,if=remains<5 |
@@ -63,8 +63,8 @@ Source: `apl/default/warlock/affliction.simc`
 | 3 | `wither` | target_if=min:remains,if=remains<5&!(action.seed_of_corruption.in_flight\|dot.seed_of_corruption.remains>0)&fight_remains>remains+5 |
 | 4 | `agony` | target_if=refreshable |
 | 5 | `dark_harvest` | — |
-| 6 | `summon_darkglare` | — |
-| 7 | `malevolence` | — |
+| 6 | `malevolence` | — |
+| 7 | `summon_darkglare` | if=cooldown.summon_darkglare.duration<fight_remains\|fight_remains<(20+5*talent.eye_contract+action.malefic_grasp.execute_time) |
 | 8 | `malefic_grasp` | if=pet.darkglare.remains<gcd |
 | 9 | `unstable_affliction` | — |
 
@@ -77,11 +77,11 @@ Source: `apl/default/warlock/affliction.simc`
 | 3 | `wither` | if=refreshable |
 | 4 | `dark_harvest` | if=execute_time<(dot.agony.remains<?dot.corruption.remains) |
 | 5 | `malevolence` | — |
-| 6 | `summon_darkglare` | — |
+| 6 | `summon_darkglare` | if=cooldown.summon_darkglare.duration<fight_remains\|fight_remains<(20+5*talent.eye_contract+action.malefic_grasp.execute_time) |
 | 7 | `malefic_grasp` | if=buff.nightfall.react>1\|pet.darkglare.remains<gcd |
 | 8 | `drain_soul` | if=buff.nightfall.react>1 |
 | 9 | `shadow_bolt` | if=buff.nightfall.react>1 |
-| 10 | `unstable_affliction` | if=pet.darkglare.remains\|buff.malevolence.remains\|soul_shard>4\|buff.shard_instability.react\|buff.cascading_calamity.remains<gcd.max |
+| 10 | `unstable_affliction` | if=pet.darkglare.remains\|buff.malevolence.remains\|soul_shard>4\|buff.shard_instability.react>2\|buff.cascading_calamity.remains<gcd.max |
 
 ## Action List: `SH_aoe`
 
@@ -222,8 +222,8 @@ actions.HC_aoe=haunt
 actions.HC_aoe+=/seed_of_corruption,if=(!dot.wither.ticking|dot.wither.refreshable)&!dot.seed_of_corruption.ticking&!prev.seed_of_corruption&!action.seed_of_corruption.in_flight
 actions.HC_aoe+=/dark_harvest
 actions.HC_aoe+=/agony,target_if=min:remains,if=active_dot.agony<14&remains<5
-actions.HC_aoe+=/summon_darkglare
 actions.HC_aoe+=/malevolence
+actions.HC_aoe+=/summon_darkglare
 actions.HC_aoe+=/seed_of_corruption,if=talent.sow_the_seeds|active_enemies>5
 actions.HC_aoe+=/unstable_affliction
 actions.HC_aoe+=/agony,target_if=min:remains,if=remains<5
@@ -234,8 +234,8 @@ actions.HC_cleave+=/seed_of_corruption,if=talent.sow_the_seeds&!dot.wither.ticki
 actions.HC_cleave+=/wither,target_if=min:remains,if=remains<5&!(action.seed_of_corruption.in_flight|dot.seed_of_corruption.remains>0)&fight_remains>remains+5
 actions.HC_cleave+=/agony,target_if=refreshable
 actions.HC_cleave+=/dark_harvest
-actions.HC_cleave+=/summon_darkglare
 actions.HC_cleave+=/malevolence
+actions.HC_cleave+=/summon_darkglare,if=cooldown.summon_darkglare.duration<fight_remains|fight_remains<(20+5*talent.eye_contract+action.malefic_grasp.execute_time)
 actions.HC_cleave+=/malefic_grasp,if=pet.darkglare.remains<gcd
 actions.HC_cleave+=/unstable_affliction
 
@@ -244,11 +244,11 @@ actions.HC_st+=/agony,if=refreshable
 actions.HC_st+=/wither,if=refreshable
 actions.HC_st+=/dark_harvest,if=execute_time<(dot.agony.remains<?dot.corruption.remains)
 actions.HC_st+=/malevolence
-actions.HC_st+=/summon_darkglare
+actions.HC_st+=/summon_darkglare,if=cooldown.summon_darkglare.duration<fight_remains|fight_remains<(20+5*talent.eye_contract+action.malefic_grasp.execute_time)
 actions.HC_st+=/malefic_grasp,if=buff.nightfall.react>1|pet.darkglare.remains<gcd
 actions.HC_st+=/drain_soul,if=buff.nightfall.react>1
 actions.HC_st+=/shadow_bolt,if=buff.nightfall.react>1
-actions.HC_st+=/unstable_affliction,if=pet.darkglare.remains|buff.malevolence.remains|soul_shard>4|buff.shard_instability.react|buff.cascading_calamity.remains<gcd.max
+actions.HC_st+=/unstable_affliction,if=pet.darkglare.remains|buff.malevolence.remains|soul_shard>4|buff.shard_instability.react>2|buff.cascading_calamity.remains<gcd.max
 
 actions.SH_aoe=haunt
 actions.SH_aoe+=/seed_of_corruption,if=(!dot.corruption.ticking|dot.corruption.refreshable)&!dot.seed_of_corruption.ticking&!prev.seed_of_corruption&!action.seed_of_corruption.in_flight
