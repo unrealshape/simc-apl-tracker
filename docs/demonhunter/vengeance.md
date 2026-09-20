@@ -1,6 +1,6 @@
 # Demon Hunter – Vengeance
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-19 07:57 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-20 08:28 UTC
 
 Source: `apl/default/demonhunter/vengeance.simc`
 
