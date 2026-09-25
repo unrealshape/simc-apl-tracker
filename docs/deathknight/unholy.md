@@ -1,6 +1,6 @@
 # Death Knight – Unholy
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-24 08:20 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-25 08:42 UTC
 
 Source: `apl/default/deathknight/unholy.simc`
 
@@ -101,10 +101,10 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.1.cast_time=0&variable.cds_active) |
-| 2 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.2.cast_time=0&variable.cds_active) |
-| 3 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown) |
-| 4 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown) |
+| 1 | `use_item` | slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1\|!variable.trinket_2_buffs\|!trinket.2.has_cooldown\|trinket.2.cooldown.remains)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.1.cast_time=0&variable.cds_active) |
+| 2 | `use_item` | slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2\|!variable.trinket_1_buffs\|!trinket.1.has_cooldown\|trinket.1.cooldown.remains)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe\|buff.festering_scythe_tt.up)\|trinket.2.cast_time=0&variable.cds_active) |
+| 3 | `use_item` | slot=trinket1,if=!variable.trinket_1_buffs&(!trinket.2.has_cooldown\|trinket.2.cooldown.remains\|!variable.trinket_2_buffs)&(variable.damage_trinket_priority=1\|trinket.2.cooldown.remains) |
+| 4 | `use_item` | slot=trinket2,if=!variable.trinket_2_buffs&(!trinket.1.has_cooldown\|trinket.1.cooldown.remains\|!variable.trinket_1_buffs)&(variable.damage_trinket_priority=2\|trinket.1.cooldown.remains) |
 
 ## Action List: `variables`
 
@@ -195,10 +195,10 @@ actions.single_target+=/scourge_strike,if=buff.lesser_ghoul_ready.stack>=1
 actions.single_target+=/festering_strike
 
 # Trinkets
-actions.trinkets=use_item,slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.1.cast_time=0&variable.cds_active)
-actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.2.cast_time=0&variable.cds_active)
-actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(variable.damage_trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)
-actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(variable.damage_trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)
+actions.trinkets=use_item,slot=trinket1,if=variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown|trinket.2.cooldown.remains)&(trinket.1.cast_time>0&trinket.1.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.1.cast_time=0&variable.cds_active)
+actions.trinkets+=/use_item,slot=trinket2,if=variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown|trinket.1.cooldown.remains)&(trinket.2.cast_time>0&trinket.2.cast_time>cooldown.army_of_the_dead.remains&(!talent.festering_scythe|buff.festering_scythe_tt.up)|trinket.2.cast_time=0&variable.cds_active)
+actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(!trinket.2.has_cooldown|trinket.2.cooldown.remains|!variable.trinket_2_buffs)&(variable.damage_trinket_priority=1|trinket.2.cooldown.remains)
+actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(!trinket.1.has_cooldown|trinket.1.cooldown.remains|!variable.trinket_1_buffs)&(variable.damage_trinket_priority=2|trinket.1.cooldown.remains)
 
 # Variables
 actions.variables=variable,name=spending_rp,value=rune<2|buff.forbidden_knowledge.up&(rune<3|pet.gargoyle.active|buff.essence_of_the_blood_queen.stack>=2)|buff.sudden_doom.react
