@@ -1,6 +1,6 @@
 # Druid – Restoration
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-25 08:42 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-26 08:29 UTC
 
 Source: `apl/default/druid/restoration.simc`
 
