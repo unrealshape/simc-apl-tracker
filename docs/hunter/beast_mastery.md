@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-27 09:08 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-28 09:37 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 55
+- **Total Actions:** 56
 - **Lists:** `precombat`, `default`, `cds`, `cleave`, `drcleave`, `drst`, `st`, `trinkets`
 
 ## Action List: `precombat`
@@ -19,6 +19,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 1 | `summon_pet` | — |
 | 2 | `snapshot_stats` | — |
 | 3 | `use_item` | name=algethar_puzzle_box |
+| 4 | `potion` | pre_pot_time=6,if=potion.liquid_luster |
 
 ## Action List: `default`
 
@@ -42,7 +43,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 3 | `blood_fury` | if=cooldown.bestial_wrath.ready\|fight_remains<16 |
 | 4 | `ancestral_call` | if=cooldown.bestial_wrath.ready\|fight_remains<16 |
 | 5 | `fireblood` | if=cooldown.bestial_wrath.ready\|fight_remains<9 |
-| 6 | `potion` | if=cooldown.bestial_wrath.ready\|fight_remains<31 |
+| 6 | `potion` | if=cooldown.bestial_wrath.ready&!potion.liquid_luster\|cooldown.bestial_wrath.remains<6&potion.liquid_luster\|fight_remains<31 |
 
 ## Action List: `cleave`
 
@@ -50,12 +51,12 @@ Source: `apl/default/hunter/beast_mastery.simc`
 |---|--------|------------|
 | 1 | `wild_thrash` | if=talent.beast_cleave&(prev_gcd.1.bestial_wrath\|!buff.beast_cleave.up) |
 | 2 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=full_recharge_time<gcd |
-| 3 | `bestial_wrath` | if=buff.beast_cleave.remains\|!talent.beast_cleave\|!talent.wild_thrash |
-| 4 | `wild_thrash` | if=talent.beast_cleave&cooldown.bestial_wrath.remains>buff.beast_cleave.remains\|!talent.beast_cleave |
-| 5 | `kill_command` | if=buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready)\|!apex.3 |
-| 6 | `cobra_shot` | if=buff.cobra_fang.up&buff.beast_cleave.remains |
-| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage |
-| 8 | `cobra_shot` | if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd\|!talent.beast_cleave |
+| 3 | `bestial_wrath` | if=buff.beast_cleave.remains&cooldown.wild_thrash.remains<gcd\|!talent.beast_cleave\|!talent.wild_thrash |
+| 4 | `wild_thrash` | if=!talent.beast_cleave |
+| 5 | `kill_command` | if=(buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready)\|!apex.3)&(buff.beast_cleave.remains>1\|!talent.beast_cleave) |
+| 6 | `cobra_shot` | if=buff.cobra_fang.up&buff.beast_cleave.remains>1 |
+| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=(buff.beast_cleave.remains>1\|!talent.beast_cleave) |
+| 8 | `cobra_shot` | if=buff.beast_cleave.remains>1\|!talent.beast_cleave |
 
 ## Action List: `drcleave`
 
@@ -120,6 +121,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 actions.precombat=summon_pet
 actions.precombat+=/snapshot_stats
 actions.precombat+=/use_item,name=algethar_puzzle_box
+actions.precombat+=/potion,pre_pot_time=6,if=potion.liquid_luster
 
 # Executed every time the actor is available.
 actions=retarget,target_if=max:target.health,line_cd=5,if=fight_style.dungeonroute
@@ -136,17 +138,17 @@ actions.cds+=/berserking,if=cooldown.bestial_wrath.ready|fight_remains<13
 actions.cds+=/blood_fury,if=cooldown.bestial_wrath.ready|fight_remains<16
 actions.cds+=/ancestral_call,if=cooldown.bestial_wrath.ready|fight_remains<16
 actions.cds+=/fireblood,if=cooldown.bestial_wrath.ready|fight_remains<9
-actions.cds+=/potion,if=cooldown.bestial_wrath.ready|fight_remains<31
+actions.cds+=/potion,if=cooldown.bestial_wrath.ready&!potion.liquid_luster|cooldown.bestial_wrath.remains<6&potion.liquid_luster|fight_remains<31
 
 # Bestial Wrath spawns an Apex Pet which casts Bestial Wrath 1.5s after, but it does not get the Beast Cleave that was active prior to Bestial Wrath. Therefore, to ensure this hit cleaves, Wild Thrash needs to follow up Bestial Wrath.
 actions.cleave=wild_thrash,if=talent.beast_cleave&(prev_gcd.1.bestial_wrath|!buff.beast_cleave.up)
 actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=full_recharge_time<gcd
-actions.cleave+=/bestial_wrath,if=buff.beast_cleave.remains|!talent.beast_cleave|!talent.wild_thrash
-actions.cleave+=/wild_thrash,if=talent.beast_cleave&cooldown.bestial_wrath.remains>buff.beast_cleave.remains|!talent.beast_cleave
-actions.cleave+=/kill_command,if=buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)|!apex.3
-actions.cleave+=/cobra_shot,if=buff.cobra_fang.up&buff.beast_cleave.remains
-actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage
-actions.cleave+=/cobra_shot,if=talent.beast_cleave&cooldown.wild_thrash.remains>gcd|!talent.beast_cleave
+actions.cleave+=/bestial_wrath,if=buff.beast_cleave.remains&cooldown.wild_thrash.remains<gcd|!talent.beast_cleave|!talent.wild_thrash
+actions.cleave+=/wild_thrash,if=!talent.beast_cleave
+actions.cleave+=/kill_command,if=(buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)|!apex.3)&(buff.beast_cleave.remains>1|!talent.beast_cleave)
+actions.cleave+=/cobra_shot,if=buff.cobra_fang.up&buff.beast_cleave.remains>1
+actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=(buff.beast_cleave.remains>1|!talent.beast_cleave)
+actions.cleave+=/cobra_shot,if=buff.beast_cleave.remains>1|!talent.beast_cleave
 
 actions.drcleave=black_arrow,if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2
 actions.drcleave+=/bestial_wrath,if=buff.beast_cleave.remains|!talent.beast_cleave

@@ -1,6 +1,6 @@
 # Priest – Shadow
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-27 09:08 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-28 09:37 UTC
 
 Source: `apl/default/priest/shadow.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/priest/shadow.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 64
+- **Total Actions:** 66
 - **Lists:** `precombat`, `default`, `aoe`, `aoe_variables`, `cds`, `heal_for_tof`, `main`, `trinkets`
 
 ## Action List: `precombat`
@@ -85,26 +85,28 @@ Source: `apl/default/priest/shadow.simc`
 | 1 | `variable` | name=dots_up,op=set,value=active_dot.vampiric_touch=active_enemies&active_dot.shadow_word_pain>=active_dot.vampiric_touch,if=active_enemies<3 |
 | 2 | `call_action_list` | name=cds,if=fight_remains<30\|target.time_to_die>15&(!variable.holding_tentacle_slam\|active_enemies>2)&variable.dots_up |
 | 3 | `shadow_word_death` | target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=(priest.force_devour_matter\|target.has_absorb)&talent.devour_matter |
-| 4 | `shadow_word_madness` | target_if=max:target.time_to_die*(dot.shadow_word_madness.remains<=gcd.max*2\|variable.dr_force_prio\|!talent.distorted_reality&variable.me_force_prio),if=active_dot.shadow_word_madness<=1&dot.shadow_word_madness.remains<=gcd.max\|insanity.deficit<=35&(cooldown.voidform.remains>25\|target.time_to_die<25\|active_enemies>1\|insanity.deficit<=5)\|buff.mind_devourer.react\|!raid_event.adds.exists&target.time_to_die<=10\|buff.entropic_rift.up&(cooldown.voidform.remains>=75\|!talent.ancient_madness)\|buff.voidform.up |
-| 5 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=dot.vampiric_touch.refreshable&(!in_flight\|active_dot.vampiric_touch+6<active_enemies)\|cooldown.tentacle_slam.full_recharge_time<=gcd.max*2 |
-| 6 | `void_torrent` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die),if=!variable.holding_tentacle_slam&variable.dots_up |
-| 7 | `shadow_word_pain` | target_if=max:(refreshable*100000+target.time_to_die+dot.vampiric_touch.ticking*10000),if=talent.invoked_nightmare&refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|action.tentacle_slam.in_flight) |
-| 8 | `void_volley` | if=cooldown.voidform.up |
-| 9 | `void_blast` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die) |
-| 10 | `mind_blast` | target_if=max:dot.shadow_word_madness.remains,if=(!buff.mind_devourer.react\|!talent.mind_devourer)&(!talent.void_blast\|!talent.thought_harvester\|cooldown.void_torrent.remains>=gcd.max*2\|variable.holding_tentacle_slam\|!variable.dots_up) |
-| 11 | `mind_flay_insanity` | target_if=max:dot.shadow_word_madness.remains |
-| 12 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=(talent.void_apparitions\|talent.maddening_tentacles)&(raid_event.adds.in>30\|raid_event.adds.in>5&cooldown.tentacle_slam.full_recharge_time<=gcd.max*2) |
-| 13 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die)*(dot.vampiric_touch.ticking\|!variable.dots_up),if=refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|!variable.dots_up)&(variable.max_vts>0\|active_enemies=1)&(action.tentacle_slam.usable_in>=dot.vampiric_touch.remains\|variable.holding_tentacle_slam\|!action.tentacle_slam.enabled) |
-| 14 | `call_action_list` | name=heal_for_tof,if=!buff.twist_of_fate.up&buff.twist_of_fate_can_trigger_on_ally_heal.up&talent.halo |
-| 15 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12 |
-| 16 | `shadow_word_death` | target_if=min:target.health.pct,if=(pet.mindbender.active\|pet.voidwraith.active\|pet.shadowfiend.active)&talent.inescapable_torment\|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj |
-| 17 | `shadow_word_death` | target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker)) |
-| 18 | `void_volley` | if=!talent.resonant_energy\|cooldown.voidform.remains<60\|buff.voidform.up\|buff.resonant_energy_damage.react\|buff.crushing_void.stack>=4\|fight_remains<45 |
-| 19 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=2,interrupt_global=1 |
-| 20 | `tentacle_slam` | if=raid_event.adds.in>20 |
-| 21 | `shadow_word_death` | target_if=target.health.pct<20 |
-| 22 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
-| 23 | `shadow_word_pain` | target_if=min:remains |
+| 4 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=!dot.vampiric_touch.ticking&target.time_to_die>=10&active_dot.vampiric_touch<5 |
+| 5 | `vampiric_touch` | target_if=min:dot.vampiric_touch.remains,if=!dot.vampiric_touch.ticking&target.time_to_die>=10&active_dot.vampiric_touch<5 |
+| 6 | `shadow_word_madness` | target_if=max:target.time_to_die*(dot.shadow_word_madness.remains<=gcd.max*2\|variable.dr_force_prio\|!talent.distorted_reality&variable.me_force_prio),if=active_dot.shadow_word_madness<=1&dot.shadow_word_madness.remains<=gcd.max\|insanity.deficit<=35&(cooldown.voidform.remains>25\|target.time_to_die<25\|active_enemies>1\|insanity.deficit<=5)\|buff.mind_devourer.react\|!raid_event.adds.exists&target.time_to_die<=10\|buff.entropic_rift.up&(cooldown.voidform.remains>=75\|!talent.ancient_madness)\|buff.voidform.up |
+| 7 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=dot.vampiric_touch.refreshable&(!in_flight\|active_dot.vampiric_touch+6<active_enemies)\|cooldown.tentacle_slam.full_recharge_time<=gcd.max*2 |
+| 8 | `void_torrent` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die),if=!variable.holding_tentacle_slam&variable.dots_up |
+| 9 | `shadow_word_pain` | target_if=max:(refreshable*100000+target.time_to_die+dot.vampiric_touch.ticking*10000),if=talent.invoked_nightmare&refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|action.tentacle_slam.in_flight) |
+| 10 | `void_volley` | if=cooldown.voidform.up |
+| 11 | `void_blast` | target_if=max:(dot.shadow_word_madness.remains*1000+target.time_to_die) |
+| 12 | `mind_blast` | target_if=max:dot.shadow_word_madness.remains,if=(!buff.mind_devourer.react\|!talent.mind_devourer)&(!talent.void_blast\|!talent.thought_harvester\|cooldown.void_torrent.remains>=gcd.max*2\|variable.holding_tentacle_slam\|!variable.dots_up) |
+| 13 | `mind_flay_insanity` | target_if=max:dot.shadow_word_madness.remains |
+| 14 | `tentacle_slam` | target_if=min:dot.vampiric_touch.remains,if=(talent.void_apparitions\|talent.maddening_tentacles)&(raid_event.adds.in>30\|raid_event.adds.in>5&cooldown.tentacle_slam.full_recharge_time<=gcd.max*2) |
+| 15 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die)*(dot.vampiric_touch.ticking\|!variable.dots_up),if=refreshable&target.time_to_die>12&(dot.vampiric_touch.ticking\|!variable.dots_up)&(variable.max_vts>0\|active_enemies=1)&(action.tentacle_slam.usable_in>=dot.vampiric_touch.remains\|variable.holding_tentacle_slam\|!action.tentacle_slam.enabled) |
+| 16 | `call_action_list` | name=heal_for_tof,if=!buff.twist_of_fate.up&buff.twist_of_fate_can_trigger_on_ally_heal.up&talent.halo |
+| 17 | `vampiric_touch` | target_if=max:(refreshable*10000+target.time_to_die),if=refreshable&target.time_to_die>12 |
+| 18 | `shadow_word_death` | target_if=min:target.health.pct,if=(pet.mindbender.active\|pet.voidwraith.active\|pet.shadowfiend.active)&talent.inescapable_torment\|target.health.pct<(20+15*talent.deathspeaker)&talent.shadowfiend&talent.idol_of_yshaarj |
+| 19 | `shadow_word_death` | target_if=min:target.health.pct,if=(target.health.pct<(20+15*talent.deathspeaker)) |
+| 20 | `void_volley` | if=!talent.resonant_energy\|cooldown.voidform.remains<60\|buff.voidform.up\|buff.resonant_energy_damage.react\|buff.crushing_void.stack>=4\|fight_remains<45 |
+| 21 | `mind_flay` | target_if=max:dot.shadow_word_madness.remains,chain=1,interrupt_immediate=1,interrupt_if=ticks>=2,interrupt_global=1 |
+| 22 | `tentacle_slam` | if=raid_event.adds.in>20 |
+| 23 | `shadow_word_death` | target_if=target.health.pct<20 |
+| 24 | `shadow_word_death` | target_if=max:dot.shadow_word_madness.remains |
+| 25 | `shadow_word_pain` | target_if=min:remains |
 
 ## Action List: `trinkets`
 
@@ -179,6 +181,8 @@ actions.main=variable,name=dots_up,op=set,value=active_dot.vampiric_touch=active
 actions.main+=/call_action_list,name=cds,if=fight_remains<30|target.time_to_die>15&(!variable.holding_tentacle_slam|active_enemies>2)&variable.dots_up
 # High Priority Shadow Word: Death when Devour Matter is active (target shielded or forced)
 actions.main+=/shadow_word_death,target_if=max:(target.health.pct<=20)*100+dot.shadow_word_madness.ticking,if=(priest.force_devour_matter|target.has_absorb)&talent.devour_matter
+actions.main+=/tentacle_slam,target_if=min:dot.vampiric_touch.remains,if=!dot.vampiric_touch.ticking&target.time_to_die>=10&active_dot.vampiric_touch<5
+actions.main+=/vampiric_touch,target_if=min:dot.vampiric_touch.remains,if=!dot.vampiric_touch.ticking&target.time_to_die>=10&active_dot.vampiric_touch<5
 actions.main+=/shadow_word_madness,target_if=max:target.time_to_die*(dot.shadow_word_madness.remains<=gcd.max*2|variable.dr_force_prio|!talent.distorted_reality&variable.me_force_prio),if=active_dot.shadow_word_madness<=1&dot.shadow_word_madness.remains<=gcd.max|insanity.deficit<=35&(cooldown.voidform.remains>25|target.time_to_die<25|active_enemies>1|insanity.deficit<=5)|buff.mind_devourer.react|!raid_event.adds.exists&target.time_to_die<=10|buff.entropic_rift.up&(cooldown.voidform.remains>=75|!talent.ancient_madness)|buff.voidform.up
 actions.main+=/tentacle_slam,target_if=min:dot.vampiric_touch.remains,if=dot.vampiric_touch.refreshable&(!in_flight|active_dot.vampiric_touch+6<active_enemies)|cooldown.tentacle_slam.full_recharge_time<=gcd.max*2
 # Use Void Torrent if it will get near full Mastery Value
