@@ -1,6 +1,6 @@
 # Shaman – Enhancement
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-29 09:41 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-30 09:33 UTC
 
 Source: `apl/default/shaman/enhancement.simc`
 

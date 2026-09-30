@@ -1,6 +1,6 @@
 # Death Knight – Unholy
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-29 09:41 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-09-30 09:33 UTC
 
 Source: `apl/default/deathknight/unholy.simc`
 
@@ -8,9 +8,9 @@ Source: `apl/default/deathknight/unholy.simc`
 
 ## Overview
 
-- **Action Lists:** 8
-- **Total Actions:** 64
-- **Lists:** `precombat`, `default`, `aoe`, `cooldowns`, `racials`, `single_target`, `trinkets`, `variables`
+- **Action Lists:** 9
+- **Total Actions:** 63
+- **Lists:** `precombat`, `default`, `aoe`, `cooldowns`, `high_priority`, `racials`, `single_target`, `trinkets`, `variables`
 
 ## Action List: `precombat`
 
@@ -35,9 +35,9 @@ Source: `apl/default/deathknight/unholy.simc`
 |---|--------|------------|
 | 1 | `auto_attack` | — |
 | 2 | `call_action_list` | name=variables |
-| 3 | `call_action_list` | name=racials |
-| 4 | `potion` | if=(variable.st_planning\|variable.adds_remain)&variable.cds_active&(variable.trinket_priority=1&trinket.1.has_use_buff&!trinket.1.proc.mastery.duration>0\|variable.trinket_priority=2&trinket.2.has_use_buff&!trinket.2.proc.mastery.duration>0) |
-| 5 | `call_action_list` | name=trinkets |
+| 3 | `call_action_list` | name=racials,if=variable.st_planning\|variable.adds_remain\|fight_remains<30 |
+| 4 | `call_action_list` | name=high_priority |
+| 5 | `call_action_list` | name=trinkets,if=variable.st_planning\|variable.adds_remain\|fight_remains<30 |
 | 6 | `call_action_list` | name=cooldowns |
 | 7 | `call_action_list` | name=aoe,if=active_enemies>=3 |
 | 8 | `call_action_list` | name=single_target,if=active_enemies<3 |
@@ -46,26 +46,32 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `death_and_decay` | if=talent.cycle_of_death&cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>duration%2\|!raid_event.adds.exists&fight_remains>duration%2)&(raid_event.adds.exists&raid_event.adds.count<active_enemies\|!raid_event.adds.exists\|charges=max_charges\|raid_event.adds.remains>cooldown.any_dnd.duration) |
-| 2 | `festering_strike` | target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3\|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|buff.festering_scythe_tt.remains<3)\|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3) |
-| 3 | `putrefy` | if=buff.dark_transformation.up |
-| 4 | `soul_reaper` | target_if=min:health.pct |
-| 5 | `epidemic` | if=variable.spending_rp&variable.epidemic_prio |
-| 6 | `death_coil` | target_if=min:health.pct,if=variable.spending_rp&!variable.epidemic_prio |
-| 7 | `festering_strike` | target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack=0 |
-| 8 | `scourge_strike` | target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack>=1 |
-| 9 | `epidemic` | if=variable.epidemic_prio |
-| 10 | `death_coil` | target_if=min:health.pct,if=!variable.epidemic_prio |
+| 1 | `festering_strike` | target_if=min:health.pct,if=talent.festering_scythe&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3*gcd\|buff.festering_scythe_tt.remains<3*gcd)\|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3*gcd) |
+| 2 | `putrefy` | if=buff.dark_transformation.up\|charges=max_charges |
+| 3 | `soul_reaper` | target_if=is_boss,if=buff.dark_transformation.up&cooldown.dark_transformation.remains<38\|target.health.pct<35 |
+| 4 | `epidemic` | if=variable.epidemic_prio&(buff.sudden_doom.react\|runic_power.deficit<15\|buff.essence_of_the_blood_queen.stack>=buff.essence_of_the_blood_queen.max_stack-1\|buff.essence_of_the_blood_queen.remains<7&!buff.vampiric_strike.react\|rune<2) |
+| 5 | `festering_strike` | target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack<3 |
+| 6 | `scourge_strike` | target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack>=1 |
+| 7 | `death_coil` | target_if=min:health.pct,if=!variable.epidemic_prio&(buff.sudden_doom.react\|runic_power.deficit<15\|buff.essence_of_the_blood_queen.stack>=buff.essence_of_the_blood_queen.max_stack-1\|buff.essence_of_the_blood_queen.remains<7&!buff.vampiric_strike.react\|rune<2) |
+| 8 | `epidemic` | if=variable.epidemic_prio |
+| 9 | `death_coil` | target_if=min:health.pct |
 
 ## Action List: `cooldowns`
 
 | # | Action | Conditions |
 |---|--------|------------|
+| 1 | `outbreak` | if=(!talent.blightburst\|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2\|time<5))&dot.dread_plague.active_dots=0&(fight_remains>gcd.max*2&!raid_event.adds.exists\|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2) |
+| 2 | `death_and_decay` | if=active_enemies>=3&talent.cycle_of_death&(buff.festering_scythe_tt.up\|!talent.festering_scythe)&(cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>=duration*0.75\|!raid_event.adds.exists&fight_remains>=duration*0.75)&(raid_event.adds.exists&raid_event.adds.count<active_enemies\|!raid_event.adds.exists\|charges=max_charges)) |
+| 3 | `army_of_the_dead` | if=(variable.st_planning\|variable.adds_remain)&(buff.festering_scythe_tt.up\|!talent.festering_scythe) |
+| 4 | `dark_transformation` | if=(variable.st_planning\|variable.adds_remain)&!buff.blightfall.up&(pet.army_ghoul.active\|cooldown.army_of_the_dead.remains>30\|!talent.army_of_the_dead)\|buff.blightfall.up&((active_enemies<=3\|raid_event.pull.has_boss)&(talent.reaping&talent.soul_reaper&debuff.soul_reaper_debuff.up&debuff.soul_reaper_debuff.remains<gcd*2)\|fight_remains<3\|raid_event.adds.exists&raid_event.adds.remains<3\|buff.dark_transformation.up&buff.dark_transformation.remains<gcd*2\|trinket.1.proc.any_dps.up&trinket.1.proc.any_dps.remains<gcd*2\|trinket.2.proc.any_dps.up&trinket.2.proc.any_dps.remains<gcd*2\|cooldown.dark_transformation.remains<3) |
+
+## Action List: `high_priority`
+
+| # | Action | Conditions |
+|---|--------|------------|
 | 1 | `potion` | if=(variable.st_planning\|variable.adds_remain)&variable.cds_active |
 | 2 | `invoke_external_buff` | name=power_infusion,if=pet.army_ghoul.active\|buff.forbidden_knowledge.up\|buff.dark_transformation.up |
-| 3 | `outbreak` | if=(!talent.blightburst\|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2\|time<5))&(dot.dread_plague.active_dots=0\|dot.virulent_plague.active_dots=0)&(fight_remains>gcd.max*2&!raid_event.adds.exists\|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2) |
-| 4 | `army_of_the_dead` | if=(variable.st_planning\|variable.adds_remain)&(buff.festering_scythe_tt.up\|!talent.festering_scythe) |
-| 5 | `dark_transformation` | if=(variable.st_planning\|variable.adds_remain)&!buff.blightfall.up&(pet.army_ghoul.active\|cooldown.army_of_the_dead.remains>30\|!talent.army_of_the_dead)\|buff.blightfall.up&(active_enemies<3&talent.reaping&talent.soul_reaper&debuff.soul_reaper_debuff.up&debuff.soul_reaper_debuff.remains<gcd*2\|(!talent.soul_reaper\|active_enemies>=3)&(buff.dark_transformation.remains<gcd*2\|trinket.1.proc.any_dps.up&trinket.1.proc.any_dps.remains<gcd*2\|trinket.2.proc.any_dps.up&trinket.2.proc.any_dps.remains<gcd*2)\|!talent.reaping&buff.dark_transformation.remains<gcd*2\|raid_event.adds.exists&raid_event.adds.remains<3\|fight_remains<3) |
+| 3 | `scourge_strike` | if=buff.vampiric_strike.up&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.remains<gcd*3 |
 
 ## Action List: `racials`
 
@@ -86,16 +92,15 @@ Source: `apl/default/deathknight/unholy.simc`
 |---|--------|------------|
 | 1 | `festering_strike` | if=talent.festering_scythe&fight_remains>10&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3\|buff.festering_scythe_tt.remains<3)\|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3) |
 | 2 | `soul_reaper` | target_if=min:health.pct,if=buff.dark_transformation.up&cooldown.dark_transformation.remains<38\|target.health.pct<35 |
-| 3 | `scourge_strike` | if=buff.vampiric_strike.up&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.remains<gcd*3 |
-| 4 | `putrefy` | if=buff.dark_transformation.up&runic_power.deficit>10 |
-| 5 | `scourge_strike` | if=runic_power.deficit<90&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.stack<buff.essence_of_the_blood_queen.max_stack |
-| 6 | `death_coil` | if=buff.sudden_doom.react\|runic_power.deficit<=10 |
-| 7 | `putrefy` | if=buff.dark_transformation.up |
-| 8 | `death_coil` | if=buff.dark_transformation.up\|buff.forbidden_knowledge.up\|buff.essence_of_the_blood_queen.remains<5&!buff.vampiric_strike.react |
-| 9 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1&buff.blighted.up |
-| 10 | `death_coil` | if=cooldown.army_of_the_dead.remains>5\|runic_power.deficit<50 |
-| 11 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1 |
-| 12 | `festering_strike` | — |
+| 3 | `putrefy` | if=buff.dark_transformation.up&runic_power.deficit>10 |
+| 4 | `scourge_strike` | if=runic_power.deficit<90&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.stack<buff.essence_of_the_blood_queen.max_stack |
+| 5 | `death_coil` | if=buff.sudden_doom.react\|runic_power.deficit<=10 |
+| 6 | `putrefy` | if=buff.dark_transformation.up |
+| 7 | `death_coil` | if=buff.dark_transformation.up\|buff.forbidden_knowledge.up\|buff.essence_of_the_blood_queen.remains<5&!buff.vampiric_strike.react |
+| 8 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1&buff.blighted.up |
+| 9 | `death_coil` | if=cooldown.army_of_the_dead.remains>5\|runic_power.deficit<50 |
+| 10 | `scourge_strike` | if=buff.lesser_ghoul_ready.stack>=1 |
+| 11 | `festering_strike` | — |
 
 ## Action List: `trinkets`
 
@@ -110,11 +115,10 @@ Source: `apl/default/deathknight/unholy.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `variable` | name=spending_rp,value=rune<2\|buff.forbidden_knowledge.up&(rune<3\|pet.gargoyle.active\|buff.essence_of_the_blood_queen.stack>=2)\|buff.sudden_doom.react |
-| 2 | `variable` | name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists\|!raid_event.adds.in\|raid_event.adds.in>15\|!raid_event.pull.exists\|raid_event.pull.exists&raid_event.pull.in>15) |
-| 3 | `variable` | name=adds_remain,value=active_enemies>=2&((!raid_event.adds.exists\|!raid_event.pull.exists)\|raid_event.adds.remains>5\|raid_event.pull.remains>5) |
-| 4 | `variable` | name=cds_active,value=pet.army_ghoul.active\|buff.forbidden_knowledge.up\|buff.dark_transformation.up&buff.dark_transformation.remains>5 |
-| 5 | `variable` | name=epidemic_prio,value=active_enemies>=3&!buff.forbidden_knowledge.up\|active_enemies>=4&buff.forbidden_knowledge.up |
+| 1 | `variable` | name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists\|!raid_event.adds.in\|raid_event.adds.in>15\|!raid_event.pull.exists\|raid_event.pull.exists&raid_event.pull.in>15) |
+| 2 | `variable` | name=adds_remain,value=active_enemies>=2&((!raid_event.adds.exists\|!raid_event.pull.exists)\|raid_event.adds.remains>5\|raid_event.pull.remains>5) |
+| 3 | `variable` | name=cds_active,value=pet.army_ghoul.active\|buff.forbidden_knowledge.up\|buff.dark_transformation.up&buff.dark_transformation.remains>5 |
+| 4 | `variable` | name=epidemic_prio,value=active_enemies>=3&!buff.forbidden_knowledge.up\|active_enemies>=4&buff.forbidden_knowledge.up |
 
 ## Raw APL
 
@@ -143,32 +147,34 @@ actions.precombat+=/variable,name=damage_trinket_priority,op=setif,value=2,value
 actions=auto_attack
 # Choose Action list to run
 actions+=/call_action_list,name=variables
-actions+=/call_action_list,name=racials
-actions+=/potion,if=(variable.st_planning|variable.adds_remain)&variable.cds_active&(variable.trinket_priority=1&trinket.1.has_use_buff&!trinket.1.proc.mastery.duration>0|variable.trinket_priority=2&trinket.2.has_use_buff&!trinket.2.proc.mastery.duration>0)
-actions+=/call_action_list,name=trinkets
+actions+=/call_action_list,name=racials,if=variable.st_planning|variable.adds_remain|fight_remains<30
+actions+=/call_action_list,name=high_priority
+actions+=/call_action_list,name=trinkets,if=variable.st_planning|variable.adds_remain|fight_remains<30
 actions+=/call_action_list,name=cooldowns
 actions+=/call_action_list,name=aoe,if=active_enemies>=3
 actions+=/call_action_list,name=single_target,if=active_enemies<3
 
 # Aoe Rotation
-actions.aoe=death_and_decay,if=talent.cycle_of_death&cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>duration%2|!raid_event.adds.exists&fight_remains>duration%2)&(raid_event.adds.exists&raid_event.adds.count<active_enemies|!raid_event.adds.exists|charges=max_charges|raid_event.adds.remains>cooldown.any_dnd.duration)
-actions.aoe+=/festering_strike,target_if=min:health.pct,if=talent.festering_scythe&(fight_remains>3|raid_event.adds.exists&raid_event.adds.remains>3)&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|buff.festering_scythe_tt.remains<3)|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3)
-actions.aoe+=/putrefy,if=buff.dark_transformation.up
-actions.aoe+=/soul_reaper,target_if=min:health.pct
-actions.aoe+=/epidemic,if=variable.spending_rp&variable.epidemic_prio
-actions.aoe+=/death_coil,target_if=min:health.pct,if=variable.spending_rp&!variable.epidemic_prio
-actions.aoe+=/festering_strike,target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack=0
+actions.aoe=festering_strike,target_if=min:health.pct,if=talent.festering_scythe&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3*gcd|buff.festering_scythe_tt.remains<3*gcd)|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3*gcd)
+actions.aoe+=/putrefy,if=buff.dark_transformation.up|charges=max_charges
+actions.aoe+=/soul_reaper,target_if=is_boss,if=buff.dark_transformation.up&cooldown.dark_transformation.remains<38|target.health.pct<35
+actions.aoe+=/epidemic,if=variable.epidemic_prio&(buff.sudden_doom.react|runic_power.deficit<15|buff.essence_of_the_blood_queen.stack>=buff.essence_of_the_blood_queen.max_stack-1|buff.essence_of_the_blood_queen.remains<7&!buff.vampiric_strike.react|rune<2)
+actions.aoe+=/festering_strike,target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack<3
 actions.aoe+=/scourge_strike,target_if=min:health.pct,if=buff.lesser_ghoul_ready.stack>=1
+actions.aoe+=/death_coil,target_if=min:health.pct,if=!variable.epidemic_prio&(buff.sudden_doom.react|runic_power.deficit<15|buff.essence_of_the_blood_queen.stack>=buff.essence_of_the_blood_queen.max_stack-1|buff.essence_of_the_blood_queen.remains<7&!buff.vampiric_strike.react|rune<2)
 actions.aoe+=/epidemic,if=variable.epidemic_prio
-actions.aoe+=/death_coil,target_if=min:health.pct,if=!variable.epidemic_prio
+actions.aoe+=/death_coil,target_if=min:health.pct
 
 # Cooldowns
-actions.cooldowns=potion,if=(variable.st_planning|variable.adds_remain)&variable.cds_active
-# Use<a href = 'https://www.wowhead.com/spell=10060/power-infusion'> Power Infusion</ a> while<a href = 'https://www.wowhead.com/spell=1233448/dark-transformation'> Dark Transformation</ a> is up
-actions.cooldowns+=/invoke_external_buff,name=power_infusion,if=pet.army_ghoul.active|buff.forbidden_knowledge.up|buff.dark_transformation.up
-actions.cooldowns+=/outbreak,if=(!talent.blightburst|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2|time<5))&(dot.dread_plague.active_dots=0|dot.virulent_plague.active_dots=0)&(fight_remains>gcd.max*2&!raid_event.adds.exists|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2)
+actions.cooldowns=outbreak,if=(!talent.blightburst|talent.blightburst&(cooldown.putrefy.remains>gcd.max*2|time<5))&dot.dread_plague.active_dots=0&(fight_remains>gcd.max*2&!raid_event.adds.exists|raid_event.adds.exists&raid_event.adds.remains>gcd.max*2)
+actions.cooldowns+=/death_and_decay,if=active_enemies>=3&talent.cycle_of_death&(buff.festering_scythe_tt.up|!talent.festering_scythe)&(cooldown.putrefy.charges<cooldown.putrefy.max_charges&(raid_event.adds.exists&raid_event.adds.remains>=duration*0.75|!raid_event.adds.exists&fight_remains>=duration*0.75)&(raid_event.adds.exists&raid_event.adds.count<active_enemies|!raid_event.adds.exists|charges=max_charges))
 actions.cooldowns+=/army_of_the_dead,if=(variable.st_planning|variable.adds_remain)&(buff.festering_scythe_tt.up|!talent.festering_scythe)
-actions.cooldowns+=/dark_transformation,if=(variable.st_planning|variable.adds_remain)&!buff.blightfall.up&(pet.army_ghoul.active|cooldown.army_of_the_dead.remains>30|!talent.army_of_the_dead)|buff.blightfall.up&(active_enemies<3&talent.reaping&talent.soul_reaper&debuff.soul_reaper_debuff.up&debuff.soul_reaper_debuff.remains<gcd*2|(!talent.soul_reaper|active_enemies>=3)&(buff.dark_transformation.remains<gcd*2|trinket.1.proc.any_dps.up&trinket.1.proc.any_dps.remains<gcd*2|trinket.2.proc.any_dps.up&trinket.2.proc.any_dps.remains<gcd*2)|!talent.reaping&buff.dark_transformation.remains<gcd*2|raid_event.adds.exists&raid_event.adds.remains<3|fight_remains<3)
+actions.cooldowns+=/dark_transformation,if=(variable.st_planning|variable.adds_remain)&!buff.blightfall.up&(pet.army_ghoul.active|cooldown.army_of_the_dead.remains>30|!talent.army_of_the_dead)|buff.blightfall.up&((active_enemies<=3|raid_event.pull.has_boss)&(talent.reaping&talent.soul_reaper&debuff.soul_reaper_debuff.up&debuff.soul_reaper_debuff.remains<gcd*2)|fight_remains<3|raid_event.adds.exists&raid_event.adds.remains<3|buff.dark_transformation.up&buff.dark_transformation.remains<gcd*2|trinket.1.proc.any_dps.up&trinket.1.proc.any_dps.remains<gcd*2|trinket.2.proc.any_dps.up&trinket.2.proc.any_dps.remains<gcd*2|cooldown.dark_transformation.remains<3)
+
+actions.high_priority=potion,if=(variable.st_planning|variable.adds_remain)&variable.cds_active
+# Use<a href = 'https://www.wowhead.com/spell=10060/power-infusion'> Power Infusion</ a> while<a href = 'https://www.wowhead.com/spell=1233448/dark-transformation'> Dark Transformation</ a> is up
+actions.high_priority+=/invoke_external_buff,name=power_infusion,if=pet.army_ghoul.active|buff.forbidden_knowledge.up|buff.dark_transformation.up
+actions.high_priority+=/scourge_strike,if=buff.vampiric_strike.up&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.remains<gcd*3
 
 # Racials
 actions.racials=ancestral_call,if=variable.cds_active
@@ -183,7 +189,6 @@ actions.racials+=/lights_judgment,if=runic_power<20&rune<2
 # Single Target Rotation
 actions.single_target=festering_strike,if=talent.festering_scythe&fight_remains>10&(buff.festering_scythe.up&(buff.festering_scythe.remains<=3|buff.festering_scythe_tt.remains<3)|!buff.festering_scythe.up&buff.festering_scythe_tt.remains<3)
 actions.single_target+=/soul_reaper,target_if=min:health.pct,if=buff.dark_transformation.up&cooldown.dark_transformation.remains<38|target.health.pct<35
-actions.single_target+=/scourge_strike,if=buff.vampiric_strike.up&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.remains<gcd*3
 actions.single_target+=/putrefy,if=buff.dark_transformation.up&runic_power.deficit>10
 actions.single_target+=/scourge_strike,if=runic_power.deficit<90&buff.essence_of_the_blood_queen.up&buff.essence_of_the_blood_queen.stack<buff.essence_of_the_blood_queen.max_stack
 actions.single_target+=/death_coil,if=buff.sudden_doom.react|runic_power.deficit<=10
@@ -201,8 +206,7 @@ actions.trinkets+=/use_item,slot=trinket1,if=!variable.trinket_1_buffs&(!trinket
 actions.trinkets+=/use_item,slot=trinket2,if=!variable.trinket_2_buffs&(!trinket.1.has_cooldown|trinket.1.cooldown.remains|!variable.trinket_1_buffs)&(variable.damage_trinket_priority=2|trinket.1.cooldown.remains)
 
 # Variables
-actions.variables=variable,name=spending_rp,value=rune<2|buff.forbidden_knowledge.up&(rune<3|pet.gargoyle.active|buff.essence_of_the_blood_queen.stack>=2)|buff.sudden_doom.react
-actions.variables+=/variable,name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists|!raid_event.adds.in|raid_event.adds.in>15|!raid_event.pull.exists|raid_event.pull.exists&raid_event.pull.in>15)
+actions.variables=variable,name=st_planning,op=setif,value=1,value_else=0,condition=active_enemies=1&(!raid_event.adds.exists|!raid_event.adds.in|raid_event.adds.in>15|!raid_event.pull.exists|raid_event.pull.exists&raid_event.pull.in>15)
 actions.variables+=/variable,name=adds_remain,value=active_enemies>=2&((!raid_event.adds.exists|!raid_event.pull.exists)|raid_event.adds.remains>5|raid_event.pull.remains>5)
 actions.variables+=/variable,name=cds_active,value=pet.army_ghoul.active|buff.forbidden_knowledge.up|buff.dark_transformation.up&buff.dark_transformation.remains>5
 actions.variables+=/variable,name=epidemic_prio,value=active_enemies>=3&!buff.forbidden_knowledge.up|active_enemies>=4&buff.forbidden_knowledge.up
