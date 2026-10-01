@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-09-30 09:33 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-01 09:59 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -53,10 +53,10 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 2 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=full_recharge_time<gcd |
 | 3 | `bestial_wrath` | if=buff.beast_cleave.remains&cooldown.wild_thrash.remains<gcd\|!talent.beast_cleave\|!talent.wild_thrash |
 | 4 | `wild_thrash` | if=!talent.beast_cleave |
-| 5 | `kill_command` | if=(buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready)\|!apex.3)&(buff.beast_cleave.remains>1\|!talent.beast_cleave) |
-| 6 | `cobra_shot` | if=buff.cobra_fang.up&buff.beast_cleave.remains>1 |
-| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=(buff.beast_cleave.remains>1\|!talent.beast_cleave) |
-| 8 | `cobra_shot` | if=buff.beast_cleave.remains>1\|!talent.beast_cleave |
+| 5 | `kill_command` | if=(buff.natures_ally.react\|talent.master_handler&(active_enemies>3\|howl_summon.ready)\|!apex.3)&(buff.beast_cleave.remains>gcd*0.25\|!talent.beast_cleave) |
+| 6 | `cobra_shot` | if=buff.cobra_fang.up&buff.beast_cleave.remains>gcd*0.25 |
+| 7 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=(buff.beast_cleave.remains>gcd*0.25\|!talent.beast_cleave) |
+| 8 | `cobra_shot` | if=buff.beast_cleave.remains>gcd*0.25\|!talent.beast_cleave |
 
 ## Action List: `drcleave`
 
@@ -145,10 +145,10 @@ actions.cleave=wild_thrash,if=talent.beast_cleave&(prev_gcd.1.bestial_wrath|!buf
 actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=full_recharge_time<gcd
 actions.cleave+=/bestial_wrath,if=buff.beast_cleave.remains&cooldown.wild_thrash.remains<gcd|!talent.beast_cleave|!talent.wild_thrash
 actions.cleave+=/wild_thrash,if=!talent.beast_cleave
-actions.cleave+=/kill_command,if=(buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)|!apex.3)&(buff.beast_cleave.remains>1|!talent.beast_cleave)
-actions.cleave+=/cobra_shot,if=buff.cobra_fang.up&buff.beast_cleave.remains>1
-actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=(buff.beast_cleave.remains>1|!talent.beast_cleave)
-actions.cleave+=/cobra_shot,if=buff.beast_cleave.remains>1|!talent.beast_cleave
+actions.cleave+=/kill_command,if=(buff.natures_ally.react|talent.master_handler&(active_enemies>3|howl_summon.ready)|!apex.3)&(buff.beast_cleave.remains>gcd*0.25|!talent.beast_cleave)
+actions.cleave+=/cobra_shot,if=buff.cobra_fang.up&buff.beast_cleave.remains>gcd*0.25
+actions.cleave+=/barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=(buff.beast_cleave.remains>gcd*0.25|!talent.beast_cleave)
+actions.cleave+=/cobra_shot,if=buff.beast_cleave.remains>gcd*0.25|!talent.beast_cleave
 
 actions.drcleave=black_arrow,if=buff.beast_cleave.remains<gcd&cooldown.bestial_wrath.remains<gcd&active_enemies>2
 actions.drcleave+=/bestial_wrath,if=buff.beast_cleave.remains|!talent.beast_cleave
