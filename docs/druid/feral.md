@@ -1,6 +1,6 @@
 # Druid – Feral
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-03 09:02 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-04 09:34 UTC
 
 Source: `apl/default/druid/feral.simc`
 

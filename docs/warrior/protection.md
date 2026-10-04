@@ -1,6 +1,6 @@
 # Warrior – Protection
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-03 09:02 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-04 09:34 UTC
 
 Source: `apl/default/warrior/protection.simc`
 
@@ -46,7 +46,7 @@ Source: `apl/default/warrior/protection.simc`
 | 20 | `champions_leap` | — |
 | 21 | `champions_spear` | — |
 | 22 | `thunder_blast` | if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2 |
-| 23 | `demolish` | if=buff.colossal_might.stack>=3 |
+| 23 | `demolish` | if=buff.colossal_might.stack>=5 |
 | 24 | `shield_charge` | — |
 | 25 | `shield_block` | if=buff.shield_block.remains<=10 |
 | 26 | `run_action_list` | name=colossus_aoe,if=hero_tree.colossus&spell_targets.thunder_clap>=3 |
@@ -155,7 +155,7 @@ actions+=/demoralizing_shout,if=talent.booming_voice.enabled
 actions+=/champions_leap
 actions+=/champions_spear
 actions+=/thunder_blast,if=spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2
-actions+=/demolish,if=buff.colossal_might.stack>=3
+actions+=/demolish,if=buff.colossal_might.stack>=5
 actions+=/shield_charge
 actions+=/shield_block,if=buff.shield_block.remains<=10
 actions+=/run_action_list,name=colossus_aoe,if=hero_tree.colossus&spell_targets.thunder_clap>=3
