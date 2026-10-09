@@ -1,6 +1,6 @@
 # Warlock – Affliction
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-08 10:20 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-09 10:20 UTC
 
 Source: `apl/default/warlock/affliction.simc`
 

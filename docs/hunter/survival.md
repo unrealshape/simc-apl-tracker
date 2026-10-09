@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-08 10:20 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-09 10:20 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/survival.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 60
+- **Total Actions:** 61
 - **Lists:** `precombat`, `default`, `cds`, `plcleave`, `plst`, `sentcleave`, `sentst`
 
 ## Action List: `precombat`
@@ -38,17 +38,18 @@ Source: `apl/default/hunter/survival.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `blood_fury` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage |
-| 3 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&talent.takedown&!other_trinket.has_use_buff&this_trinket.cooldown.duration>=cooldown.takedown.duration*2&this_trinket.has_buff.haste&(buff.takedown.up\|cooldown.takedown.remains>this_trinket.cooldown.duration*0.45) |
-| 4 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(!talent.takedown\|other_trinket.has_use_buff\|this_trinket.cooldown.duration<cooldown.takedown.duration*2\|!this_trinket.has_buff.haste)&(buff.takedown.up\|cooldown.takedown.ready\|cooldown.takedown.remains>20\|!talent.takedown) |
-| 5 | `use_item` | name=algethar_puzzle_box,if=cooldown.takedown.remains<5\|!talent.takedown |
-| 6 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up |
-| 7 | `ancestral_call` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 8 | `fireblood` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 9 | `berserking` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 10 | `muzzle` | — |
-| 11 | `potion` | if=target.time_to_die<25\|cooldown.takedown.ready |
-| 12 | `aspect_of_the_eagle` | if=target.distance>=6 |
+| 2 | `use_item` | name=font_of_venomous_rage,if=!buff.takedown.up&!cooldown.takedown.ready\|fight_remains<3 |
+| 3 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!equipped.font_of_venomous_rage |
+| 4 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&talent.takedown&!other_trinket.has_use_buff&this_trinket.cooldown.duration>=cooldown.takedown.duration*2&this_trinket.has_buff.haste&(buff.takedown.up\|cooldown.takedown.remains>this_trinket.cooldown.duration*0.45) |
+| 5 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(!talent.takedown\|other_trinket.has_use_buff\|this_trinket.cooldown.duration<cooldown.takedown.duration*2\|!this_trinket.has_buff.haste)&(buff.takedown.up\|cooldown.takedown.ready\|cooldown.takedown.remains>20\|!talent.takedown) |
+| 6 | `use_item` | name=algethar_puzzle_box,if=cooldown.takedown.remains<5\|!talent.takedown |
+| 7 | `invoke_external_buff` | name=power_infusion,if=buff.takedown.up&!buff.power_infusion.up |
+| 8 | `ancestral_call` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 9 | `fireblood` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 10 | `berserking` | if=buff.takedown.up\|cooldown.takedown.ready |
+| 11 | `muzzle` | — |
+| 12 | `potion` | if=target.time_to_die<25\|cooldown.takedown.ready |
+| 13 | `aspect_of_the_eagle` | if=target.distance>=6 |
 
 ## Action List: `plcleave`
 
@@ -134,7 +135,8 @@ actions+=/call_action_list,name=sentcleave,if=active_enemies>2&!talent.howl_of_t
 
 # CDS
 actions.cds=blood_fury,if=buff.takedown.up|cooldown.takedown.ready
-actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage
+actions.cds+=/use_item,name=font_of_venomous_rage,if=!buff.takedown.up&!cooldown.takedown.ready|fight_remains<3
+actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!equipped.font_of_venomous_rage
 actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&talent.takedown&!other_trinket.has_use_buff&this_trinket.cooldown.duration>=cooldown.takedown.duration*2&this_trinket.has_buff.haste&(buff.takedown.up|cooldown.takedown.remains>this_trinket.cooldown.duration*0.45)
 actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(!talent.takedown|other_trinket.has_use_buff|this_trinket.cooldown.duration<cooldown.takedown.duration*2|!this_trinket.has_buff.haste)&(buff.takedown.up|cooldown.takedown.ready|cooldown.takedown.remains>20|!talent.takedown)
 actions.cds+=/use_item,name=algethar_puzzle_box,if=cooldown.takedown.remains<5|!talent.takedown
