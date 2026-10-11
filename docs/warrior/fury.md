@@ -1,6 +1,6 @@
 # Warrior – Fury
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-10 09:40 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-11 09:52 UTC
 
 Source: `apl/default/warrior/fury.simc`
 
