@@ -1,6 +1,6 @@
 # Demon Hunter – Havoc
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-13 10:22 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-14 08:35 UTC
 
 Source: `apl/default/demonhunter/havoc.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/demonhunter/havoc.simc`
 ## Overview
 
 - **Action Lists:** 3
-- **Total Actions:** 45
+- **Total Actions:** 46
 - **Lists:** `precombat`, `default`, `items`
 
 ## Action List: `precombat`
@@ -47,19 +47,20 @@ Source: `apl/default/demonhunter/havoc.simc`
 | 14 | `annihilation` | if=debuff.essence_break.up\|action.annihilation.demonsurge_available |
 | 15 | `throw_glaive` | if=active_enemies>1&talent.burning_wound&!talent.screaming_brutality&active_dot.burning_wound<(spell_targets>?3)&!variable.tab_target_burning_wound |
 | 16 | `immolation_aura` | if=talent.a_fire_inside&talent.burning_wound&(charges=2\|full_recharge_time<gcd.max*2) |
-| 17 | `eye_beam` | — |
-| 18 | `immolation_aura` | ,if=action.immolation_aura.demonsurge_available&buff.demonsurge.remains<gcd.max |
-| 19 | `felblade` | if=buff.inertia_trigger.up |
-| 20 | `essence_break` | if=cooldown.eye_beam.remains>4 |
-| 21 | `death_sweep` | — |
-| 22 | `blade_dance` | — |
-| 23 | `immolation_aura` | if=active_enemies>1&(talent.a_fire_inside\|talent.burning_wound) |
-| 24 | `annihilation` | — |
-| 25 | `felblade` | if=hero_tree.felscarred&fury<=100 |
-| 26 | `chaos_strike` | — |
-| 27 | `felblade` | — |
-| 28 | `immolation_aura` | — |
-| 29 | `arcane_torrent` | — |
+| 17 | `abyssal_gaze` | if=!action.death_sweep.demonsurge_available&!action.annihilation.demonsurge_available |
+| 18 | `eye_beam` | — |
+| 19 | `immolation_aura` | ,if=action.immolation_aura.demonsurge_available&buff.demonsurge.remains<gcd.max |
+| 20 | `felblade` | if=buff.inertia_trigger.up |
+| 21 | `essence_break` | if=cooldown.eye_beam.remains>4 |
+| 22 | `death_sweep` | — |
+| 23 | `blade_dance` | — |
+| 24 | `immolation_aura` | if=active_enemies>1&(talent.a_fire_inside\|talent.burning_wound) |
+| 25 | `annihilation` | — |
+| 26 | `felblade` | if=hero_tree.felscarred&fury<=100 |
+| 27 | `chaos_strike` | — |
+| 28 | `felblade` | — |
+| 29 | `immolation_aura` | — |
+| 30 | `arcane_torrent` | — |
 
 ## Action List: `items`
 
@@ -112,6 +113,7 @@ actions+=/death_sweep,if=debuff.essence_break.up|action.death_sweep.demonsurge_a
 actions+=/annihilation,if=debuff.essence_break.up|action.annihilation.demonsurge_available
 actions+=/throw_glaive,if=active_enemies>1&talent.burning_wound&!talent.screaming_brutality&active_dot.burning_wound<(spell_targets>?3)&!variable.tab_target_burning_wound
 actions+=/immolation_aura,if=talent.a_fire_inside&talent.burning_wound&(charges=2|full_recharge_time<gcd.max*2)
+actions+=/abyssal_gaze,if=!action.death_sweep.demonsurge_available&!action.annihilation.demonsurge_available
 actions+=/eye_beam
 actions+=/immolation_aura,,if=action.immolation_aura.demonsurge_available&buff.demonsurge.remains<gcd.max
 actions+=/felblade,if=buff.inertia_trigger.up
