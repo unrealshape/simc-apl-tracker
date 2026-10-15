@@ -1,6 +1,6 @@
 # Shaman – Enhancement
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-14 08:35 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-15 08:09 UTC
 
 Source: `apl/default/shaman/enhancement.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/shaman/enhancement.simc`
 ## Overview
 
 - **Action Lists:** 6
-- **Total Actions:** 113
+- **Total Actions:** 115
 - **Lists:** `precombat`, `default`, `aoe`, `cooldowns`, `single_sb`, `single_totemic`
 
 ## Action List: `precombat`
@@ -102,30 +102,32 @@ Source: `apl/default/shaman/enhancement.simc`
 | 1 | `primordial_storm` | if=(buff.maelstrom_weapon.stack>=9\|buff.primordial_storm.remains<=4&buff.maelstrom_weapon.stack>=5) |
 | 2 | `voltaic_blaze` | if=dot.flame_shock.remains=0&time<5 |
 | 3 | `flame_shock` | if=!ticking |
-| 4 | `lava_lash` | if=!debuff.lashing_flames.up&time<5 |
-| 5 | `stormstrike` | if=time<1 |
-| 6 | `call_action_list` | name=cooldowns,if=raid_event.adds.in>=60\|fight_remains<=20 |
-| 7 | `sundering` | if=(talent.surging_elements.enabled\|talent.feral_spirit.enabled)&(raid_event.adds.in>=30\|fight_remains<=12) |
-| 8 | `doom_winds` | if=raid_event.adds.in>=30\|fight_remains<=10 |
-| 9 | `voltaic_blaze` | if=set_bonus.midnight_season_2_2pc |
-| 10 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
-| 11 | `voltaic_blaze` | if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled |
+| 4 | `stormstrike` | if=time<1 |
+| 5 | `call_action_list` | name=cooldowns,if=raid_event.adds.in>=60\|fight_remains<=20 |
+| 6 | `sundering` | if=(talent.surging_elements.enabled\|talent.feral_spirit.enabled)&(raid_event.adds.in>=30\|fight_remains<=12) |
+| 7 | `doom_winds` | if=raid_event.adds.in>=30\|fight_remains<=10 |
+| 8 | `voltaic_blaze` | if=set_bonus.midnight_season_2_2pc&buff.maelstrom_weapon.stack<9 |
+| 9 | `crash_lightning` | if=!buff.crash_lightning.up\|talent.storm_unleashed.enabled |
+| 10 | `voltaic_blaze` | if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled |
+| 11 | `lava_lash` | if=!debuff.lashing_flames.up&time<5 |
 | 12 | `windstrike` | if=buff.maelstrom_weapon.stack>0&talent.thorims_invocation.enabled |
-| 13 | `ascendance` | if=raid_event.adds.in>=60\|fight_remains<=20 |
+| 13 | `ascendance` | if=(raid_event.adds.in>=60\|fight_remains<=20)&!buff.doom_winds.up |
 | 14 | `stormstrike` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
 | 15 | `crash_lightning` | if=buff.doom_winds.up&talent.thorims_invocation.enabled |
 | 16 | `tempest` | if=buff.maelstrom_weapon.stack=10 |
 | 17 | `lightning_bolt` | if=buff.maelstrom_weapon.stack=10 |
-| 18 | `stormstrike` | if=charges_fractional>=1.8 |
-| 19 | `lava_lash` | if=talent.lashing_flames.enabled |
-| 20 | `stormstrike` | — |
-| 21 | `voltaic_blaze` | — |
-| 22 | `sundering` | — |
-| 23 | `lava_lash` | — |
-| 24 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=8 |
-| 25 | `crash_lightning` | — |
-| 26 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
-| 27 | `flame_shock` | — |
+| 18 | `tempest` | if=buff.maelstrom_weapon.stack>=8&(cooldown.voltaic_blaze.remains<=gcd.max\|cooldown.crash_lightning.remains<=gcd.max) |
+| 19 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=8&(cooldown.voltaic_blaze.remains<=gcd.max\|cooldown.crash_lightning.remains<=gcd.max) |
+| 20 | `stormstrike` | if=charges_fractional>=1.8 |
+| 21 | `lava_lash` | if=talent.lashing_flames.enabled |
+| 22 | `stormstrike` | — |
+| 23 | `voltaic_blaze` | — |
+| 24 | `sundering` | — |
+| 25 | `lava_lash` | — |
+| 26 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=8 |
+| 27 | `crash_lightning` | — |
+| 28 | `lightning_bolt` | if=buff.maelstrom_weapon.stack>=5 |
+| 29 | `flame_shock` | — |
 
 ## Action List: `single_totemic`
 
@@ -240,20 +242,22 @@ actions.cooldowns+=/invoke_external_buff,name=power_infusion,if=((talent.deeply_
 actions.single_sb=primordial_storm,if=(buff.maelstrom_weapon.stack>=9|buff.primordial_storm.remains<=4&buff.maelstrom_weapon.stack>=5)
 actions.single_sb+=/voltaic_blaze,if=dot.flame_shock.remains=0&time<5
 actions.single_sb+=/flame_shock,if=!ticking
-actions.single_sb+=/lava_lash,if=!debuff.lashing_flames.up&time<5
 actions.single_sb+=/stormstrike,if=time<1
 actions.single_sb+=/call_action_list,name=cooldowns,if=raid_event.adds.in>=60|fight_remains<=20
 actions.single_sb+=/sundering,if=(talent.surging_elements.enabled|talent.feral_spirit.enabled)&(raid_event.adds.in>=30|fight_remains<=12)
 actions.single_sb+=/doom_winds,if=raid_event.adds.in>=30|fight_remains<=10
-actions.single_sb+=/voltaic_blaze,if=set_bonus.midnight_season_2_2pc
+actions.single_sb+=/voltaic_blaze,if=set_bonus.midnight_season_2_2pc&buff.maelstrom_weapon.stack<9
 actions.single_sb+=/crash_lightning,if=!buff.crash_lightning.up|talent.storm_unleashed.enabled
 actions.single_sb+=/voltaic_blaze,if=(buff.doom_winds.up&buff.maelstrom_weapon.stack>=10-(1+2*talent.fire_nova.enabled)&!buff.maelstrom_weapon.stack=10)&talent.thorims_invocation.enabled
+actions.single_sb+=/lava_lash,if=!debuff.lashing_flames.up&time<5
 actions.single_sb+=/windstrike,if=buff.maelstrom_weapon.stack>0&talent.thorims_invocation.enabled
-actions.single_sb+=/ascendance,if=raid_event.adds.in>=60|fight_remains<=20
+actions.single_sb+=/ascendance,if=(raid_event.adds.in>=60|fight_remains<=20)&!buff.doom_winds.up
 actions.single_sb+=/stormstrike,if=buff.doom_winds.up&talent.thorims_invocation.enabled
 actions.single_sb+=/crash_lightning,if=buff.doom_winds.up&talent.thorims_invocation.enabled
 actions.single_sb+=/tempest,if=buff.maelstrom_weapon.stack=10
 actions.single_sb+=/lightning_bolt,if=buff.maelstrom_weapon.stack=10
+actions.single_sb+=/tempest,if=buff.maelstrom_weapon.stack>=8&(cooldown.voltaic_blaze.remains<=gcd.max|cooldown.crash_lightning.remains<=gcd.max)
+actions.single_sb+=/lightning_bolt,if=buff.maelstrom_weapon.stack>=8&(cooldown.voltaic_blaze.remains<=gcd.max|cooldown.crash_lightning.remains<=gcd.max)
 actions.single_sb+=/stormstrike,if=charges_fractional>=1.8
 actions.single_sb+=/lava_lash,if=talent.lashing_flames.enabled
 actions.single_sb+=/stormstrike

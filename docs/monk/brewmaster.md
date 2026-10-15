@@ -1,6 +1,6 @@
 # Monk – Brewmaster
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-14 08:35 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-15 08:09 UTC
 
 Source: `apl/default/monk/brewmaster.simc`
 
