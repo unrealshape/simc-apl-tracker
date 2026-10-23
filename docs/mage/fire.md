@@ -1,6 +1,6 @@
 # Mage – Fire
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-21 08:27 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-23 08:25 UTC
 
 Source: `apl/default/mage/fire.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/mage/fire.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 88
+- **Total Actions:** 89
 - **Lists:** `precombat`, `default`, `cds`, `ff_combustion`, `ff_filler`, `fireblast`, `sf_combustion`, `sf_filler`
 
 ## Action List: `precombat`
@@ -24,7 +24,8 @@ Source: `apl/default/mage/fire.simc`
 | 6 | `variable` | name=nonsteroid_trinket_equipped,op=set,value=equipped.wraps_of_cosmic_madness\|equipped.astalors_anguish_agitator\|equipped.font_of_venomous_rage\|equipped.vexhuls_everflowing_gland\|equipped.spiritrending_poison\|equipped.ophidian_bone_whistle |
 | 7 | `snapshot_stats` | — |
 | 8 | `mirror_image` | — |
-| 9 | `pyroblast` | — |
+| 9 | `use_item` | name=stormbound_emblem_of_dazar,if=!equipped.vile_vial_of_volatile_venom\|active_enemies<3 |
+| 10 | `pyroblast` | — |
 
 ## Action List: `default`
 
@@ -136,7 +137,7 @@ Source: `apl/default/mage/fire.simc`
 | 3 | `pyroblast` | if=buff.hot_streak.react\|prev_gcd.1.scorch&buff.heating_up.react&time-action.scorch.last_used<0.2\|buff.hyperthermia.up |
 | 4 | `flamestrike` | if=buff.pyroclasm.up&active_enemies>=variable.sf_filler_flamestrike |
 | 5 | `pyroblast` | if=buff.pyroclasm.up |
-| 6 | `scorch` | if=talent.scald&scorch_execute.active\|buff.heat_shimmer.react&(firestarter.active\|prev_gcd.1.pyroblast\|prev_gcd.1.flamestrike) |
+| 6 | `scorch` | if=talent.scald&scorch_execute.active\|buff.heat_shimmer.react&(firestarter.active\|prev_gcd.1.pyroblast\|prev_gcd.1.flamestrike\|active_enemies<variable.sf_filler_flamestrike) |
 | 7 | `fireball` | — |
 | 8 | `call_action_list` | name=fireblast |
 
@@ -160,6 +161,7 @@ actions.precombat+=/variable,name=steroid_trinket_equipped,op=set,value=equipped
 actions.precombat+=/variable,name=nonsteroid_trinket_equipped,op=set,value=equipped.wraps_of_cosmic_madness|equipped.astalors_anguish_agitator|equipped.font_of_venomous_rage|equipped.vexhuls_everflowing_gland|equipped.spiritrending_poison|equipped.ophidian_bone_whistle
 actions.precombat+=/snapshot_stats
 actions.precombat+=/mirror_image
+actions.precombat+=/use_item,name=stormbound_emblem_of_dazar,if=!equipped.vile_vial_of_volatile_venom|active_enemies<3
 actions.precombat+=/pyroblast
 
 # Executed every time the actor is available.
@@ -275,7 +277,7 @@ actions.sf_filler+=/pyroblast,if=buff.hot_streak.react|prev_gcd.1.scorch&buff.he
 actions.sf_filler+=/flamestrike,if=buff.pyroclasm.up&active_enemies>=variable.sf_filler_flamestrike
 actions.sf_filler+=/pyroblast,if=buff.pyroclasm.up
 # Cast Scorch in execute or with a Heat Shimmer proc.
-actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike)
+actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike|active_enemies<variable.sf_filler_flamestrike)
 actions.sf_filler+=/fireball
 actions.sf_filler+=/call_action_list,name=fireblast
 ```

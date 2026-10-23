@@ -1,17 +1,14 @@
-# APL Changelog – 2026-10-21
+# APL Changelog – 2026-10-23
 
-Generated: 2026-10-21 08:27 UTC
+Generated: 2026-10-23 08:25 UTC
 
-## Rogue
+## Mage
 
-### Outlaw
-File: `apl/default/rogue/outlaw.simc`
+### Fire
+File: `apl/default/mage/fire.simc`
 
 Changes:
-  - `actions.build+=/blade_flurry,if=talent.deft_maneuvers&spell_targets>=3`
-  + `actions.build+=/blade_flurry,if=talent.deft_maneuvers&spell_targets>=3-(combo_points.deficit=2)`
-  - `actions.cds+=/roll_the_bones,if=!buff.roll_the_bones.up|rtb_buffs=1+(buff.loaded_dice.up&cooldown.between_the_eyes.ready)`
-  - `actions.cds+=/blade_rush,if=set_bonus.mid1_2pc|spell_targets=1&energy.base_time_to_max>2|spell_targets>=2`
-  + `actions.cds+=/roll_the_bones,if=!buff.roll_the_bones.up|rtb_buffs=1+buff.loaded_dice.up&talent.keep_it_rolling`
-  + `actions.cds+=/blade_rush,if=set_bonus.mid1_2pc|spell_targets>=3|!buff.adrenaline_rush.up&talent.menacing_rush`
+  + `actions.precombat+=/use_item,name=stormbound_emblem_of_dazar,if=!equipped.vile_vial_of_volatile_venom|active_enemies<3`
+  - `actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike)`
+  + `actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike|active_enemies<variable.sf_filler_flamestrike)`
 
