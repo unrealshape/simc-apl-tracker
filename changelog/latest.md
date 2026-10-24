@@ -1,14 +1,14 @@
-# APL Changelog – 2026-10-23
+# APL Changelog – 2026-10-24
 
-Generated: 2026-10-23 08:25 UTC
+Generated: 2026-10-24 08:01 UTC
 
-## Mage
+## Hunter
 
-### Fire
-File: `apl/default/mage/fire.simc`
+### Survival
+File: `apl/default/hunter/survival.simc`
 
 Changes:
-  + `actions.precombat+=/use_item,name=stormbound_emblem_of_dazar,if=!equipped.vile_vial_of_volatile_venom|active_enemies<3`
-  - `actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike)`
-  + `actions.sf_filler+=/scorch,if=talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike|active_enemies<variable.sf_filler_flamestrike)`
+  + `actions.cds+=/use_item,name=voracious_heart_of_ulatek`
+  - `actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!equipped.font_of_venomous_rage`
+  + `actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!this_trinket.is.font_of_venomous_rage`
 
