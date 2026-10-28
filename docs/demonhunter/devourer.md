@@ -1,6 +1,6 @@
 # Demon Hunter – Devourer
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-27 08:50 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-28 09:30 UTC
 
 Source: `apl/default/demonhunter/devourer.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/demonhunter/devourer.simc`
 ## Overview
 
 - **Action Lists:** 12
-- **Total Actions:** 93
+- **Total Actions:** 102
 - **Lists:** `precombat`, `default`, `annihilator`, `annihilator_meta`, `annihilator_out`, `cooldowns`, `reaps`, `variables`, `voidscarred`, `voidscarred_hunt_entry`, `voidscarred_meta`, `voidscarred_out`
 
 ## Action List: `precombat`
@@ -53,14 +53,18 @@ Source: `apl/default/demonhunter/devourer.simc`
 | 4 | `voidblade` | if=talent.devourers_bite&active_enemies<=3 |
 | 5 | `collapsing_star` | if=fight_remains<10 |
 | 6 | `void_ray` | if=talent.eradicate&active_enemies>1&!buff.eradicate.up |
-| 7 | `collapsing_star` | if=active_enemies>1\|cooldown.void_ray.remains |
-| 8 | `call_action_list` | name=reaps,if=(active_enemies=1\|buff.eradicate.up)&action.reap.souls_consumed>=4 |
-| 9 | `call_action_list` | name=reaps,if=!talent.eradicate&buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4 |
-| 10 | `void_ray` | if=active_enemies>1\|talent.eradicate\|fury>=100\|fury<55 |
-| 11 | `call_action_list` | name=reaps,if=variable.voidfall_dump |
-| 12 | `call_action_list` | name=reaps,if=buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4&fight_remains<45 |
-| 13 | `soul_immolation` | if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps&(cooldown.reap.remains\|active_enemies=1) |
-| 14 | `devour` | — |
+| 7 | `collapsing_star` | if=prev_gcd.1.void_ray |
+| 8 | `eradicate` | if=buff.voidfall_spending.up |
+| 9 | `collapsing_star` | if=active_enemies>1\|cooldown.void_ray.remains |
+| 10 | `devour` | if=buff.eradicate.up&!buff.voidfall_spending.up&buff.moment_of_craving.remains>=4&fury.deficit<=70 |
+| 11 | `call_action_list` | name=reaps,if=(active_enemies=1\|buff.eradicate.up)&action.reap.souls_consumed>=4&!(talent.devourers_bite&active_enemies=1&fury<void_metamorphosis_base_drain_ps*2) |
+| 12 | `call_action_list` | name=reaps,if=!talent.eradicate&buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4 |
+| 13 | `void_ray` | if=active_enemies>1\|talent.eradicate\|fury>=100\|fury<55 |
+| 14 | `call_action_list` | name=reaps,if=variable.voidfall_dump |
+| 15 | `call_action_list` | name=reaps,if=buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4&fight_remains<45 |
+| 16 | `cull` | if=talent.eradicate&buff.voidfall_spending.up |
+| 17 | `soul_immolation` | if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps&fury<40&(cooldown.reap.remains\|active_enemies=1) |
+| 18 | `devour` | — |
 
 ## Action List: `annihilator_out`
 
@@ -68,14 +72,15 @@ Source: `apl/default/demonhunter/devourer.simc`
 |---|--------|------------|
 | 1 | `pick_up_fragment` | mode=nearest,type=all,use_off_gcd=1,line_cd=0.6,if=!buff.void_metamorphosis_stack.at_max_stacks&buff.void_metamorphosis_stack.stack>=buff.void_metamorphosis_stack.max_stack-2 |
 | 2 | `voidblade` | if=talent.devourers_bite&active_enemies<=3&buff.void_metamorphosis_stack.at_max_stacks |
-| 3 | `metamorphosis` | — |
-| 4 | `consume` | if=buff.soulburst.up |
-| 5 | `call_action_list` | name=reaps,if=(active_enemies=1\|buff.eradicate.up)&action.reap.souls_consumed>=4 |
-| 6 | `call_action_list` | name=reaps,if=!talent.eradicate&action.reap.souls_consumed>=8 |
-| 7 | `void_ray` | — |
-| 8 | `call_action_list` | name=reaps,if=variable.voidfall_dump |
-| 9 | `soul_immolation` | if=active_dot.soul_immolation=0&(active_enemies>1\|talent.eradicate) |
-| 10 | `consume` | — |
+| 3 | `void_ray` | if=talent.eradicate&active_enemies>1&buff.void_metamorphosis_stack.at_max_stacks&fury>=100 |
+| 4 | `metamorphosis` | — |
+| 5 | `consume` | if=buff.soulburst.up |
+| 6 | `call_action_list` | name=reaps,if=(active_enemies=1\|buff.eradicate.up)&action.reap.souls_consumed>=4 |
+| 7 | `call_action_list` | name=reaps,if=!talent.eradicate&action.reap.souls_consumed>=8 |
+| 8 | `void_ray` | — |
+| 9 | `call_action_list` | name=reaps,if=variable.voidfall_dump |
+| 10 | `soul_immolation` | if=active_dot.soul_immolation=0&(active_enemies>1\|talent.eradicate) |
+| 11 | `consume` | — |
 
 ## Action List: `cooldowns`
 
@@ -124,26 +129,29 @@ Source: `apl/default/demonhunter/devourer.simc`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `pick_up_fragment` | mode=nearest,type=all,use_off_gcd=1,line_cd=0.35,if=cooldown.void_ray.remains<gcd.max*2&fury<void_metamorphosis_base_drain_ps*cooldown.void_ray.remains |
-| 2 | `vengeful_retreat` | use_off_gcd=1,if=buff.voidstep.up |
-| 3 | `void_ray` | if=variable.no_ray_this_window&(!talent.eradicate\|active_enemies=1) |
-| 4 | `eradicate` | if=cooldown.void_ray.remains<gcd.max&!buff.soulburst.up |
-| 5 | `void_ray` | if=talent.eradicate&!buff.eradicate.up&(active_enemies>1\|fury<30) |
-| 6 | `reapers_toll` | if=active_enemies>1&buff.hungering_slash.remains<gcd.max*2 |
-| 7 | `predators_wake` | if=buff.collapsing_star.up |
-| 8 | `reapers_toll` | if=talent.voidrush&buff.collapsing_star.up&cooldown.voidblade.remains<gcd.max |
-| 9 | `pierce_the_veil` | if=talent.voidrush&buff.collapsing_star.up |
-| 10 | `collapsing_star` | — |
-| 11 | `devour` | if=buff.soulburst.up |
-| 12 | `reapers_toll` | if=active_enemies>3&fury<void_metamorphosis_base_drain_ps*cooldown.void_ray.remains |
-| 13 | `reapers_toll` | if=soul_fragments<=8 |
-| 14 | `pierce_the_veil` | if=active_enemies<4 |
-| 15 | `predators_wake` | if=!buff.hungering_slash.up |
-| 16 | `pierce_the_veil` | — |
-| 17 | `call_action_list` | name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up |
-| 18 | `void_ray` | — |
-| 19 | `soul_immolation` | if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps |
-| 20 | `devour` | — |
+| 1 | `vengeful_retreat` | use_off_gcd=1,if=buff.voidstep.up |
+| 2 | `void_ray` | if=variable.no_ray_this_window&(!talent.eradicate\|active_enemies=1) |
+| 3 | `eradicate` | if=cooldown.void_ray.remains<gcd.max&!buff.soulburst.up |
+| 4 | `void_ray` | if=talent.eradicate&!buff.eradicate.up&active_enemies>1 |
+| 5 | `reapers_toll` | if=active_enemies>1&buff.hungering_slash.remains<gcd.max*2 |
+| 6 | `predators_wake` | if=buff.collapsing_star.up |
+| 7 | `reapers_toll` | if=talent.voidrush&buff.collapsing_star.up&cooldown.voidblade.remains<gcd.max |
+| 8 | `pierce_the_veil` | if=talent.voidrush&buff.collapsing_star.up |
+| 9 | `collapsing_star` | — |
+| 10 | `devour` | if=buff.soulburst.up |
+| 11 | `reapers_toll` | if=active_enemies>3&fury<void_metamorphosis_base_drain_ps*cooldown.void_ray.remains |
+| 12 | `pierce_the_veil` | if=active_enemies>3&time-buff.metamorphosis.last_trigger<15&buff.eradicate.up |
+| 13 | `soul_immolation` | if=active_enemies>3&!active_dot.soul_immolation&buff.collapsing_star_stacking.stack<15 |
+| 14 | `soul_immolation` | if=active_enemies=1&!active_dot.soul_immolation&fury>=void_metamorphosis_base_drain_ps*2&buff.impending_apocalypse.stack>=2 |
+| 15 | `reapers_toll` | if=soul_fragments<=8\|active_enemies=1&buff.impending_apocalypse.stack>=3 |
+| 16 | `pierce_the_veil` | if=active_enemies<4 |
+| 17 | `predators_wake` | if=!buff.hungering_slash.up |
+| 18 | `eradicate` | if=active_enemies>3&buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30 |
+| 19 | `pierce_the_veil` | — |
+| 20 | `call_action_list` | name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up&(active_enemies>1\|buff.impending_apocalypse.stack<3\|buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30\|cooldown.void_ray.remains<action.void_ray.execute_time) |
+| 21 | `void_ray` | — |
+| 22 | `soul_immolation` | if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps |
+| 23 | `devour` | — |
 
 ## Action List: `voidscarred_out`
 
@@ -154,7 +162,7 @@ Source: `apl/default/demonhunter/devourer.simc`
 | 3 | `vengeful_retreat` | use_off_gcd=1,if=buff.voidstep.up |
 | 4 | `consume` | if=buff.soulburst.up&(active_enemies=1\|talent.eradicate\|buff.soulburst.remains<gcd.max) |
 | 5 | `call_action_list` | name=voidscarred_hunt_entry,if=talent.the_hunt&active_enemies=1&buff.void_metamorphosis_stack.at_max_stacks |
-| 6 | `voidblade` | if=prev_gcd.1.void_ray&(active_enemies>1\|!talent.the_hunt\|!cooldown.the_hunt.ready) |
+| 6 | `voidblade` | if=active_enemies>1\|!talent.the_hunt\|!cooldown.the_hunt.ready |
 | 7 | `metamorphosis` | if=buff.eradicate.up\|!talent.eradicate\|active_enemies=1\|fight_remains<15 |
 | 8 | `void_ray` | if=talent.eradicate&active_enemies>1&!buff.eradicate.up |
 | 9 | `call_action_list` | name=reaps,if=fury<100&fury+4*action.reap.souls_consumed+10*talent.scythes_embrace>=100&action.reap.souls_consumed>=1&!buff.soulburst.up |
@@ -163,7 +171,8 @@ Source: `apl/default/demonhunter/devourer.simc`
 | 12 | `call_action_list` | name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up |
 | 13 | `void_ray` | — |
 | 14 | `soul_immolation` | if=active_enemies=1&active_dot.soul_immolation=0 |
-| 15 | `consume` | — |
+| 15 | `the_hunt` | if=talent.eradicate&active_enemies>3&cooldown.voidblade.remains |
+| 16 | `consume` | — |
 
 ## Raw APL
 
@@ -201,17 +210,22 @@ actions.annihilator_meta+=/the_hunt,if=talent.devourers_bite
 actions.annihilator_meta+=/voidblade,if=talent.devourers_bite&active_enemies<=3
 actions.annihilator_meta+=/collapsing_star,if=fight_remains<10
 actions.annihilator_meta+=/void_ray,if=talent.eradicate&active_enemies>1&!buff.eradicate.up
+actions.annihilator_meta+=/collapsing_star,if=prev_gcd.1.void_ray
+actions.annihilator_meta+=/eradicate,if=buff.voidfall_spending.up
 actions.annihilator_meta+=/collapsing_star,if=active_enemies>1|cooldown.void_ray.remains
-actions.annihilator_meta+=/call_action_list,name=reaps,if=(active_enemies=1|buff.eradicate.up)&action.reap.souls_consumed>=4
+actions.annihilator_meta+=/devour,if=buff.eradicate.up&!buff.voidfall_spending.up&buff.moment_of_craving.remains>=4&fury.deficit<=70
+actions.annihilator_meta+=/call_action_list,name=reaps,if=(active_enemies=1|buff.eradicate.up)&action.reap.souls_consumed>=4&!(talent.devourers_bite&active_enemies=1&fury<void_metamorphosis_base_drain_ps*2)
 actions.annihilator_meta+=/call_action_list,name=reaps,if=!talent.eradicate&buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4
 actions.annihilator_meta+=/void_ray,if=active_enemies>1|talent.eradicate|fury>=100|fury<55
 actions.annihilator_meta+=/call_action_list,name=reaps,if=variable.voidfall_dump
 actions.annihilator_meta+=/call_action_list,name=reaps,if=buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30&action.reap.souls_consumed>=4&fight_remains<45
-actions.annihilator_meta+=/soul_immolation,if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps&(cooldown.reap.remains|active_enemies=1)
+actions.annihilator_meta+=/cull,if=talent.eradicate&buff.voidfall_spending.up
+actions.annihilator_meta+=/soul_immolation,if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps&fury<40&(cooldown.reap.remains|active_enemies=1)
 actions.annihilator_meta+=/devour
 
 actions.annihilator_out=pick_up_fragment,mode=nearest,type=all,use_off_gcd=1,line_cd=0.6,if=!buff.void_metamorphosis_stack.at_max_stacks&buff.void_metamorphosis_stack.stack>=buff.void_metamorphosis_stack.max_stack-2
 actions.annihilator_out+=/voidblade,if=talent.devourers_bite&active_enemies<=3&buff.void_metamorphosis_stack.at_max_stacks
+actions.annihilator_out+=/void_ray,if=talent.eradicate&active_enemies>1&buff.void_metamorphosis_stack.at_max_stacks&fury>=100
 actions.annihilator_out+=/metamorphosis
 actions.annihilator_out+=/consume,if=buff.soulburst.up
 actions.annihilator_out+=/call_action_list,name=reaps,if=(active_enemies=1|buff.eradicate.up)&action.reap.souls_consumed>=4
@@ -244,11 +258,10 @@ actions.voidscarred_hunt_entry=voidblade,if=cooldown.the_hunt.ready
 actions.voidscarred_hunt_entry+=/vengeful_retreat,if=cooldown.the_hunt.ready
 actions.voidscarred_hunt_entry+=/the_hunt,if=buff.vengeful_retreat_movement.up
 
-actions.voidscarred_meta=pick_up_fragment,mode=nearest,type=all,use_off_gcd=1,line_cd=0.35,if=cooldown.void_ray.remains<gcd.max*2&fury<void_metamorphosis_base_drain_ps*cooldown.void_ray.remains
-actions.voidscarred_meta+=/vengeful_retreat,use_off_gcd=1,if=buff.voidstep.up
+actions.voidscarred_meta=vengeful_retreat,use_off_gcd=1,if=buff.voidstep.up
 actions.voidscarred_meta+=/void_ray,if=variable.no_ray_this_window&(!talent.eradicate|active_enemies=1)
 actions.voidscarred_meta+=/eradicate,if=cooldown.void_ray.remains<gcd.max&!buff.soulburst.up
-actions.voidscarred_meta+=/void_ray,if=talent.eradicate&!buff.eradicate.up&(active_enemies>1|fury<30)
+actions.voidscarred_meta+=/void_ray,if=talent.eradicate&!buff.eradicate.up&active_enemies>1
 actions.voidscarred_meta+=/reapers_toll,if=active_enemies>1&buff.hungering_slash.remains<gcd.max*2
 actions.voidscarred_meta+=/predators_wake,if=buff.collapsing_star.up
 actions.voidscarred_meta+=/reapers_toll,if=talent.voidrush&buff.collapsing_star.up&cooldown.voidblade.remains<gcd.max
@@ -256,11 +269,15 @@ actions.voidscarred_meta+=/pierce_the_veil,if=talent.voidrush&buff.collapsing_st
 actions.voidscarred_meta+=/collapsing_star
 actions.voidscarred_meta+=/devour,if=buff.soulburst.up
 actions.voidscarred_meta+=/reapers_toll,if=active_enemies>3&fury<void_metamorphosis_base_drain_ps*cooldown.void_ray.remains
-actions.voidscarred_meta+=/reapers_toll,if=soul_fragments<=8
+actions.voidscarred_meta+=/pierce_the_veil,if=active_enemies>3&time-buff.metamorphosis.last_trigger<15&buff.eradicate.up
+actions.voidscarred_meta+=/soul_immolation,if=active_enemies>3&!active_dot.soul_immolation&buff.collapsing_star_stacking.stack<15
+actions.voidscarred_meta+=/soul_immolation,if=active_enemies=1&!active_dot.soul_immolation&fury>=void_metamorphosis_base_drain_ps*2&buff.impending_apocalypse.stack>=2
+actions.voidscarred_meta+=/reapers_toll,if=soul_fragments<=8|active_enemies=1&buff.impending_apocalypse.stack>=3
 actions.voidscarred_meta+=/pierce_the_veil,if=active_enemies<4
 actions.voidscarred_meta+=/predators_wake,if=!buff.hungering_slash.up
+actions.voidscarred_meta+=/eradicate,if=active_enemies>3&buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30
 actions.voidscarred_meta+=/pierce_the_veil
-actions.voidscarred_meta+=/call_action_list,name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up
+actions.voidscarred_meta+=/call_action_list,name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up&(active_enemies>1|buff.impending_apocalypse.stack<3|buff.collapsing_star_stacking.stack+action.reap.souls_consumed>=30|cooldown.void_ray.remains<action.void_ray.execute_time)
 actions.voidscarred_meta+=/void_ray
 actions.voidscarred_meta+=/soul_immolation,if=active_dot.soul_immolation=0&fury<void_metamorphosis_base_drain_ps
 actions.voidscarred_meta+=/devour
@@ -270,7 +287,7 @@ actions.voidscarred_out+=/wait,sec=0.05,if=!buff.void_metamorphosis_stack.at_max
 actions.voidscarred_out+=/vengeful_retreat,use_off_gcd=1,if=buff.voidstep.up
 actions.voidscarred_out+=/consume,if=buff.soulburst.up&(active_enemies=1|talent.eradicate|buff.soulburst.remains<gcd.max)
 actions.voidscarred_out+=/call_action_list,name=voidscarred_hunt_entry,if=talent.the_hunt&active_enemies=1&buff.void_metamorphosis_stack.at_max_stacks
-actions.voidscarred_out+=/voidblade,if=prev_gcd.1.void_ray&(active_enemies>1|!talent.the_hunt|!cooldown.the_hunt.ready)
+actions.voidscarred_out+=/voidblade,if=active_enemies>1|!talent.the_hunt|!cooldown.the_hunt.ready
 actions.voidscarred_out+=/metamorphosis,if=buff.eradicate.up|!talent.eradicate|active_enemies=1|fight_remains<15
 actions.voidscarred_out+=/void_ray,if=talent.eradicate&active_enemies>1&!buff.eradicate.up
 actions.voidscarred_out+=/call_action_list,name=reaps,if=fury<100&fury+4*action.reap.souls_consumed+10*talent.scythes_embrace>=100&action.reap.souls_consumed>=1&!buff.soulburst.up
@@ -279,5 +296,6 @@ actions.voidscarred_out+=/soul_immolation,if=active_enemies>1&active_dot.soul_im
 actions.voidscarred_out+=/call_action_list,name=reaps,if=action.reap.souls_consumed>=4+4*(active_enemies>1&buff.eradicate.up)&!buff.soulburst.up
 actions.voidscarred_out+=/void_ray
 actions.voidscarred_out+=/soul_immolation,if=active_enemies=1&active_dot.soul_immolation=0
+actions.voidscarred_out+=/the_hunt,if=talent.eradicate&active_enemies>3&cooldown.voidblade.remains
 actions.voidscarred_out+=/consume
 ```

@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-27 08:50 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-28 09:30 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/beast_mastery.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 56
+- **Total Actions:** 58
 - **Lists:** `precombat`, `default`, `cds`, `cleave`, `drcleave`, `drst`, `st`, `trinkets`
 
 ## Action List: `precombat`
@@ -96,17 +96,19 @@ Source: `apl/default/hunter/beast_mastery.simc`
 | 1 | `barbed_shot` | target_if=min:dot.barbed_shot.remains\|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd\|full_recharge_time<gcd |
 | 2 | `bestial_wrath` | — |
 | 3 | `wild_thrash` | if=active_enemies>1 |
-| 4 | `kill_command` | if=howl_summon.ready\|(cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react\|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4\|cooldown.kill_command.charges_fractional>1.8) |
-| 5 | `cobra_shot` | if=buff.cobra_fang.at_max_stacks |
-| 6 | `barbed_shot` | if=(focus<75\|full_recharge_time<gcd)&!talent.serpentine_strikes\|talent.serpentine_strikes |
-| 7 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
+| 4 | `barbed_shot` | if=howl_summon.ready&!buff.natures_ally.react&cooldown.barbed_shot.charges_fractional>1.5 |
+| 5 | `kill_command` | if=howl_summon.ready\|(cooldown.bestial_wrath.remains>full_recharge_time&buff.natures_ally.react\|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4\|cooldown.kill_command.charges_fractional>1.8) |
+| 6 | `cobra_shot` | if=buff.cobra_fang.at_max_stacks |
+| 7 | `barbed_shot` | if=(focus<75\|full_recharge_time<gcd)&!talent.serpentine_strikes\|talent.serpentine_strikes |
+| 8 | `cobra_shot` | if=cooldown.bestial_wrath.remains>gcd |
 
 ## Action List: `trinkets`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready\|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)\|fight_remains<21 |
-| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!potion.liquid_luster\|!equipped.font_of_venomous_rage\|((buff.liquid_luster.up&buff.liquid_luster.remains<6)\|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up))\|fight_remains<10 |
+| 1 | `use_item` | name=voracious_heart_of_ulatek,if=cooldown.bestial_wrath.remains<6 |
+| 2 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready\|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)\|fight_remains<21 |
+| 3 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&(!potion.liquid_luster\|!equipped.font_of_venomous_rage\|((buff.liquid_luster.up&buff.liquid_luster.remains<6)\|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up)))\|fight_remains<10 |
 
 ## Raw APL
 
@@ -176,11 +178,13 @@ actions.drst+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 actions.st=barbed_shot,target_if=min:dot.barbed_shot.remains|max_prio_damage,if=cooldown.bestial_wrath.remains<gcd|full_recharge_time<gcd
 actions.st+=/bestial_wrath
 actions.st+=/wild_thrash,if=active_enemies>1
-actions.st+=/kill_command,if=howl_summon.ready|(cooldown.bestial_wrath.remains>full_recharge_time+gcd&buff.natures_ally.react|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4|cooldown.kill_command.charges_fractional>1.8)
+actions.st+=/barbed_shot,if=howl_summon.ready&!buff.natures_ally.react&cooldown.barbed_shot.charges_fractional>1.5
+actions.st+=/kill_command,if=howl_summon.ready|(cooldown.bestial_wrath.remains>full_recharge_time&buff.natures_ally.react|!apex.3)&(buff.howl_of_the_pack_leader_cooldown.remains>4|cooldown.kill_command.charges_fractional>1.8)
 actions.st+=/cobra_shot,if=buff.cobra_fang.at_max_stacks
 actions.st+=/barbed_shot,if=(focus<75|full_recharge_time<gcd)&!talent.serpentine_strikes|talent.serpentine_strikes
 actions.st+=/cobra_shot,if=cooldown.bestial_wrath.remains>gcd
 
-actions.trinkets=use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)|fight_remains<21
-actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!potion.liquid_luster|!equipped.font_of_venomous_rage|((buff.liquid_luster.up&buff.liquid_luster.remains<6)|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up))|fight_remains<10
+actions.trinkets=use_item,name=voracious_heart_of_ulatek,if=cooldown.bestial_wrath.remains<6
+actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&(cooldown.bestial_wrath.ready|cooldown.bestial_wrath.remains<this_trinket.proc.any_dps.duration-15)|fight_remains<21
+actions.trinkets+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&(!potion.liquid_luster|!equipped.font_of_venomous_rage|((buff.liquid_luster.up&buff.liquid_luster.remains<6)|(fight_remains<cooldown.potion.remains&!buff.liquid_luster.up)))|fight_remains<10
 ```

@@ -1,6 +1,6 @@
 # Hunter – Survival
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-27 08:50 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-10-28 09:30 UTC
 
 Source: `apl/default/hunter/survival.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/survival.simc`
 ## Overview
 
 - **Action Lists:** 7
-- **Total Actions:** 62
+- **Total Actions:** 63
 - **Lists:** `precombat`, `default`, `cds`, `plcleave`, `plst`, `sentcleave`, `sentst`
 
 ## Action List: `precombat`
@@ -38,7 +38,7 @@ Source: `apl/default/hunter/survival.simc`
 | # | Action | Conditions |
 |---|--------|------------|
 | 1 | `blood_fury` | if=buff.takedown.up\|cooldown.takedown.ready |
-| 2 | `use_item` | name=voracious_heart_of_ulatek |
+| 2 | `use_item` | name=voracious_heart_of_ulatek,if=buff.tip_of_the_spear.up |
 | 3 | `use_item` | name=font_of_venomous_rage,if=!buff.takedown.up&!cooldown.takedown.ready\|fight_remains<3 |
 | 4 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!this_trinket.is.font_of_venomous_rage |
 | 5 | `use_items` | check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&talent.takedown&!other_trinket.has_use_buff&this_trinket.cooldown.duration>=cooldown.takedown.duration*2&this_trinket.has_buff.haste&(buff.takedown.up\|cooldown.takedown.remains>this_trinket.cooldown.duration*0.45) |
@@ -87,22 +87,23 @@ Source: `apl/default/hunter/survival.simc`
 |---|--------|------------|
 | 1 | `kill_command` | if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains\|!talent.twin_fangs) |
 | 2 | `boomstick` | if=buff.tip_of_the_spear.up |
-| 3 | `wildfire_bomb` | target_if=max:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up |
-| 4 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
-| 5 | `takedown` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
-| 6 | `moonlight_chakram` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up |
-| 7 | `raptor_strike` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up&buff.raptor_swipe.up\|!buff.raptor_swipe.up |
-| 8 | `kill_command` | — |
+| 3 | `kill_command` | if=buff.tip_of_the_spear.stack=1&cooldown.takedown.remains&focus<100 |
+| 4 | `wildfire_bomb` | if=buff.tip_of_the_spear.up |
+| 5 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
+| 6 | `takedown` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
+| 7 | `moonlight_chakram` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up |
+| 8 | `raptor_strike` | target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up&buff.raptor_swipe.up\|!buff.raptor_swipe.up |
+| 9 | `kill_command` | — |
 
 ## Action List: `sentst`
 
 | # | Action | Conditions |
 |---|--------|------------|
-| 1 | `kill_command` | if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains\|!talent.twin_fangs) |
-| 2 | `boomstick` | — |
+| 1 | `kill_command` | if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains\|!talent.twin_fangs\|time<10&cooldown.boomstick.ready&focus<110) |
+| 2 | `boomstick` | if=buff.tip_of_the_spear.up |
 | 3 | `wildfire_bomb` | if=(debuff.sentinels_mark.remains\|full_recharge_time<4) |
 | 4 | `kill_command` | if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs |
-| 5 | `takedown` | if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs |
+| 5 | `takedown` | if=(buff.tip_of_the_spear.stack>0&!talent.twin_fangs\|buff.tip_of_the_spear.stack=0&talent.twin_fangs)&!(time<10&cooldown.boomstick.ready) |
 | 6 | `moonlight_chakram` | — |
 | 7 | `raptor_strike` | — |
 | 8 | `kill_command` | if=cooldown.takedown.remains |
@@ -136,7 +137,7 @@ actions+=/call_action_list,name=sentcleave,if=active_enemies>2&!talent.howl_of_t
 
 # CDS
 actions.cds=blood_fury,if=buff.takedown.up|cooldown.takedown.ready
-actions.cds+=/use_item,name=voracious_heart_of_ulatek
+actions.cds+=/use_item,name=voracious_heart_of_ulatek,if=buff.tip_of_the_spear.up
 actions.cds+=/use_item,name=font_of_venomous_rage,if=!buff.takedown.up&!cooldown.takedown.ready|fight_remains<3
 actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_damage&!this_trinket.is.font_of_venomous_rage
 actions.cds+=/use_items,check_existing=0,slots=trinket1:trinket2,if=this_trinket.has_use_buff&talent.takedown&!other_trinket.has_use_buff&this_trinket.cooldown.duration>=cooldown.takedown.duration*2&this_trinket.has_buff.haste&(buff.takedown.up|cooldown.takedown.remains>this_trinket.cooldown.duration*0.45)
@@ -176,7 +177,8 @@ actions.plst+=/takedown
 # AOE - Sent
 actions.sentcleave=kill_command,if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains|!talent.twin_fangs)
 actions.sentcleave+=/boomstick,if=buff.tip_of_the_spear.up
-actions.sentcleave+=/wildfire_bomb,target_if=max:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up
+actions.sentcleave+=/kill_command,if=buff.tip_of_the_spear.stack=1&cooldown.takedown.remains&focus<100
+actions.sentcleave+=/wildfire_bomb,if=buff.tip_of_the_spear.up
 actions.sentcleave+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
 actions.sentcleave+=/takedown,target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
 actions.sentcleave+=/moonlight_chakram,target_if=min:debuff.sentinels_mark.remains,if=buff.tip_of_the_spear.up
@@ -184,11 +186,11 @@ actions.sentcleave+=/raptor_strike,target_if=min:debuff.sentinels_mark.remains,i
 actions.sentcleave+=/kill_command
 
 # ST - Sent
-actions.sentst=kill_command,if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains|!talent.twin_fangs)
-actions.sentst+=/boomstick
+actions.sentst=kill_command,if=buff.tip_of_the_spear.stack=0&(cooldown.takedown.remains|!talent.twin_fangs|time<10&cooldown.boomstick.ready&focus<110)
+actions.sentst+=/boomstick,if=buff.tip_of_the_spear.up
 actions.sentst+=/wildfire_bomb,if=(debuff.sentinels_mark.remains|full_recharge_time<4)
 actions.sentst+=/kill_command,if=cooldown.takedown.remains<gcd&buff.tip_of_the_spear.stack<2&!talent.twin_fangs
-actions.sentst+=/takedown,if=buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs
+actions.sentst+=/takedown,if=(buff.tip_of_the_spear.stack>0&!talent.twin_fangs|buff.tip_of_the_spear.stack=0&talent.twin_fangs)&!(time<10&cooldown.boomstick.ready)
 actions.sentst+=/moonlight_chakram
 actions.sentst+=/raptor_strike
 actions.sentst+=/kill_command,if=cooldown.takedown.remains

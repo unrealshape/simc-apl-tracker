@@ -1,3 +1,5 @@
 [
-  "apl/default/hunter/marksmanship.simc"
+  "apl/default/demonhunter/devourer.simc",
+  "apl/default/hunter/beast_mastery.simc",
+  "apl/default/hunter/survival.simc"
 ]
