@@ -1,5 +1,4 @@
 [
-  "apl/default/demonhunter/devourer.simc",
-  "apl/default/hunter/beast_mastery.simc",
-  "apl/default/hunter/survival.simc"
+  "apl/assisted_combat/warrior/arms.simc",
+  "apl/assisted_combat/warrior/fury.simc"
 ]
