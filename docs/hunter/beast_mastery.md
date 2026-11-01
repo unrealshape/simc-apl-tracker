@@ -1,6 +1,6 @@
 # Hunter – Beast Mastery
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-10-29 09:44 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-11-01 10:18 UTC
 
 Source: `apl/default/hunter/beast_mastery.simc`
 
