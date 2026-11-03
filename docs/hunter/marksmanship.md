@@ -1,6 +1,6 @@
 # Hunter – Marksmanship
 
-Auto-generated from SimulationCraft APL | Last updated: 2026-11-01 10:18 UTC
+Auto-generated from SimulationCraft APL | Last updated: 2026-11-03 10:41 UTC
 
 Source: `apl/default/hunter/marksmanship.simc`
 
@@ -9,7 +9,7 @@ Source: `apl/default/hunter/marksmanship.simc`
 ## Overview
 
 - **Action Lists:** 8
-- **Total Actions:** 79
+- **Total Actions:** 81
 - **Lists:** `precombat`, `default`, `cds`, `draoe`, `drst`, `sentaoe`, `sentst`, `trinkets`
 
 ## Action List: `precombat`
@@ -78,13 +78,14 @@ Source: `apl/default/hunter/marksmanship.simc`
 | 4 | `volley` | — |
 | 5 | `aimed_shot` | if=buff.trueshot.up&buff.precise_shots.down&cooldown.black_arrow.ready\|full_recharge_time<gcd+cast_time |
 | 6 | `trueshot` | if=variable.trueshot_ready |
-| 7 | `rapid_fire` | — |
-| 8 | `wailing_arrow` | — |
-| 9 | `multishot` | target_if=max:debuff.spotters_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|active_enemies>2) |
-| 10 | `arcane_shot` | if=buff.precise_shots.up |
-| 11 | `aimed_shot` | — |
-| 12 | `black_arrow` | — |
-| 13 | `steady_shot` | — |
+| 7 | `aimed_shot` | if=buff.volley.up&talent.aspect_of_the_hydra&buff.trick_shots.remains>cast_time |
+| 8 | `rapid_fire` | — |
+| 9 | `wailing_arrow` | — |
+| 10 | `multishot` | target_if=max:debuff.spotters_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|active_enemies>2) |
+| 11 | `arcane_shot` | if=buff.precise_shots.up |
+| 12 | `aimed_shot` | — |
+| 13 | `black_arrow` | — |
+| 14 | `steady_shot` | — |
 
 ## Action List: `sentaoe`
 
@@ -114,13 +115,14 @@ Source: `apl/default/hunter/marksmanship.simc`
 | 5 | `moonlight_chakram` | if=buff.moonlight_chakram.remains<5 |
 | 6 | `aimed_shot` | if=debuff.sentinels_mark.react&buff.bulletstorm.up&active_enemies>1&fight_style.dungeonroute |
 | 7 | `aimed_shot` | if=buff.trueshot.up&buff.precise_shots.down&active_enemies=1 |
-| 8 | `rapid_fire` | if=buff.precise_shots.down\|buff.trueshot.up\|active_enemies>1&talent.aspect_of_the_hydra\|!talent.no_scope |
-| 9 | `kill_shot` | if=buff.precise_shots.up |
-| 10 | `multishot` | target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|active_enemies>2) |
-| 11 | `arcane_shot` | if=buff.precise_shots.up |
-| 12 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up |
-| 13 | `moonlight_chakram` | — |
-| 14 | `steady_shot` | — |
+| 8 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up,if=buff.volley.up&talent.aspect_of_the_hydra&buff.trick_shots.remains>cast_time&active_enemies>2 |
+| 9 | `rapid_fire` | if=buff.precise_shots.down\|buff.trueshot.up\|active_enemies>1&talent.aspect_of_the_hydra\|!talent.no_scope |
+| 10 | `kill_shot` | if=buff.precise_shots.up |
+| 11 | `multishot` | target_if=max:debuff.sentinels_mark.down,if=buff.precise_shots.up&active_enemies>1&talent.aspect_of_the_hydra&(!fight_style.dungeonroute\|active_enemies>2) |
+| 12 | `arcane_shot` | if=buff.precise_shots.up |
+| 13 | `aimed_shot` | target_if=max:debuff.sentinels_mark.up |
+| 14 | `moonlight_chakram` | — |
+| 15 | `steady_shot` | — |
 
 ## Action List: `trinkets`
 
@@ -192,6 +194,7 @@ actions.drst+=/explosive_shot,if=(!talent.tactical_reload|!buff.lock_and_load.up
 actions.drst+=/volley
 actions.drst+=/aimed_shot,if=buff.trueshot.up&buff.precise_shots.down&cooldown.black_arrow.ready|full_recharge_time<gcd+cast_time
 actions.drst+=/trueshot,if=variable.trueshot_ready
+actions.drst+=/aimed_shot,if=buff.volley.up&talent.aspect_of_the_hydra&buff.trick_shots.remains>cast_time
 actions.drst+=/rapid_fire
 actions.drst+=/wailing_arrow
 # Multi-Shot as a PS spender on 2T with Hydra talented. In DRoute, do it on 3 or more targets.
@@ -223,6 +226,7 @@ actions.sentst+=/trueshot,if=variable.trueshot_ready
 actions.sentst+=/moonlight_chakram,if=buff.moonlight_chakram.remains<5
 actions.sentst+=/aimed_shot,if=debuff.sentinels_mark.react&buff.bulletstorm.up&active_enemies>1&fight_style.dungeonroute
 actions.sentst+=/aimed_shot,if=buff.trueshot.up&buff.precise_shots.down&active_enemies=1
+actions.sentst+=/aimed_shot,target_if=max:debuff.sentinels_mark.up,if=buff.volley.up&talent.aspect_of_the_hydra&buff.trick_shots.remains>cast_time&active_enemies>2
 actions.sentst+=/rapid_fire,if=buff.precise_shots.down|buff.trueshot.up|active_enemies>1&talent.aspect_of_the_hydra|!talent.no_scope
 actions.sentst+=/kill_shot,if=buff.precise_shots.up
 # Multi-Shot as a PS spender on 2T with Hydra talented. In DRoute, do it on 3 or more targets.
